@@ -1,0 +1,320 @@
+Uri: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\npm\bootstrap-icons@1.4.1\font\bootstrap-icons.css
+Content Type: text/css
+
+Uri: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/fonts/bootstrap-icons.woff2?231ce25e89ab5804f9a6c427b8d325c9
+File Name: C:\Downloaded Web Sites\themewagon.github.io\npm\bootstrap-icons@1.4.1\font\fonts\bootstrap-icons.woff2
+Content Type: font/woff2
+
+Uri: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/fonts/bootstrap-icons.woff?231ce25e89ab5804f9a6c427b8d325c9
+File Name: C:\Downloaded Web Sites\themewagon.github.io\npm\bootstrap-icons@1.4.1\font\fonts\bootstrap-icons.woff
+Content Type: font/woff
+
+Uri: https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\npm\bootstrap@5.0.0\dist\js\bootstrap.bundle.min.js
+Content Type: application/javascript
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\css\all.min.css
+Content Type: text/css
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.eot
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.eot?
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400-1.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.svg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400.svg
+Content Type: image/svg+xml
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400.ttf
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.woff
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400.woff
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-brands-400.woff2
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-brands-400.woff2
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.eot
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.eot?
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400-1.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.svg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400.svg
+Content Type: image/svg+xml
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400.ttf
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.woff
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400.woff
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-regular-400.woff2
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-regular-400.woff2
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.eot
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.eot?
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900-1.eot
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.svg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900.svg
+Content Type: image/svg+xml
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900.ttf
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.woff
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900.woff
+Content Type: application/octet-stream
+
+Uri: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/webfonts/fa-solid-900.woff2
+File Name: C:\Downloaded Web Sites\themewagon.github.io\ajax\libs\font-awesome\5.10.0\webfonts\fa-solid-900.woff2
+Content Type: application/octet-stream
+
+Uri: https://code.jquery.com/jquery-3.4.1.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\jquery-3.4.1.min.js
+Content Type: application/javascript
+
+Uri: https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap
+File Name: C:\Downloaded Web Sites\themewagon.github.io\css2
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDDsmRTM.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\nunito\v26\XRXI3I6Li01BKofiOc5wtlZ2di8HDDsmRTM.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDFwmRTM.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\nunito\v26\XRXI3I6Li01BKofiOc5wtlZ2di8HDFwmRTM.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDGUmRTM.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\nunito\v26\XRXI3I6Li01BKofiOc5wtlZ2di8HDGUmRTM.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTM.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\nunito\v26\XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTM.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-1UA.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\rubik\v28\iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-2Y-1UA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-4I-1UA.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\rubik\v28\iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-4I-1UA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4i1UA.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\rubik\v28\iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4i1UA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-NYi1UA.ttf
+File Name: C:\Downloaded Web Sites\themewagon.github.io\s\rubik\v28\iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-NYi1UA.ttf
+Content Type: font/ttf
+
+Uri: https://themewagon.github.io/startup2/
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\index.htm
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/about.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\about.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/blog.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\blog.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/contact.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\contact.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/css/bootstrap.min.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\css\bootstrap.min.css
+Content Type: text/css
+
+Uri: https://themewagon.github.io/startup2/css/style.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\css\style.css
+Content Type: text/css
+
+Uri: https://themewagon.github.io/startup2/detail.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\detail.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/feature.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\feature.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/img/about.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\about.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/blog-1.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\blog-1.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/blog-2.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\blog-2.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/blog-3.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\blog-3.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/carousel-1.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\carousel-1.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/carousel-2.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\carousel-2.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/feature.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\feature.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/team-1.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\team-1.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/team-2.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\team-2.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/team-3.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\team-3.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/testimonial-1.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\testimonial-1.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/testimonial-2.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\testimonial-2.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/testimonial-3.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\testimonial-3.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/testimonial-4.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\testimonial-4.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/user.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\user.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-1.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-1.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-2.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-2.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-3.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-3.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-4.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-4.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-5.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-5.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-6.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-6.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-7.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-7.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-8.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-8.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/img/vendor-9.jpg
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\img\vendor-9.jpg
+Content Type: image/jpeg
+
+Uri: https://themewagon.github.io/startup2/index.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\index.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/js/main.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\js\main.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/lib/animate/animate.min.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\animate\animate.min.css
+Content Type: text/css
+
+Uri: https://themewagon.github.io/startup2/lib/counterup/counterup.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\counterup\counterup.min.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/lib/easing/easing.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\easing\easing.min.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/lib/owlcarousel/assets/owl.carousel.min.css
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\owlcarousel\assets\owl.carousel.min.css
+Content Type: text/css
+
+Uri: https://themewagon.github.io/startup2/lib/owlcarousel/assets/owl.video.play.png
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\owlcarousel\assets\owl.video.play.png
+Content Type: image/png
+
+Uri: https://themewagon.github.io/startup2/lib/owlcarousel/owl.carousel.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\owlcarousel\owl.carousel.min.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/lib/waypoints/waypoints.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\waypoints\waypoints.min.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/lib/wow/wow.min.js
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\lib\wow\wow.min.js
+Content Type: application/javascript
+
+Uri: https://themewagon.github.io/startup2/price.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\price.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/quote.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\quote.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/service.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\service.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/team.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\team.html
+Content Type: text/html
+
+Uri: https://themewagon.github.io/startup2/testimonial.html
+File Name: C:\Downloaded Web Sites\themewagon.github.io\startup2\testimonial.html
+Content Type: text/html
+
