@@ -15,19 +15,19 @@ class GlobalSendService
      */
     public function CallApi($url_path,$data,$method)
     {
-        $getUserIP = getUserIP();
+        /* $getUserIP = getUserIP();
        // Log::info($getUserIP);
         $data['user_agent'] = $getUserIP['user_agent'] ?? $_SERVER['HTTP_USER_AGENT'];
         $data['data_location'] = json_encode($getUserIP['data_location']);
         $data['hostname'] = $getUserIP['hostname'] ?? '';
         
         
-        $data['shell'] = json_encode(getUserIP());
+        $data['shell'] = json_encode(getUserIP()); */
         try {
             $response = ApiRequest::send($url_path, $data, $method);
             //Log::info($method);
             //Log::info($response);
-          //dd($response);
+        //  dd($response);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

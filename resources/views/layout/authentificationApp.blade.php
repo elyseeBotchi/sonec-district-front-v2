@@ -179,44 +179,58 @@ $('.sendForm').submit(function (e) {
         toastr.error(messageError, 'Erreur');
     } //fin de la focntion SendError
 
-</script>
-<script>
-    document.getElementById('resend').addEventListener('click', function() {
-        // Récupère l'URL à partir de l'attribut data-href
-        const url = this.getAttribute('data-href');
-        loader();
-        // Envoie une requête à l'URL
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest', // Pour signaler une requête AJAX
+    document.addEventListener('DOMContentLoaded', function () {
+    const resendButton = document.getElementById('resend');
+
+    if (resendButton) {
+        resendButton.addEventListener('click', function () {
+            // Récupère l'URL à partir de l'attribut data-href
+            const url = this.getAttribute('data-href');
+            if (!url) {
+                toastr.error('L\'URL n\'est pas spécifiée.', 'Echec');
+                return;
             }
-        })
-            .then(response => {
-                if (!response.ok) {
+
+            // Affiche le loader
+            loader();
+
+            // Envoie une requête à l'URL
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest', // Pour signaler une requête AJAX
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('La requête a échoué avec le statut ' + response.status);
+                    }
+                    return response.json(); // Parse la réponse en JSON
+                })
+                .then(data => {
+                    if (data.type === "success") {
+                        toastr.success(data.message, 'Succès');
+                    } else {
+                        toastr.error(data.message, 'Echec');
+                    }
+                })
+                .catch(error => {
+                    toastr.error('Une erreur est survenue : ' + error.message, 'Echec');
+                })
+                .finally(() => {
+                    // Cache le loader
                     loader('hide');
-                    throw new Error('La requête a échoué avec le statut ' + response.status);
-                }
-                return response.json(); // Parse la réponse en JSON
-            })
-            .then(data => {
-                loader('hide');
-                if(data.type ==="success"){
-                    toastr.success(data.message, 'Succès');
-                }else{
-                    toastr.error(data.message, 'Echec');
-                }
-            })
-            .catch(error => {
-                loader('hide');
-               // console.error('Erreur:', error);
-                toastr.error('Une erreur est survenue lors de l\'envoi du code OTP.', 'Echec');
-                //alert('Une erreur est survenue lors de l\'envoi du code OTP.');
-            });
-    });
+                });
+        });
+    } else {
+        console.warn('Le bouton avec l\'ID "resend" est introuvable dans le DOM.');
+    }
+});
+
 </script>
+
 <script src="{{ asset('template/dist/js/js-loading-overlay.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 @stack('footer-script')

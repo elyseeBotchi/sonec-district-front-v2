@@ -247,13 +247,13 @@ if(!function_exists('Entities')) {
 
 if(!function_exists('apiBaseUrl')) {
     function apiBaseUrl() {
-        return env('apiBaseUrl') ?? "http://api-e-recov.local/api";
+        return env('apiBaseUrl') ?? "http://api-district.local/api";
     }
 }
 
 if(!function_exists('apiBaseUrlFolder')) {
     function apiBaseUrlFolder() {
-        return env('apiBaseUrlFolder') ?? "http://api-e-recov.local";
+        return env('apiBaseUrlFolder') ?? "http://api-district.local";
     }
 }
 
