@@ -56,7 +56,7 @@ class LandingController extends Controller
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-       //dd($responses);
+       dd($responses);
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
                 return view('index2', [
