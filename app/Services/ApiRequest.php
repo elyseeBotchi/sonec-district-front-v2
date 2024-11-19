@@ -8,8 +8,9 @@ class ApiRequest
     {
         $request = Http::withHeaders([
             'AuthorizationGate' => 'Bearer ' . API_AccessKey(),
-            'Authorization' => 'Bearer '.(AuthConnect()['AccessToken'] ?? ''),
-        ]);
+            'Authorization' => 'Bearer ' . (AuthConnect()['AccessToken'] ?? ''),
+        ])->timeout(180); // Définit un délai d'attente de 180 secondes
+        
         
 
         $url = config('app.apiBaseUrl') . $urlPath;
@@ -20,11 +21,28 @@ class ApiRequest
     private static function executeRequest($request, $url, $params, $verb)
     {
         $httpVerbs = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
-
+    
         if (!in_array($verb, $httpVerbs)) {
-            return false;
+            return response()->json(['error' => 'Invalid HTTP verb'], 400);
         }
-        return $request->$verb($url, $params);
+    
+        try {
+            return $request->$verb($url, $params);
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            // Gestion des erreurs spécifiques à la requête
+            return response()->json([
+                'error' => 'Request failed',
+                'message' => $e->getMessage(),
+                'status' => $e->response ? $e->response->status() : null,
+            ], 500);
+        } catch (\Exception $e) {
+            // Gestion des autres exceptions
+            return response()->json([
+                'error' => 'Unexpected error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
+    
 }
 
