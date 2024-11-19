@@ -12,7 +12,7 @@
                 </a>
 
                 <h2 class="mt-3 text-center">ESPACE D'ADMINISTRATION</h2>
-                <p class="text-center" style="font-family :'Montserrat', Helvetica, Arial, serif">{{ env('apiBaseUrl') }}</p>
+                <p class="text-center" style="font-family :'Montserrat', Helvetica, Arial, serif"></p>
          
                 <form class="mt-4 sendForm" action="{{ route('panel.connexion') }}" method="POST">
                     @csrf
