@@ -467,8 +467,8 @@
                     const cameraSelector = document.createElement('select');
                     cameraSelector.id = 'camera-selector';
                     cameraSelector.classList.add('form-control'); 
-                    let selectedIndex = -1; // Initialise l'index pour suivre la caméra contenant "back"
 
+                    let selectedIndex = -1; // Initialise l'index pour suivre la caméra contenant "back"
 
                     cameras.forEach(camera => {
                         const option = document.createElement('option');
@@ -479,11 +479,9 @@
                                     
                         // Vérifie si le label contient "back" (insensible à la casse)
                         if (camera.label && camera.label.toLowerCase().includes('back')) {
-                            selectedIndex = index;
+                            selectedIndex = camera.id;
                         }
-
-                       
-
+                        //    alert(selectedIndex)
                     });
 
                     // Vérifier si le conteneur 'camera-container' existe
@@ -497,8 +495,8 @@
                     if (selectedIndex !== -1) {
                             cameraSelector.selectedIndex = selectedIndex; // Met à jour l'option sélectionnée dans <select>
                             cameraSelector.dispatchEvent(new Event('change')); // Déclenche l'événement 'change' pour assurer la prise en compte
-                            alert(`Caméra sélectionnée : ${cameras[selectedIndex].id}`);
-                            //startQrScanner(cameras[selectedIndex].id);
+                           // alert(`Caméra sélectionnée : ${selectedIndex}`);
+                            startQrScanner(selectedIndex);
                     }else{
                         // Commencer avec la première caméra par défaut
                         let currentCameraId = cameras[0].id;
