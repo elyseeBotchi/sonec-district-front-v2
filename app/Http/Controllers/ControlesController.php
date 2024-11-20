@@ -118,7 +118,7 @@ class ControlesController extends Controller
         if (isset($matches[1])) {
             $reference = $matches[1];
         } else {
-            echo "Référence non trouvée.";
+          //  echo "Référence non trouvée.";
             return response()->json([
                 'type' => 'error',
                 'message' => "Référence non trouvée.",
@@ -132,7 +132,7 @@ class ControlesController extends Controller
         ];
 
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-        //return dd($data);
+       // return dd($dataResponse);
         return response()->json($dataResponse);
         
         if($dataResponse['type'] == 'error'){
