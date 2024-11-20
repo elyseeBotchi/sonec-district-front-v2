@@ -467,15 +467,23 @@
                     const cameraSelector = document.createElement('select');
                     cameraSelector.id = 'camera-selector';
                     cameraSelector.classList.add('form-control'); 
+                    let selectedIndex = -1; // Initialise l'index pour suivre la caméra contenant "back"
 
 
                     cameras.forEach(camera => {
                         const option = document.createElement('option');
                         option.value = camera.id;
                         option.textContent = camera.label || `Caméra ${camera.id}`;
-                        cameraSelector.appendChild(option);
 
-                        alert(camera.label)
+                        cameraSelector.appendChild(option);
+                                    
+                        // Vérifie si le label contient "back" (insensible à la casse)
+                        if (camera.label && camera.label.toLowerCase().includes('back')) {
+                            selectedIndex = index;
+                        }
+
+                       
+
                     });
 
                     // Vérifier si le conteneur 'camera-container' existe
@@ -485,9 +493,18 @@
                         cameraContainer.appendChild(cameraSelector);
                     }
 
-                    // Commencer avec la première caméra par défaut
-                    let currentCameraId = cameras[0].id;
-                    startQrScanner(currentCameraId);
+                    
+                    if (selectedIndex !== -1) {
+                            cameraSelector.selectedIndex = selectedIndex; // Met à jour l'option sélectionnée dans <select>
+                            cameraSelector.dispatchEvent(new Event('change')); // Déclenche l'événement 'change' pour assurer la prise en compte
+                           // alert(`Caméra sélectionnée : ${cameras[selectedIndex].label}`);
+                            startQrScanner(cameras[selectedIndex].id);
+                    }else{
+                        // Commencer avec la première caméra par défaut
+                        let currentCameraId = cameras[0].id;
+                        startQrScanner(currentCameraId);
+                    }
+
 
                     // Gérer le changement de caméra
                     cameraSelector.addEventListener('change', (event) => {
@@ -549,8 +566,9 @@
                     // Afficher le bouton démarrer et cacher le bouton arrêter
                     document.getElementById('start-btn').style.display = 'inline-block';
                     document.getElementById('stop-btn').style.display = 'none';
+                    document.getElementById('camera-selector').style.display = 'none';
                     document.getElementById('searchManual').style.display = "inline-block";
-
+                    
                 }).catch(err => {
                     // Affiche un message d'erreur si l'arrêt échoue
                     console.error("Erreur lors de l'arrêt du scanner: ", err);
