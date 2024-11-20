@@ -497,8 +497,8 @@
                     if (selectedIndex !== -1) {
                             cameraSelector.selectedIndex = selectedIndex; // Met à jour l'option sélectionnée dans <select>
                             cameraSelector.dispatchEvent(new Event('change')); // Déclenche l'événement 'change' pour assurer la prise en compte
-                           // alert(`Caméra sélectionnée : ${cameras[selectedIndex].label}`);
-                            startQrScanner(cameras[selectedIndex].id);
+                            alert(`Caméra sélectionnée : ${cameras[selectedIndex].id}`);
+                            //startQrScanner(cameras[selectedIndex].id);
                     }else{
                         // Commencer avec la première caméra par défaut
                         let currentCameraId = cameras[0].id;
