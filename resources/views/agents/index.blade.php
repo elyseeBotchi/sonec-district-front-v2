@@ -427,105 +427,99 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
     <script>
-        let html5QrCode; // Déclaration globale pour permettre de l'arrêter et le redémarrer
+       let html5QrCode; // Déclaration globale pour permettre de l'arrêter et le redémarrer
 
-function startScanner() {
-    document.getElementById('reader').style.display = "block";
-    document.getElementById('result').innerHTML = `Scanne en cours ...`;
-    document.getElementById('searchManual').style.display = "none";
-    document.getElementById('reference').innerHTML = '';
-    document.getElementById('montant_paye').innerHTML = '';
-    document.getElementById('mode_paiement').innerHTML = '';
-    document.getElementById('created_at').innerHTML = '';
-    document.getElementById('status_paiement').innerHTML = '';
+        function startScanner() {
+            document.getElementById('reader').style.display = "block";
+            document.getElementById('result').innerHTML = `Scanne en cours ...`;
+            document.getElementById('searchManual').style.display = "none";
+            document.getElementById('reference').innerHTML = '';
+            document.getElementById('montant_paye').innerHTML = '';
+            document.getElementById('mode_paiement').innerHTML = '';
+            document.getElementById('created_at').innerHTML = '';
+            document.getElementById('status_paiement').innerHTML = '';
 
-    document.getElementById('data-bien').style.display = 'none';
-    document.getElementById('data-paiement').style.display = 'none';
-    document.getElementById('html_render').innerHTML = '';
+            document.getElementById('data-bien').style.display = 'none';
+            document.getElementById('data-paiement').style.display = 'none';
+            document.getElementById('html_render').innerHTML = '';
 
-    html5QrCode = new Html5Qrcode("reader");
+            html5QrCode = new Html5Qrcode("reader");
 
-    Html5Qrcode.getCameras().then(cameras => {
-        if (cameras && cameras.length) {
-            // Créer un sélecteur de caméra
-            const cameraSelector = document.createElement('select');
-            cameraSelector.id = 'camera-selector';
+            Html5Qrcode.getCameras().then(cameras => {
+                if (cameras && cameras.length) {
+                    // Créer un sélecteur de caméra
+                    const cameraSelector = document.createElement('select');
+                    cameraSelector.id = 'camera-selector';
 
-            cameras.forEach(camera => {
-                const option = document.createElement('option');
-                option.value = camera.id;
-                option.textContent = camera.label || `Caméra ${camera.id}`;
-                cameraSelector.appendChild(option);
-            });
+                    cameras.forEach(camera => {
+                        const option = document.createElement('option');
+                        option.value = camera.id;
+                        option.textContent = camera.label || `Caméra ${camera.id}`;
+                        cameraSelector.appendChild(option);
+                    });
 
-            // Vérifier si le conteneur 'camera-container' existe
-            const cameraContainer = document.getElementById('camera-container');
-            if (cameraContainer) {
-                cameraContainer.innerHTML = ''; // Vider le conteneur si déjà existant
-                cameraContainer.appendChild(cameraSelector);
-            }
+                    // Vérifier si le conteneur 'camera-container' existe
+                    const cameraContainer = document.getElementById('camera-container');
+                    if (cameraContainer) {
+                        cameraContainer.innerHTML = ''; // Vider le conteneur si déjà existant
+                        cameraContainer.appendChild(cameraSelector);
+                    }
 
-            // Commencer avec la première caméra par défaut
-            let currentCameraId = cameras[0].id;
-            startQrScanner(currentCameraId);
-
-            // Gérer le changement de caméra
-            cameraSelector.addEventListener('change', (event) => {
-                currentCameraId = event.target.value;
-                html5QrCode.stop().then(() => {
+                    // Commencer avec la première caméra par défaut
+                    let currentCameraId = cameras[0].id;
                     startQrScanner(currentCameraId);
+
+                    // Gérer le changement de caméra
+                    cameraSelector.addEventListener('change', (event) => {
+                        currentCameraId = event.target.value;
+                        html5QrCode.stop().then(() => {
+                            startQrScanner(currentCameraId);
+                        }).catch(err => {
+                            console.error(`Erreur lors de l'arrêt du scanner : ${err}`);
+                        });
+                    });
+
+                    // Cacher le bouton démarrer et afficher le bouton arrêter
+                    document.getElementById('start-btn').style.display = 'none';
+                    document.getElementById('stop-btn').style.display = 'inline-block';
+                    document.getElementById('searchManual').style.display = 'none';
+
+                    
+                }
+            }).catch(err => {
+                console.error(`Erreur de récupération des caméras: ${err}`);
+            });
+        }
+
+        function startQrScanner(cameraId) {
+            html5QrCode.start(
+                cameraId,
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 }
+                },
+                onScanSuccess,
+                onScanFailure
+            ).catch(err => {
+                console.error(`Erreur lors du démarrage du scanner : ${err}`);
+            });
+        }
+
+        function stopScanner(message) {
+            if (html5QrCode) {
+                html5QrCode.stop().then(() => {
+                    document.getElementById('reader').style.display = "none";
+                    document.getElementById('start-btn').style.display = 'inline-block';
+                    document.getElementById('stop-btn').style.display = 'none';
+                    document.getElementById('searchManual').style.display = 'inline-block';
+
+                // alert(message);
                 }).catch(err => {
                     console.error(`Erreur lors de l'arrêt du scanner : ${err}`);
                 });
-            });
-
-            // Cacher le bouton démarrer et afficher le bouton arrêter
-            document.getElementById('start-btn').style.display = 'none';
-            document.getElementById('stop-btn').style.display = 'inline-block';
-            document.getElementById('searchManual').style.display = 'inline-block';
-
-            
+            }
         }
-    }).catch(err => {
-        console.error(`Erreur de récupération des caméras: ${err}`);
-    });
-}
-
-function startQrScanner(cameraId) {
-    html5QrCode.start(
-        cameraId,
-        {
-            fps: 10,
-            qrbox: { width: 250, height: 250 }
-        },
-        onScanSuccess,
-        onScanFailure
-    ).catch(err => {
-        console.error(`Erreur lors du démarrage du scanner : ${err}`);
-    });
-}
-
-function stopScanner(message) {
-    if (html5QrCode) {
-        html5QrCode.stop().then(() => {
-            document.getElementById('reader').style.display = "none";
-            document.getElementById('start-btn').style.display = 'inline-block';
-            document.getElementById('stop-btn').style.display = 'none';
-            document.getElementById('searchManual').style.display = 'inline-block';
-
-           // alert(message);
-        }).catch(err => {
-            console.error(`Erreur lors de l'arrêt du scanner : ${err}`);
-        });
-    }
-}
-
-    </script>
-    <script>
-       // let html5QrCode;
-
         function onScanSuccess(decodedText, decodedResult) {
             let message = `QR Code détecté: ${decodedText} <br> <code>Vérification en cours ...</code>`;
               stopScanner(message) 
@@ -639,243 +633,6 @@ function stopScanner(message) {
 
         function onScanFailure(error) {
             console.warn(`Erreur de scan: ${error}`);
-        }
-
-        function startScanner_v1() {
-            document.getElementById('reader').style.display = "block";
-            document.getElementById('result').innerHTML = `Scanne en cours ...`;
-            document.getElementById('searchManual').style.display = "none";
-
-            
-
-            document.getElementById('reference').innerHTML = '';
-                    document.getElementById('montant_paye').innerHTML = '';
-                    document.getElementById('mode_paiement').innerHTML = '';
-                    document.getElementById('created_at').innerHTML = '';
-                    document.getElementById('status_paiement').innerHTML = '';
-
-                    document.getElementById('data-bien').style.display = 'none';
-                    document.getElementById('data-paiement').style.display = 'none';
-                    document.getElementById('html_render').innerHTML = '';
-
-
-            html5QrCode = new Html5Qrcode("reader");
-            Html5Qrcode.getCameras().then(cameras => {
-                if (cameras && cameras.length) {
-                    var cameraId = cameras[0].id;
-                    html5QrCode.start(
-                        cameraId, 
-                        {
-                            fps: 10,
-                            qrbox: { width: 250, height: 250 }
-                        },
-                        onScanSuccess,
-                        onScanFailure
-                    );
-                    // Cacher le bouton démarrer et afficher le bouton arrêter
-                    document.getElementById('start-btn').style.display = 'none';
-                    document.getElementById('stop-btn').style.display = 'inline-block';
-                }
-            }).catch(err => {
-                console.error(`Erreur de récupération des caméras: ${err}`);
-            });
-        }
-
-        
-        function stopScanner_v1(message) {
-            if (html5QrCode) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('result').innerHTML = message;
-                    // Afficher le bouton démarrer et cacher le bouton arrêter
-                    document.getElementById('start-btn').style.display = 'inline-block';
-                    document.getElementById('stop-btn').style.display = 'none';
-                    document.getElementById('searchManual').style.display = "inline-block";
-
-                }).catch(err => {
-                    // Affiche un message d'erreur si l'arrêt échoue
-                    console.error("Erreur lors de l'arrêt du scanner: ", err);
-
-                    // Vérification si le flux vidéo existe
-                    if (html5QrCode._localMediaStream && html5QrCode._localMediaStream.getVideoTracks().length > 0) {
-                        console.warn("Flux vidéo détecté mais erreur lors de l'arrêt.");
-                    } else {
-                        console.warn("Aucun flux vidéo actif pour le scanner.");
-                    }
-                });
-            } else {
-                console.warn("Le scanner n'est pas initialisé.");
-            }
-        }
-
-        
-        function startScanner____() {
-            document.getElementById('reader').style.display = "block";
-            document.getElementById('result').innerHTML = `Scanne en cours ...`;
-            document.getElementById('searchManual').style.display = "none";
-            document.getElementById('reference').innerHTML = '';
-            document.getElementById('montant_paye').innerHTML = '';
-            document.getElementById('mode_paiement').innerHTML = '';
-            document.getElementById('created_at').innerHTML = '';
-            document.getElementById('status_paiement').innerHTML = '';
-
-            document.getElementById('data-bien').style.display = 'none';
-            document.getElementById('data-paiement').style.display = 'none';
-            document.getElementById('html_render').innerHTML = '';
-
-
-            html5QrCode = new Html5Qrcode("reader");
-            Html5Qrcode.getCameras().then(cameras => {
-                if (cameras && cameras.length) {
-                    var cameraId = cameras[0].id;
-                    html5QrCode.start(
-                        cameraId, 
-                        {
-                            fps: 10,
-                            qrbox: { width: 250, height: 250 }
-                        },
-                        onScanSuccess,
-                        onScanFailure
-                    );
-
-                      // Créer un sélecteur de caméra
-                      const cameraSelector = document.createElement('select');
-                        cameraSelector.id = 'camera-selector';
-                        alert(cameras.length)
-                            console.log(cameras.length)
-                        cameras.forEach(camera => {
-                            const option = document.createElement('option');
-                            option.value = camera.id;
-                            option.textContent = camera.label || `Caméra ${camera.id}`;
-                            cameraSelector.appendChild(option);
-                        });
-
-                        // Vérifier si le conteneur 'camera-container' existe
-                        const cameraContainer = document.getElementById('camera-container');
-                        if (cameraContainer) {
-                            cameraContainer.innerHTML = '';  // Vider le conteneur si déjà existant
-                            cameraContainer.appendChild(cameraSelector);
-                           // cameraSelector.classList.add('form-control');
-                        }
-                        // Cacher le bouton démarrer et afficher le bouton arrêter
-                        document.getElementById('start-btn').style.display = 'none';
-                        document.getElementById('stop-btn').style.display = 'inline-block';
-                }
-            }).catch(err => {
-                console.error(`Erreur de récupération des caméras: ${err}`);
-            });
-        }
-      //  let html5QrCode;
-
-        function startScanner_old() {
-            document.getElementById('reader').style.display = "block";
-            document.getElementById('result').innerHTML = `Scanne en cours ...`;
-            document.getElementById('searchManual').style.display = "none";
-
-            document.getElementById('reference').innerHTML = '';
-            document.getElementById('montant_paye').innerHTML = '';
-            document.getElementById('mode_paiement').innerHTML = '';
-            document.getElementById('created_at').innerHTML = '';
-            document.getElementById('status_paiement').innerHTML = '';
-            document.getElementById('data-bien').style.display = 'none';
-            document.getElementById('data-paiement').style.display = 'none';
-            document.getElementById('html_render').innerHTML = '';
-
-            html5QrCode = new Html5Qrcode("reader");
-            /*   Html5Qrcode.getCameras().then(cameras => {
-                    if (cameras && cameras.length) {
-                        var cameraId = cameras[0].id;
-                        html5QrCode.start(
-                            cameraId, 
-                            {
-                                fps: 10,
-                                qrbox: { width: 250, height: 250 }
-                            },
-                            onScanSuccess,
-                            onScanFailure
-                        );
-                        // Cacher le bouton démarrer et afficher le bouton arrêter
-                        document.getElementById('start-btn').style.display = 'none';
-                        document.getElementById('stop-btn').style.display = 'inline-block';
-                    }
-                }).catch(err => {
-                    console.error(`Erreur de récupération des caméras: ${err}`);
-                }); */
-
-            /* ######################################## */
-            Html5Qrcode.getCameras().then(cameras => {
-                if (cameras && cameras.length) {
-                    // Créer un sélecteur de caméra
-                    const cameraSelector = document.createElement('select');
-                    cameraSelector.id = 'camera-selector';
-                    cameras.forEach(camera => {
-                        const option = document.createElement('option');
-                        option.value = camera.id;
-                        option.textContent = camera.label || `Caméra ${camera.id}`;
-                        cameraSelector.appendChild(option);
-                    });
-
-                    // Vérifier si le conteneur 'camera-container' existe
-                    const cameraContainer = document.getElementById('camera-container');
-                    if (cameraContainer) {
-                        cameraContainer.innerHTML = '';  // Vider le conteneur si déjà existant
-                        cameraContainer.appendChild(cameraSelector);
-
-                        // Ajouter un bouton pour démarrer le scan avec la caméra sélectionnée
-                        const startButton = document.createElement('button');
-                        startButton.textContent = 'Démarrer le scan avec cette caméra';
-                        startButton.classList.add('btn'); // Ajouter la classe 'btn' pour la cohérence
-                        startButton.addEventListener('click', () => {
-                            const selectedCameraId = cameraSelector.value;
-
-                            html5QrCode.start(
-                                selectedCameraId,
-                                {
-                                    fps: 10,
-                                    qrbox: { width: 250, height: 250 }
-                                },
-                                onScanSuccess,
-                                onScanFailure
-                            );
-                        });
-
-                        // Ajouter le bouton dans le conteneur
-                        cameraContainer.appendChild(startButton);
-                    } else {
-                        console.error("Le conteneur 'camera-container' n'existe pas.");
-                    }
-                } else {
-                    console.error('Aucune caméra détectée.');
-                }
-            }).catch(err => {
-                console.error(`Erreur de récupération des caméras: ${err}`);
-            });
-        }
-
-        function stopScanner___(message) {
-            if (html5QrCode) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('result').innerHTML = message || 'Scanner arrêté.';
-                    // Cacher le bouton arrêter et afficher le bouton démarrer
-                    document.getElementById('start-btn').style.display = 'inline-block';
-                    document.getElementById('stop-btn').style.display = 'none';
-                    document.getElementById('searchManual').style.display = "inline-block";
-
-                }).catch(err => {
-                    console.error(`Erreur d'arrêt du scanner: ${err}`);
-                    document.getElementById('result').innerHTML = 'Erreur lors de l\'arrêt du scanner.';
-                });
-            }
-        }
-
-        function onScanSuccess(decodedText, decodedResult) {
-            // Traitez ici le QR code décodé
-            document.getElementById('result').innerHTML = `QR Code décodé: ${decodedText}`;
-            stopScanner('Scan réussi');
-        }
-
-        function onScanFailure(error) {
-            // Erreur de scan
-            console.error(`Erreur de scan: ${error}`);
         }
 
 
