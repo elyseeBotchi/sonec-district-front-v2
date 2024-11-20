@@ -125,167 +125,182 @@
             color: #95a5a6;
         }
 
-    #data-bien, #data-paiement {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .pricing-header h4 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    table.table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-   
-    /* Spinners styles */
-    .fa-spinner {
-        margin-right: 5px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         #data-bien, #data-paiement {
-            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .pricing-header h4 {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        table.table td {
-            padding: 8px;
+        table.table {
+            width: 100%;
+            border-collapse: collapse;
         }
-    }
+
+    
+        /* Spinners styles */
+        .fa-spinner {
+            margin-right: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #data-bien, #data-paiement {
+                padding: 15px;
+            }
+
+            .pricing-header h4 {
+                font-size: 1.25rem;
+            }
+
+            table.table td {
+                padding: 8px;
+            }
+        }
 
 
-/* Style général pour la modal */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0; 
-    top: 0; 
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        /* Style général pour la modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-/* Contenu de la modal */
-.modal-content {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
-}
+        /* Contenu de la modal */
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-/* Animation d'apparition */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
+        /* Animation d'apparition */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
 
-/* Header de la modal */
-.modal-header {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 10px;
-}
+        /* Header de la modal */
+        .modal-header {
+            display: flex;
+            justify-content: flex-end;
+            padding-bottom: 10px;
+        }
 
-/* Bouton de fermeture */
-.modal-header .close {
-    cursor: pointer;
-    font-size: 24px;
-    color: #333;
-    transition: color 0.3s;
-}
+        /* Bouton de fermeture */
+        .modal-header .close {
+            cursor: pointer;
+            font-size: 24px;
+            color: #333;
+            transition: color 0.3s;
+        }
 
-.modal-header .close:hover {
-    color: #f44336;
-}
+        .modal-header .close:hover {
+            color: #f44336;
+        }
 
-/* Corps de la modal */
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
+        /* Corps de la modal */
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
 
-.modal-body label {
-    font-size: 16px;
-    margin-bottom: 8px;
-    color: #333;
-}
+        .modal-body label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
 
-.modal-body .form-control {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: border-color 0.3s;
-    width: 100%;
-    box-sizing: border-box;
-}
+        .modal-body .form-control {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-.modal-body .form-control:focus {
-    outline: none;
-    border-color: #007bff;
-}
+        .modal-body .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+        }
 
-/* Footer de la modal */
-.modal-footer {
-    display: flex;
-    justify-content: center;
-}
+        /* Footer de la modal */
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+        }
 
-.modal-footer .btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        .modal-footer .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-.modal-footer .btn:hover {
-    background-color: #0056b3;
-}
+        .modal-footer .btn:hover {
+            background-color: #0056b3;
+        }
 
-/* Responsivité */
-@media (max-width: 768px) {
-    .modal-content {
-        max-width: 80%;
-    }
+        .form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #4F5467;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #e9ecef;
+        border-radius: 2px;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
 
-    .modal-body label {
-        font-size: 14px;
-    }
+        /* Responsivité */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-width: 80%;
+            }
 
-    .modal-body .form-control {
-        font-size: 12px;
-    }
+            .modal-body label {
+                font-size: 14px;
+            }
 
-    .modal-footer .btn {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-}
+            .modal-body .form-control {
+                font-size: 12px;
+            }
+
+            .modal-footer .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
 
 
     </style>
@@ -451,12 +466,16 @@
                     // Créer un sélecteur de caméra
                     const cameraSelector = document.createElement('select');
                     cameraSelector.id = 'camera-selector';
+                    cameraSelector.classList.add('form-control'); 
+
 
                     cameras.forEach(camera => {
                         const option = document.createElement('option');
                         option.value = camera.id;
                         option.textContent = camera.label || `Caméra ${camera.id}`;
                         cameraSelector.appendChild(option);
+
+                        alert(camera.label)
                     });
 
                     // Vérifier si le conteneur 'camera-container' existe
@@ -506,7 +525,7 @@
             });
         }
 
-        function stopScanner(message) {
+        function stopScanner__(message) {
             if (html5QrCode) {
                 html5QrCode.stop().then(() => {
                     document.getElementById('reader').style.display = "none";
@@ -520,6 +539,36 @@
                 });
             }
         }
+
+
+        
+        function stopScanner(message) {
+            if (html5QrCode) {
+                html5QrCode.stop().then(() => {
+                    document.getElementById('result').innerHTML = message;
+                    // Afficher le bouton démarrer et cacher le bouton arrêter
+                    document.getElementById('start-btn').style.display = 'inline-block';
+                    document.getElementById('stop-btn').style.display = 'none';
+                    document.getElementById('searchManual').style.display = "inline-block";
+
+                }).catch(err => {
+                    // Affiche un message d'erreur si l'arrêt échoue
+                    console.error("Erreur lors de l'arrêt du scanner: ", err);
+
+                    // Vérification si le flux vidéo existe
+                    if (html5QrCode._localMediaStream && html5QrCode._localMediaStream.getVideoTracks().length > 0) {
+                        console.warn("Flux vidéo détecté mais erreur lors de l'arrêt.");
+                    } else {
+                        console.warn("Aucun flux vidéo actif pour le scanner.");
+                    }
+                });
+            } else {
+                console.warn("Le scanner n'est pas initialisé.");
+            }
+        }
+
+
+
         function onScanSuccess(decodedText, decodedResult) {
             let message = `QR Code détecté: ${decodedText} <br> <code>Vérification en cours ...</code>`;
               stopScanner(message) 
