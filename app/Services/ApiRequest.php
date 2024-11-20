@@ -9,7 +9,7 @@ class ApiRequest
         $request = Http::withHeaders([
             'AuthorizationGate' => 'Bearer ' . API_AccessKey(),
             'Authorization' => 'Bearer ' . (AuthConnect()['AccessToken'] ?? ''),
-        ])->timeout(180); // Définit un délai d'attente de 180 secondes
+        ])->timeout(60); // Définit un délai d'attente de 180 secondes
         
         
 
