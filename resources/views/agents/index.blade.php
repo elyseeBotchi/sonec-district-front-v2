@@ -427,8 +427,104 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <script>
-        let html5QrCode;
+        let html5QrCode; // Déclaration globale pour permettre de l'arrêter et le redémarrer
+
+function startScanner() {
+    document.getElementById('reader').style.display = "block";
+    document.getElementById('result').innerHTML = `Scanne en cours ...`;
+    document.getElementById('searchManual').style.display = "none";
+    document.getElementById('reference').innerHTML = '';
+    document.getElementById('montant_paye').innerHTML = '';
+    document.getElementById('mode_paiement').innerHTML = '';
+    document.getElementById('created_at').innerHTML = '';
+    document.getElementById('status_paiement').innerHTML = '';
+
+    document.getElementById('data-bien').style.display = 'none';
+    document.getElementById('data-paiement').style.display = 'none';
+    document.getElementById('html_render').innerHTML = '';
+
+    html5QrCode = new Html5Qrcode("reader");
+
+    Html5Qrcode.getCameras().then(cameras => {
+        if (cameras && cameras.length) {
+            // Créer un sélecteur de caméra
+            const cameraSelector = document.createElement('select');
+            cameraSelector.id = 'camera-selector';
+
+            cameras.forEach(camera => {
+                const option = document.createElement('option');
+                option.value = camera.id;
+                option.textContent = camera.label || `Caméra ${camera.id}`;
+                cameraSelector.appendChild(option);
+            });
+
+            // Vérifier si le conteneur 'camera-container' existe
+            const cameraContainer = document.getElementById('camera-container');
+            if (cameraContainer) {
+                cameraContainer.innerHTML = ''; // Vider le conteneur si déjà existant
+                cameraContainer.appendChild(cameraSelector);
+            }
+
+            // Commencer avec la première caméra par défaut
+            let currentCameraId = cameras[0].id;
+            startQrScanner(currentCameraId);
+
+            // Gérer le changement de caméra
+            cameraSelector.addEventListener('change', (event) => {
+                currentCameraId = event.target.value;
+                html5QrCode.stop().then(() => {
+                    startQrScanner(currentCameraId);
+                }).catch(err => {
+                    console.error(`Erreur lors de l'arrêt du scanner : ${err}`);
+                });
+            });
+
+            // Cacher le bouton démarrer et afficher le bouton arrêter
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('stop-btn').style.display = 'inline-block';
+            document.getElementById('searchManual').style.display = 'inline-block';
+
+            
+        }
+    }).catch(err => {
+        console.error(`Erreur de récupération des caméras: ${err}`);
+    });
+}
+
+function startQrScanner(cameraId) {
+    html5QrCode.start(
+        cameraId,
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 }
+        },
+        onScanSuccess,
+        onScanFailure
+    ).catch(err => {
+        console.error(`Erreur lors du démarrage du scanner : ${err}`);
+    });
+}
+
+function stopScanner(message) {
+    if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+            document.getElementById('reader').style.display = "none";
+            document.getElementById('start-btn').style.display = 'inline-block';
+            document.getElementById('stop-btn').style.display = 'none';
+            document.getElementById('searchManual').style.display = 'inline-block';
+
+           // alert(message);
+        }).catch(err => {
+            console.error(`Erreur lors de l'arrêt du scanner : ${err}`);
+        });
+    }
+}
+
+    </script>
+    <script>
+       // let html5QrCode;
 
         function onScanSuccess(decodedText, decodedResult) {
             let message = `QR Code détecté: ${decodedText} <br> <code>Vérification en cours ...</code>`;
@@ -612,7 +708,7 @@
         }
 
         
-        function startScanner() {
+        function startScanner____() {
             document.getElementById('reader').style.display = "block";
             document.getElementById('result').innerHTML = `Scanne en cours ...`;
             document.getElementById('searchManual').style.display = "none";
@@ -755,32 +851,32 @@
             });
         }
 
-function stopScanner(message) {
-    if (html5QrCode) {
-        html5QrCode.stop().then(() => {
-            document.getElementById('result').innerHTML = message || 'Scanner arrêté.';
-            // Cacher le bouton arrêter et afficher le bouton démarrer
-            document.getElementById('start-btn').style.display = 'inline-block';
-            document.getElementById('stop-btn').style.display = 'none';
-            document.getElementById('searchManual').style.display = "inline-block";
+        function stopScanner___(message) {
+            if (html5QrCode) {
+                html5QrCode.stop().then(() => {
+                    document.getElementById('result').innerHTML = message || 'Scanner arrêté.';
+                    // Cacher le bouton arrêter et afficher le bouton démarrer
+                    document.getElementById('start-btn').style.display = 'inline-block';
+                    document.getElementById('stop-btn').style.display = 'none';
+                    document.getElementById('searchManual').style.display = "inline-block";
 
-        }).catch(err => {
-            console.error(`Erreur d'arrêt du scanner: ${err}`);
-            document.getElementById('result').innerHTML = 'Erreur lors de l\'arrêt du scanner.';
-        });
-    }
-}
+                }).catch(err => {
+                    console.error(`Erreur d'arrêt du scanner: ${err}`);
+                    document.getElementById('result').innerHTML = 'Erreur lors de l\'arrêt du scanner.';
+                });
+            }
+        }
 
-function onScanSuccess(decodedText, decodedResult) {
-    // Traitez ici le QR code décodé
-    document.getElementById('result').innerHTML = `QR Code décodé: ${decodedText}`;
-    stopScanner('Scan réussi');
-}
+        function onScanSuccess(decodedText, decodedResult) {
+            // Traitez ici le QR code décodé
+            document.getElementById('result').innerHTML = `QR Code décodé: ${decodedText}`;
+            stopScanner('Scan réussi');
+        }
 
-function onScanFailure(error) {
-    // Erreur de scan
-    console.error(`Erreur de scan: ${error}`);
-}
+        function onScanFailure(error) {
+            // Erreur de scan
+            console.error(`Erreur de scan: ${error}`);
+        }
 
 
         function slugify(string) {
