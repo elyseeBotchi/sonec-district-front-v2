@@ -33,7 +33,7 @@ use App\Http\Controllers\Admin\ServicesController as AdminServicesController;
 */
 Route::get('/paiement/standby/{uuid}', [LandingController::class, 'standby_return'])->name('paiement.standby');
 Route::get('/paiement/succes/{uuid}', [LandingController::class, 'success_return'])->name('paiement.success');
-Route::get('/paiement/erreur/{uuid}', [LandingController::class, 'error_return'])->name('paiement.error');
+Route::get('/paiement/erreur/{uuid}', [LandingController::class, 'success_return'])->name('paiement.error');
 
 Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 //Route::get('/index2', [LandingController::class, 'index2'])->name('welcome.index2');

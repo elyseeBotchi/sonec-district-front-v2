@@ -339,4 +339,27 @@ class LandingController extends Controller
     }
 
 
+    
+    public function success_return(Request $request,$uuid){
+     //   Log::info(json_encode($request));
+        $url_path = "/mobilemoney/verification/hash";
+        $data = [
+            'hash_ref' =>$uuid,
+        ];
+
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+    
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                return redirect()->route('landing.entities.taxe.info_paiement',['uuid' => $response['data']]);
+            }
+            else{
+                return redirect()->route('landing.entities.taxe.erreur_paiement');
+            }
+        }else{
+            return redirect()->route('landing.entities.taxe.erreur_paiement');
+        }
+    }
 }
