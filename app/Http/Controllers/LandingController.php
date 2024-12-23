@@ -352,7 +352,7 @@ class LandingController extends Controller
     
 
         if(isset($response['type'])){
-            if($response['type'] =='success'){
+            if($response['type'] =='success' && $response['data'] !=""){
                 return redirect()->route('landing.entities.taxe.info_paiement',['uuid' => $response['data']]);
             }
             else{
