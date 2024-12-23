@@ -356,10 +356,10 @@ class LandingController extends Controller
                 return redirect()->route('landing.entities.taxe.info_paiement',['uuid' => $response['data']]);
             }
             else{
-                return redirect()->route('landing.entities.taxe.erreur_paiement');
+                return view('customers.services.erreur_paiement');
             }
         }else{
-            return redirect()->route('landing.entities.taxe.erreur_paiement');
+            return view('customers.services.erreur_paiement');
         }
     }
 }
