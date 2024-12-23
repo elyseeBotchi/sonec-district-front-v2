@@ -18,7 +18,7 @@ $(document).ready(function() {
                 const entete = data.entete;
                 const results = data.data;
                 const entity = data.entity;
-    //console.log(results)
+                console.log(data)
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
@@ -34,7 +34,7 @@ $(document).ready(function() {
                 entete.forEach(col => {
                     headerHtml += `<th>${col.name}</th>`;
                 });
-                headerHtml += '<th>Statut</th><th style="width:250px !important;">Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
+                headerHtml += '<th>Validité</th><th>Statut</th><th style="width:150px !important;">Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
                 $('#datatable-custom thead').html(headerHtml);
     
                 // Vérifier si la DataTable a déjà été initialisée
@@ -52,6 +52,33 @@ $(document).ready(function() {
                             data: slugify(col.name),
                            // data: col.field // Utiliser le champ correspondant pour chaque colonne
                         })),
+                        {
+                            data: 'date_fin',
+                            render: function(data, type, row) {
+                                // Fonction pour formater une date au format dd - m - Y
+                                function formatDate(dateString) {
+                                    const date = new Date(dateString);
+                                    const day = String(date.getDate()).padStart(2, '0');
+                                    const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+                                    const year = date.getFullYear();
+                                    return `${day} - ${month} - ${year}`;
+                                }
+
+                                var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+
+                                const dateDebutFormatted = formatDate(row.date_debut);
+                                const dateFinFormatted = formatDate(data);
+
+                                if (data > date_actuelle) {
+                                    return `<span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span>`;
+                                } else if (data < date_actuelle) {
+                                    return `<span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>`;
+                                }
+                                else {
+                                    return `<span class="badge badge-pill badge-danger">Date dépassée</span>`; // Gérer les cas où la condition n'est pas remplie
+                                }
+                            }
+                        },
                         {
                             data: 'state',
                             render: function(data, type, row) {
@@ -78,7 +105,7 @@ $(document).ready(function() {
                                 let actions = '';
     
                                 if (permissions.show) {
-                                    actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                                    actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                                 }
     
                                 if (permissions.edit) {
@@ -89,12 +116,19 @@ $(document).ready(function() {
                                     let icon = row.state === 'enable' ? '<i class="fa fa-lock"></i>' : '<i class="fa fa-unlock"></i>';
                                     let msg = row.state === 'enable' ? 'Verrouiller ' : 'Déverrouiller';
                                     let className = row.state === 'enable' ? 'btn-outline-danger' : 'btn-outline-success';
-                                    actions += `<a href="/customer/services/taxe/delete/${data}/${Entity_uuid}" title="${msg}" class="btn btn-icon waves-effect waves-light material-shadow-none ${className} sendDeleteLink">${icon}</a>`;
+                                    actions += `<a href="/customer/services/taxe/delete/${data}/${Entity_uuid}" title="${msg}" class="btn btn-sm btn-icon waves-effect waves-light material-shadow-none ${className} sendDeleteLink">${icon}</a>`;
                                 }
-                                
+                                var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+
                                 if (permissions.edit) {
-                                    if(row.state === 'enable'){
-                                        actions += ` &nbsp; <a href="#" data-toggle="modal" data-target="#payElement-modal" data-uuid="${data}"  data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                    if(row.state === 'enable' && (row.date_fin > date_actuelle)){
+                                        /* actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `; */
+                                    }
+                                    else if(row.state === 'enable' && (row.date_fin < date_actuelle)){
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                    }else{
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+
                                     }
                                 }
     
@@ -110,23 +144,7 @@ $(document).ready(function() {
                 alert('Une erreur est survenue lors de la récupération des données.');
             });
     }
-    
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label">${field.name} </label>
-                    <input type="${field.type_input}" class="form-control" name="${ slugify(field.name)}" />
-                </div>
-            </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
+
 
     function generateForm(entete) {
         let formHtml = '';
@@ -172,24 +190,6 @@ $(document).ready(function() {
     }
 
 
-
-    /*     function generateForm(entete) {
-            let formHtml = '';
-        
-            entete.forEach(field => {
-                formHtml += `
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label class="form-label">${field.name} ${field.required ? '<code>*</code>' : ''}</label>
-                        <input type="${field.type}" class="form-control btn-outline-secondary" name="${ slugify(field.name)}" ${field.required ? 'required' : ''} />
-                    </div>
-                </div>`;
-            });
-        
-            // Insérer le formulaire généré dans un conteneur existant
-            document.getElementById('form-container').innerHTML = formHtml;
-        } */
-
     function slugify(string) {
         // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
         var data = string.toString().toLowerCase()
@@ -231,6 +231,19 @@ $(document).ready(function() {
         document.getElementById('pay_uuid').value = uuid;
         document.getElementById('target_pay_name').innerHTML = name;
       //  document.getElementById('pay_libelle').value = pay_libelle;
+
+   
+      /* VERIFICATION DE L'EXISTENCE D'UN PAIEMENT */
+        const PayModalButton = new bootstrap.Modal(document.getElementById('payElement-modal'), {
+            backdrop: 'static', // Empêche la fermeture en cliquant en dehors
+            keyboard: true // Empêche la fermeture en appuyant sur la touche Échap
+        });
+    
+        if(PayModalButton) {
+            PayModalButton.show();
+        }
+        
+      /* ######################################### */
     
     });
 
@@ -333,6 +346,11 @@ $(document).ready(function() {
                         closeUpModalButton.click();
                     }
                 }
+                
+                else if (data.type === "standby") {
+                    sendStandby(data.message,data.reference);
+                }
+
                 else if (data.type === "error_validator") {
                     handleErrors(data.errors);
                     var message = ""
@@ -398,36 +416,37 @@ $(document).ready(function() {
             }
         });
     });
+
 });
 
-function sendForm(action, formData, callback) {
-    $.ajax({
-        url: action,
-        type: 'POST',
-        data: formData,
-        // dataType: 'json',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        beforeSend: function () {
-            loader();
-        },
-        success: function (data) {
-            loader('hide');
-            callback(data); // Appel de la fonction de rappel avec la réponse
-        },
-        error: function (data) {
-            if (data.type === "error") {
-                SendError("messageError");
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}
+    function sendForm(action, formData, callback) {
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: formData,
+            // dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function () {
+                loader();
+            },
+            success: function (data) {
+                loader('hide');
+                callback(data); // Appel de la fonction de rappel avec la réponse
+            },
+            error: function (data) {
+                if (data.type === "error") {
+                    SendError("messageError");
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
 
-function loader(state = "show") {
+/* function loader(state = "show") {
     switch (state) {
         case "show":
             JsLoadingOverlay.show({
@@ -447,134 +466,294 @@ function loader(state = "show") {
             JsLoadingOverlay.hide();
             break;
     }
-}
+} */
 
-function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
-    if (urlback !== '') {
-        if(urlback === 'back'){
-            toastr.success(message, 'Succès');
-            //Si url de retour exist
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
-        }else {
-            //Si url de retour exist
-            toastr.success(message, 'Succès');
-            setTimeout(() => {
-                window.location.href = urlback;
-            }, 2000);
+    function loader(state = "show", message = "Chargement en cours...") {
+        switch (state) {
+            case "show":
+                JsLoadingOverlay.show({
+                    'overlayBackgroundColor': '#666666',
+                    'overlayOpacity': 0.4,
+                    'spinnerIcon': 'ball-spin',
+                    'spinnerColor': '#1fbd03',
+                    'spinnerSize': '1x',
+                    'overlayIDName': 'overlay',
+                    'spinnerIDName': 'spinner',
+                    'spinnerZIndex': 99999,
+                    'overlayZIndex': 99998,
+                    'lockScroll': true,
+                });
+                
+                // Ajouter le texte sous le spinner
+                const spinnerElement = document.getElementById('spinner');
+                if (spinnerElement) {
+                    const textElement = document.createElement('div');
+                    textElement.id = 'loader-text';
+                    textElement.style.marginTop = '10px';
+                    textElement.style.color = '#ffffff';
+                    textElement.style.textAlign = 'center';
+                    textElement.textContent = message;
+                    spinnerElement.parentElement.appendChild(textElement);
+                }
+                break;
+            default:
+                JsLoadingOverlay.hide();
+                
+                // Supprimer le texte si présent
+                const textElement = document.getElementById('loader-text');
+                if (textElement) {
+                    textElement.remove();
+                }
+                break;
         }
     }
-    else {
-        //Si url de retour exist pas dans le retour du formulaire
-        toastr.success(message, 'Succès');
+
+    
+    let paymentCheckInterval;
+    let paymentCheckTimeout;
+
+    function loaderMessage(state = "show", reference = null, message = "Veuillez tapez la syntaxe *133# sur votre téléphone puis choisissez l'option retrait pour approuver le paiement") {
+        switch (state) {
+            case "show":
+                JsLoadingOverlay.show({
+                    'overlayBackgroundColor': '#666666',
+                    'overlayOpacity': 0.4,
+                    'spinnerIcon': 'ball-spin',
+                    'spinnerColor': '#1fbd03',
+                    'spinnerSize': '1x',
+                    'overlayIDName': 'overlay',
+                    'spinnerIDName': 'spinner',
+                    'spinnerZIndex': 99999,
+                    'overlayZIndex': 99998,
+                    'lockScroll': true,
+                });
+    
+                    // Ajouter le message après l'affichage du loader
+                    const messageDiv = document.createElement('div');
+                    messageDiv.id = 'loader-message';
+                    messageDiv.style.position = 'fixed';
+                    messageDiv.style.top = '50%';
+                    messageDiv.style.left = '50%';
+                    messageDiv.style.transform = 'translate(-50%, 50px)';
+                    messageDiv.style.zIndex = 100000; // Assurez-vous que le message est au-dessus du loader
+                    messageDiv.style.color = '#070d14';
+                    messageDiv.style.fontSize = '30px';
+                    messageDiv.style.textAlign = 'center'; // Facultatif : aligne le texte au centre si le message contient plusieurs lignes
+                    messageDiv.innerText = message;
+                    
+                    document.body.appendChild(messageDiv);
+
+
+                console.log(reference);
+    
+                // Vérifier le statut du paiement toutes les 30 secondes
+                paymentCheckInterval = setInterval(() => checkPaymentStatus(reference), 20000);
+    
+                // Arrêter la vérification après 5 minutes
+                paymentCheckTimeout = setTimeout(() => {
+                    clearInterval(paymentCheckInterval);
+                    loaderMessage("hide");
+                    toastr.error("Temps écoulé. Veuillez réessayer.", 'Alerte');
+                    location.reload();
+                }, 300000);
+                break;
+    
+            default:
+                JsLoadingOverlay.hide();
+    
+                // Retirer le message lors de la fermeture du loader
+                const existingMessageDiv = document.getElementById('loader-message');
+                if (existingMessageDiv) {
+                    existingMessageDiv.remove();
+                }
+    
+                // Arrêter la vérification du paiement
+                if (paymentCheckInterval) clearInterval(paymentCheckInterval);
+                if (paymentCheckTimeout) clearTimeout(paymentCheckTimeout);
+                break;
+        }
     }
-}
+    
 
-function SendError(messageError){ //fonction pour envoi de formulaire chargement loading
-    toastr.error(messageError, 'Erreur');
-} //fin de la focntion SendError
-
-function findRubriques() {
-    fetch(`/customer/services/rubrique/findOneConfig/${Entity_uuid}`)
-        .then(response => {
+    async function checkPaymentStatus(reference) {
+        console.log('Vérification du statut du paiement...');
+        try {
+            const response = await fetch(`/customer/services/facturation/verification-paiement/${reference}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
             if (!response.ok) {
-                throw new Error('Une erreur est survenue');
+                throw new Error('Erreur réseau lors de la vérification du statut du paiement.');
             }
-            return response.json();
-        })
-        .then(data => {
-            const results = data.data;
-            const rubriqueSelect = document.getElementById('rubrique');
-            rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+    
+            const result = await response.json();
+            console.log(result)
+            const paymentStatus = result.paymentStatus;
+    
+            if (paymentStatus === 'success') {
+                console.log('Paiement approuvé.');
+                loaderMessage("hide");
+                sendSuccess('Le paiement a été approuvé !', result.urlback);
+            } else if (paymentStatus === 'fail') {
+                console.log('Paiement échoué.');
+                loaderMessage("hide");
+                toastr.error('Le paiement a échoué !', 'Erreur');
+            } else {
+                toastr.warning('Paiement en attente.', 'Alerte');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la vérification du statut du paiement:', error);
+            toastr.error('Impossible de vérifier le statut du paiement. Veuillez réessayer.', 'Erreur réseau');
+        }
+    }
+    
+    function sendStandby(message, reference) {
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 120000,
+            extendedTimeOut: 0,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            newestOnTop: true,
+            hideDuration: 0,
+            showDuration: 300,
+        };
+    
+        if (message) {
+            toastr.info(message, 'Information');
+        }
+        loaderMessage('show', reference);
+    }
+    
+        
+    function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
+        if (urlback !== '') {
+            if(urlback === 'back'){
+                toastr.success(message, 'Succès');
+                //Si url de retour exist
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }else {
+                //Si url de retour exist
+                toastr.success(message, 'Succès');
+                setTimeout(() => {
+                    window.location.href = urlback;
+                }, 2000);
+            }
+        }
+        else {
+            //Si url de retour exist pas dans le retour du formulaire
+            toastr.success(message, 'Succès');
+        }
+    }
 
-            // Vérification que les rubriques existent
-            if (results.rubrique && results.rubrique.length > 0) {
-                results.rubrique.forEach(rubrique => {
-                    if (rubrique.rubrique_option.length > 0) {
-                        // Créer un groupe d'options pour chaque rubrique ayant des options
-                        let optgroup = document.createElement('optgroup');
-                        optgroup.label = rubrique.name;
+    function SendError(messageError){ //fonction pour envoi de formulaire chargement loading
+        toastr.error(messageError, 'Erreur');
+    } //fin de la focntion SendError
 
-                        // Ajouter les options sous chaque rubrique
-                        rubrique.rubrique_option.forEach(option => {
-                            // Vérifier s'il y a des facturations pour l'option
-                            if (option.facturation && option.facturation.length > 0) {
-                                option.facturation.forEach(facturation => {
+    function findRubriques() {
+        fetch(`/customer/services/rubrique/findOneConfig/${Entity_uuid}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Une erreur est survenue');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const results = data.data;
+                const rubriqueSelect = document.getElementById('rubrique');
+                rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+
+                // Vérification que les rubriques existent
+                if (results.rubrique && results.rubrique.length > 0) {
+                    results.rubrique.forEach(rubrique => {
+                        if (rubrique.rubrique_option.length > 0) {
+                            // Créer un groupe d'options pour chaque rubrique ayant des options
+                            let optgroup = document.createElement('optgroup');
+                            optgroup.label = rubrique.name;
+
+                            // Ajouter les options sous chaque rubrique
+                            rubrique.rubrique_option.forEach(option => {
+                                // Vérifier s'il y a des facturations pour l'option
+                                if (option.facturation && option.facturation.length > 0) {
+                                    option.facturation.forEach(facturation => {
+                                        let optionElement = document.createElement('option');
+                                        optionElement.value = facturation.uuid; // Utiliser l'UUID de la facturation
+                                        optionElement.textContent = `${option.option_name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
+
+                                        // Ajouter l'option pour chaque facturation
+                                        optgroup.appendChild(optionElement);
+                                    });
+                                } else {
+                                    // Si pas de facturation, désactiver l'option
                                     let optionElement = document.createElement('option');
-                                    optionElement.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                    optionElement.textContent = `${option.option_name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
+                                    optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
+                                    optionElement.disabled = true;
+
+                                    // Ajouter l'option désactivée
+                                    optgroup.appendChild(optionElement);
+                                }
+                            });
+
+                            // Ajouter l'optgroup au select
+                            rubriqueSelect.appendChild(optgroup);
+                        } else {
+                            // Si la rubrique n'a pas d'options, ajouter la rubrique elle-même comme une option sélectionnable
+                            let optionElement = document.createElement('option');
+                            optionElement.value = rubrique.uuid;
+
+                            // Vérification de la facturation pour la rubrique
+                            if (rubrique.facturation && rubrique.facturation.length > 0) {
+                                rubrique.facturation.forEach(facturation => {
+                                    let facturationOption = document.createElement('option');
+                                    facturationOption.value = facturation.uuid; // Utiliser l'UUID de la facturation
+                                    facturationOption.textContent = `${rubrique.name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
 
                                     // Ajouter l'option pour chaque facturation
-                                    optgroup.appendChild(optionElement);
+                                    rubriqueSelect.appendChild(facturationOption);
                                 });
                             } else {
-                                // Si pas de facturation, désactiver l'option
-                                let optionElement = document.createElement('option');
-                                optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
+                                // Désactiver la rubrique si pas de montant
+                                optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
                                 optionElement.disabled = true;
 
-                                // Ajouter l'option désactivée
-                                optgroup.appendChild(optionElement);
+                                // Ajouter directement la rubrique désactivée
+                                rubriqueSelect.appendChild(optionElement);
                             }
-                        });
-
-                        // Ajouter l'optgroup au select
-                        rubriqueSelect.appendChild(optgroup);
-                    } else {
-                        // Si la rubrique n'a pas d'options, ajouter la rubrique elle-même comme une option sélectionnable
-                        let optionElement = document.createElement('option');
-                        optionElement.value = rubrique.uuid;
-
-                        // Vérification de la facturation pour la rubrique
-                        if (rubrique.facturation && rubrique.facturation.length > 0) {
-                            rubrique.facturation.forEach(facturation => {
-                                let facturationOption = document.createElement('option');
-                                facturationOption.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                facturationOption.textContent = `${rubrique.name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
-
-                                // Ajouter l'option pour chaque facturation
-                                rubriqueSelect.appendChild(facturationOption);
-                            });
-                        } else {
-                            // Désactiver la rubrique si pas de montant
-                            optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
-                            optionElement.disabled = true;
-
-                            // Ajouter directement la rubrique désactivée
-                            rubriqueSelect.appendChild(optionElement);
                         }
-                    }
-                });
-            } else {
-                // Si aucune rubrique n'est trouvée, afficher un message par défaut
-                let defaultOption = document.createElement('option');
-                defaultOption.textContent = 'Aucune rubrique disponible';
-                defaultOption.disabled = true;
-                rubriqueSelect.appendChild(defaultOption);
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-        });
-}
-
-function translatePeriodicity(periodicity) {
-    switch (periodicity) {
-        case 'monthly':
-            return 'mois';
-        case 'quarterly':
-            return 'trimestre';
-        case 'yearly':
-            return 'ans';
-        case 'weekly':
-            return 'semaine';
-        case 'daily':
-            return 'jour';
-        default:
-            return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+                    });
+                } else {
+                    // Si aucune rubrique n'est trouvée, afficher un message par défaut
+                    let defaultOption = document.createElement('option');
+                    defaultOption.textContent = 'Aucune rubrique disponible';
+                    defaultOption.disabled = true;
+                    rubriqueSelect.appendChild(defaultOption);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
     }
-}
 
+    function translatePeriodicity(periodicity) {
+        switch (periodicity) {
+            case 'monthly':
+                return 'mois';
+            case 'quarterly':
+                return 'trimestre';
+            case 'yearly':
+                return 'ans';
+            case 'weekly':
+                return 'semaine';
+            case 'daily':
+                return 'jour';
+            default:
+                return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+        }
+    }
 
-  

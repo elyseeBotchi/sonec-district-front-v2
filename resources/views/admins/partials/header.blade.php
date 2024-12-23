@@ -144,7 +144,7 @@
                        aria-haspopup="true" aria-expanded="false">
                         <img
                         @isset(AuthConnect()['avatar'])
-                                src="{{ \Illuminate\Support\Facades\Storage::url('users/avatar/'.AuthConnect()['uuid'].'/'.AuthConnect()['avatar']) }}"
+                                src="{{ \Illuminate\Support\Facades\Storage::url('/users/avatar/'.AuthConnect()['uuid'].'/'.AuthConnect()['avatar']) }}"
                             @else
                             @isset(AuthConnect()['civility'])
                                 src="{{ asset(AuthConnect()['civility'] == 'm' ? 'backoffice/man.png' : 'backoffice/woman.png') }}"

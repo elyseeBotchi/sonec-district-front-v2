@@ -78,20 +78,38 @@ class CustomerFacturationsController extends Controller
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? ''
         ];
 
-       // return response()->json($data);
+        // return response()->json($data);
 
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-       // return response()->json($response);
+        
+       // return dd($response);
+       
+        //return response()->json($response);
 
         if(isset($response['type'])){
             if($response['type'] =='success'){
-                $dataResponse =[
-                    'type'=>'success',
-                    'urlback'=> route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
-                    'message'=>$response['message'] ?? '',
-                    'code'=>200,
-                ];
-                return response()->json($dataResponse);
+
+                if($request->paymode =="mtn_ci"){
+                    $dataResponse =[
+                        'type'=>'standby',
+                        'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                        'message'=>$response['message'] ?? '',
+                        'reference' => $response['reference'] ?? '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+                }
+                else{
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                        'message'=>$response['message'] ?? '',
+                        'reference' => $response['reference'] ?? '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+                }
+
             }
             else{
                 $dataResponse =[
@@ -113,7 +131,53 @@ class CustomerFacturationsController extends Controller
         }
     }
 
+    public function verificationPaiement($ref){
+        $url_path = "/autorisations/services/taxe/verification/paiement";
 
+        $data = [
+            'reference' => $ref
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        Log::info("verification");
+        //Log::info(json_encode($responses));
+
+        //return response()->json($responses);
+          if(isset($responses['type'])){
+            if($responses['type'] =='success'){
+                    
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=> isset($responses['data']['paiement']['uuid']) ? route('customer.entities.taxe.info_paiement',['uuid' => $responses['data']['paiement']['uuid']]) : '',
+                        'message'=>$responses['message'] ?? '',
+                        'reference' => $ref ?? '',
+                        'paymentStatus' =>  isset($responses['data']['paiement']['state']) ? $responses['data']['paiement']['state'] : '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'paymentStatus' => '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'paymentStatus' => '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+    }
     
     public function info_paiement($uuid)
     {
@@ -145,8 +209,6 @@ class CustomerFacturationsController extends Controller
         }
     }
 
-
-    
     public function paiement_data($uuid)
     {
         $url_path = "/autorisations/services/taxe/info_paiement";
@@ -161,6 +223,15 @@ class CustomerFacturationsController extends Controller
  
     }
 
+    
+    public function verify_validity($uuid){
+        $url_path = "/autorisations/services/taxe/verification/validite";
+          
+        $data = [
+            'uuid' => $uuid ?? '',
+        ];
 
-
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        return response()->json($dataResponse);
+    }
 }

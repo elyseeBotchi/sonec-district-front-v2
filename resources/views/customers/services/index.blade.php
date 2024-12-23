@@ -1,21 +1,23 @@
 @extends('layout.customerApp')
 
 @section('content')
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-            <h4 class="mb-sm-0"> <span id="TaxeEntity"></span></h4>
+    
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">Services</li>
-                    <li class="breadcrumb-item active services"><i class="fa fa-spinner fa-spin"></i></li>
-                </ol>
+    <div class="row card" id="container">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
+                <h4 class="mb-sm-0"> <span id="TaxeEntity"></span></h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">Services</li>
+                        <li class="breadcrumb-item active services"><i class="fa fa-spinner fa-spin"></i></li>
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row" id="container">
-        <div class="col-md-12">
+        <div class="col-sm-12 card-body">
             <div class="text-end mb-4">
                 <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#customer-edit_add-modal">
                     <i class="fas fa-plus"></i> Ajouter{{--  un élément à <span class="services"></span> --}}
@@ -78,6 +80,8 @@
                 </div>
             </div>
 
+            {{-- <a href="#" data-toggle="modal" data-target="#payElement-modal" id="payElement-modal"> test </a> --}}
+
             <div class="modal fade" id="payElement-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <form class="modal-content sendPayForm" action="{{ route('customer.entities.taxe.facturation.store') }}" method="POST">
@@ -138,7 +142,7 @@
 
 
             <div class="pt-5 table-responsive">
-                <table class="table" id="datatable-custom">
+                <table class="table table-sm table-striped table-bordered" id="datatable-custom">
                     <thead>
                     <tr></tr>
                     </thead>

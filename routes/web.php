@@ -31,6 +31,9 @@ use App\Http\Controllers\Admin\ServicesController as AdminServicesController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/paiement/standby/{uuid}', [LandingController::class, 'standby_return'])->name('paiement.standby');
+Route::get('/paiement/succes/{uuid}', [LandingController::class, 'success_return'])->name('paiement.success');
+Route::get('/paiement/erreur/{uuid}', [LandingController::class, 'error_return'])->name('paiement.error');
 
 Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 //Route::get('/index2', [LandingController::class, 'index2'])->name('welcome.index2');
@@ -170,10 +173,18 @@ Route::post('controle/logout', [LoginController::class, 'controle_logout'])->nam
         Route::prefix('services')->group(function(){
             Route::get('show/{uuid}', [AdminServicesController::class, 'index'])->name('panel.autorisations.services.show.data');
             Route::get('taxes/findAll/{uuid}', [AdminServicesController::class, 'findAll'])->name('panel.autorisations.services.taxes.find_all');
+            Route::get('taxes/detail/{uuid}/{entity_uuid}', [AdminServicesController::class, 'show'])->name('panel.autorisations.services.taxes.show');
             Route::get('taxes/statistique/{uuid}', [AdminServicesController::class, 'statistique'])->name('panel.autorisations.services.taxes.statistique');
             Route::post('taxes/search/findAll', [AdminServicesController::class, 'search'])->name('panel.autorisations.services.taxes.search');
 
         });
+
+
+        Route::prefix('customer')->group(function () {
+            Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
+  
+        });
+
 
     });
 
@@ -198,6 +209,8 @@ Route::post('controle/logout', [LoginController::class, 'controle_logout'])->nam
         Route::get('/services/findOne/{uuid}', [ServicesController::class, 'findOneEntite'])->name('customer.entities.findOne');
         Route::get('/services/taxe/entetes/{uuid}', [ServicesController::class, 'entete'])->name('customer.entities.taxe.entete');
     
+
+        
     });
 
     Route::prefix('landing')->group(function(){
@@ -233,6 +246,9 @@ Route::post('controle/logout', [LoginController::class, 'controle_logout'])->nam
 
             Route::prefix('facturation')->group(function(){
                 Route::post('store', [CustomerFacturationsController::class, 'Paystore'])->name('customer.entities.taxe.facturation.store');
+                Route::get('verification-paiement/{ref}', [CustomerFacturationsController::class, 'verificationPaiement'])->name('customer.entities.taxe.facturation.verification.paiement');
+                Route::get('verification-validite/{uuid}', [CustomerFacturationsController::class, 'verify_validity'])->name('customer.entities.taxe.verify.validity');
+
                 Route::get('/taxe/info_paiement/{uuid}', [CustomerFacturationsController::class, 'info_paiement'])->name('customer.entities.taxe.info_paiement');
                 Route::get('/taxe/data/info_paiement/{uuid}', [CustomerFacturationsController::class, 'paiement_data'])->name('customer.entities.taxe.data.info_paiement');
                 Route::get('/taxe/generateFile/{uuid}', [CustomerFacturationsController::class, 'generateFile'])->name('customer.entities.taxe.generate.file');

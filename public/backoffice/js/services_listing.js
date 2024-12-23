@@ -85,7 +85,7 @@ $(document).ready(function() {
                           let actions = '';
 
                           if (permissions.show) {
-                              actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                              actions += `<a href="/panel/services/taxes/detail/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                           }
 
                           return actions;

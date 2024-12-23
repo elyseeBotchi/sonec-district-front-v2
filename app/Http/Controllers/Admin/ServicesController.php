@@ -33,6 +33,17 @@ class ServicesController extends Controller
         return response()->json($responses);  
     }
 
+
+    public function show($uuid,$entity_uuid)
+    {
+      //  return dd($entity_uuid);
+        return view('admins.services.show', [
+                'entity_uuid'=>$entity_uuid ?? '',
+                'element_uuid' =>$uuid ?? '',
+            ]);
+      
+    }
+
     public function search(Request $request){
 
         $url_path = "/autorisations/entite/taxes/search/findAll";
@@ -89,7 +100,7 @@ class ServicesController extends Controller
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-       dd($responses);
+      // dd($responses);
         return response()->json($responses);
     }
 
@@ -98,7 +109,7 @@ class ServicesController extends Controller
 
 
     public function find_service($uuid,$entity_uuid){
-        $url_path = "/autorisations/services/taxe/show";
+        $url_path = "/autorisations/services/admin/show/customer/taxe";
 
         $data = [
             'uuid' => $uuid,
@@ -106,6 +117,7 @@ class ServicesController extends Controller
         ];
         
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       // dd($responses);
         return response()->json($responses);
     }
 

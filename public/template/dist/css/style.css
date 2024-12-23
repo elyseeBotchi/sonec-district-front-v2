@@ -74,6 +74,12 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
+
+  table td, table th {
+      font-size: 12px;
+      line-height: 1.2;
+  }
+
 body {
   margin: 0;
   font-family: "Rubik", sans-serif;

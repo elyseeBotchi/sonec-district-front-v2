@@ -27,11 +27,11 @@ class GlobalSendService
             $response = ApiRequest::send($url_path, $data, $method);
             //Log::info($method);
             //Log::info($response);
-        //  dd($response);
+            return $response->json();
+           
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return $response->json();
+        //return $response->json();
     }
 }
