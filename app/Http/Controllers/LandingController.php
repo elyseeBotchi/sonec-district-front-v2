@@ -11,6 +11,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Log;
 
 class LandingController extends Controller
 {
@@ -114,6 +115,7 @@ class LandingController extends Controller
         }
     }
     
+
     
     public function findOneConfig($uuid){
 
@@ -177,13 +179,35 @@ class LandingController extends Controller
        // return response()->json($data);
 
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-       // return response()->json($response);
 
-        if(isset($response['type'])){
+       if(isset($response['type'])){
             if($response['type'] =='success'){
+                if($request->paymode =="mtn_ci"){
+                    $dataResponse =[
+                        'type'=>'standby',
+                        'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                        'message'=>$response['message'] ?? '',
+                        'reference' => $response['reference'] ?? '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+                }
+                else{
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                        'message'=>$response['message'] ?? '',
+                        'reference' => $response['reference'] ?? '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+                }
+            }
+            
+            elseif($response['type'] =='warning'){
                 $dataResponse =[
                     'type'=>'success',
-                    'urlback'=> route('landing.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                    'urlback'=>isset($responses['data']['paiement']['uuid']) ? route('landing.entities.taxe.data.info_paiement',['uuid' => $responses['data']['paiement']['uuid']]) : '',
                     'message'=>$response['message'] ?? '',
                     'code'=>200,
                 ];
@@ -203,6 +227,55 @@ class LandingController extends Controller
                 'type'=>'error',
                 'urlback'=>'',
                 'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+    }
+
+        
+    public function verificationPaiement($ref){
+        $url_path = "/landing/services/taxe/verification/paiement";
+
+        $data = [
+            'reference' => $ref
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        Log::info("verification");
+        //Log::info(json_encode($responses));
+
+        //return response()->json($responses);
+          if(isset($responses['type'])){
+            if($responses['type'] =='success'){
+                    
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=> isset($responses['data']['paiement']['uuid']) ? route('customer.entities.taxe.info_paiement',['uuid' => $responses['data']['paiement']['uuid']]) : '',
+                        'message'=>$responses['message'] ?? '',
+                        'reference' => $ref ?? '',
+                        'paymentStatus' =>  isset($responses['data']['paiement']['state']) ? $responses['data']['paiement']['state'] : '',
+                        'code'=>200,
+                    ];
+                    return response()->json($dataResponse);
+
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'paymentStatus' => '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'paymentStatus' => '',
                 'code'=>500,
             ];
             return response()->json($dataResponse);

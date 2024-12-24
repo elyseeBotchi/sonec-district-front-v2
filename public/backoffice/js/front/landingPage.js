@@ -244,6 +244,11 @@ $(document).ready(function() {
                 if (data.type === "success") {
                     sendSuccess(data.message, data.urlback);
                 }
+                  
+                else if (data.type === "standby") {
+                    QuicksendStandby(data.message,data.reference);
+                }
+
                 else if (data.type === "error_validator") {
                     handleErrors(data.errors);
                     var message = ""
@@ -325,6 +330,128 @@ $(document).ready(function() {
                 break;
         }
     }
+
+        
+    let paymentCheckInterval;
+    let paymentCheckTimeout;
+
+    function QuickloaderMessage(state = "show", reference = null, message = "Veuillez tapez la syntaxe *133# sur votre téléphone puis choisissez l'option retrait pour approuver le paiement") {
+        switch (state) {
+            case "show":
+                JsLoadingOverlay.show({
+                    'overlayBackgroundColor': '#666666',
+                    'overlayOpacity': 0.4,
+                    'spinnerIcon': 'ball-spin',
+                    'spinnerColor': '#1fbd03',
+                    'spinnerSize': '1x',
+                    'overlayIDName': 'overlay',
+                    'spinnerIDName': 'spinner',
+                    'spinnerZIndex': 99999,
+                    'overlayZIndex': 99998,
+                    'lockScroll': true,
+                });
+    
+                    // Ajouter le message après l'affichage du loader
+                    const messageDiv = document.createElement('div');
+                    messageDiv.id = 'loader-message';
+                    messageDiv.style.position = 'fixed';
+                    messageDiv.style.top = '50%';
+                    messageDiv.style.left = '50%';
+                    messageDiv.style.transform = 'translate(-50%, 50px)';
+                    messageDiv.style.zIndex = 100000; // Assurez-vous que le message est au-dessus du loader
+                    messageDiv.style.color = '#070d14';
+                    messageDiv.style.fontSize = '15px';
+                    messageDiv.style.textAlign = 'center'; // Facultatif : aligne le texte au centre si le message contient plusieurs lignes
+                    messageDiv.innerText = message;
+                    
+                    document.body.appendChild(messageDiv);
+
+
+                console.log(reference);
+    
+                // Vérifier le statut du paiement toutes les 30 secondes
+                paymentCheckInterval = setInterval(() => checkPaymentStatus(reference), 20000);
+    
+                // Arrêter la vérification après 5 minutes
+                paymentCheckTimeout = setTimeout(() => {
+                    clearInterval(paymentCheckInterval);
+                    QuickloaderMessage("hide");
+                    toastr.error("Temps écoulé. Veuillez réessayer.", 'Alerte');
+                    location.reload();
+                }, 300000);
+                break;
+    
+            default:
+                JsLoadingOverlay.hide();
+    
+                // Retirer le message lors de la fermeture du loader
+                const existingMessageDiv = document.getElementById('loader-message');
+                if (existingMessageDiv) {
+                    existingMessageDiv.remove();
+                }
+    
+                // Arrêter la vérification du paiement
+                if (paymentCheckInterval) clearInterval(paymentCheckInterval);
+                if (paymentCheckTimeout) clearTimeout(paymentCheckTimeout);
+                break;
+        }
+    }
+    
+
+    async function checkPaymentStatus(reference) {
+        console.log('Vérification du statut du paiement...');
+        try {
+            const response = await fetch(`/landing/services/facturation/verification-paiement/${reference}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erreur réseau lors de la vérification du statut du paiement.');
+            }
+    
+            const result = await response.json();
+            console.log(result)
+            const paymentStatus = result.paymentStatus;
+    
+            if (paymentStatus === 'success') {
+                console.log('Paiement approuvé.');
+                QuickloaderMessage("hide");
+                sendSuccess('Le paiement a été approuvé !', result.urlback);
+            } else if (paymentStatus === 'fail') {
+                console.log('Paiement échoué.');
+                QuickloaderMessage("hide");
+                toastr.error('Le paiement a échoué !', 'Erreur');
+            } else {
+                toastr.warning('Paiement en attente.', 'Alerte');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la vérification du statut du paiement:', error);
+            toastr.error('Impossible de vérifier le statut du paiement. Veuillez réessayer.', 'Erreur réseau');
+        }
+    }
+    
+    function QuicksendStandby(message, reference) {
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 120000,
+            extendedTimeOut: 0,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            newestOnTop: true,
+            hideDuration: 0,
+            showDuration: 300,
+        };
+    
+        if (message) {
+            toastr.info(message, 'Information');
+        }
+        QuickloaderMessage('show', reference);
+    }
+    
 
     function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
         if (urlback !== '') {
