@@ -189,8 +189,11 @@ class ControlesController extends Controller
             'type' => $type ?? ''
         ];
 
+        Log::info(json_encode($data));
+
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
         //return dd($data);
+        Log::info(json_encode($dataResponse));
         return response()->json($dataResponse);
 
         /*         
