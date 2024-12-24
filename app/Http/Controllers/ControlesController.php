@@ -112,7 +112,8 @@ class ControlesController extends Controller
         $url_path = "/autorisations/agents/verify";
 
         /* ####################### */
-        preg_match('/ref\s*:\s*(\d+)/', $decodedText, $matches);
+       // preg_match('/ref\s*:\s*(\d+)/', $decodedText, $matches);
+       preg_match('/ref\s*:\s*([A-Za-z0-9\-]+)/', $decodedText, $matches);
 
         // Vérification si la référence a été trouvée
         Log::info($decodedText);
