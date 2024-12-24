@@ -251,7 +251,7 @@ class LandingController extends Controller
                     
                     $dataResponse =[
                         'type'=>'success',
-                        'urlback'=> isset($responses['data']['paiement']['uuid']) ? route('customer.entities.taxe.info_paiement',['uuid' => $responses['data']['paiement']['uuid']]) : '',
+                        'urlback'=> isset($responses['data']['paiement']['uuid']) ? route('landing.entities.taxe.info_paiement',['uuid' => $responses['data']['paiement']['uuid']]) : '',
                         'message'=>$responses['message'] ?? '',
                         'reference' => $ref ?? '',
                         'paymentStatus' =>  isset($responses['data']['paiement']['state']) ? $responses['data']['paiement']['state'] : '',

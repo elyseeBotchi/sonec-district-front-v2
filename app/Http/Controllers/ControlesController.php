@@ -115,6 +115,8 @@ class ControlesController extends Controller
         preg_match('/ref\s*:\s*(\d+)/', $decodedText, $matches);
 
         // Vérification si la référence a été trouvée
+        Log::info($decodedText);
+        Log::info($matches[1] ?? 'non retrouvé');
         if (isset($matches[1])) {
             $reference = $matches[1];
         } else {
