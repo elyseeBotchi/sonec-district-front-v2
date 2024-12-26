@@ -5,7 +5,7 @@
 
     RewriteEngine On
     # Suit les liens symboliques et empêche l'exécution de scripts CGI
-    Options +FollowSymLinks -ExecCGI
+    #Options +FollowSymLinks -ExecCGI
     # Gère l'en-tête d'autorisation (utile pour les API)
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -39,7 +39,6 @@
     # Force l'utilisation de HTTPS
     #Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     # Contrôle les domaines autorisés à accéder aux ressources (CORS)
-    #Header set Access-Control-Allow-Origin "https://gedec.com"
 
  # Limite les méthodes HTTP autorisées
     <LimitExcept GET POST PATCH HEAD>
@@ -52,9 +51,9 @@
     #ServerTokens Prod
 
     # Protection basique contre les attaques DDoS
-    <IfModule mod_reqtimeout.c>
-       RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
-    </IfModule>
+    #<IfModule mod_reqtimeout.c>
+    #   RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
+    #</IfModule>
 
 
     # Handle Authorization Header

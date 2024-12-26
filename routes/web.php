@@ -38,8 +38,8 @@ Route::get('/paiement/erreur/{uuid}', [LandingController::class, 'success_return
 Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 //Route::get('/index2', [LandingController::class, 'index2'])->name('welcome.index2');
 
-Route::post('panel/logout', [LoginController::class, 'logout'])->name('panel.logout');
-Route::post('controle/logout', [LoginController::class, 'controle_logout'])->name('controle.logout');
+    Route::post('panel/logout', [LoginController::class, 'logout'])->name('panel.logout');
+    Route::post('controle/logout', [LoginController::class, 'controle_logout'])->name('controle.logout');
     Route::get('panel/login', [LoginController::class, 'login'])->name('panel.login');
     Route::post('panel/connexion', [LoginController::class, 'Connexion'])->name('panel.connexion');
 
