@@ -180,6 +180,16 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         });
 
 
+
+                
+        Route::prefix('statistique')->group(function(){
+            Route::get('show/{uuid}', [AdminServicesController::class, 'stat_dashboard'])->name('panel.autorisations.statistique.show.data');
+            Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_data'])->name('panel.autorisations.statistique.data');
+            Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_find_data'])->name('panel.autorisations.statistique.find.data');
+    
+        });
+
+
         Route::prefix('customer')->group(function () {
             Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
   

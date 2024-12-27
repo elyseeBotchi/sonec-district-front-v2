@@ -45,6 +45,22 @@
                     @endforelse
                 @endif
 
+                
+                <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li>
+               
+                @if($entitesNav != "")
+                    @forelse($entitesNav as $val)
+                        <li class="sidebar-item">
+                            <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                <span class="hide-menu">
+                                {{  $val['name'] ?? '' }}
+                                </span>
+                            </a>
+                        </li>
+                    @empty
+                    @endforelse
+                @endif
                     {{--
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="#" aria-expanded="false">

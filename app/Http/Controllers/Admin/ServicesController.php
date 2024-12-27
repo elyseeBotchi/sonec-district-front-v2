@@ -121,5 +121,48 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+/* STATISTIQUE DATA */
 
+    public function stat_dashboard($uuid)
+    {
+       // return dd($entity_uuid);
+        return view('admins.services.statistique', [
+                'Entity_uuid'=>$uuid ?? '',
+        ]);
+      
+    }
+
+    
+    public function stat_data($entity)
+    {
+
+        $url_path = "/autorisations/statistiques/findAll";
+
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'entity_uuid' => $entity ?? ''
+
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+       // dd($dataResponse);
+        return response()->json($dataResponse);
+    }
+
+    public function stat_find_data($status,$paymode,$entity){
+        $url_path = "/autorisations/statistiques/find_data";
+        $list = array("MTN"=>'mtn_ci',"ORANGE" => 'orange_ci',"WAVE" => 'wave_ci',"MOOV" => 'moov_ci',"TRESOR" => 'tresor_ci',"ALL" => 'all');
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'status' => $status ?? 'today',
+            'paymode' => $list[$paymode] ?? "all",
+            'entity_uuid' => $entity ?? ''
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+       // dd($dataResponse);
+        return response()->json($dataResponse);
+    }
 }
