@@ -259,8 +259,76 @@ if(!function_exists('apiBaseUrlFolder')) {
 
 
 if(!function_exists('enlettre')) {
-    function enlettre() {
-        return "";
+    function enlettre($nombre) {
+        $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
+        $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
+        $specials = [11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize"];
+
+        if ($nombre == 0) {
+            return "";
+        }
+
+        if ($nombre < 0) {
+            return "moins " . enlettre(-$nombre);
+        }
+
+        $texte = "";
+
+        if ($nombre >= 1000000) {
+            $millions = intval($nombre / 1000000);
+            $reste = $nombre % 1000000;
+            if ($millions > 1) {
+                $texte .= enlettre($millions) . " millions ";
+            } else {
+                $texte .= "un million ";
+            }
+            $texte .= enlettre($reste);
+            return trim($texte);
+        }
+
+        if ($nombre >= 1000) {
+            $milliers = intval($nombre / 1000);
+            $reste = $nombre % 1000;
+            if ($milliers > 1) {
+                $texte .= enlettre($milliers) . " mille ";
+            } else {
+                $texte .= "mille ";
+            }
+            $texte .= enlettre($reste);
+            return trim($texte);
+        }
+
+        if ($nombre >= 100) {
+            $centaines = intval($nombre / 100);
+            $reste = $nombre % 100;
+            if ($centaines > 1) {
+                $texte .= $unites[$centaines] . " cent";
+            } else {
+                $texte .= "cent";
+            }
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            }
+            return trim($texte);
+        }
+
+        if ($nombre >= 20) {
+            $dix = intval($nombre / 10);
+            $reste = $nombre % 10;
+            $texte .= $dizaines[$dix];
+            if ($dix == 7 || $dix == 9) {
+                $texte .= "-" . enlettre(10 + $reste);
+            } elseif ($reste > 0) {
+                $texte .= "-" . $unites[$reste];
+            }
+            return trim($texte);
+        }
+
+        if ($nombre >= 11) {
+            return $specials[$nombre];
+        }
+
+        return $unites[$nombre];
     }
 }
 

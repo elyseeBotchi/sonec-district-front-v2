@@ -110,14 +110,9 @@
                 <td> Abidjan le </td>
                 <td>{{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }}</td>
                 <td>QUITTANCE</td>
-                <td> N°</td>
+                <td> N° {{ $user['reference'] ?? '' }}</td>
             </tr>
-            <tr>
-                <td>Réference</td>
-                <td>{{ $user['reference'] ?? '' }}</td>
-                <td></td>
-                <td></td>
-            </tr>
+           
         </table>
 
         <br>
@@ -147,7 +142,7 @@
                         1
                     </td>
                     <td style="border:1px solid black;">
-                        
+                        {{ $user['amount'] ?? '' }} 
                     </td>  
                     <td style="border:1px solid black;">
                         {{ $user['amount'] ?? '' }}
@@ -169,7 +164,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        Arrêté la présente quittance a la somme de : (en lettre) {{ enlettre($user['amount'] ?? '') }}
+                        Arrêté la présente quittance a la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
                     </td>
                 </tr>
             </tbody>
@@ -223,7 +218,7 @@
                         Date de paiement
                     </td>
                     <td>
-                        : <strong> {{ date_create($user['created_at'])->format('d-m-Y H:i:s') ?? '' }} </strong>
+                        : <strong> {{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }} </strong>
                     </td>
                 </tr>
             </tbody>
