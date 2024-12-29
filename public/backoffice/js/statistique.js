@@ -1,7 +1,7 @@
 
 
 $(document).ready(function() {
-    findStatus('today','all');
+   // findStatus('today','all');
     findStatistique();
 
 
