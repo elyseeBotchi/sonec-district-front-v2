@@ -256,7 +256,7 @@
 <div class="card-container">
     <!-- Filigrane -->
     <div class="watermark">
-        {{ env('APP_NAME').' '.date('Y') ?? 'T-CONNECT '.date('Y') }}
+        {{ env('APP_NAME').' '.date('Y') ?? 'TAXE DE DISTRICT '.date('Y') }}
     </div>
     
     <!-- Header with logos at the extreme left and right -->

@@ -22,7 +22,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-3">Informations du Bien</h4>
+                        <h4 class="card-title mb-3">Informations sur le véhicule</h4>
     
                         <div class="row">
                             <table class="table">
@@ -35,7 +35,16 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
+                    <div class="card-footer" id="validation-info" style="display: none">
+                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous etes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
+                            Valider
+                        </button>
+
+                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous etes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
+                            Rejeter
+                        </button>
+                    </div>  
                 </div> 
             </div> 
 
@@ -81,6 +90,9 @@
                             </table>
                         </div>
                     </div> 
+
+         
+
                 </div> 
             </div> 
         </div>

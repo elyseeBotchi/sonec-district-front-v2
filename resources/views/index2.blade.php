@@ -1,5 +1,23 @@
 @extends('layout.LandingPage')
 @section('content')
+<style>
+    /* Style pour adapter le texte */
+    .responsive-title {
+        font-size: 3rem; /* Taille par défaut */
+    }
+    
+    @media (max-width: 768px) {
+        .responsive-title {
+            font-size: 1.5rem; /* Taille pour les tablettes */
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .responsive-title {
+            font-size: 0.7rem; /* Taille pour les mobiles */
+        }
+    }
+    </style>
 @php
     $services = Entities_Customer();
 @endphp
@@ -35,40 +53,60 @@
                 <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
             </div>
         </nav>
-
         <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             @isset($services)
                 @forelse ($services as $key => $service)
                     <div class="carousel-inner">
-                        <div class="carousel-item @if($key ==0) active @endif ">
+                        <div class="carousel-item @if($key == 0) active @endif">
                             <img class="w-100" src="{{ asset('template/start/img/carousel-'.$key.'.png') }}" alt="Image">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 900px;">
+                                    <!-- Texte avec classes et styles responsives -->
+                                    <h1 class="text-white fw-bold text-center d-none d-md-block">
+                                        DISTRICT AUTONOME D'ABIDJAN
+                                    </h1>
+                                    <center>
+                                        <img 
+                                            src="{{ asset('template/assets/images/logo.png') }}" 
+                                            height="150px" 
+                                            alt="Logo" 
+                                            class="d-none d-md-block"
+                                        >
+                                    </center>
                                     <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
                                     <h1 class="display-1 text-white mb-md-4 animated zoomIn">{{ $service['name'] ?? '' }}</h1>
-                                    <a href="{{ route('quick.payment',['service' => $service['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">
-                                        PAYER MAINTENANT
-                                    </a>
-                                    <a href="{{ route('register',['service' => $service['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">
-                                        INSCRIVEZ-VOUS
-                                    </a>
+                                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                                        <a href="{{ route('quick.payment', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+                                           class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                                            PAYER MAINTENANT
+                                        </a>
+                                        <a href="{{ route('register', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+                                           class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                            INSCRIVEZ-VOUS
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 @empty
                 @endforelse
-            @endisset 
-            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+            @endisset
+            <button class="carousel-control-prev" style="display: none" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+            <button class="carousel-control-next hidden" style="display: none" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        
+
+        
+        
+        
+        
     </div>
     <!-- Navbar & Carousel End -->
 

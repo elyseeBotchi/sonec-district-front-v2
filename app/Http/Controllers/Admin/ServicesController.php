@@ -62,6 +62,9 @@ class ServicesController extends Controller
         return response()->json($responses);  
     }
 
+
+
+
     public function statistique($uuid)
     {
         $url_path = "/autorisations/entite/taxes/statistique";
@@ -121,6 +124,24 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+    
+    public function validation($uuid,$entity_uuid,$status){
+
+        $url_path = "/autorisations/services/admin/show/customer/taxe/validate/info";
+
+        $data = [
+            'entity_uuid' => $entity_uuid ?? '',
+            'uuid' => $uuid ?? '',
+            'status' => $status ?? ''
+        ];
+
+       // return dd($data);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       // return dd($responses);
+
+        return response()->json($responses);
+    }
+
 /* STATISTIQUE DATA */
 
     public function stat_dashboard($uuid)
@@ -131,6 +152,7 @@ class ServicesController extends Controller
         ]);
       
     }
+
 
     
     public function stat_data($entity)

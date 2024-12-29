@@ -31,7 +31,7 @@
                         <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
 
                         <div class="modal-header">
-                            <h5 class="mb-0 text-uppercase">Ajouter un bien  </h5>{{--  à <span class="services"></span> --}}
+                            <h5 class="mb-0 text-uppercase">Ajouter un véhicule  </h5>{{--  à <span class="services"></span> --}}
                             <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
                                 <i class="ti ti-x f-20"></i>
                             </a>
@@ -82,6 +82,7 @@
 
             {{-- <a href="#" data-toggle="modal" data-target="#payElement-modal" id="payElement-modal"> test </a> --}}
 
+            @isset($lock)@endisset  
             <div class="modal fade" id="payElement-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <form class="modal-content sendPayForm" action="{{ route('customer.entities.taxe.facturation.store') }}" method="POST">
@@ -96,15 +97,38 @@
                             </a>
                         </div>
                         <div class="modal-body">
-                            <div class="row">                    
+                            <div class="row">  
+
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="form-label">Rubrique de facturation <code>*</code></label>
+                                        <div class="alert alert-info" role="alert">
+                                            <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
+                                            <strong class="text-uppercase">Informations importantes :</strong>
+                                            <ul>
+                                                <li>Les tarifs sont valables pour la période du 01/01/{{ date('Y') }} au 31/12/{{ date('Y') }}.</li>
+                                                <li>Les tarifs sont soumis à des modifications sans préavis.</li>
+                                                <li>Les informations fournies sont sujettes à vérification.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <br>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Type de véhicule<code>*</code></label>
                                         <select name="rubrique_facturation_uuid" class="form-control" id="rubrique">
                                             <!-- Les options seront insérées ici par la fonction JavaScript -->
                                         </select>
                                     </div>
+                                </div>                                
+                                
+                                <div class="col-12">
+                                    <label class="form-label">Montant à payer</label>
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 55px;">
                                 </div>
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">Téléphone de paiement <code>*</code></label>
@@ -133,13 +157,14 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary btn-shadow">Valider</button>
+                            <button type="submit" class="btn btn-primary btn-shadow" id="submitBtn">Valider</button>
                         </div>
                     </form>
                 </div>
             </div>
             
-
+            
+            
 
             <div class="pt-5 table-responsive">
                 <table class="table table-sm table-striped table-bordered" id="datatable-custom">

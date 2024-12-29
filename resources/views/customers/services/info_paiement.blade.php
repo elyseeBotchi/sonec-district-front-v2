@@ -18,7 +18,7 @@
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-3">Informations du Bien</h4>
+                    <h4 class="card-title mb-3">Informations sur le véhicule</h4>
 
                     <div class="row">
                         <table class="table">
@@ -84,8 +84,9 @@
                         </table>
         
                         <a href="{{ route('landing.entities.taxe.data.generate.file',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-success">Télécharger le réçu </a> &nbsp; &nbsp;
+                        @isset($lock)
                         <a href="{{ route('landing.entities.taxe.data.generate.carte',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-success">Télécharger la carte de stationnement </a>
-                    
+                        @endisset
                     </div> <!-- end row-->
 
                 </div> <!-- end card-body-->

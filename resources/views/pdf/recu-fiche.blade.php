@@ -78,14 +78,14 @@
 
 <body>
 <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); opacity: 0.1; font-size: 80px; color: #e8a7a7; z-index: -1500; white-space: nowrap;">
-    {{ $watermark ?? 'T-CONNECT '.date('Y') }}
+    {{ $watermark ?? 'TAXE DE DISTRICT '.date('Y') }}
 </div>
 @isset($open)
     <div class="col-md-11">
         <table style="width: 100%;border: inherit">
            <tr>
                <td>
-                <img src="{{ public_path('backoffice/armoirie.jpg') }}" width="100px">
+                <img src="{{ public_path('template/assets/images/logo.png') }}" width="100px">
             </td>
                <td>
                
@@ -104,71 +104,111 @@
         <br>
 
 
-        <table class="" style="width: 100%;border: inherit">
+
+
+        <table class="" style="width: 100%;border: inherit;border:none;">
            
             <tr>
-                <td> Abidjan le </td>
-                <td>{{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }}</td>
-                <td>QUITTANCE</td>
-                <td> N° {{ $user['reference'] ?? '' }}</td>
+                <td style="font-size: xx-small;" >
+                    Abidjan le {{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }}
+                </td>
+                <td style="font-size: xx-small"></td>
+            </tr> 
+            <tr>
+                <td style="font-size: xx-small"  >
+                    QUITTANCE N° : {{ $user['reference'] ?? '' }}
+                </td>
+                <td style="font-size: xx-small"></td>
             </tr>
            
         </table>
 
+
+
         <br>
-        <table class="bg-white" style="width: 100%;font-size: xx-small">
+
+        @isset($entete)
+            <table class="bg-white" style="width: 100%;font-size: xx-small;border: inherit">
+                <thead>
+                    <tr>
+                        <th  class="cell-padding" colspan="2" style="background-color: silver">
+                            INFORMATIONS RELATIVES AU VEHICULE
+                        </th>
+                    </tr>
+                <tbody>
+                    @foreach ($entete as $value)
+                        @isset($value['slug'])
+                        <tr>
+                                <td class="cell-padding">
+                                    {{ $value['name'] ?? '' }}
+                                </td>
+                                <td style="text-align: right;">
+                                    @isset($pay_element[$value['slug']]) 
+                                        {{ $pay_element[$value['slug']]  ?? '' }}
+                                     @endisset 
+                                </td>
+                            </tr>
+                        @endisset
+                    @endforeach
+                </tbody>
+            </table>
+        <br>
+        @endisset 
+        <table class="bg-white" style="width: 100%; font-size: xx-small; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th style="border:1px solid black;">
+                    <th style="border: 1px solid black;">
                         NATURE DES TAXES
                     </th>
-                    <th style="border:1px solid black;">
+                    <th style="border: 1px solid black;">
                         QUANTITE
                     </th>
-                    <th style="border:1px solid black;">
+                    <th style="border: 1px solid black;">
                         TAUX OU TARIF
                     </th>  
-                    <th style="border:1px solid black;">
+                    <th style="border: 1px solid black;">
                         MONTANT
                     </th>             
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="border:1px solid black;">
-                       {{ $service ?? '' }}
+                    <td style="border: 1px solid black;">
+                        {{ $service ?? '' }}
                     </td>
-                    <td style="border:1px solid black;">
+                    <td style="border: 1px solid black; text-align: center;">
                         1
                     </td>
-                    <td style="border:1px solid black;">
+                    <td style="border: 1px solid black; text-align: right;">
                         {{ $user['amount'] ?? '' }} 
                     </td>  
-                    <td style="border:1px solid black;">
+                    <td style="border: 1px solid black; text-align: right;">
                         {{ $user['amount'] ?? '' }}
                     </td>             
                 </tr>
                 <tr>
-                    <td style="border:1px solid black;">
-                       MONTANT TOTAL
+                    <td style="border: 1px solid black;">
+                        MONTANT TOTAL
                     </td>
-                    <td style="border:1px solid black;">
+                    <td style="border: 1px solid black; text-align: center;">
                         1
                     </td>
-                    <td style="border:1px solid black;">
-                        
+                    <td style="border: 1px solid black;">
+                        <!-- Empty cell -->
                     </td>  
-                    <td style="border:1px solid black;">
+                    <td style="border: 1px solid black; text-align: right;">
                         {{ $user['amount'] ?? '' }} F CFA
                     </td>             
                 </tr>
                 <tr>
                     <td colspan="4">
-                        Arrêté la présente quittance a la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
+                        Arrêté la présente quittance à la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
                     </td>
                 </tr>
             </tbody>
         </table>
+        
+        
       
         <br>
         {{-- A REVOIR POUR LE SCRIPT D'ASSIGNATION --}}
@@ -188,10 +228,19 @@
                     <td>
                         : <strong> {{ $user['reference'] ?? '' }} </strong>
                     </td>
-                    <td rowspan="5">
+                    <td rowspan="6">
                         <center style="position:relative;top:-25px;">
                             <img src="{{ public_path($svgFilePath) }}" alt="" width="65px" class="qrcode">
                         </center>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="cell-padding"  style="width: 250px !important">
+                        Numero de paiement
+                    </td>
+                    <td>
+                        : <strong> {{ $user['telephone'] ?? '' }} </strong>
                     </td>
                 </tr>
 
@@ -224,8 +273,8 @@
             </tbody>
         </table>
 
-        <br>
-      
+        <br> <br> <br>
+      <code style="text-align: justify"> <strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de quittance de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de ce reçu et des pièces afférentes au véhicule. </code>
     </div>
 
 @endisset

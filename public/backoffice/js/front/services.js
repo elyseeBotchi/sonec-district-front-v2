@@ -18,7 +18,7 @@ $(document).ready(function() {
                 const entete = data.entete;
                 const results = data.data;
                 const entity = data.entity;
-                console.log(data)
+               // console.log(data)
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
@@ -544,7 +544,7 @@ $(document).ready(function() {
                     document.body.appendChild(messageDiv);
 
 
-                console.log(reference);
+               // console.log(reference);
     
                 // Vérifier le statut du paiement toutes les 30 secondes
                 paymentCheckInterval = setInterval(() => checkPaymentStatus(reference), 20000);
@@ -576,7 +576,7 @@ $(document).ready(function() {
     
 
     async function checkPaymentStatus(reference) {
-        console.log('Vérification du statut du paiement...');
+      //  console.log('Vérification du statut du paiement...');
         try {
             const response = await fetch(`/customer/services/facturation/verification-paiement/${reference}`, {
                 method: 'GET',
@@ -590,15 +590,15 @@ $(document).ready(function() {
             }
     
             const result = await response.json();
-            console.log(result)
+           // console.log(result)
             const paymentStatus = result.paymentStatus;
     
             if (paymentStatus === 'success') {
-                console.log('Paiement approuvé.');
+               // console.log('Paiement approuvé.');
                 loaderMessage("hide");
                 sendSuccess('Le paiement a été approuvé !', result.urlback);
             } else if (paymentStatus === 'fail') {
-                console.log('Paiement échoué.');
+                //console.log('Paiement échoué.');
                 loaderMessage("hide");
                 toastr.error('Le paiement a échoué !', 'Erreur');
             } else {
@@ -667,78 +667,97 @@ $(document).ready(function() {
             .then(data => {
                 const results = data.data;
                 const rubriqueSelect = document.getElementById('rubrique');
-                rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+                rubriqueSelect.innerHTML = ''; // Réinitialiser le contenu
+    
+                 // Ajouter l'option vide "Type de véhicule"
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Type de véhicule';
+                rubriqueSelect.appendChild(defaultOption);
 
-                // Vérification que les rubriques existent
                 if (results.rubrique && results.rubrique.length > 0) {
                     results.rubrique.forEach(rubrique => {
                         if (rubrique.rubrique_option.length > 0) {
-                            // Créer un groupe d'options pour chaque rubrique ayant des options
-                            let optgroup = document.createElement('optgroup');
+                            // Ajouter un groupe d'options pour chaque rubrique avec des options
+                            const optgroup = document.createElement('optgroup');
                             optgroup.label = rubrique.name;
-
-                            // Ajouter les options sous chaque rubrique
+    
                             rubrique.rubrique_option.forEach(option => {
-                                // Vérifier s'il y a des facturations pour l'option
                                 if (option.facturation && option.facturation.length > 0) {
                                     option.facturation.forEach(facturation => {
-                                        let optionElement = document.createElement('option');
-                                        optionElement.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                        optionElement.textContent = `${option.option_name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
-
-                                        // Ajouter l'option pour chaque facturation
+                                        const optionElement = createOptionElement(
+                                            facturation.uuid,
+                                            `${option.option_name}`,
+                                            facturation.amount
+                                        );
                                         optgroup.appendChild(optionElement);
                                     });
                                 } else {
-                                    // Si pas de facturation, désactiver l'option
-                                    let optionElement = document.createElement('option');
-                                    optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
-                                    optionElement.disabled = true;
-
-                                    // Ajouter l'option désactivée
+                                    // Option désactivée si aucune facturation
+                                    const optionElement = createOptionElement(
+                                        '',
+                                        `${option.option_name} (Pas de facturation disponible)`,
+                                        '',
+                                        true
+                                    );
                                     optgroup.appendChild(optionElement);
                                 }
                             });
-
-                            // Ajouter l'optgroup au select
+    
                             rubriqueSelect.appendChild(optgroup);
                         } else {
-                            // Si la rubrique n'a pas d'options, ajouter la rubrique elle-même comme une option sélectionnable
-                            let optionElement = document.createElement('option');
-                            optionElement.value = rubrique.uuid;
-
-                            // Vérification de la facturation pour la rubrique
+                            // Ajouter la rubrique directement si aucune option
                             if (rubrique.facturation && rubrique.facturation.length > 0) {
                                 rubrique.facturation.forEach(facturation => {
-                                    let facturationOption = document.createElement('option');
-                                    facturationOption.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                    facturationOption.textContent = `${rubrique.name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
-
-                                    // Ajouter l'option pour chaque facturation
-                                    rubriqueSelect.appendChild(facturationOption);
+                                    const optionElement = createOptionElement(
+                                        facturation.uuid,
+                                        rubrique.name,
+                                        facturation.amount
+                                    );
+                                    rubriqueSelect.appendChild(optionElement);
                                 });
                             } else {
-                                // Désactiver la rubrique si pas de montant
-                                optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
-                                optionElement.disabled = true;
-
-                                // Ajouter directement la rubrique désactivée
+                                const optionElement = createOptionElement(
+                                    '',
+                                    `${rubrique.name} (Pas de facturation disponible)`,
+                                    '',
+                                    true
+                                );
                                 rubriqueSelect.appendChild(optionElement);
                             }
                         }
                     });
                 } else {
-                    // Si aucune rubrique n'est trouvée, afficher un message par défaut
-                    let defaultOption = document.createElement('option');
-                    defaultOption.textContent = 'Aucune rubrique disponible';
-                    defaultOption.disabled = true;
+                    // Aucun résultat trouvé
+                    const defaultOption = createOptionElement('', 'Aucune rubrique disponible', '', true);
                     rubriqueSelect.appendChild(defaultOption);
                 }
+    
+                // Afficher le bouton de soumission
+                document.getElementById('submitBtn').style.display = 'block';
+    
+                // Gestion du changement pour mettre à jour le montant
+                rubriqueSelect.addEventListener('change', () => {
+                    const selectedOption = rubriqueSelect.options[rubriqueSelect.selectedIndex];
+                    const selectedAmount = selectedOption?.getAttribute('data-amount') || '';
+                   
+                    document.getElementById('montant_pay').value = selectedAmount;
+                });
             })
             .catch(error => {
                 console.error('Erreur:', error);
             });
     }
+    
+    function createOptionElement(value, text, amount = '', disabled = false) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = text;
+        if (amount) option.setAttribute('data-amount', amount);
+        if (disabled) option.disabled = true;
+        return option;
+    }
+    
+
 
     function translatePeriodicity(periodicity) {
         switch (periodicity) {

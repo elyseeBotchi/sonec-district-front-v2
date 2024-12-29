@@ -64,6 +64,8 @@
                     <p class="mb-4">
                         Gagnez du temps avec notre plateforme de paiement rapide et sécurisé. Que ce soit pour les taxes de stationnement, d'abattoir ou autres, réglez vos obligations en quelques clics seulement, sans tracas ni files d'attente. Facile, rapide et efficace — simplifiez vos démarches dès aujourd'hui !                    
                     </p>
+
+                 
                     {{-- 
                     <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
                         <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
@@ -79,11 +81,39 @@
                             <h5 class="mb-4"><i class="fa fa-phone-alt text-primary me-3"></i>24 hrs telephone support</h5>
                         </div>
                     </div> --}}
+
+                    <h3 class="text-center mb-4">Droits de Stationnement - Parkings</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-justify align-middle">
+                                <thead class="table-primary">
+                                    <tr>
+                                        {{-- <th class="text-uppercase">#</th> --}}
+                                        <th class="text-uppercase">RUBRIQUES BUDGETAIRES</th>
+                                        <th class="text-uppercase">Montant</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tarif_line"></tbody>
+                            </table>
+                        </div>
+                    
                 </div>
 
                 <div class="col-lg-5">
+                  
                     <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
+                        
                         <form  class="sendPayForm" action="{{ route('landing.entities.taxe.payment') }}">
+                            <div class="alert alert-info" role="alert">
+                                <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
+                                <strong class="text-uppercase">Informations importantes :</strong>
+                                <ul>
+                                    <li>Les tarifs sont valables pour la période du 01/01/{{ date('Y') }} au 31/12/{{ date('Y') }}.</li>
+                                    <li>Les tarifs sont soumis à des modifications sans préavis.</li>
+                                    <li>Les informations fournies sont sujettes à vérification.</li>
+                                </ul>
+                            </div>
+                            <br>
+
                             @csrf
                             <input type="hidden"  name="entity_uuid" id="SelectEntity" value="{{ $service_uuid ?? '' }}" required />
                             <div class="row g-3">
@@ -93,10 +123,15 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label">Rubrique de facturation <code>*</code></label>
+                                    <label class="form-label">Type de véhicule <code>*</code></label>
                                     <select class="form-select bg-light border-0" name="rubrique_facturation_uuid" id="rubrique" style="height: 55px;">
                         
                                     </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Montant à payer</label>
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 55px;">
                                 </div>
 
                                 <div class="col-12">

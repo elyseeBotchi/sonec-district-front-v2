@@ -10,12 +10,12 @@
                         <div>
                             <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
                             <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="paiement_jour_montant">
+                                <span id="montant_total_jour">
                                     <i class="fa fa-spinner fa-spin"></i>
                                 </span>
                             </h2>
                             <p class="mb-0 text-muted text-truncate">
-                                <span class="" id="paiement_jour_nbre">
+                                <span class="" id="nb_total_jour">
                                     <i class="fa fa-spinner fa-spin"></i>
                                 </span>
                             </p>
@@ -32,157 +32,6 @@
             </div> <!-- end card-->
         </div> <!-- end col-->
 
-    @if(CanPermission('statistique_total_wave')) @endif 
-        <div class="col-md-3 cursor-pointer">
-            <div data-status="all" data-pay="WAVE"  class="card card-animate Load_paiement" >
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <p class="fw-medium text-muted mb-0">PAIEMENTS WAVE</p>
-                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="paiement_jour_montant_wave">
-                                <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </h2>
-                            <p class="mb-0 text-muted text-truncate">
-                                <span class="badge bg-light text-success mb-0" id="paiement_jour_nbre_wave">
-                                    <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                    <img src="{{ asset('operateurs/wave.png') }}"  width="50" height="24" alt="">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-    
-    @if(CanPermission('statistique_total_orange'))@endif 
-        <div class="col-md-3 cursor-pointer">
-            <div data-status="all" data-pay="ORANGE"  class="card card-animate Load_paiement">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <p class="fw-medium text-muted mb-0">PAIEMENTS ORANGE</p>
-                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="paiement_jour_montant_orange">
-                                <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </h2>
-                            <p class="mb-0 text-muted text-truncate">
-                                <span class="badge bg-light text-success mb-0" id="paiement_jour_nbre_orange">
-                                    <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                    <img src="{{ asset('operateurs/orange.png') }}"  width="50" height="24" alt="">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-    
-    @if(CanPermission('statistique_total_mtn'))@endif
-        <div class="col-md-3 cursor-pointer">
-            <div data-status="all" data-pay="MTN" class="card card-animate Load_paiement">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <p class="fw-medium text-muted mb-0">PAIEMENTS MTN</p>
-                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="paiement_jour_montant_mtn">
-                                <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </h2>
-                            <p class="mb-0 text-muted text-truncate">
-                                <span class="badge bg-light text-success mb-0" id="paiement_jour_nbre_mtn">
-                                    <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                    <img src="{{ asset('operateurs/mtn.png') }}"  width="50" height="24" alt="">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-    
-                    
-    @if(CanPermission('statistique_total_moov'))@endif
-    <div class="col-md-3 cursor-pointer">
-        <div data-status="all" data-pay="MOOV" class="card card-animate Load_paiement">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <p class="fw-medium text-muted mb-0">PAIEMENTS MOOV</p>
-                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                            <span id="paiement_jour_montant_moov">
-                            <i class="fa fa-spinner fa-spin"></i>
-                            </span>
-                        </h2>
-                        <p class="mb-0 text-muted text-truncate">
-                            <span class="badge bg-light text-success mb-0" id="paiement_jour_nbre_moov">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </span>
-                        </p>
-                    </div>
-                    <div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                <img src="{{ asset('operateurs/moov.png') }}"  width="50" height="24" alt="">
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- end card body -->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
-
-            
-    @if(CanPermission('statistique_total_tresor'))@endif
-    <div class="col-md-3 cursor-pointer">
-        <div data-status="all" data-pay="TRESOR" class="card card-animate Load_paiement">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <p class="fw-medium text-muted mb-0">PAIEMENTS TRESOR</p>
-                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                            <span id="paiement_jour_montant_tresor">
-                            <i class="fa fa-spinner fa-spin"></i>
-                            </span>
-                        </h2>
-                        <p class="mb-0 text-muted text-truncate">
-                            <span class="badge bg-light text-success mb-0" id="paiement_jour_nbre_tresor">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </span>
-                        </p>
-                    </div>
-                    <div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                <img src="{{ asset('operateurs/tresormoney.png') }}"  width="50" height="24" alt="">
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- end card body -->
-        </div> <!-- end card-->
-    </div> <!-- end col-->
 
     @if(CanPermission('statistique_total_paiement'))@endif 
     <div class="col-md-3 cursor-pointer">
@@ -197,8 +46,8 @@
                             </span>
                         </h2>
                         <p class="mb-0 text-muted text-truncate">
-                            <span class="badge bg-light text-danger mb-0">
-                                {{--<i class="ri-arrow-down-line align-middle"></i> --}}
+                            <span class="" id="nb_total">
+                                <i class="fa fa-spinner fa-spin"></i>
                             </span>
                         </p>
                     </div>
@@ -215,23 +64,166 @@
     </div> <!-- end col--> 
 </div>
 
-<div class="row card">
-    <div class="card-header" id="titre_liste">
-        Liste des paiements
+
+
+
+    <div class="row align-items-start">
+        <div class="card col-md-8">
+            <div class="card-header" id="">
+                REPARTITION PAR OPERATEURS
+            </div>
+                    <!-- Tableau -->
+            <div class="table-responsive">
+                <table class="table" id="">
+                    <thead>
+                        <tr>
+                            <th>Operateurs</th>
+                            <th>Nombre</th>
+                            <th>Montant Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="render-html" id="par_operateur">
+                        
+                        <tr>
+                            <td> WAVE </td>
+                            <td> 
+                                <span id="wave_nb">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                            <td> 
+                                <span id="wave_montant">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                        </tr>
+
+                        
+                        <tr>
+                            <td> ORANGE </td>
+                            <td> 
+                                <span id="orange_nb">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                            <td> 
+                                <span id="orange_montant">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td> MTN </td>
+                            <td> 
+                                <span id="mtn_nb">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                            <td> 
+                                <span id="mtn_montant">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td> MOOV </td>
+                            <td> 
+                                <span id="moov_nb">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                            <td> 
+                                <span id="moov_montant">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                        </tr>
+
+                        
+                        <tr>
+                            <td> TRESOR PAY </td>
+                            <td> 
+                                <span id="tresor_nb">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                            <td> 
+                                <span id="tresor_montant">
+                                 <i class="fa fa-spinner fa-spin"></i>
+                                </span> 
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Graphique -->
+        <div class="col-md-4">
+            <canvas id="OperateursChart" width="400" height="400"></canvas>
+        </div>
     </div>
-    <div class="pt-5 table-responsive">
-        <table class="table" id="datatable-custom">
-            <thead>
-            <tr></tr>
-            </thead>
-            <tbody class="render-html">
-                <tr>
-                    <td> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="row">
+        <div class="row align-items-start">
+            <div class="card col-md-8">
+                <div class="card-header" id="rubrique-facturation-titre">
+                    REPARTITION PAR RUBRIQUE DE FACTURATION
+                </div>
+                        <!-- Tableau -->
+                <div class="table-responsive">
+                    <table class="table" id="datatable-rubrique-facturation">
+                        <thead>
+                            <tr>
+                                <th>Rubrique</th>
+                                <th>Nombre</th>
+                                <th>Montant Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="render-html" id="par_facturation">
+                            <tr>
+                                <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        
+            <!-- Graphique -->
+            <div class="col-md-4">
+                <canvas id="facturationChart" width="400" height="400"></canvas>
+            </div>
+        </div>
     </div>
-</div>
+
+
+    <div class="row card">
+        <div class="card-header" id="titre_liste">
+            Liste des paiements
+        </div>
+        <div class="pt-5 table-responsive">
+            <table class="table" id="datatable-custom">
+                <thead>
+                    <tr>
+                        <th>Bien</th>
+                        <th>N° Paiement</th>
+                        <th>Montant</th>
+                        <th>Reference</th>
+                        <th>Mode de paiement</th>
+                        <th>ID Transaction</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody ></tbody>
+            </table>
+        </div>
+    </div>
 
 
 @push('footer-script')

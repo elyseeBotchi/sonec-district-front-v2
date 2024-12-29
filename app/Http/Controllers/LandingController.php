@@ -338,13 +338,15 @@ class LandingController extends Controller
         $datas = isset($responses['data']['paiement']) ? $responses['data']['paiement'] : '';
         $target = isset($responses['data']['target']) ? $responses['data']['target'] : '';
         $service = isset($responses['data']['service']) ? $responses['data']['service'] : '';
+        $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : '';
+        $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
         
 
-        //return dd($responses['data']);
+       // return dd($responses['data']);
 
-        $filename = Str::slug('RECU DE TAXE '.$datas['reference'].date('d-m-Y H:i:s'));
+        $filename = Str::slug('TAXE DE DISTRICT '.$datas['reference'].date('d-m-Y H:i:s'));
 
-        $qrcode_text = "T-CONNECT | RECU DE TAXE ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
+        $qrcode_text = "TAXE DE DISTRICT ".date('Y')." | ref : ".$datas['reference'].'|'.$datas['amount'].'| payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
 
         $renderer = new ImageRenderer(
             new RendererStyle(400),
@@ -359,7 +361,7 @@ class LandingController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
+        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
         return $pdf->download($filename.'.pdf');
        
     }
@@ -389,9 +391,9 @@ class LandingController extends Controller
 
        // return dd($responses['data']);
 
-        $filename = Str::slug('RECU DE TAXE '.$datas['reference'].date('d-m-Y H:i:s'));
+        $filename = Str::slug('TAXE DE DISTRICT '.$datas['reference'].date('d-m-Y H:i:s'));
 
-        $qrcode_text = "T-CONNECT | RECU DE TAXE ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
+        $qrcode_text = "TAXE DE DISTRICT ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
 
         $renderer = new ImageRenderer(
             new RendererStyle(400),

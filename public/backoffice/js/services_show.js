@@ -24,7 +24,8 @@ $(document).ready(function() {
                 const pay_element = results.pay_element || {};
                 const factures = results.factures || {};
                 const entity = results.entity || {};
-    console.log(results)
+                console.log(pay_element)
+                console.log(results)
                 // Vérification des données avant de les insérer dans le DOM
                 if (!entity.name || !entity.front_name) {
                     throw new Error("Informations de l'entité manquantes");
@@ -49,6 +50,97 @@ $(document).ready(function() {
                             <td>${payElementValue}</td> 
                         </tr>`;
                     });
+
+                    html_render += `
+                    <tr> 
+                        <td>Taxe payé</td> 
+                        <td> ${pay_element['rubrique_name'] || ''} ${pay_element['rubrique_option_name'] || ''} </td> 
+                    </tr>`;
+
+                    html_render += `
+                    <tr> 
+                        <td>Montant payé</td> 
+                        <td> ${pay_element['amount'] || ''} Francs CFA </td> 
+                    </tr>`;
+
+                    
+                    html_render += `
+                    <tr> 
+                        <td>Mode de paiement</td> 
+                        <td> ${pay_element['mode_paiement'] || ''} </td> 
+                    </tr>`;
+
+                    html_render += `
+                    <tr> 
+                        <td>ID Transaction </td> 
+                        <td> ${pay_element['transaction_id'] || ''} Francs CFA </td> 
+                    </tr>`;
+
+                    html_render += `
+                    <tr> 
+                        <td>Référence paiement </td> 
+                        <td> ${pay_element['reference'] || ''} </td> 
+                    </tr>`;
+                    function formatDate(dateString) {
+                        const date = new Date(dateString);
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+                        const year = date.getFullYear();
+                        return `${day} - ${month} - ${year}`;
+                    }
+
+                    var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+
+                    const dateDebutFormatted = formatDate(pay_element['date_debut']);
+                    const dateFinFormatted = formatDate(pay_element['date_fin']);
+
+                    if (pay_element['date_fin'] > date_actuelle) {
+                        html_render += `
+                        <tr> 
+                            <td>Période </td> 
+                            <td> 
+                                <span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span> 
+                            </td> 
+                        </tr>`;
+                    } else if (pay_element['date_fin'] < date_actuelle) {
+                        html_render += `
+                        <tr> 
+                            <td>Période </td> 
+                            <td> 
+                                <span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>                            </td> 
+                        </tr>`;
+                    }
+                    else {
+                        html_render += `
+                        <tr> 
+                            <td>Période </td> 
+                            <td> 
+                                <span class="badge badge-pill badge-danger">Date dépassée</span>
+                            </td> 
+                        </tr>`;
+                    }
+
+                    if(pay_element['state'] ==="enable"){
+                        html_render += `
+                        <tr> 
+                            <td>Statut</td> 
+                            <td>
+                               <span class="adge bg-warning font-12 text-white font-weight-medium badge-pill "> En attente </span>
+                            </td> 
+                        </tr>`;
+                        document.getElementById('validation-info').style.display = "block";
+                    } else if(pay_element['state'] ==="validate"){
+
+                        html_render += `
+                        <tr> 
+                            <td>Statut</td> 
+                            <td><span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span></td> 
+                        </tr>`;
+
+                        document.getElementById('validation-info').style.display = "none";
+                    }
+                    
+
                 } else {
                     html_render = "<tr><td colspan='2'>Aucune donnée disponible pour l'entête</td></tr>";
                 }
@@ -92,154 +184,191 @@ $(document).ready(function() {
     }
     
     
-    function generateForm(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-label">${field.name} </label>
-                    <input type="${field.type_input}" class="form-control btn-outline-secondary" name="${ slugify(field.name)}" />
-                </div>
-            </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
-
-
-function slugify(string) {
-    // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
-    var data = string.toString().toLowerCase()
-        .replace(/\s+/g, '-')           // Remplace les espaces par des tirets
-        .replace(/[^\w\-]+/g, '')       // Supprime tous les caractères non alphanumériques
-        .replace(/\-\-+/g, '-')         // Remplace les doubles tirets par un seul tiret
-        .replace(/^-+/, '')             // Supprime les tirets au début
-        .replace(/-+$/, '');   
+        function generateForm(entete) {
+            let formHtml = '';
         
-        return convertSlugToName(data) ;
-}
-
-function convertSlugToName(slug) {
-    // Remplacer les tirets par des underscores
-    return slug.replace(/-/g, '_');
-}
-       
-});
-
-function sendForm(action, formData, callback) {
-    $.ajax({
-        url: action,
-        type: 'POST',
-        data: formData,
-        // dataType: 'json',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        beforeSend: function () {
-            loader();
-        },
-        success: function (data) {
-            loader('hide');
-            callback(data); // Appel de la fonction de rappel avec la réponse
-        },
-        error: function (data) {
-            if (data.type === "error") {
-                SendError("messageError");
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}
-
-function loader(state = "show") {
-    switch (state) {
-        case "show":
-            JsLoadingOverlay.show({
-                'overlayBackgroundColor': '#666666',
-                'overlayOpacity': 0.4,
-                'spinnerIcon': 'ball-spin',
-                'spinnerColor': '#1fbd03',
-                'spinnerSize': '1x',
-                'overlayIDName': 'overlay',
-                'spinnerIDName': 'spinner',
-                'spinnerZIndex': 99999,
-                'overlayZIndex': 99998,
-                'lockScroll': true,
+            entete.forEach(field => { 
+                formHtml += `
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">${field.name} </label>
+                        <input type="${field.type_input}" class="form-control btn-outline-secondary" name="${ slugify(field.name)}" />
+                    </div>
+                </div>`;
             });
-            break;
-        default:
-            JsLoadingOverlay.hide();
-            break;
-    }
-}
+        
+            // Insérer le formulaire généré dans un conteneur existant
+            document.getElementById('form-container').innerHTML = formHtml;
+        }
 
-function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
-    if (urlback !== '') {
-        if(urlback === 'back'){
-            toastr.success(message, 'Succès');
-            //Si url de retour exist
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
-        }else {
-            //Si url de retour exist
-            toastr.success(message, 'Succès');
-            setTimeout(() => {
-                window.location.href = urlback;
-            }, 2000);
+        $('.validate-info').on('click', function(e){
+            e.preventDefault();
+
+            var action = $(this).attr('url');
+            var caption = $(this).attr('caption');
+
+            //alert(action)
+            Swal.fire({
+                icon : 'warning',
+                title: 'Attention !',
+                text: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `OUI, CONTINUER`,
+                denyButtonText: `NON, FERMER`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    loader();
+
+                    $.get(action, function(data){
+                        loader('hide');
+                        console.log(data)
+                        if(data.type === 'success'){
+                        sendSuccess(data.message);
+                        findAll();
+                        }else{
+                            SendError(data.message);
+                        }
+                    });
+                }
+            });
+        });
+
+            
+        function slugify(string) {
+            // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
+            var data = string.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Remplace les espaces par des tirets
+                .replace(/[^\w\-]+/g, '')       // Supprime tous les caractères non alphanumériques
+                .replace(/\-\-+/g, '-')         // Remplace les doubles tirets par un seul tiret
+                .replace(/^-+/, '')             // Supprime les tirets au début
+                .replace(/-+$/, '');   
+                
+                return convertSlugToName(data) ;
+        }
+
+        function convertSlugToName(slug) {
+            // Remplacer les tirets par des underscores
+            return slug.replace(/-/g, '_');
+        }
+        
+    });
+
+    function sendForm(action, formData, callback) {
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: formData,
+            // dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function () {
+                loader();
+            },
+            success: function (data) {
+                loader('hide');
+                callback(data); // Appel de la fonction de rappel avec la réponse
+            },
+            error: function (data) {
+                if (data.type === "error") {
+                    SendError("messageError");
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function loader(state = "show") {
+        switch (state) {
+            case "show":
+                JsLoadingOverlay.show({
+                    'overlayBackgroundColor': '#666666',
+                    'overlayOpacity': 0.4,
+                    'spinnerIcon': 'ball-spin',
+                    'spinnerColor': '#1fbd03',
+                    'spinnerSize': '1x',
+                    'overlayIDName': 'overlay',
+                    'spinnerIDName': 'spinner',
+                    'spinnerZIndex': 99999,
+                    'overlayZIndex': 99998,
+                    'lockScroll': true,
+                });
+                break;
+            default:
+                JsLoadingOverlay.hide();
+                break;
         }
     }
-    else {
-        //Si url de retour exist pas dans le retour du formulaire
-        toastr.success(message, 'Succès');
+
+    function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
+        if (urlback !== '') {
+            if(urlback === 'back'){
+                toastr.success(message, 'Succès');
+                //Si url de retour exist
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }else {
+                //Si url de retour exist
+                toastr.success(message, 'Succès');
+                setTimeout(() => {
+                    window.location.href = urlback;
+                }, 2000);
+            }
+        }
+        else {
+            //Si url de retour exist pas dans le retour du formulaire
+            toastr.success(message, 'Succès');
+        }
     }
-}
 
-function SendError(messageError){ //fonction pour envoi de formulaire chargement loading
-    toastr.error(messageError, 'Erreur');
-} //fin de la focntion SendError
+    function SendError(messageError){ //fonction pour envoi de formulaire chargement loading
+        toastr.error(messageError, 'Erreur');
+    } //fin de la focntion SendError
 
 
-function translatePeriodicity(periodicity) {
-    switch (periodicity) {
-        case 'monthly':
-            return 'mois';
-        case 'quarterly':
-            return 'trimestre';
-        case 'yearly':
-            return 'ans';
-        case 'weekly':
-            return 'semaine';
-        case 'daily':
-            return 'jour';
-        default:
-            return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+    function translatePeriodicity(periodicity) {
+        switch (periodicity) {
+            case 'monthly':
+                return 'mois';
+            case 'quarterly':
+                return 'trimestre';
+            case 'yearly':
+                return 'ans';
+            case 'weekly':
+                return 'semaine';
+            case 'daily':
+                return 'jour';
+            default:
+                return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+        }
     }
-}
 
 
-function translateStatus(state) {
-    switch (state) {
-        case 'pending':
-            return '<span class="badge badge-info">En attente </span>';
-        case 'progress':
-            return '<span class="badge badge-dark">En cours </span>';
-        case 'success':
-            return '<span class="badge badge-success">Réussi </span>';
-        case 'enable':
-            return '<span class="badge badge-success">Actif</span>';
-        case 'desable':
-            return '<span class="badge badge-danger">Inactif </span>';
-        case '1':
-            return '<span class="badge badge-success">Actif </span>';
-        case '0':
+    function translateStatus(state) {
+        switch (state) {
+            case 'pending':
+                return '<span class="badge badge-info">En attente </span>';
+            case 'progress':
+                return '<span class="badge badge-dark">En cours </span>';
+            case 'success':
+                return '<span class="badge badge-success">Réussi </span>';
+            case 'enable':
+                return '<span class="badge badge-success">Actif</span>';
+            case 'desable':
                 return '<span class="badge badge-danger">Inactif </span>';
-        default:
-            return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+            case '1':
+                return '<span class="badge badge-success">Actif </span>';
+            case '0':
+                    return '<span class="badge badge-danger">Inactif </span>';
+            default:
+                return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+        }
     }
-}
+
+
