@@ -48,7 +48,7 @@ $(document).ready(function() {
                         labels: xValues, // Les mois
                         datasets: [
                             {
-                                label: "Evolution par nomre de paiement",
+                                label: "Evolution par nombre de paiement",
                                 fill: false,
                                 lineTension: 0.1,
                                 backgroundColor: "rgba(0,0,255,1.0)",
