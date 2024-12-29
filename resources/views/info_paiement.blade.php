@@ -160,9 +160,10 @@
                             <br>
                             <a class="btn btn-primary" href="{{ route('landing.entities.taxe.data.generate.file',['uuid' => $paiement_uuid]) }}" target="_blanck">Télécharger le reçu de paiement</a> &nbsp; &nbsp;
 
+                            @isset($lock)
 
                             <a href="{{ route('landing.entities.taxe.data.generate.carte',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-primary">Télécharger la carte de stationnement </a>
-
+                            @endisset
                         </div> 
                     </div>
                 </div>
