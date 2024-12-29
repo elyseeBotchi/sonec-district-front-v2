@@ -130,6 +130,7 @@
                     </div>
                 </div>
             </div>
+            
             <center>
                 <a href="{{ route('quick.payment', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" 
                     class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">

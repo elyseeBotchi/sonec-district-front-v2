@@ -84,7 +84,7 @@
                         </div>
                     </div> --}}
 
-                    <h3 class="text-center mb-4">TYPES DE VEHICULES</h3>
+                    <h3 class="text-center mb-4">LISTE DES TAXES</h3>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover text-justify align-middle">
                                 <thead class="table-primary">
