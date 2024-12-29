@@ -1,6 +1,6 @@
 $(document).ready(function() {
     findAll();
-   
+    findRubriques();
     function findAll() { //alert(Entity_uuid)
         fetch(`/landing/services/taxe/findAll/${Entity_uuid}`)
             .then(response => {
@@ -324,7 +324,7 @@ $(document).ready(function() {
                 return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
         }
     }
-
+    
     function findRubriques() {
         fetch(`/landing/services/rubrique/findOneConfig/${Entity_uuid}`)
             .then(response => {
@@ -335,79 +335,92 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                const rubriqueSelect = document.getElementById('rubrique');
-                rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+               // const rubriqueSelect = document.getElementById('rubrique');
+                let tarif_line = ""; // Initialiser correctement la variable
+                //rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
     
-                // Vérification que les rubriques existent
+                // Ajouter l'option vide "Type de véhicule"
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Type de véhicule';
+               // rubriqueSelect.appendChild(defaultOption);
+    
+                // Vérification des rubriques
                 if (results.rubrique && results.rubrique.length > 0) {
                     results.rubrique.forEach(rubrique => {
                         if (rubrique.rubrique_option.length > 0) {
                             // Créer un groupe d'options pour chaque rubrique ayant des options
-                            let optgroup = document.createElement('optgroup');
+                            const optgroup = document.createElement('optgroup');
                             optgroup.label = rubrique.name;
+                            tarif_line += `<tr><td>${rubrique.name}</td>`;
     
                             // Ajouter les options sous chaque rubrique
                             rubrique.rubrique_option.forEach(option => {
-                                // Vérifier s'il y a des facturations pour l'option
                                 if (option.facturation && option.facturation.length > 0) {
                                     option.facturation.forEach(facturation => {
-                                        let optionElement = document.createElement('option');
-                                        optionElement.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                        optionElement.textContent = `${option.option_name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
+                                        const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                            style: 'currency',
+                                            currency: 'XOF',
+                                        });
+                                        const optionElement = document.createElement('option');
+                                        optionElement.value = facturation.uuid;
+                                        optionElement.textContent = option.option_name;
+                                        optionElement.setAttribute('data-amount', facturation.amount);
     
-                                        // Ajouter l'option pour chaque facturation
+                                        tarif_line += `<td>${formattedAmount}</td>`;
                                         optgroup.appendChild(optionElement);
                                     });
                                 } else {
-                                    // Si pas de facturation, désactiver l'option
-                                    let optionElement = document.createElement('option');
+                                    const optionElement = document.createElement('option');
                                     optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
                                     optionElement.disabled = true;
     
-                                    // Ajouter l'option désactivée
+                                    tarif_line += `<td></td>`;
                                     optgroup.appendChild(optionElement);
                                 }
                             });
     
-                            // Ajouter l'optgroup au select
-                            rubriqueSelect.appendChild(optgroup);
+                            tarif_line += "</tr>";
+                          //  rubriqueSelect.appendChild(optgroup);
                         } else {
-                            // Si la rubrique n'a pas d'options, ajouter la rubrique elle-même comme une option sélectionnable
-                            let optionElement = document.createElement('option');
+                            const optionElement = document.createElement('option');
                             optionElement.value = rubrique.uuid;
     
-                            // Vérification de la facturation pour la rubrique
                             if (rubrique.facturation && rubrique.facturation.length > 0) {
                                 rubrique.facturation.forEach(facturation => {
-                                    let facturationOption = document.createElement('option');
-                                    facturationOption.value = facturation.uuid; // Utiliser l'UUID de la facturation
-                                    facturationOption.textContent = `${rubrique.name} - ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}`;
+                                    const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                        style: 'currency',
+                                        currency: 'XOF',
+                                    });
+                                    const facturationOption = document.createElement('option');
+                                    facturationOption.value = facturation.uuid;
+                                    facturationOption.textContent = rubrique.name;
+                                    facturationOption.setAttribute('data-amount', facturation.amount);
     
-                                    // Ajouter l'option pour chaque facturation
-                                    rubriqueSelect.appendChild(facturationOption);
+                                    tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
+                                //    rubriqueSelect.appendChild(facturationOption);
                                 });
                             } else {
-                                // Désactiver la rubrique si pas de montant
                                 optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
                                 optionElement.disabled = true;
     
-                                // Ajouter directement la rubrique désactivée
-                                rubriqueSelect.appendChild(optionElement);
+                                tarif_line += `<tr><td>${rubrique.name}</td><td></td></tr>`;
+                              //  rubriqueSelect.appendChild(optionElement);
                             }
                         }
                     });
-                } 
-                else {
-                    // Si aucune rubrique n'est trouvée, afficher un message par défaut
-                    let defaultOption = document.createElement('option');
+                } else {
+                    const defaultOption = document.createElement('option');
                     defaultOption.textContent = 'Aucune rubrique disponible';
                     defaultOption.disabled = true;
-                    rubriqueSelect.appendChild(defaultOption);
+                   // rubriqueSelect.appendChild(defaultOption);
                 }
-                document.getElementById('submitBtn').style.display ='block';
-                
+    
+                // Mise à jour des éléments HTML
+               // document.getElementById('submitBtn').style.display = 'block';
+                document.getElementById('tarif_line').innerHTML = tarif_line;
+    
             })
             .catch(error => {
-                console.error('Erreur:', error);
+                console.error('Erreur :', error);
             });
     }

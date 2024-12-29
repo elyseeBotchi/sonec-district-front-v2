@@ -112,6 +112,32 @@
 
 
 
+    <div class="container-fluid py-5 wow">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-primary text-uppercase">TYPES DE VEHICULES</h5>
+             
+            </div>
+            <div class="row g-5">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-justify align-middle">
+                            <thead class="table-primary">
+                                <tr>
+                                    {{-- <th class="text-uppercase">#</th> --}}
+                                    <th class="text-uppercase">RUBRIQUES BUDGETAIRES</th>
+                                    <th class="text-uppercase">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tarif_line"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 <!-- Blog Start -->
 <div class="container-fluid py-5 wow">
     <div class="container py-5">
@@ -225,6 +251,7 @@
         </div>
     </div>
 </div>
+
 <!-- Blog Start -->
 
 @isset($lock)

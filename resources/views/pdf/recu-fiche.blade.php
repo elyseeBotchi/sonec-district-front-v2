@@ -116,7 +116,7 @@
             </tr> 
             <tr>
                 <td style="font-size: xx-small"  >
-                    QUITTANCE N° : {{ $user['reference'] ?? '' }}
+                    REÇU N° : {{ $user['reference'] ?? '' }}
                 </td>
                 <td style="font-size: xx-small"></td>
             </tr>
@@ -202,7 +202,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        Arrêté la présente quittance à la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
+                        Arrêté le présent reçu  à la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
                     </td>
                 </tr>
             </tbody>
