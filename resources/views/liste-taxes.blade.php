@@ -56,11 +56,11 @@
         <div class="container py-5">
             <div class="section-title position-relative pb-3 mb-5">
                 <h5 class="fw-bold text-primary text-uppercase">LISTE DES TAXES</h5>
-                <h1 class="mb-0">Payez vos taxes en toute simplicité !</h1>
+                <h1 class="mb-0">Vous avez la possibilité de payer votre taxe ou de créer un compte pour pouvoir gerer l'ensemble de vos taxes !</h1>
             </div>
            
             <p class="mb-4">
-                Vous avez la possibilité de payer votre taxe ou de créer un compte pour pouvoir gerer l'ensemble de vos taxes           
+                           
              </p>
 
              <div class="col-md-12">
