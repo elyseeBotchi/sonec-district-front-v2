@@ -48,7 +48,7 @@ $(document).ready(function() {
                         labels: xValues, // Les mois
                         datasets: [
                             {
-                                label: "Courbe Y",
+                                label: "Evolution par nomre de paiement",
                                 fill: false,
                                 lineTension: 0.1,
                                 backgroundColor: "rgba(0,0,255,1.0)",
@@ -56,7 +56,7 @@ $(document).ready(function() {
                                 data: yValues, // Données pour la courbe Y
                             },
                             {
-                                label: "Courbe Z",
+                                label: "Evolution par montant",
                                 fill: false,
                                 lineTension: 0.1,
                                 backgroundColor: "rgba(255,0,0,1.0)",
