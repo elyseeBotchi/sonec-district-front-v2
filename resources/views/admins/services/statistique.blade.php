@@ -202,7 +202,7 @@
     </div>
 
 
-    <div class="row card">
+    <div class="row card" style="display: none">
         <div class="card-header" id="titre_liste">
             Liste des paiements
         </div>
