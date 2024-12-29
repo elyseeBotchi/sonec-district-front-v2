@@ -9,7 +9,7 @@
     <!-- Navbar & Carousel Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
+            <a href="{{ route('welcome.index') }}" class="navbar-brand p-0">
                 <h3 class="m-0">
                     <img src="{{ asset('template/assets/images/logo.png') }}"  height="70px" alt="Logo">
                 </h3>
@@ -41,9 +41,11 @@
                     </div>
                     {{-- <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
                 </div>
-                <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
+                {{-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="fa fa-search"></i>
-                </butaton>
+                </butaton> --}}
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Créer un compte</a>
+
                 <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
             </div>
         </nav>
@@ -62,7 +64,7 @@
                     </div>
                    
                     <p class="mb-4">
-                        Gagnez du temps avec notre plateforme de paiement rapide et sécurisé. Que ce soit pour les taxes de stationnement, d'abattoir ou autres, réglez vos obligations en quelques clics seulement, sans tracas ni files d'attente. Facile, rapide et efficace — simplifiez vos démarches dès aujourd'hui !                    
+                        Gagnez du temps avec notre plateforme de paiement rapide et sécurisé. Que ce soit pour les taxes de stationnement réglez vos obligations en quelques clics seulement, sans tracas ni files d'attente. Facile, rapide et efficace — simplifiez vos démarches dès aujourd'hui !                    
                     </p>
 
                  

@@ -301,4 +301,5 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
     Route::post('customer/register/submit', [CustomerLoginController::class, 'register_submit'])->name('customer.register.submit');
     Route::get('register/{service}', [CustomerLoginController::class, 'register'])->name('register');
     Route::get('/quick/payment/{name?}/{service}', [LandingController::class, 'quick_pay'])->name('quick.payment');
+    Route::get('/quick/liste/{name?}/{service}', [LandingController::class, 'quick_liste'])->name('quick.liste');
 

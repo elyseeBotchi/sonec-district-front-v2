@@ -117,6 +117,47 @@ class LandingController extends Controller
     
 
     
+    
+
+    public function quick_liste($name=null,$service)
+    {
+        $url_path = "/landing/services/operateurs";
+
+        $data = [
+           // 'uuid' => $service
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       //dd($responses);
+        if(isset($responses['type'])){
+            if($responses['type'] =='success'){
+                return view('liste-taxes', [
+                    'operateurs'=>$responses['data'] ?? '',
+                    'service_uuid' => $service ?? '',
+                    'service_name' => $name ?? ''
+                ]);
+            }
+            else{
+                return view('liste-taxes', [
+                    'operateurs'=>$responses['data'] ?? '',
+                    'service_uuid' => $service ?? '',
+                    'service_name' => $name ?? ''
+
+                ]);
+            }
+        }
+        else{
+            return view('liste-taxes', [
+                'operateurs'=>$responses['data'] ?? '',
+                'service_uuid' => $service ?? '',
+                'service_name' => $name ?? ''
+
+            ]);
+        }
+    }
+
+
     public function findOneConfig($uuid){
 
         $url_path = "/landing/services/rubrique/findOneConfig";
