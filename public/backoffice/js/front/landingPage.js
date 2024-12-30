@@ -287,7 +287,7 @@ $(document).ready(function() {
     
         // Ajout de la confirmation SweetAlert2
         Swal.fire({
-            title: 'Confirmer de paiement',
+            title: 'Confirmation du paiement',
             text: 'Voulez-vous vraiment procéder au paiement ?',
             icon: 'warning',
             showCancelButton: true,

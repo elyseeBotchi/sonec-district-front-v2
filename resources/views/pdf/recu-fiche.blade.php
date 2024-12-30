@@ -78,7 +78,7 @@
 
 <body>
 <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); opacity: 0.1; font-size: 80px; color: #e8a7a7; z-index: -1500; white-space: nowrap;">
-    {{ $watermark ?? 'TAXE DE DISTRICT '.date('Y') }}
+    {{ $watermark ?? "DISTRICT D'ABIDJAN ".date('Y') }}
 </div>
 @isset($open)
     <div class="col-md-11">
@@ -104,7 +104,12 @@
         <br>
 
 
-
+        <div style="background-color: #0a9e2a;color: white;padding: 0.5px">
+            <h4 class="text-center m-4 text-white uppercase" style="font-size: 15px; text-align:center; text-transform: uppercase !important; ">
+                 REÇU DE PAIEMENT - {{ $entity['name'] ?? '' }}
+            </h4>
+        </div>
+<br>
 
         <table class="" style="width: 100%;border: inherit;border:none;">
            

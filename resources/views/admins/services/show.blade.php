@@ -37,11 +37,11 @@
                         </div>
                     </div>
                     <div class="card-footer" id="validation-info" style="display: none">
-                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous etes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
+                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous êtes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
                             Valider
                         </button>
 
-                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous etes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
+                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous êtes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
                             Rejeter
                         </button>
                     </div>  
@@ -77,14 +77,15 @@
                                         <td>
                                             <strong>Statut du paiement</strong>
                                         </td>
-                                        {{-- <td>
+                                        {{----}} 
+                                        <td>
                                             Action
-                                        </td> --}}
+                                        </td> 
                                     </tr>
                                 </thead>
                                 <tbody id="history_render">
                                     <tr class="border-0">
-                                        <td colspan="7"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ...</td>
+                                        <td colspan="8"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ...</td>
                                     </tr>
                                 </tbody>
                             </table>

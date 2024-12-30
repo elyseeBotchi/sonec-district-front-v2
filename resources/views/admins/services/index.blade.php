@@ -92,7 +92,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-start">
-                    <h4 class="card-title mb-0">HISTORIQUE DES VALIDITÉS</h4>
+                    <h4 class="card-title mb-0">LISTE DES VEHICULES</h4>
                 </div> 
 
                 <div class="ml-auto">

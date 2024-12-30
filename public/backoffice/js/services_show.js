@@ -128,16 +128,29 @@ $(document).ready(function() {
                                <span class="adge bg-warning font-12 text-white font-weight-medium badge-pill "> En attente </span>
                             </td> 
                         </tr>`;
-                        document.getElementById('validation-info').style.display = "block";
-                    } else if(pay_element['state'] ==="validate"){
 
+                        if(pay_element['transaction_id'] !=="" && pay_element['transaction_id'] !==undefined  && pay_element['transaction_id'] !==null ){
+                            document.getElementById('validation-info').style.display = "block";
+                        }
+                        
+                    } else if(pay_element['state'] ==="validate"){
                         html_render += `
                         <tr> 
                             <td>Statut</td> 
                             <td><span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span></td> 
                         </tr>`;
 
-                        document.getElementById('validation-info').style.display = "none";
+                        document.getElementById('validation-info').innerHTML = `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
+                        document.getElementById('validation-info').style.display = "block";
+                    }else{
+                        html_render += `
+                        <tr> 
+                            <td>Statut</td> 
+                            <td>
+                               <span class="adge bg-danger font-12 text-white font-weight-medium badge-pill "> Rejeté </span>
+                            </td> 
+                        </tr>`;
+                        document.getElementById('validation-info').style.display = "none";  
                     }
                     
 
@@ -156,17 +169,23 @@ $(document).ready(function() {
             let history_render = ""; 
             if (Array.isArray(factures) && factures.length > 0) {
                 factures.forEach(facture => {
+                    const receiptLink = (facture.validate_by !== null && facture.state === "success") 
+                        ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}">Télécharger le reçu</a>` 
+                        : 'N/A';
+            
                     history_render += `
                     <tr>
-                        <td>${new Date(facture.updated_at).toLocaleString() || 'N/A'}</td>
+                        <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
                         <td>${entity.name || 'N/A'}</td>
                         <td>${facture.reference || 'N/A'}</td>
-                        <td>${facture.amount || 'N/A'} FCFA</td>
+                        <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
                         <td>${facture.operateur_uuid || 'N/A'}</td>
                         <td>${translateStatus(facture.state) || 'N/A'}</td>
+                        <td>${receiptLink}</td>
                     </tr>`;
                 });
-            } else {
+            }
+             else {
                // history_render += "<tr><td colspan='7'>Aucun paiement retrouvé.</td></tr>";
             }
 

@@ -381,9 +381,10 @@ class LandingController extends Controller
         $service = isset($responses['data']['service']) ? $responses['data']['service'] : '';
         $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : '';
         $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
+        $entity = isset($responses['data']['entity']) ? $responses['data']['entity'] : '';
         
 
-       // return dd($responses['data']);
+        //return dd($responses);
 
         $filename = Str::slug('TAXE DE DISTRICT '.$datas['reference'].date('d-m-Y H:i:s'));
 
@@ -402,7 +403,7 @@ class LandingController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
+        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
         return $pdf->download($filename.'.pdf');
        
     }

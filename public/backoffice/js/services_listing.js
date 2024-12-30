@@ -34,14 +34,14 @@ $(document).ready(function() {
           const entete = data.entete;
           const results = data.data;
           const entity = data.entity;
-          //console.log(results)
+          console.log(results)
 
           // Construire dynamiquement les en-têtes du tableau
           let headerHtml = '<tr>';
           entete.forEach(col => {
               headerHtml += `<th>${col.name}</th>`;
           });
-          headerHtml += '<th>Statut</th><th>Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
+          headerHtml += '<th>Statut</th><th>Statut du véhicule</th><th>Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
           $('#datatable-custom thead').html(headerHtml);
 
           // Vérifier si la DataTable a déjà été initialisée
@@ -69,6 +69,20 @@ $(document).ready(function() {
                                   return `<span class="badge badge-pill badge-success">${row.message}</span>`;
                               case 'error':
                                   return `<span class="badge rounded-pill badge-danger">${row.message}</span>`;
+                             
+                          }
+                      }
+                  },
+                  {
+                      data: 'state',
+                      render: function(data, type, row) {
+                          switch(data) {
+                              case 'fail':
+                                  return `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                              case 'validate':
+                                  return `<span class="badge badge-pill badge-success">Validé</span>`;
+                              default:
+                                  return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
                              
                           }
                       }
