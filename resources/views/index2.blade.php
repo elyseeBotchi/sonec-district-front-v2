@@ -18,6 +18,44 @@
         }
     }
     </style>
+
+<style>
+
+    .step {
+        margin-bottom: 20px;
+    }
+    .step h2 {
+        /* font-size: 18px; */
+        color: #06a3da;
+        margin-bottom: 10px;
+    }
+    .step ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .step ul li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+    }
+    .step ul li::before {
+        content: '✔';
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+    }
+    .note {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-left: 4px solid #06a3da;
+        font-style: italic;
+    }
+    .note strong {
+        color: #007BFF;
+    }
+</style>
 @php
     $services = Entities_Customer();
 @endphp
@@ -256,71 +294,132 @@
         </div>
     </div>
 </div>
-
+@endisset 
 <!-- Blog Start -->
 
 <!-- Features Start -->
 <div class="container-fluid py-5 wow">
     <div class="container py-5">
-        <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
-            <h5 class="fw-bold text-primary text-uppercase">Services annexes</h5>
-            {{-- <h1 class="mb-0">
-                We Are Here to Grow Your Business Exponentially
-            </h1> --}}
+        <div class="section-title text-center position-relative pb-3 mb-5 mx-auto">
+            <h5 class="fw-bold text-primary text-uppercase">
+                           
+            </h5>
+            {{----}} <h1 class="mb-0">
+                Comment s'acquitter de sa taxe de stationnement 
+            </h1> 
         </div>
         <div class="row g-5">
-            <div class="col-lg-4">
-                <div class="row g-5">
-                    <div class="col-12 wow">
-                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fa fa-cubes text-white"></i>
-                        </div>
-                        <h4>Récupération de reçu de paiement</h4>
-                        <p class="mb-0">
-                            Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor
-                        </p>
+            <div class="col-lg-12">
+                <div class="container">
+                @isset($lock)
+                    <div class="step">
+                        <h2>Étape 1</h2>
+                        <ul>
+                            <li>Consulter la liste des taxes</li>
+                            <li>Renseigner les informations personnelles du propriétaire du véhicule et les informations afférentes au véhicule</li>
+                            <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN, Wave, TrésorPay)</li>
+                            <li>Imprimer votre reçu de paiement</li>
+                        </ul>
                     </div>
-                    <div class="col-12 wow" >
-                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fa fa-award text-white"></i>
-                        </div>
-                        <h4>Award Winning</h4>
-                        <p class="mb-0">Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor</p>
+            
+                    <div class="step">
+                        <h2>Étape 2</h2>
+                        <ul>
+                            <li>Se rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de votre reçu et des pièces afférentes au véhicule</li>
+                        </ul>
+                    </div>
+            
+                    <div class="note">
+                        <p><strong>NB :</strong></p>
+                        <ul>
+                            <li>Pour les paiements rapides, votre quittance est émise par email</li>
+                            <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace et également émis par email</li>
+                        </ul>
+                    </div>
+                @endisset
+
+                <div class="step">
+                    <h2>Méthode 1 : Paiement rapide</h2>
+                    <div>
+                        <h3>Étape 1</h3>
+                        <ul>
+                            <li>Aller sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
+                            <li>Cliquer sur le bouton <strong>Liste des taxes</strong></li>
+                            <li>Aller au bas de la page et cliquer sur le bouton <strong>PAYER LA TAXE</strong></li>
+                            <li>Remplir le formulaire affiché à droite</li>
+                            <li>Cliquer sur le bouton <strong>Payer</strong></li>
+                            <li>Effectuer le paiement selon le mode de paiement choisi</li>
+                            <li>Télécharger le reçu affiché à l’écran</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Étape 2</h3>
+                        <ul>
+                            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4  wow" style="min-height: 350px;">
-                <div class="position-relative h-100">
-                    <img class="position-absolute w-100 h-100 rounded wow" src="{{ asset('template/start/img/feature.jpg') }}" style="object-fit: cover;">
+                <br>
+                <a class=" btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}"> 
+                    <span class="text-right">
+                        PAYER MA TAXE 
+                    </span> 
+                </a>
+                <br>
+                <br>
+                <br>
+
+                <div class="step">
+                    <h2>Méthode 2 : Création de compte et paiement</h2>
+                    <div>
+                        <h3>Étape 1</h3>
+                        <ul>
+                            <li>Aller sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
+                            <li>Cliquer sur le bouton <strong>Créer un compte</strong> en haut à droite</li>
+                            <li>Remplir le formulaire de création de compte et cliquer sur <strong>Valider</strong></li>
+                            <li>Cliquer sur <strong>Mes Véhicules</strong> dans le menu latéral gauche</li>
+                            <li>Cliquer sur le bouton <strong>Ajouter</strong> en haut à gauche</li>
+                            <li>Renseigner les informations du véhicule et cliquer sur <strong>Sauvegarder</strong></li>
+                            <li>Cliquer sur <strong>Payer</strong> devant la liste affichée dans le tableau</li>
+                            <li>Renseigner les informations de paiement</li>
+                            <li>Cliquer sur le bouton <strong>Valider</strong></li>
+                            <li>Effectuer le paiement selon le mode de paiement choisi</li>
+                            <li>Télécharger le reçu affiché à l’écran</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Étape 2</h3>
+                        <ul>
+                            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <br>
+                <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
+                    CREER UN COMPTE
+                </a>
+                <br>
+                <br>
+
+                <br>
+                <div class="note">
+                    <p><strong>NB :</strong></p>
+                    <ul>
+                        <li>Pour les paiements rapides, votre quittance est émise par email.</li>
+                        <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace utilisateur et également émise par email.</li>
+                    </ul>
+                </div>
+
+                
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="row g-5">
-                    <div class="col-12 wow" >
-                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fa fa-users-cog text-white"></i>
-                        </div>
-                        <h4>Duplicata de carte de stationnement</h4>
-                        <p class="mb-0">
-                            Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor
-                        </p>
-                    </div>
-                    <div class="col-12 wow" >
-                        <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fa fa-phone-alt text-white"></i>
-                        </div>
-                        <h4>24/7 Support</h4>
-                        <p class="mb-0">
-                            Magna sea eos sit dolor, ipsum amet lorem diam dolor eos et diam dolor
-                        </p>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
 <!-- Features Start -->
-@endisset 
+
              
 <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -356,343 +455,6 @@
 </div>
 
 
-@isset($lock)
-    <!-- About Start -->
-    <div class="container-fluid py-5 wow">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-7">
-                    <div class="section-title position-relative pb-3 mb-5">
-                        <h5 class="fw-bold text-primary text-uppercase">Service support</h5>
-                        <h1 class="mb-0">The Best IT Solution With 10 Years of Experience</h1>
-                    </div>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet</p>
-                    {{-- <div class="row g-0 mb-3">
-                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
-                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>Award Winning</h5>
-                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>Professional Staff</h5>
-                        </div>
-                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
-                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>24/7 Support</h5>
-                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>Fair Prices</h5>
-                        </div>
-                    </div> --}}
-                    <div class="d-flex align-items-center mb-4 wow " >
-                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                            <i class="fa fa-phone-alt text-white"></i>
-                        </div>
-                        <div class="ps-4">
-                            <h5 class="mb-2">Assistance technique </h5>
-                            <h4 class="text-primary mb-0">+225 05 05 05 05 05</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5" style="min-height: 500px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100 rounded wow" src="{{ asset('template/start/img/about.jpg') }}" style="object-fit: cover;">
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <!-- About End -->
-        
-
-
-    <!-- Service Start -->
-    <div class="container-fluid py-5 wow" >
-        <div class="container py-5">
-            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
-                <h5 class="fw-bold text-primary text-uppercase">Our Services</h5>
-                <h1 class="mb-0">Custom IT Solutions for Your Successful Business</h1>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="service-icon">
-                            <i class="fa fa-shield-alt text-white"></i>
-                        </div>
-                        <h4 class="mb-3">Cyber Security</h4>
-                        <p class="m-0">Amet justo dolor lorem kasd amet magna sea stet eos vero lorem ipsum dolore sed</p>
-                        <a class="btn btn-lg btn-primary rounded" href="">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="service-icon">
-                            <i class="fa fa-chart-pie text-white"></i>
-                        </div>
-                        <h4 class="mb-3">Data Analytics</h4>
-                        <p class="m-0">Amet justo dolor lorem kasd amet magna sea stet eos vero lorem ipsum dolore sed</p>
-                        <a class="btn btn-lg btn-primary rounded" href="">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="service-icon">
-                            <i class="fa fa-code text-white"></i>
-                        </div>
-                        <h4 class="mb-3">Web Development</h4>
-                        <p class="m-0">Amet justo dolor lorem kasd amet magna sea stet eos vero lorem ipsum dolore sed</p>
-                        <a class="btn btn-lg btn-primary rounded" href="">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="service-icon">
-                            <i class="fab fa-android text-white"></i>
-                        </div>
-                        <h4 class="mb-3">Apps Development</h4>
-                        <p class="m-0">Amet justo dolor lorem kasd amet magna sea stet eos vero lorem ipsum dolore sed</p>
-                        <a class="btn btn-lg btn-primary rounded" href="">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                        <div class="service-icon">
-                            <i class="fa fa-search text-white"></i>
-                        </div>
-                        <h4 class="mb-3">SEO Optimization</h4>
-                        <p class="m-0">Amet justo dolor lorem kasd amet magna sea stet eos vero lorem ipsum dolore sed</p>
-                        <a class="btn btn-lg btn-primary rounded" href="">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow">
-                    <div class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-5">
-                        <h3 class="text-white mb-3">Call Us For Quote</h3>
-                        <p class="text-white mb-3">Clita ipsum magna kasd rebum at ipsum amet dolor justo dolor est magna stet eirmod</p>
-                        <h2 class="text-white mb-0">+012 345 6789</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Service End -->
-@endisset
-
-@isset($lock)
-    <!-- Pricing Plan Start -->
-    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
-                <h5 class="fw-bold text-primary text-uppercase">Pricing Plans</h5>
-                <h1 class="mb-0">We are Offering Competitive Prices for Our Clients</h1>
-            </div>
-            <div class="row g-0">
-                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.6s">
-                    <div class="bg-light rounded">
-                        <div class="border-bottom py-4 px-5 mb-4">
-                            <h4 class="text-primary mb-1">Basic Plan</h4>
-                            <small class="text-uppercase">For Small Size Business</small>
-                        </div>
-                        <div class="p-5 pt-0">
-                            <h1 class="display-5 mb-3">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>49.00<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i class="fa fa-times text-danger pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-2"><span>Cross-browser Support</span><i class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-primary py-2 px-4 mt-4">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-                    <div class="bg-white rounded shadow position-relative" style="z-index: 1;">
-                        <div class="border-bottom py-4 px-5 mb-4">
-                            <h4 class="text-primary mb-1">Standard Plan</h4>
-                            <small class="text-uppercase">For Medium Size Business</small>
-                        </div>
-                        <div class="p-5 pt-0">
-                            <h1 class="display-5 mb-3">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>99.00<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-2"><span>Cross-browser Support</span><i class="fa fa-times text-danger pt-1"></i></div>
-                            <a href="" class="btn btn-primary py-2 px-4 mt-4">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.9s">
-                    <div class="bg-light rounded">
-                        <div class="border-bottom py-4 px-5 mb-4">
-                            <h4 class="text-primary mb-1">Advanced Plan</h4>
-                            <small class="text-uppercase">For Large Size Business</small>
-                        </div>
-                        <div class="p-5 pt-0">
-                            <h1 class="display-5 mb-3">
-                                <small class="align-top" style="font-size: 22px; line-height: 45px;">$</small>149.00<small class="align-bottom" style="font-size: 16px; line-height: 40px;">/ Month</small>
-                            </h1>
-                            <div class="d-flex justify-content-between mb-3"><span>HTML5 & CSS3</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Bootstrap v5</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-3"><span>Responsive Layout</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <div class="d-flex justify-content-between mb-2"><span>Cross-browser Support</span><i class="fa fa-check text-primary pt-1"></i></div>
-                            <a href="" class="btn btn-primary py-2 px-4 mt-4">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pricing Plan End -->
-@endisset 
-
-
-
-@isset($lock)
-<!-- Testimonial Start -->
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 600px;">
-            <h5 class="fw-bold text-primary text-uppercase">Testimonial</h5>
-            <h1 class="mb-0">What Our Clients Say About Our Digital Services</h1>
-        </div>
-        <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
-            <div class="testimonial-item bg-light my-4">
-                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                    <img class="img-fluid rounded" src="{{ asset('template/start/img/testimonial-1.jpg') }}" style="width: 60px; height: 60px;">
-                    <div class="ps-4">
-                        <h4 class="text-primary mb-1">Client Name</h4>
-                        <small class="text-uppercase">Profession</small>
-                    </div>
-                </div>
-                <div class="pt-4 pb-5 px-5">
-                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
-                </div>
-            </div>
-            <div class="testimonial-item bg-light my-4">
-                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                    <img class="img-fluid rounded" src="{{ asset('template/start/img/testimonial-2.jpg') }}" style="width: 60px; height: 60px;">
-                    <div class="ps-4">
-                        <h4 class="text-primary mb-1">Client Name</h4>
-                        <small class="text-uppercase">Profession</small>
-                    </div>
-                </div>
-                <div class="pt-4 pb-5 px-5">
-                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
-                </div>
-            </div>
-            <div class="testimonial-item bg-light my-4">
-                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                    <img class="img-fluid rounded" src="{{ asset('template/start/img/testimonial-3.jpg') }}" style="width: 60px; height: 60px;">
-                    <div class="ps-4">
-                        <h4 class="text-primary mb-1">Client Name</h4>
-                        <small class="text-uppercase">Profession</small>
-                    </div>
-                </div>
-                <div class="pt-4 pb-5 px-5">
-                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
-                </div>
-            </div>
-            <div class="testimonial-item bg-light my-4">
-                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
-                    <img class="img-fluid rounded" src="{{ asset('template/start/img/testimonial-4.jpg') }}" style="width: 60px; height: 60px;">
-                    <div class="ps-4">
-                        <h4 class="text-primary mb-1">Client Name</h4>
-                        <small class="text-uppercase">Profession</small>
-                    </div>
-                </div>
-                <div class="pt-4 pb-5 px-5">
-                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Testimonial End -->
-@endisset  
-
-
-<!-- Footer Start -->
-@isset($lock) 
-<div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container">
-        <div class="row gx-5">
-            <div class="col-lg-4 col-md-6 footer-about">
-                <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
-                    <a href="index.html" class="navbar-brand">
-                        <h1 class="m-0 text-white"><i class="fa fa-user-tie me-2"></i>Startup</h1>
-                    </a>
-                    <p class="mt-3 mb-4">Lorem diam sit erat dolor elitr et, diam lorem justo amet clita stet eos sit. Elitr dolor duo lorem, elitr clita ipsum sea. Diam amet erat lorem stet eos. Diam amet et kasd eos duo.</p>
-                    <form action="">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-white p-3" placeholder="Your Email">
-                            <button class="btn btn-dark">Sign Up</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-6">
-                <div class="row gx-5">
-                    <div class="col-lg-4 col-md-12 pt-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Get In Touch</h3>
-                        </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-geo-alt text-primary me-2"></i>
-                            <p class="mb-0">123 Street, New York, USA</p>
-                        </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-envelope-open text-primary me-2"></i>
-                            <p class="mb-0">info@example.com</p>
-                        </div>
-                        <div class="d-flex mb-2">
-                            <i class="bi bi-telephone text-primary me-2"></i>
-                            <p class="mb-0">+012 345 67890</p>
-                        </div>
-                        <div class="d-flex mt-4">
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                            <a class="btn btn-primary btn-square" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Quick Links</h3>
-                        </div>
-                        <div class="link-animated d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
-                            <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
-                        <div class="section-title section-title-sm position-relative pb-3 mb-4">
-                            <h3 class="text-light mb-0">Popular Links</h3>
-                        </div>
-                        <div class="link-animated d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>About Us</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Meet The Team</a>
-                            <a class="text-light mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Latest Blog</a>
-                            <a class="text-light" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endisset
-
-   
 @endsection
 @push('footer-script')
 @isset($services[0]['uuid'])

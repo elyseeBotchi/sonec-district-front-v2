@@ -116,7 +116,7 @@ $(document).ready(function() {
                                     let icon = row.state === 'enable' ? '<i class="fa fa-lock"></i>' : '<i class="fa fa-unlock"></i>';
                                     let msg = row.state === 'enable' ? 'Verrouiller ' : 'Déverrouiller';
                                     let className = row.state === 'enable' ? 'btn-outline-danger' : 'btn-outline-success';
-                                    actions += `<a href="/customer/services/taxe/delete/${data}/${Entity_uuid}" title="${msg}" class="btn btn-sm btn-icon waves-effect waves-light material-shadow-none ${className} sendDeleteLink">${icon}</a>`;
+                                   // actions += `<a href="/customer/services/taxe/delete/${data}/${Entity_uuid}" title="${msg}" class="btn btn-sm btn-icon waves-effect waves-light material-shadow-none ${className} sendDeleteLink">${icon}</a>`;
                                 }
                                 var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
 
@@ -126,9 +126,13 @@ $(document).ready(function() {
                                     }
                                     else if(row.state === 'enable' && (row.date_fin < date_actuelle)){
                                         actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
-                                    }else{
+                                    }
+                                    else if(row.state !== 'enable'){
+                                       // actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                    }
+                                    else{
                                         actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
-
+                                        //  actions +='';
                                     }
                                 }
     

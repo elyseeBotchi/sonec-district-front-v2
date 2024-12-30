@@ -61,6 +61,16 @@ $(document).ready(function() {
                     document.getElementById('mode_paiement').innerHTML = paiement.operateur_uuid;
                     document.getElementById('created_at').innerHTML = paiement.updated_at;
                     document.getElementById('status_paiement').innerHTML = paiement.state;
+                    //console.log(paiement)
+          
+
+                    receiptLink = (paiement.validate_by !== null && paiement.state === "success") 
+                    ? `<a href="/landing/services/facturation/taxe/data/generate/carte/${paiement.uuid}" class="btn btn-sm btn-success">Télécharger la carte de stationnement</a>` 
+                    : '';
+                    if(pay_element.state ==="validate"){
+                        document.getElementById('info-carte').innerHTML = receiptLink;
+                    }
+
                 } else {
                     console.warn('Informations de paiement manquantes ou incomplètes.');
                 }
