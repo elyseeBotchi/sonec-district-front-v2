@@ -747,7 +747,7 @@ $(document).ready(function() {
     
                 // Mise à jour des éléments HTML
                 document.getElementById('submitBtn').style.display = 'block';
-                document.getElementById('tarif_line').innerHTML = tarif_line;
+               // document.getElementById('tarif_line').innerHTML = tarif_line;
     
                 // Gestionnaire d'événements pour la mise à jour du montant
                 rubriqueSelect.addEventListener('change', () => {

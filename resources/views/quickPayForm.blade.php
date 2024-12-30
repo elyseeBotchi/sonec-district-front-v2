@@ -84,8 +84,8 @@
                         </div>
                     </div> --}}
 
-                    <h3 class="text-center mb-4">LISTE DES TAXES</h3>
-                        <div class="table-responsive">
+                    <h3 class="text-center mb-4" style="display: none">LISTE DES TAXES</h3>
+                        <div class="table-responsive"  style="display: none">
                             <table class="table table-bordered table-hover text-justify align-middle">
                                 <thead class="table-primary">
                                     <tr>
