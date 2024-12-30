@@ -73,8 +73,8 @@ $(document).ready(function() {
                             data: 'uuid',
                             render: function (data, type, row) {
                                 var permissions = {
-                                    show: canPermission('collaborateur_assigner_un_role_a_un_collaborateur'),
-                                    change: canPermission('collaborateur_activer_ou_desactiver_un_collaborateur')
+                                    //show: canPermission('collaborateur_assigner_un_role_a_un_collaborateur'),
+                                    change: canPermission('gabaris_valider_linsertion_des_donnees_dun_gabari')
                                 };
     
                                 var actions = '';

@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="card-group">
+    @if(CanPermission('entites_voir_les_cartes_valides'))
     <div class="card border-right">
         <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -21,46 +22,51 @@
             </div>
         </div>
     </div>
-
-    <div class="card border-right">
-        <div class="card-body">
-            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                <div>
-                    <div class="d-inline-flex align-items-center">
-                        <h2 class="text-dark mb-1 font-weight-medium" >
-                            <span id="carte_expirer"> <i class="fa fa-spinner fa-spin"></i> </span>
-                        </h2>
+    @endif
+    
+    @if(CanPermission('entites_voir_les_cartes_expirees'))
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <div class="d-inline-flex align-items-center">
+                            <h2 class="text-dark mb-1 font-weight-medium" >
+                                <span id="carte_expirer"> <i class="fa fa-spinner fa-spin"></i> </span>
+                            </h2>
+                        </div>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
+                            Cartes expirées
+                        </h6>
                     </div>
-                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                        Cartes expirées
-                    </h6>
-                </div>
-                <div class="ml-auto mt-md-3 mt-lg-0">
-                    <span class="opacity-7 text-muted fa fa-user-times fa-2x"></span>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted fa fa-user-times fa-2x"></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
-    <div class="card border-right">
-        <div class="card-body">
-            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                <div>
-                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">
-                        <span id="nouveau_contrevenant"><i class="fa fa-spinner fa-spin"></i> </span>
-                    </h2>
-                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                        Nouveaux contrevenants
-                    </h6>
-                </div>
-                <div class="ml-auto mt-md-3 mt-lg-0">
-                    <span class="opacity-7 text-muted fa fa-id-badge fa-2x"></span>
+    @if(CanPermission('entites_voir_les_nouveaux_contrevenants'))
+        <div class="card border-right">
+            <div class="card-body">
+                <div class="d-flex d-lg-flex d-md-block align-items-center">
+                    <div>
+                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">
+                            <span id="nouveau_contrevenant"><i class="fa fa-spinner fa-spin"></i> </span>
+                        </h2>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
+                            Nouveaux contrevenants
+                        </h6>
+                    </div>
+                    <div class="ml-auto mt-md-3 mt-lg-0">
+                        <span class="opacity-7 text-muted fa fa-id-badge fa-2x"></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
-
+    @if(CanPermission('entites_voir_tous_les_contrevenants'))  
     <div class="card">
         <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -81,12 +87,12 @@
             </div>
         </div>
     </div>
-
+@endif
 </div>
 
 
 
-
+@if(CanPermission('entites_voir_la_liste_de_donnee_de_lentite'))
 <div class="row col-md-12">
     <div class="col-md-12 col-lg-12">
         <div class="card">
@@ -164,6 +170,7 @@
         </div>
     </div>
 </div>
+@endisset 
 
 @push('footer-script')
 @isset($Entity_uuid)

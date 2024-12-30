@@ -281,32 +281,34 @@ $(document).ready(function() {
                 } else {
                     console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
                 }
-    
+                    
+                            // Générer des couleurs dynamiquement
+                const generateColors = (count, alpha = 0.2) => {
+                    const colors = [];
+                    for (let i = 0; i < count; i++) {
+                        const r = Math.floor(Math.random() * 256);
+                        const g = Math.floor(Math.random() * 256);
+                        const b = Math.floor(Math.random() * 256);
+                        colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
+                    }
+                    return colors;
+                };
+
+                // Générer les couleurs pour le graphique
+                const backgroundColors = generateColors(labels.length, 0.2);
+                const borderColors = generateColors(labels.length, 1);
+
                 // Générer le camembert
                 const ctx = document.getElementById('facturationChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'pie', // Type de graphique
                     data: {
-                       labels: labels,
+                        labels: labels,
                         datasets: [{
                             label: 'Montant total par rubrique',
                             data: dataValues,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
+                            backgroundColor: backgroundColors, // Couleurs dynamiques pour l'arrière-plan
+                            borderColor: borderColors, // Couleurs dynamiques pour les bordures
                             borderWidth: 1
                         }]
                     },
@@ -315,7 +317,7 @@ $(document).ready(function() {
                         plugins: {
                             legend: {
                                 display: false, // Masque la légende
-                                position: 'left', // Place la légende à droite
+                                position: 'left', // Place la légende à gauche
                                 labels: {
                                     align: 'end', // Aligne le texte des éléments de la légende à droite
                                     usePointStyle: true, // Affiche un point coloré au lieu d'un carré
@@ -329,14 +331,15 @@ $(document).ready(function() {
                         }
                     }
                 });
+
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des statistiques :', error);
-                Swal.fire({
+               /*  Swal.fire({
                     icon: 'error',
                     title: 'Erreur',
                     text: 'Impossible de récupérer les statistiques. Veuillez réessayer.',
-                });
+                }); */
             });
     }
     

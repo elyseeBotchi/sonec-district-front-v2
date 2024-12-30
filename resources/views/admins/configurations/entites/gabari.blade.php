@@ -21,17 +21,23 @@
         </div>
     </div>
 
+    @if(CanPermission('gabaris_voir_longlet_gabaris'))
     <div class="row" id="container">
         <div class="col-md-12">
             <div class="text-end mb-4">
  
+                @if(CanPermission('gabaris_charger_un_gabari'))
                 <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#customer-edit_add-modal">
                     <i class="fas fa-plus"></i> Uploader le gabari
                 </a>
-                 <a href="{{ route('panel.autorisations.entite.gabari.model',['uuid' => $Entity_uuid ?? '' ]) }}" class="btn btn-rounded btn-outline-primary float-right mr-2">Télécharer le model </a>
+                @endif
 
+                @if(CanPermission('gabaris_telecharger_le_model_de_gabari'))
+                 <a href="{{ route('panel.autorisations.entite.gabari.model',['uuid' => $Entity_uuid ?? '' ]) }}" class="btn btn-rounded btn-outline-primary float-right mr-2">Télécharer le model </a>
+                @endif
             </div>
 
+            @if(CanPermission('gabaris_charger_un_gabari'))
             <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <form class="modal-content sendCreateForm" action="{{ route('panel.autorisations.entite.gabari.store') }}" method="POST">
@@ -69,7 +75,7 @@
                     </form>
                 </div>
             </div>
-
+            @endif 
             <div class="pt-5">
                 <table class="table" id="datatable-custom">
                     <thead>
@@ -92,15 +98,17 @@
             </div>
         </div>
     </div>
-
+    @endif
     @endsection
 
+    @if(CanPermission('gabaris_voir_longlet_gabaris'))
 @push('footer-script')
     @isset($Entity_uuid)
         <script>
             var Entity_uuid = @Json($Entity_uuid ?? '');
         </script>
     @endisset
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
- <script src="{{ asset('/backoffice/js/gabari.js') }}"></script> 
-@endpush
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script src="{{ asset('/backoffice/js/gabari.js') }}"></script> 
+        @endpush
+@endif

@@ -22,9 +22,22 @@ $(document).ready(function() {
                 const results = data.data;
                // console.log("Résultats reçus :", results);
 
+               var permissions = {
+                validation_pending: canPermission('tableau_de_bord_voir_les_validations_en_attentes'),
+                nb_total_jour: canPermission('tableau_de_bord_voir_les_paiements_du_jour'),
+                graphe_devolution: canPermission('tableau_de_bord_voir_le_graphe_devolution'),
+            };
+            
+            if(permissions.validation_pending){
                 document.getElementById('validation_pending').innerHTML = results.validation_pending || 0;
+            }  
+
+            if(permissions.nb_total_jour){
                 document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
 
+            }
+
+            if(permissions.graphe_devolution){
                 // Extraction des données pour les courbes
                 const xValues = results.months || []; // Tableau des mois
                 const yValues = results.valuesY || []; // Données pour la courbe Y
@@ -84,14 +97,16 @@ $(document).ready(function() {
                         },
                     },
                 });
-            })
+            }
+
+        })
             .catch(error => {
                 console.error('Erreur lors de la récupération des statistiques :', error);
-                Swal.fire({
+                /* Swal.fire({
                     icon: 'error',
                     title: 'Erreur',
                     text: 'Impossible de récupérer les statistiques. Veuillez réessayer.',
-                });
+                }); */
             });
     }
     

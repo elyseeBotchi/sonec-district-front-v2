@@ -161,29 +161,28 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" href="{{ route('panel.securite.compte') }}">
                             <i data-feather="user" class="svg-icon mr-2 ml-1"></i>
                             Mon profile
                         </a>
-                    
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i data-feather="credit-card" class="svg-icon mr-2 ml-1"></i>
-                            Mes redevances 
-                        </a>
+                        @isset($lock) 
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i data-feather="credit-card" class="svg-icon mr-2 ml-1"></i>
+                                Mes redevances 
+                            </a>
 
-                        @isset($lock)
                             <a class="dropdown-item" href="javascript:void(0)">
                                 <i data-feather="mail" class="svg-icon mr-2 ml-1"></i>
                                 Inbox
                             </a>
-                        @endisset
+                        
 
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)">
-                            <i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
-                            parametre du compte
-                        </a>
-                
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void(0)">
+                                <i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
+                                parametre du compte
+                            </a>
+                        @endisset
                         <div class="dropdown-divider"></div>
                     
                         <a class="dropdown-item" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >

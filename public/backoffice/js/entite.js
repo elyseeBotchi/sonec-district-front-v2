@@ -57,9 +57,9 @@ $(document).ready(function() {
                             render: function(data, type, row) {
 
                                 var permissions = {
-                                    show: canPermission(''),
-                                    edit: canPermission(''),
-                                    change: canPermission('')
+                                    show: canPermission('entites_voir_les_details_de_la_configuration_dune_entite'),
+                                    edit: canPermission('entites_modifier_une_entite'),
+                                    change: canPermission('entites_supprimer_une_entite')
                                 };
 
                                 var actions = '';

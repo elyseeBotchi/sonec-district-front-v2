@@ -122,38 +122,43 @@
                                             </table>
                                          </div>
                                      </div>
-                                     <div class="card">
-                                        <form action="{{ route('panel.autorisations.collaborateurs.add_role', $user->uuid) }}" method="POST" class="sendCreateForm">
-                                            @csrf
-                                            <div class="card-header">
-                                                <h5>Ajouter un role</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Role <span class="text-danger">*</span></label>
-                                                                <select name="role_uuid" id="role-uuid" class="form-control">
 
-                                                                </select>
-                                                        </div>
-                                                    </div>
-                                                    @isset($lock)
-                                                        <div class="col-sm-6">
+                                     @if(CanPermission('collaborateurs_assigner_un_role_a_un_collaborateur'))
+                                        <div class="card">
+                                            <form action="{{ route('panel.autorisations.collaborateurs.add_role', $user->uuid) }}" method="POST" class="sendCreateForm">
+                                                @csrf
+                                                <div class="card-header">
+                                                    <h5>Ajouter un role</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <label for="heading-uuid" class="form-label">Définir une fonction ? <span class="text-danger">*</span></label>
-                                                                <select name="heading_uuid" id="heading-uuid" class="form-control"></select>
+                                                                <label class="form-label">Role <span class="text-danger">*</span></label>
+                                                                    <select name="role_uuid" id="role-uuid" class="form-control">
+
+                                                                    </select>
                                                             </div>
                                                         </div>
-                                                    @endisset
+                                                        @isset($lock)
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="heading-uuid" class="form-label">Définir une fonction ? <span class="text-danger">*</span></label>
+                                                                    <select name="heading_uuid" id="heading-uuid" class="form-control"></select>
+                                                                </div>
+                                                            </div>
+                                                        @endisset
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-footer">
-                                                <button type="submit" class="btn btn-rounded btn-outline-primary">Sauvegarder</button>
-                                            </div>
-                                        </form>
-                                     </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" class="btn btn-rounded btn-outline-primary">Sauvegarder</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endif 
+
+
                                  </div>
                              </div>
                          </div>

@@ -21,6 +21,13 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
+                
+                        
+                var permissions = {
+                    historique_des_controles: canPermission('activites_voir_lhistorique_des_controles'),
+                };
+                
+                if(permissions.historique_des_controles){
                 //console.log(results)
                 // Vérifie si le tableau a déjà été initialisé
                 if ($.fn.DataTable.isDataTable('#datatable-custom')) {
@@ -82,6 +89,7 @@ $(document).ready(function() {
                         },
                     ]
                 });
+                }
             })
     }
 
@@ -90,6 +98,11 @@ $(document).ready(function() {
         const results = datas;
         //console.log(results)
         // Vérifie si le tableau a déjà été initialisé
+        var permissions = {
+            historique_des_controles: canPermission('activites_voir_lhistorique_des_controles'),
+        };
+        
+        if(permissions.historique_des_controles){
         if ($.fn.DataTable.isDataTable('#datatable-custom')) {
             // Détruire l'instance existante
             $('#datatable-custom').DataTable().destroy();
@@ -150,6 +163,7 @@ $(document).ready(function() {
             ]
         });
     }
+    }
 
     function findAgent() {
         fetch(`/panel/agents/autorisations/findAll`)
@@ -192,19 +206,36 @@ $(document).ready(function() {
             .then(data => {
                 //console.log(data);
                 const results = data.data;
-                console.log(data);
+                //console.log(data);
 
-                const penalite_journalier = document.getElementById('penalite_journalier');
-                const penalite_mensuel = document.getElementById('penalite_mensuel');
-                const scanne_journalier = document.getElementById('scanne_journalier');
-                const scanne_mensuel = document.getElementById('scanne_mensuel');
+                        
+                var permissions = {
+                    penalite_journalier: canPermission('activites_voir_les_scannes_journaliers'),
+                    penalite_mensuel: canPermission('activites_voir_le_nombre_de_scanne_mensuel'),
+                    scanne_journalier: canPermission('activites_voir_les_penalites_mensuel'),
+                    scanne_mensuel: canPermission('activites_voir_le_nombre_de_scanne_mensuel'),
+                };
                 
+
                 // Vide le select avant d'ajouter de nouvelles options
+                if(permissions.penalite_journalier){
+                    
+                const penalite_journalier = document.getElementById('penalite_journalier');
                 penalite_journalier.innerHTML = results.penalite_journalier;
+                }
+
+                if(permissions.penalite_mensuel){
+                const penalite_mensuel = document.getElementById('penalite_mensuel');
                 penalite_mensuel.innerHTML = results.penalite_mensuel;
+                }
+                if(permissions.scanne_journalier){
+                const scanne_journalier = document.getElementById('scanne_journalier');
                 scanne_journalier.innerHTML = results.scanne_journalier;
+                }
+                if(permissions.scanne_mensuel){
+                const scanne_mensuel = document.getElementById('scanne_mensuel');
                 scanne_mensuel.innerHTML = results.scanne_mensuel;
-    
+                }
             })
             .catch(error => {
                 console.error('Erreur:', error);

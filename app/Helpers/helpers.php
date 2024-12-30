@@ -89,11 +89,11 @@ if(!function_exists('CanPermission')) {
 
             }
 
-            return true;
-          //  return false;
+          //  return true;
+            return false;
         }else{
-            return true;
-           // return false;
+           //  return true;
+           return false;
         }
     }
 }

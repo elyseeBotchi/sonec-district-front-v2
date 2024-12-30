@@ -249,6 +249,7 @@
                 </div>
 
             </div>
+            
         </div>
 
         <div class="modal fade" id="addFacturation-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">

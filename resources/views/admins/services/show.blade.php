@@ -36,7 +36,10 @@
                             </table>
                         </div>
                     </div>
+
+                      
                     <div class="card-footer" id="validation-info" style="display: none">
+                        @if(CanPermission('tableau_de_bord_voir_le_graphe_devolution')) 
                         <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous êtes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
                             Valider
                         </button>
@@ -44,10 +47,14 @@
                         <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous êtes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
                             Rejeter
                         </button>
+                        @endif
                     </div>  
+                    
+
                 </div> 
             </div> 
 
+            @if(CanPermission('entites_voir_lhistorique_des_paiements_dune_entite'))  
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
@@ -96,6 +103,8 @@
 
                 </div> 
             </div> 
+            @endif
+
         </div>
     </div>
 @endsection

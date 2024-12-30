@@ -13,7 +13,12 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => {  
-               
+                var permissions = {
+                    historique_paiement: canPermission('entites_voir_lhistorique_des_paiements_dune_entite'),
+                    recu_de_paiement: canPermission('entites_telecharger_le_recu_de_paiement'),
+                    telecharger_la_carte: canPermission('entites_telecharger_la_carte'),
+                };
+
                 console.log(data);
                 if (!data.data) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
@@ -140,8 +145,16 @@ $(document).ready(function() {
                             <td><span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span></td> 
                         </tr>`;
 
-                        document.getElementById('validation-info').innerHTML = `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
-                        document.getElementById('validation-info').style.display = "block";
+                        //document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
+
+                         if(permissions.telecharger_la_carte){
+                            document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success">Télécharger la carte de stationnement</a>`;
+                            document.getElementById('validation-info').style.display = "block";
+                        }else{
+                            document.getElementById('validation-info').innerHTML =  ``;
+
+                        } 
+                       
                     }else{
                         html_render += `
                         <tr> 
@@ -163,38 +176,49 @@ $(document).ready(function() {
 
               //  console.log(factures) 
               //AJOUTE LES DONNEES
+  
+          
+                    
+                if(permissions.historique_paiement){
+                    // Génération des lignes du tableau pour les factures
+                    let history_render = ""; 
 
+                    if (Array.isArray(factures) && factures.length > 0) {
+                        factures.forEach(facture => {
+                            // Vérifier si les permissions sont disponibles
+                            let receiptLink = "";
+                            if (permissions && permissions.recu_de_paiement) {
+                                receiptLink = (facture.validate_by !== null && facture.state === "success") 
+                                    ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}" class="btn btn-link">Télécharger le reçu</a>` 
+                                    : 'N/A';
+                            }
+                    
+                            // Générer le contenu pour chaque facture
+                            history_render += `
+                            <tr>
+                                <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
+                                <td>${entity.name || 'N/A'}</td>
+                                <td>${facture.reference || 'N/A'}</td>
+                                <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
+                                <td>${facture.operateur_uuid || 'N/A'}</td>
+                                <td>${translateStatus(facture.state) || 'N/A'}</td>
+                                <td>${receiptLink}</td>
+                            </tr>`;
+                        });
+                    }
+                    
+                    else {
+                    // history_render += "<tr><td colspan='7'>Aucun paiement retrouvé.</td></tr>";
+                    }
 
-            // Génération des lignes du tableau pour les factures
-            let history_render = ""; 
-            if (Array.isArray(factures) && factures.length > 0) {
-                factures.forEach(facture => {
-                    const receiptLink = (facture.validate_by !== null && facture.state === "success") 
-                        ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}">Télécharger le reçu</a>` 
-                        : 'N/A';
-            
-                    history_render += `
-                    <tr>
-                        <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
-                        <td>${entity.name || 'N/A'}</td>
-                        <td>${facture.reference || 'N/A'}</td>
-                        <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
-                        <td>${facture.operateur_uuid || 'N/A'}</td>
-                        <td>${translateStatus(facture.state) || 'N/A'}</td>
-                        <td>${receiptLink}</td>
-                    </tr>`;
-                });
-            }
-             else {
-               // history_render += "<tr><td colspan='7'>Aucun paiement retrouvé.</td></tr>";
-            }
+                    // Injection du contenu HTML dans le tableau
+                    document.getElementById('history_render').innerHTML = history_render;
 
-            // Injection du contenu HTML dans le tableau
-            document.getElementById('history_render').innerHTML = history_render;
-
-            // Initialisation de DataTables après le rendu du tableau
-            $('#history_container').DataTable();
+                    // Initialisation de DataTables après le rendu du tableau
+                    $('#history_container').DataTable();
+                }
             })
+    
             .catch(error => {
                 console.error('Erreur:', error);
                 // Afficher un message utilisateur, par exemple un toast ou une alerte

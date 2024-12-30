@@ -58,8 +58,8 @@ $(document).ready(function() {
                             render: function(data, type, row) {
 
                                 var permissions = {
-                                    show: canPermission('collaborateur_assigner_un_role_a_un_collaborateur'),
-                                    change: canPermission('collaborateur_activer_ou_desactiver_un_collaborateur')
+                                    show: canPermission('collaborateurs_voir_les_detail_dun_collaborateur'),
+                                    change: canPermission('collaborateurs_activer_ou_desactiver_un_collaborateur')
                                 };
 
                                 var actions = '';

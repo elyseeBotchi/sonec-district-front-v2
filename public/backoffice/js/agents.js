@@ -59,8 +59,8 @@ $(document).ready(function() {
                             render: function(data, type, row) {
 
                                 var permissions = {
-                                    show: canPermission('collaborateur_assigner_un_role_a_un_collaborateur'),
-                                    change: canPermission('collaborateur_activer_ou_desactiver_un_collaborateur')
+                                    show: canPermission('agents_modifier_un_agent'),
+                                    change: canPermission('agents_activer_ou_desactiver_un_agent')
                                 };
 
                                 var actions = '';

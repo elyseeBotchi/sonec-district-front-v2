@@ -61,7 +61,7 @@ class CollaboratorsController extends Controller
 
         $collaborators = (new GlobalSendService())->CallApi($url_path,$data,'GET');
 
-       // return dd($collaborators);
+        //return dd($collaborators);
         return view('admins.configurations.collaborateurs.show', [
             'user' => json_decode(json_encode($collaborators['data']))
         ]);

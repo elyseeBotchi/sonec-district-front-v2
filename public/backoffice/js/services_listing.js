@@ -214,18 +214,42 @@ $(document).ready(function() {
             .then(data => {
                 //console.log(data);
                 const results = data.data;
-                console.log(data);
+                //console.log(data);
 
-                const carte_valide = document.getElementById('carte_valide');
-                const carte_expirer = document.getElementById('carte_expirer');
-                const nouveau_contrevenant = document.getElementById('nouveau_contrevenant');
-                const total_contrevenant = document.getElementById('total_contrevenant');
+                
+                
+                
+                var permissions = {
+                    show_carte_valide: canPermission('entites_voir_les_cartes_valides'),
+                    show_carte_expirer: canPermission('entites_voir_les_cartes_expirees'),
+                    show_nouveau_contrevenant: canPermission('entites_voir_les_nouveaux_contrevenants'),
+                    show_total_contrevenant: canPermission('entites_voir_tous_les_contrevenants'),
+                };
                 
                 // Vide le select avant d'ajouter de nouvelles options
-                carte_valide.innerHTML = results.carte_valide;
-                carte_expirer.innerHTML = results.carte_expirer;
-                nouveau_contrevenant.innerHTML = results.nouveau_contrevenant;
-                total_contrevenant.innerHTML = results.total_contrevenant;
+                if(permissions.show_carte_valide){
+                    const carte_valide = document.getElementById('carte_valide');
+                    carte_valide.innerHTML = results.carte_valide;                    
+                }
+
+                if(permissions.show_carte_expirer){
+        
+                    const carte_expirer = document.getElementById('carte_expirer');
+                    carte_expirer.innerHTML = results.carte_expirer;                            
+                }
+
+
+                if(permissions.show_nouveau_contrevenant){
+                    const nouveau_contrevenant = document.getElementById('nouveau_contrevenant');
+                    nouveau_contrevenant.innerHTML = results.nouveau_contrevenant;                          
+                }
+
+
+                if(permissions.show_total_contrevenant){
+                    const total_contrevenant = document.getElementById('total_contrevenant');
+                    total_contrevenant.innerHTML = results.total_contrevenant;              
+                }
+
     
             })
             .catch(error => {
