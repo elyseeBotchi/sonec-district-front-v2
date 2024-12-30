@@ -52,8 +52,9 @@ $(document).ready(function() {
                     validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01 ou AB1234CD"';
                 }                
                 else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
-                    validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
-                    validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
+                    //validationAttributes = ' pattern="^[A-Z]{2}[0-9]{8}$|^[0-9]{8}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB12345678, 123456AB,1234567AB,12345678AB, ou encore AB-1234-CD"';
                 }
                 else{
                     validationAttributes = ' minlength="3" maxlength="50"';
