@@ -100,7 +100,7 @@
 @endsection
 
 @push('footer-script')
-  <script src="http://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
   <script src="{{ asset('backoffice/js/permissions.js') }}"></script>
   <script>
     var moduleUuid = @Json($module->uuid);
