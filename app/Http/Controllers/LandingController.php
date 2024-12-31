@@ -214,6 +214,7 @@ class LandingController extends Controller
             'paymode'=> $request->paymode ?? '',
             'numero_paiement' => $request->numero_paiement ?? '',
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
+            'email' => $request->email ?? '',
             'element'=> $request->all(),
         ];
 

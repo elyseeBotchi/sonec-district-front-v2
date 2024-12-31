@@ -296,6 +296,7 @@ $(document).ready(function() {
             cancelButtonText: 'Annuler',
         }).then((result) => {
             if (result.isConfirmed) {
+                loader('show');
                 // Continuer si l'utilisateur confirme
                 var action = $(this).attr('action');
                 var formData = new FormData(this);
@@ -307,7 +308,7 @@ $(document).ready(function() {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     beforeSend: function () {
-                        loader();
+                       
                         // Remove previous error styles and messages
                         $('.is-invalid').removeClass('is-invalid');
                         $('.invalid-feedback').remove();
@@ -401,7 +402,9 @@ $(document).ready(function() {
                     'spinnerZIndex': 99999,
                     'overlayZIndex': 99998,
                     'lockScroll': true,
+                    'overlayHTML': '<div style="color:rgb(8, 2, 2); font-size: 16px; margin-top: 10px;">Veuillez patienter...</div>',
                 });
+                
                 break;
             default:
                 JsLoadingOverlay.hide();
