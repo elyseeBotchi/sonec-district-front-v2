@@ -119,10 +119,9 @@
                                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
                                             LISTE DES TAXES
                                         </a>
-                                        {{-- <a href="{{ route('register', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
-                                           class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-                                            INSCRIVEZ-VOUS
-                                        </a> --}}
+                                        <a href="#target-comment-sacquitter" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                           COMMENT S'ACQUITTER DE SA TAXE
+                                        </a>  {{----}}
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +303,7 @@
             <h5 class="fw-bold text-primary text-uppercase">
                            
             </h5>
-            {{----}} <h1 class="mb-0">
+           <h1 class="mb-0" id="target-comment-sacquitter">
                 Comment s'acquitter de sa taxe de stationnement 
             </h1> 
         </div>
