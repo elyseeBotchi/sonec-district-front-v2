@@ -150,11 +150,20 @@
                                    
                                 <div class="col-12">
                                     <label class="form-label">Lieu de rendez-vous <code>*</code></label>
-                                    <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0"></select>
+                                    <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0">
+                                        @isset($lieuRdv)
+                                            @forelse($lieuRdv as $key => $value)
+                                                <option value="{{ $value['uuid'] }}"> {{ $value['libelle'] ?? '' }} </option>
+                                            @empty
+                                            @endforelse
+                                        @endisset
+                                    </select>
                                 </div>
-                                   
+                                  
                                 <div class="col-12">
-                                    <label class="form-label">Date de rendez-vous <code>*</code></label>
+                                    <label class="form-label">
+                                        Date de rendez-vous <code>*</code>
+                                    </label>
                                     <select name="rdv" id="rdv" class="form-control bg-light border-0">
                                         @isset($dateValideRdv)
                                             @forelse($dateValideRdv as $key => $value)

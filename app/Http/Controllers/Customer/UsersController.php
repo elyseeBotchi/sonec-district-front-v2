@@ -221,4 +221,7 @@ class UsersController extends Controller
 
     }
 
+    public function comment_payer(){
+        return view('customers.comment-payer');
+    }
 }

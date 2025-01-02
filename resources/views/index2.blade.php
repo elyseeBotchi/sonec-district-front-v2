@@ -341,7 +341,7 @@
                     <br>
                     <br>
 
-                    @isset($lock)
+                    @isset($lock)@endisset 
                         <div class="step">
                             <h2>Méthode 2 : Création de compte et paiement</h2>
                             <div>
@@ -369,7 +369,7 @@
                             CREER UN COMPTE
                         </a>
                         <br>
-                    @endisset 
+                    
                     <br>
     
                     <br>

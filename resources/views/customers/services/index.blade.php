@@ -6,22 +6,24 @@
     <div class="row card" id="container">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-                <h4 class="mb-sm-0"> <span id="TaxeEntity"></span></h4>
+                <h4 class="mb-sm-0"> <span id="TaxeEntity" style="display:none;"></span></h4>
 
-                <div class="page-title-right">
+                {{-- <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">Services</li>
                         <li class="breadcrumb-item active services"><i class="fa fa-spinner fa-spin"></i></li>
                     </ol>
-                </div>
+                </div> --}}
             </div>
-        </div>
+        </div> 
 
         <div class="col-sm-12 card-body">
             <div class="text-end mb-4">
-                <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#customer-edit_add-modal">
-                    <i class="fas fa-plus"></i> Ajouter{{--  un élément à <span class="services"></span> --}}
+               <h4> LISTE DES VEHICULES </h4>
+               <a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
+                    <i class="fas fa-plus"></i> Ajouter un véhicule{{--  un élément à <span class="services"></span> --}}
                 </a>
+
             </div>
 
             <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -166,8 +168,8 @@
             
             
 
-            <div class="pt-5 table-responsive">
-                <table class="table table-sm table-striped table-bordered" id="datatable-custom">
+            <div class="pt-5 ">
+                <table class="table table-striped table-bordered" id="datatable-custom">
                     <thead>
                     <tr></tr>
                     </thead>

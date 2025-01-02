@@ -221,7 +221,6 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         Route::get('/services/findOne/{uuid}', [ServicesController::class, 'findOneEntite'])->name('customer.entities.findOne');
         Route::get('/services/taxe/entetes/{uuid}', [ServicesController::class, 'entete'])->name('customer.entities.taxe.entete');
     
-
         
     });
 
@@ -279,6 +278,9 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('compte/update/password', [UsersController::class, 'updatePassword'])->name('customer.securite.compte.update.password');
             Route::post('compte/update/avatar', [UsersController::class, 'uploadAvatar'])->name('customer.securite.compte.update.avatar');
         });
+
+        Route::get('service/comment/payer', [UsersController::class, 'comment_payer'])->name('customer.service.comment.payer');
+
 
         
     });
