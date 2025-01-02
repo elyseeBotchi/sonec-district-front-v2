@@ -78,7 +78,7 @@ $(document).ready(function() {
                     html_render += `
                     <tr> 
                         <td>ID Transaction </td> 
-                        <td> ${pay_element['transaction_id'] || ''} Francs CFA </td> 
+                        <td> ${pay_element['transaction_id'] || ''} </td> 
                     </tr>`;
 
                     html_render += `
