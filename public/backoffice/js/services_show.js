@@ -410,7 +410,7 @@ $(document).ready(function() {
             case '0':
                     return '<span class="badge badge-danger">Inactif </span>';
             default:
-                return periodicity; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
+                return state; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
         }
     }
 
