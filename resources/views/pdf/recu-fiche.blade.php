@@ -72,7 +72,6 @@
              top: -10px;
              margin-left: 10px; /* Ajout de marge pour éviter le débordement */
          }
-
     </style>
 </head>
 
@@ -85,8 +84,8 @@
         <table style="width: 100%;border: inherit">
            <tr>
                <td>
-                <img src="{{ public_path('template/assets/images/logo.png') }}" width="100px">
-            </td>
+                    <img src="{{ public_path('template/assets/images/logo.png') }}" width="100px">
+                </td>
                <td>
                
                </td>
@@ -109,7 +108,7 @@
                  REÇU DE PAIEMENT - {{ $entity['name'] ?? '' }}
             </h4>
         </div>
-<br>
+        <br>
 
         <table class="" style="width: 100%;border: inherit;border:none;">
            
@@ -242,7 +241,7 @@
 
                 <tr>
                     <td class="cell-padding"  style="width: 250px !important">
-                        Numero de paiement
+                        Numéro de téléphone de paiement
                     </td>
                     <td>
                         : <strong> {{ $user['telephone'] ?? '' }} </strong>
@@ -251,7 +250,16 @@
 
                 <tr>
                     <td class="cell-padding"  style="width: 250px !important">
-                        Id Transaction
+                        Opérateur
+                    </td>
+                    <td>
+                        : <strong> {{ $operateur['uuid'] ?? '' }} </strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="cell-padding"  style="width: 250px !important">
+                        Référence de la transaction
                     </td>
                     <td>
                         : <strong> {{ $user['transaction_id'] ?? '' }} </strong>
