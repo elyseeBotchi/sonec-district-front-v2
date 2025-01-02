@@ -136,11 +136,6 @@
                                     <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 55px;">
                                 </div>
 
-                                <div class="col-12">
-                                    <label class="form-label">Téléphone de paiement <code>*</code></label>
-                                    <input type="tel" class="form-control bg-light border-0" placeholder="Téléphone de paiement"  id="num_pay"  name="numero_paiement" required="" minlength="10" maxlength="10" required  style="height: 55px;">
-                                </div>
-
                                 
                                 <div class="col-12">
                                     <label class="form-label">Date de la dernière visite <code>*</code></label>
@@ -175,6 +170,11 @@
                                         @endisset
                                     </select>
                                 </div>
+                                <div class="col-12">
+                                    <label class="form-label">Téléphone de paiement <code>*</code></label>
+                                    <input type="tel" class="form-control bg-light border-0" placeholder="Téléphone de paiement"  id="num_pay"  name="numero_paiement" required="" minlength="10" maxlength="10" required  style="height: 55px;">
+                                </div>
+
 
 
                                 <div class="col-12">
