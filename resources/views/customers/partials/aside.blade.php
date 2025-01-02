@@ -23,13 +23,18 @@
                     </li>
                 @endif
             
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link sidebar-link" href="#" aria-expanded="false">
-                        <i data-feather="calendar" class="feather-icon"></i>
-                        <span class="hide-menu">Reclamation</span>
+                              
+                <li class="sidebar-item {{ request()->is('customer/service/comment/payer/*') ? 'selected' : '' }}">
+                    <a class="sidebar-link sidebar-link {{ request()->is('customer/service/comment/payer/*') ? 'active' : '' }}" href="{{ route('customer.service.comment.payer') }}" aria-expanded="false">
+                        <i data-feather="info" class="feather-icon"></i>
+                        <span class="hide-menu">
+                            Comment payer
+                        </span>
                     </a>
                 </li>
+
+
+               
                 @isset($entitesNav)
                     <li class="list-divider"></li>
                     <li class="nav-small-cap"><span class="hide-menu">Produits</span></li>
@@ -59,8 +64,6 @@
                 
                 @endisset
                 
-
-                <li class="list-divider"></li>
               
                 <li class="sidebar-item {{ request()->is('customer/securite/*') ? 'selected' : '' }}">
                     <a class="sidebar-link sidebar-link {{ request()->is('customer/securite/*') ? 'active' : '' }}" href="{{ route('customer.securite.compte') }}" aria-expanded="false">
@@ -70,6 +73,7 @@
                         </span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link sidebar-link"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();" aria-expanded="false">
                         <i data-feather="log-out" class="feather-icon"></i>

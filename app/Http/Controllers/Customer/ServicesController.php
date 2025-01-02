@@ -16,7 +16,7 @@ class ServicesController extends Controller
         $url_path = "/autorisations/services/taxe/operateurs";
 
         $data = [
-            'uuid' => $target
+            'entity_uuid' => $target
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
@@ -27,13 +27,19 @@ class ServicesController extends Controller
                 return view('customers.services.index', [
                     'operateurs'=>$responses['data'] ?? '',
                     'entity_uuid' =>$target ?? '',
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 5
 
                 ]);
             }
             else{
                 return view('customers.services.index', [
                     'operateurs'=>$responses['data'] ?? '',
-                    'entity_uuid' =>$target ?? ''
+                    'entity_uuid' =>$target ?? '',
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 5
 
                 ]);
             }
@@ -41,7 +47,10 @@ class ServicesController extends Controller
         else{
             return view('customers.services.index', [
                 'operateurs'=>$responses['data'] ?? '',
-                'entity_uuid' =>$target ?? ''
+                'entity_uuid' =>$target ?? '',
+                'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                'lieuRdv' => $responses['lieuRdv'] ?? '',
+                'limit' => $datas['limit'] ?? 5
             ]);
         }
     }

@@ -22,19 +22,25 @@ class CustomerFacturationsController extends Controller
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-      // dd($responses);
+       //dd($responses);
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
                 return view('customers.services.index', [
                     'operateurs'=>$responses['data'] ?? '',
                     'entity_uuid' =>$target ?? '',
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 5
 
                 ]);
             }
             else{
                 return view('customers.services.index', [
                     'operateurs'=>$responses['data'] ?? '',
-                    'entity_uuid' =>$target ?? ''
+                    'entity_uuid' =>$target ?? '',
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 5
 
                 ]);
             }
@@ -42,7 +48,10 @@ class CustomerFacturationsController extends Controller
         else{
             return view('customers.services.index', [
                 'operateurs'=>$responses['data'] ?? '',
-                'entity_uuid' =>$target ?? ''
+                'entity_uuid' =>$target ?? '',
+                'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                'lieuRdv' => $responses['lieuRdv'] ?? '',
+                'limit' => $datas['limit'] ?? 5
             ]);
         }
     }

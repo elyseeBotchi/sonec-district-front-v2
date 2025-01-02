@@ -24,10 +24,10 @@ $(document).ready(function() {
     
                 document.getElementById('TaxeEntity').innerHTML = entity.name;
                 // Mettre à jour les informations de l'entité dans les éléments HTML
-                let elements = document.getElementsByClassName('services');
+                /* let elements = document.getElementsByClassName('services');
                 for (let i = 0; i < elements.length; i++) {
                     elements[i].innerHTML = entity.front_name;
-                }
+                } */
     
                 // Construire dynamiquement les en-têtes du tableau
                 let headerHtml = '<tr>';
@@ -143,7 +143,12 @@ $(document).ready(function() {
                                 return actions;
                             }
                         }
-                    ]
+                    ],
+                    paging: false, // Désactiver la pagination
+                    searching: false, // Désactiver le filtre (champ de recherche)
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json' // URL pour le fichier de traduction en français
+                    }
                 });
             })
             .catch(error => {

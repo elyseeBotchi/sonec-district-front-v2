@@ -88,15 +88,16 @@ class LandingController extends Controller
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
        // dd($service);
-       dd($responses);
+      //dd($responses);
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
                 return view('quickPayForm', [
                     'operateurs'=>$responses['data'] ?? '',
                     'service_uuid' => $service ?? '',
                     'service_name' => $name ?? '',
-                    'dateValideRdv' => $datas['dateValideRdv'] ?? '',
-                    'limit' => $datas['limit'] ?? 1
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 5
                 ]);
             }
             else{
@@ -104,7 +105,8 @@ class LandingController extends Controller
                     'operateurs'=>$responses['data'] ?? '',
                     'service_uuid' => $service ?? '',
                     'service_name' => $name ?? '',
-                    'dateValideRdv' => $datas['dateValideRdv'] ?? '',
+                    'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                    'lieuRdv' => $responses['lieuRdv'] ?? '',
                     'limit' => $limit ?? 1
 
                 ]);
@@ -115,8 +117,9 @@ class LandingController extends Controller
                 'operateurs'=>$responses['data'] ?? '',
                 'service_uuid' => $service ?? '',
                 'service_name' => $name ?? '',
-                'dateValideRdv' => $datas['dateValideRdv'] ?? '',
-                'limit' => $limit ?? 1
+                'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+                'lieuRdv' => $responses['lieuRdv'] ?? '',
+                'limit' => $limit ?? 5
 
             ]);
         }
@@ -224,6 +227,7 @@ class LandingController extends Controller
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
             'email' => $request->email ?? '',
             'date_visite' => $request->date_visite ?? '',
+            'lieu_rdv' => $request->lieu_rdv ?? '',
             'element'=> $request->all(),
         ];
 
