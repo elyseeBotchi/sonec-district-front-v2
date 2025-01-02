@@ -22,7 +22,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-3">Informations du Bien</h4>
+                        <h4 class="card-title mb-3">Informations sur le véhicule</h4>
     
                         <div class="row">
                             <table class="table">

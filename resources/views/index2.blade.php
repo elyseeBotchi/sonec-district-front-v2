@@ -311,33 +311,7 @@
         <div class="row g-5">
             <div class="col-lg-12">
                 <div class="container">
-                    @isset($lock)
-                    <div class="step">
-                        <h2>Étape 1</h2>
-                        <ul>
-                            <li>Consulter la liste des taxes</li>
-                            <li>Renseigner les informations personnelles du propriétaire du véhicule et les informations afférentes au véhicule</li>
-                            <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
-                            <li>Imprimer votre reçu de paiement</li>
-                        </ul>
-                    </div>
-            
-                    <div class="step">
-                        <h2>Étape 2</h2>
-                        <ul>
-                            <li>Se rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de votre reçu et des pièces afférentes au véhicule</li>
-                        </ul>
-                    </div>
-            
-                    <div class="note">
-                        <p><strong>NB :</strong></p>
-                        <ul>
-                            <li>Pour les paiements rapides, votre quittance est émise par email</li>
-                            <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace et également émis par email</li>
-                        </ul>
-                    </div>
-                 @endisset
-
+                   
                     <div class="step">
                         <h2>Méthode 1 : Paiement rapide</h2>
                         <div>
@@ -366,34 +340,36 @@
                     <br>
                     <br>
                     <br>
-    
-                    <div class="step">
-                        <h2>Méthode 2 : Création de compte et paiement</h2>
-                        <div>
-                            <h3>Étape 1</h3>
-                            <ul>
-                                <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>                                
-                                <li>Creer votre compte </li>
-                                <li>Se connecter à son espace requérant</li>
-                                <li>Renseigner les informations afférentes aux véhicules </li>
-                                <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
-                                <li>Imprimer votre reçu de paiement</li>
 
-                            </ul>
+                    @isset($lock)
+                        <div class="step">
+                            <h2>Méthode 2 : Création de compte et paiement</h2>
+                            <div>
+                                <h3>Étape 1</h3>
+                                <ul>
+                                    <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>                                
+                                    <li>Creer votre compte </li>
+                                    <li>Se connecter à son espace requérant</li>
+                                    <li>Renseigner les informations afférentes aux véhicules </li>
+                                    <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
+                                    <li>Imprimer votre reçu de paiement</li>
+
+                                </ul>
+                            </div>
+                            <div>
+                                <h3>Étape 2</h3>
+                                <ul>
+                                    <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div>
-                            <h3>Étape 2</h3>
-                            <ul>
-                                <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
-                            </ul>
-                        </div>
-                    </div>
-    
-                    <br>
-                    <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
-                        CREER UN COMPTE
-                    </a>
-                    <br>
+                        
+                        <br>
+                        <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
+                            CREER UN COMPTE
+                        </a>
+                        <br>
+                    @endisset 
                     <br>
     
                     <br>
@@ -401,7 +377,7 @@
                         <p><strong>NB :</strong></p>
                         <ul>
                             <li>Pour les paiements rapides, votre quittance est émise par email.</li>
-                            <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace requérant et également émise par email.</li>
+                            {{-- <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace requérant et également émise par email.</li> --}}
                         </ul>
                     </div>
     

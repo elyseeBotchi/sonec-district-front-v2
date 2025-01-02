@@ -28,7 +28,10 @@ class LoginController extends Controller
 
      public function index()
      {
-         return view('customers.index');
+        $entiteNav = Entity_Customer();
+       // dd($entiteNav);
+        return redirect()->route('customer.entities.taxe', ['slug' => $entiteNav['slug'], 'target' => $entiteNav['uuid']]);
+        // return view('customers.index');
      }
 
     public function login()

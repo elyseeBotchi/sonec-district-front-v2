@@ -55,6 +55,8 @@ class CustomerFacturationsController extends Controller
             'paymode' => 'required',
             'numero_paiement' => 'required',
             'rubrique_facturation_uuid' => 'required',
+            'date_visite' => 'required',
+
         ]);
 
         if($validator->fails()){
@@ -75,7 +77,9 @@ class CustomerFacturationsController extends Controller
             'pay_uuid'=> $request->pay_uuid ?? '',
             'paymode'=> $request->paymode ?? '',
             'numero_paiement' => $request->numero_paiement ?? '',
-            'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? ''
+            'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
+            'date_visite' => $request->date_visite ?? '',
+
         ];
 
         // return response()->json($data);

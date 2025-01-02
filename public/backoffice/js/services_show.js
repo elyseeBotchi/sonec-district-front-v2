@@ -403,8 +403,10 @@ $(document).ready(function() {
                 return '<span class="badge badge-success">Réussi </span>';
             case 'enable':
                 return '<span class="badge badge-success">Actif</span>';
-            case 'desable':
-                return '<span class="badge badge-danger">Inactif </span>';
+                case 'desable':
+                    return '<span class="badge badge-danger">Inactif </span>';
+            case 'fail':
+                return '<span class="badge badge-danger">Rejeté </span>';
             case '1':
                 return '<span class="badge badge-success">Actif </span>';
             case '0':

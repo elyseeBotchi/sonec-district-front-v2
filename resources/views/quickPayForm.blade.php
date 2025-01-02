@@ -141,6 +141,33 @@
                                     <input type="tel" class="form-control bg-light border-0" placeholder="Téléphone de paiement"  id="num_pay"  name="numero_paiement" required="" minlength="10" maxlength="10" required  style="height: 55px;">
                                 </div>
 
+                                
+                                <div class="col-12">
+                                    <label class="form-label">Date de la dernière visite <code>*</code></label>
+                                    <input type="date" class="form-control bg-light border-0" placeholder="Téléphone de paiement" max="{{ date('Y-m-d') }}"  name="date_visite" required="" required  style="height: 55px;">
+                                </div>
+
+                                   
+                                <div class="col-12">
+                                    <label class="form-label">Lieu de rendez-vous <code>*</code></label>
+                                    <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0"></select>
+                                </div>
+                                   
+                                <div class="col-12">
+                                    <label class="form-label">Date de rendez-vous <code>*</code></label>
+                                    <select name="rdv" id="rdv" class="form-control bg-light border-0">
+                                        @isset($dateValideRdv)
+                                            @forelse($dateValideRdv as $key => $value)
+                                                @if($key < $limit)
+                                                    <option value="{{ $value }}"> {{ date_create($value)->format('d-m-Y') }} </option>
+                                                @endif
+                                            @empty
+                                            @endforelse
+                                        @endisset
+                                    </select>
+                                </div>
+
+
                                 <div class="col-12">
                                     <label for="prenoms" class="col-form-label">Opérateurs autorisés </label>
                                     <div class="row">
