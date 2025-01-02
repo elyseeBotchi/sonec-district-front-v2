@@ -85,10 +85,14 @@ $(document).ready(function() {
                                 switch(data) {
                                     case 'init':
                                         return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
-                                    case 'enable':
-                                        return `<span class="badge badge-pill badge-success">Actif</span>`;
+                                        case 'enable':
+                                            return `<span class="badge badge-pill badge-warning">En attente de validation</span>`;
+                                    case 'validate':
+                                        return `<span class="badge badge-pill badge-success">Validé</span>`;
                                     case 'disable':
                                         return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    default :
+                                         return '';
                                    
                                 }
                             }

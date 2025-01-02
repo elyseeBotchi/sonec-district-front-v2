@@ -188,7 +188,7 @@ $(document).ready(function() {
                             // Vérifier si les permissions sont disponibles
                             let receiptLink = "";
                             if (permissions && permissions.recu_de_paiement) {
-                                receiptLink = (facture.validate_by !== null && facture.state === "success") 
+                                receiptLink = (facture.state === "success") 
                                     ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}" class="btn btn-link">Télécharger le reçu</a>` 
                                     : 'N/A';
                             }
