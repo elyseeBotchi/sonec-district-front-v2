@@ -120,7 +120,7 @@ $(document).ready(function() {
                         <tr> 
                             <td>Période </td> 
                             <td> 
-                                <span class="badge badge-pill badge-danger">Date dépassée</span>
+                                <span class="badge badge-pill badge-danger">Aucun paiement valide</span>
                             </td> 
                         </tr>`;
                     }
