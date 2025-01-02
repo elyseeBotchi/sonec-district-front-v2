@@ -232,6 +232,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         Route::get('/services/facturation/taxe/info_paiement/{uuid}', [LandingController::class, 'info_paiement'])->name('landing.entities.taxe.info_paiement');
         Route::get('/services/facturation/taxe/data/info_paiement/{uuid}', [LandingController::class, 'paiement_data'])->name('landing.entities.taxe.data.info_paiement');
         Route::get('/services/facturation/taxe/data/generate/file/{uuid}', [LandingController::class, 'generateFile'])->name('landing.entities.taxe.data.generate.file');
+        Route::get('/services/facturation/taxe/data/generate/rdv/{uuid}', [LandingController::class, 'generateRdv'])->name('landing.entities.taxe.data.generate.rdv');
         Route::get('/services/facturation/taxe/data/generate/carte/{uuid}', [LandingController::class, 'generateCarte'])->name('landing.entities.taxe.data.generate.carte');
         
         Route::get('/services/facturation/verification-paiement/{ref}', [LandingController::class, 'verificationPaiement'])->name('landing.entities.taxe.facturation.verification.paiement');

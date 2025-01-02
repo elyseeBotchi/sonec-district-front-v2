@@ -105,7 +105,7 @@
 
         <div style="background-color: #0a9e2a;color: white;padding: 0.5px">
             <h4 class="text-center m-4 text-white uppercase" style="font-size: 15px; text-align:center; text-transform: uppercase !important; ">
-                 REÇU DE RENDEZ-VOUS - {{ $entity['name'] ?? '' }}
+                 FICHE DE RENDEZ-VOUS - {{ $entity['name'] ?? '' }}
             </h4>
         </div>
         <br>
@@ -172,38 +172,27 @@
                         Lieu du rendez-vous
                     </th>  
                     <th style="border: 1px solid black;">
-                        Lieu du rendez-vous
+                        Date du rendez-vous
                     </th>  
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td style="border: 1px solid black;">
-                        {{ $service ?? '' }}
+                        {{ $pay_element['nom_du_proprietaire'] ?? '' }}
                     </td>
                     <td style="border: 1px solid black; text-align: center;">
-                        1
+                        <b>{{ $user['amount'] ?? '' }} </b>
                     </td>
                     <td style="border: 1px solid black; text-align: right;">
-                        <b>{{ $user['amount'] ?? '' }} </b>
+                        {{ $pay_element['lieu_rendez_vous'] }}
                     </td>  
                     <td style="border: 1px solid black; text-align: right;">
-                        <b>{{ $user['amount'] ?? '' }}</b>
+                        <b>{{ $user['date_rdv'] ?? '' }}</b>
                     </td>             
                 </tr>
-                <tr>
-                    <td class="cell-padding"  style="width: 250px !important">
-                        Référence de paiement
-                    </td>
-                    <td>
-                        : <strong> {{ $user['reference'] ?? '' }} </strong>
-                    </td>
-                    <td rowspan="6">
-                        <center style="position:relative;top:-25px;">
-                            <img src="{{ public_path($svgFilePath) }}" alt="" width="65px" class="qrcode">
-                        </center>
-                    </td>
-                </tr>
+
+                
             </tbody>
         </table>
 
