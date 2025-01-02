@@ -82,25 +82,30 @@ class LandingController extends Controller
         $url_path = "/landing/services/operateurs";
 
         $data = [
-           // 'uuid' => $service
+            'entity_uuid' => $service
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-       //dd($responses);
+       // dd($service);
+       dd($responses);
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
                 return view('quickPayForm', [
                     'operateurs'=>$responses['data'] ?? '',
                     'service_uuid' => $service ?? '',
-                    'service_name' => $name ?? ''
+                    'service_name' => $name ?? '',
+                    'dateValideRdv' => $datas['dateValideRdv'] ?? '',
+                    'limit' => $datas['limit'] ?? 1
                 ]);
             }
             else{
                 return view('quickPayForm', [
                     'operateurs'=>$responses['data'] ?? '',
                     'service_uuid' => $service ?? '',
-                    'service_name' => $name ?? ''
+                    'service_name' => $name ?? '',
+                    'dateValideRdv' => $datas['dateValideRdv'] ?? '',
+                    'limit' => $limit ?? 1
 
                 ]);
             }
@@ -109,7 +114,9 @@ class LandingController extends Controller
             return view('quickPayForm', [
                 'operateurs'=>$responses['data'] ?? '',
                 'service_uuid' => $service ?? '',
-                'service_name' => $name ?? ''
+                'service_name' => $name ?? '',
+                'dateValideRdv' => $datas['dateValideRdv'] ?? '',
+                'limit' => $limit ?? 1
 
             ]);
         }
