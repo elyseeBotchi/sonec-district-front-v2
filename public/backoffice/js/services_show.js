@@ -190,7 +190,7 @@ $(document).ready(function() {
                             if (permissions && permissions.recu_de_paiement) {
                                 receiptLink = (facture.state === "success") 
                                     ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}" class="btn btn-link">Télécharger le reçu</a>` 
-                                    : 'N/A';
+                                    : 'REMBOURSER';
                             }
                     
                             // Générer le contenu pour chaque facture
