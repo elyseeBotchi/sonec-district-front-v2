@@ -1,150 +1,4 @@
-@isset($lock)
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="{{ env('APP_AUTHOR_NAME') }}">
-    <meta name="generator" content="">
-    <link rel="icon" type="image/gif" href="{{ asset('images/logo_barreau.png') }}"/>
-    <title>{{ env('APP_NAME') }} {{ date('Y') }}</title>
-
-    <!-- CSS -->
-    <link href="{{ asset('backoffice/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <style>
-        /* Conteneur de la carte */
-        .parking-card {
-            width: 300px;
-            height: 450px;
-            border: 2px solid #333;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* En-tête de la carte avec le logo */
-        .parking-card .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .parking-card .header img {
-            width: 60px;
-            margin-right: 10px;
-        }
-
-        .parking-card .header h2 {
-            font-size: 16px;
-            text-transform: uppercase;
-            color: #333;
-        }
-
-        /* Informations du propriétaire et du véhicule */
-        .parking-card .details {
-            margin-bottom: 20px;
-        }
-
-        .parking-card .details p {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .parking-card .details strong {
-            font-size: 14px;
-            color: #000;
-        }
-
-        /* Conteneur du QR Code */
-        .parking-card .qr-code {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-        }
-
-        .parking-card .qr-code img {
-            width: 90px;
-        }
-
-        /* Pied de page avec la date d'émission */
-        .parking-card .footer {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .parking-card .footer span {
-            display: block;
-        }
-
-    </style>
-</head>
-
-<body>
-<div class="parking-card">
-    <!-- En-tête avec logo et titre -->
-    <center class="header">
-        <h2 class="text-center">Carte de Stationnement</h2>
-        <img src="{{ public_path('template/assets/images/logo.png') }}" class="float-right" alt="Logo">
-    </center>
-
-    <!-- Détails du propriétaire et véhicule -->
-    <div class="details">
-        <table class="table">
-            <tr>
-                <td>Nom :</td>
-                <td>{{ $paiement['name'] ?? '' }}</td>
-            </tr>
-            <tr>
-                <td>Immatriculation :</td>
-                <td>{{ $paiement['vehicle_plate'] ?? '' }}</td>
-            </tr>
-            <tr>
-                <td>Durée :</td>
-                <td>{{ $paiement['parking_duration'] ?? '' }} jours</td>
-            </tr>
-            <tr>
-                <td>Date de début :</td>
-                <td>{{ date('d-m-Y', strtotime($paiement['start_date'] ?? '')) }}</td>
-            </tr>
-            <tr>
-                <td>Date de fin :</td>
-                <td>{{ date('d-m-Y', strtotime($paiement['end_date'] ?? '')) }}</td>
-            </tr>
-            <tr>
-                <td>Montant payé :</td>
-                <td>{{ $paiement['amount'] ?? '' }} F CFA</td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- QR Code au bas de la carte -->
-    <div class="qr-code">
-        <img src="{{ public_path($svgFilePath) }}" alt="QR Code">
-        <p>Scan pour vérifier</p>
-    </div>
-
-    <!-- Pied de page avec les détails de génération -->
-    <div class="footer">
-        <span>Généré le {{ date('d-m-Y') }}</span>
-    </div>
-</div>
-</body>
-</html>
-
-@endisset <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="horizontal">
 <head>
     <meta charset="utf-8">
@@ -162,7 +16,7 @@
         }
 
         .card-container {
-            width: 85mm;
+            width: 95mm;
             height: 55mm;
             border: 2px solid #000;
             border-radius: 15px;
@@ -261,51 +115,43 @@
     
     <!-- Header with logos at the extreme left and right -->
     <div class="header">
+        <img src="{{ public_path($svgFilePath) }}" alt="QR Code Droite" class="qr-code" style="float: left; width: 50px; height: 50px;">
+        <img src="{{ public_path($svgFilePath2) }}" alt="QR Code Gauche" class="qr-code" style="float: right; width: 50px; height: 50px;">
+
         <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Droit" style="float: left; width: 50px; height: 50px;">
         <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Gauche" style="float: right; width: 50px; height: 50px;">
     </div>
 
     <div class="title">
-        CARTE DE STATIONNEMENT
+        QUITTANCE DE STATIONNEMENT
         <center style="font-size: 10px;">DISTRICT D'ABIDJAN</span>
     </div>
 <br>
 
-<div class="info-section">
-        <table>
-            @isset($entete)
-                @forelse($entete as $key => $value)
-                @if($key <= 2)
-                        <tr>
-                            <th>{{ $value['name'] ?? '' }}  </th>
-                            <td>@isset($pay_element[$value['slug']]) {{ $pay_element[$value['slug']] ?? '' }} @endisset </td>
-                        </tr>    
-                     @endif 
-                @empty
-                @endforelse
-        
+<div class="info-section"><br/><br/><br/>
+        <table width="100% !important;">
+            <thead>
                 <tr>
-                    <th>Durée </th>
-                    <td>{{ $facturation['quantity'] ?? '' }} {{ translatePeriodicity($facturation['periodicity'] ?? '') }}</td>
+                    <td>Nom du proprietaire </td>
+                    <td>Carte grise</td>
+                    <td>Immatriculation </td>
                 </tr>
-            @endisset 
-            <tr>
-                <th>Date de début </th>
-                <td>
-                    {{ date('01-01-Y', strtotime($paiement['updated_at'] ?? '')) }}
-                </td>
-            </tr>
-            <tr>
-                <th>Date de fin </th>
-                <td>
-                    {{  calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')) ?? '', $facturation['periodicity'] ?? '') }}
-                </td>
-            </tr>
-        </table>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table><br/><br/><br/>
+        <div><p align="left"><strong>Date de paiement : </strong></p></div>
+        <div><p align="left"><strong>Date de validité : {{  calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')) ?? '', $facturation['periodicity'] ?? '') }}</strong></p></div>
     </div>
 
     <!-- QR Code at the bottom right -->
-    <img src="{{ public_path($svgFilePath) }}" alt="QR Code" class="qr-code">
+    <img src="{{ public_path($svgFilePath) }}" alt="QR Code Droite" class="qr-code" style="float: left; width: 50px; height: 50px;">
+    <img src="{{ public_path($svgFilePath2) }}" alt="QR Code Gauche" class="qr-code" style="float: right; width: 50px; height: 50px;">
 
 </div>
 </body>
