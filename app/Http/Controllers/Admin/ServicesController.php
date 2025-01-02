@@ -20,6 +20,10 @@ class ServicesController extends Controller
       
     }
 
+    public function rendez_vous(){
+        return view('admins.services.rendez-vous');
+    }
+
     public function findAll($uuid){
         $url_path = "/autorisations/entite/taxes/findAll";
 

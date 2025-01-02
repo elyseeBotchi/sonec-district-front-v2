@@ -19,9 +19,18 @@
                     </a>
                 </li> --}}
                
-                <li class="list-divider"></li>
-                <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
+                
+                @isset($entitesNav[0]['uuid'])
+                    <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                            <i data-feather="calendar" class="feather-icon"></i>
+                            <span class="hide-menu">Rendez-vous</span>
+                        </a>
+                    </li>
+                @endisset 
 
+        
+                
                 @if(CanPermission('activites_voir_les_activites'))
                 
                     <li class="sidebar-item  {{ request()->is('panel/activity/agents/*') ? 'selected' : '' }}">
@@ -51,32 +60,42 @@
 
                 @if(CanPermission('statistique_voir_le_module_statistique'))
                     <li class="list-divider"></li>
-                    <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li>
+                    <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
                 
                     @if($entitesNav != "")
                         @forelse($entitesNav as $val)
+
                             <li class="sidebar-item">
                                 <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
                                     <span class="hide-menu">
-                                    {{  $val['name'] ?? '' }}
+                                    PAR OPERATEUR
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                    <span class="hide-menu">
+                                    PAR RUBRIQUE
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                    <span class="hide-menu">
+                                    PAR RENDEZ-VOUS
                                     </span>
                                 </a>
                             </li>
                         @empty
                         @endforelse
                     @endif
+
                 @endif
 
 
-                @isset($lock)
-                   
-                    <li class="sidebar-item">
-                        <a class="sidebar-link sidebar-link" href="app-calendar.html" aria-expanded="false">
-                            <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Reclamation</span>
-                        </a>
-                    </li>
-                @endisset
+                
 
                 
                 @if(CanPermission('configurations_voir_le_bloc_des_configurations'))
@@ -189,10 +208,6 @@
                     @endif
                 @endif 
                 
-                <li class="list-divider"></li>
-                <li class="nav-small-cap">
-                    <span class="hide-menu">Extra</span>
-                </li>
                 <li class="sidebar-item {{ request()->is('panel/securite/*') ? 'selected' : '' }}">
                     <a class="sidebar-link sidebar-link {{ request()->is('panel/securite/*') ? 'active' : '' }}" href="{{ route('panel.securite.compte') }}" aria-expanded="false">
                         <i data-feather="edit-3" class="feather-icon"></i>

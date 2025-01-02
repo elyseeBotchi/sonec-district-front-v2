@@ -181,6 +181,9 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('taxes/statistique/{uuid}', [AdminServicesController::class, 'statistique'])->name('panel.autorisations.services.taxes.statistique');
             Route::post('taxes/search/findAll', [AdminServicesController::class, 'search'])->name('panel.autorisations.services.taxes.search');
 
+
+            Route::get('rdv/{uuid}', [AdminServicesController::class, 'rendez_vous'])->name('panel.autorisations.services.rdv');
+
         });
 
                 
