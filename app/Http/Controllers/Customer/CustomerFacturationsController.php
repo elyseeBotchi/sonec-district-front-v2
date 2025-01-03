@@ -65,6 +65,7 @@ class CustomerFacturationsController extends Controller
             'numero_paiement' => 'required',
             'rubrique_facturation_uuid' => 'required',
             'date_visite' => 'required',
+            'rdv' => 'required'
 
         ]);
 
@@ -88,6 +89,7 @@ class CustomerFacturationsController extends Controller
             'numero_paiement' => $request->numero_paiement ?? '',
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
             'date_visite' => $request->date_visite ?? '',
+            'date_rdv' => $request->rdv ?? '',
 
         ];
 

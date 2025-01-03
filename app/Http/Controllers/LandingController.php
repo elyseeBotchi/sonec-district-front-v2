@@ -204,6 +204,7 @@ class LandingController extends Controller
             'numero_paiement' => 'required',
             'rubrique_facturation_uuid' => 'required',
             'date_visite' => 'required',
+            'rdv' => 'required'
         ]);
 
         if($validator->fails()){
@@ -228,6 +229,7 @@ class LandingController extends Controller
             'email' => $request->email ?? '',
             'date_visite' => $request->date_visite ?? '',
             'lieu_rdv' => $request->lieu_rdv ?? '',
+            'date_rdv' => $request->rdv ?? '',
             'element'=> $request->all(),
         ];
 
