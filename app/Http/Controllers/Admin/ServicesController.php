@@ -196,7 +196,7 @@ class ServicesController extends Controller
 
 
     public function find_service($uuid,$entity_uuid){
-        $url_path = "/autorisations/services/admin/show/customer/taxe";
+        $url_path = "/autorisations/services/admin/show/taxe";
 
         $data = [
             'uuid' => $uuid,
@@ -211,7 +211,7 @@ class ServicesController extends Controller
     
     public function validation($uuid,$entity_uuid,$status){
 
-        $url_path = "/autorisations/services/admin/show/customer/taxe/validate/info";
+        $url_path = "/autorisations/services/admin/show/validate/taxe/info";
 
         $data = [
             'entity_uuid' => $entity_uuid ?? '',
