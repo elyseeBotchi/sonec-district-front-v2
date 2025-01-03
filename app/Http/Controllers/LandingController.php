@@ -207,6 +207,7 @@ class LandingController extends Controller
             'rdv' => 'required'
         ]);
 
+        return dd($request->rdv);
         if($validator->fails()){
             $dataResponse =[
                 'type'=>'error',
