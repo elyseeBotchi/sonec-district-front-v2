@@ -108,13 +108,14 @@ class ControlesController extends Controller
         //return $data;
     }
 
-    public function verify($decodedText){
+    public function verifyV1($decodedText){
         $url_path = "/autorisations/agents/verify";
 
         /* ####################### */
        // preg_match('/ref\s*:\s*(\d+)/', $decodedText, $matches);
        preg_match('/ref\s*:\s*([A-Za-z0-9\-]+)/', $decodedText, $matches);
-
+       $tabQrtext = explode("|", $decodedText);
+       $searchMatricule = $tabQrtext[0];
         // Vérification si la référence a été trouvée
         Log::info($decodedText);
         Log::info($matches[1] ?? 'non retrouvé');
@@ -151,7 +152,51 @@ class ControlesController extends Controller
         }
     }
     
-    
+    public function verify($decodedText)
+    {
+        $url_path = "/autorisations/agents/manual/verify";
+        /* ####################### */
+       // preg_match('/ref\s*:\s*(\d+)/', $decodedText, $matches);
+      // preg_match('/ref\s*:\s*([A-Za-z0-9\-]+)/', $decodedText, $matches);
+       $tabQrtext = explode("|", $decodedText);
+       $searchMatricule = $tabQrtext[0];
+        // Vérification si la référence a été trouvée
+        if (isset($searchMatricule)) 
+        {
+            $searchMatricule = $searchMatricule;
+        } 
+        else 
+        {
+          //  echo "Référence non trouvée.";
+            return response()->json([
+                'type' => 'error',
+                'message' => "Référence non trouvée.",
+                'code' => 500,
+            ]);
+        }
+
+        $type = 'immatriculation';
+        $data = [
+            'qrCodeData' => $decodedText ?? '',
+            'reference' => $searchMatricule ?? '',
+            'type' => $type ?? ''
+        ];
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       // return dd($dataResponse);
+        return response()->json($dataResponse);
+        
+        if($dataResponse['type'] == 'error'){
+            return response()->json($dataResponse);
+        }else{
+            return response()->json([
+                'type' => 'success',
+                'message' => $dataResponse['message'] ?? "Un élément enregistré",
+                'code' => 200,
+                'urlback'=>'',
+                'data' => $dataResponse['data'] ?? ''
+            ]);
+        }
+    }
     
     public function verify_manual($decodedText){
         $url_path = "/autorisations/agents/manual/verify";
