@@ -196,7 +196,7 @@ class ServicesController extends Controller
 
 
     public function find_service($uuid,$entity_uuid){
-        $url_path = "/autorisations/services/admin/show/taxe";
+        $url_path = "/autorisations/admin/services/show/taxe";
 
         $data = [
             'uuid' => $uuid,
@@ -204,14 +204,14 @@ class ServicesController extends Controller
         ];
         
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-        dd($responses);
+        //dd($responses);
         return response()->json($responses);
     }
 
     
     public function validation($uuid,$entity_uuid,$status){
 
-        $url_path = "/autorisations/services/admin/show/validate/taxe/info";
+        $url_path = "/autorisations/admin/services/show/validate/taxe/info";
 
         $data = [
             'entity_uuid' => $entity_uuid ?? '',
