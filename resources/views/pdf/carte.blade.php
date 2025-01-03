@@ -170,9 +170,11 @@
                 </tr>
             </tbody>
         </table>
-        <p><strong>Date de paiement :</strong> {{ $paiement['updated_at'] ?? '' }}
-        
-        <br><strong>Date de validité :</strong> {{ calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') }}</p>
+        <p><strong>Date de paiement :</strong> {{ date_create($paiement['updated_at'])->format('d-m-Y h:i:s') ?? '' }}
+        <br>
+        <br><strong>Date de validité :</strong> {{ date_create($paiement['date_fin'])->format('d-m-Y') }}
+
+        {{-- calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') --}}</p>
 
         <center style="position: relative;bottom: -25px;">
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
