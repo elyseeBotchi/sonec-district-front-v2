@@ -21,7 +21,85 @@ class ServicesController extends Controller
     }
 
     public function rendez_vous(){
-        return view('admins.services.rendez-vous');
+
+        $Entity = Entities()[0] ?? '';
+        //dd($Entity);
+        return view('admins.services.rendez-vous',['Entity_uuid' => $Entity['uuid'] ?? '']);
+    }
+
+    public function stat_rdv($uuid){
+        $url_path = "/autorisations/entite/taxes/rdv/findAllStatistique";
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      //  return dd($responses);
+
+        return response()->json($responses); 
+    }
+
+
+    
+    public function rdv_findAll($uuid){
+        $url_path = "/autorisations/entite/taxes/rdv/findAll";
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      //  return dd($responses);
+
+        return response()->json($responses);  
+    }
+
+    public function rdv_search(Request $request){
+        $url_path = "/autorisations/entite/taxes/rdv/search";
+
+       // $type = checkRef($request->search);
+       $search = explode('DIS|TSA-',$request->search);
+       if(isset($search[1])){
+            $type = "reference";
+            $ref = $request->search;
+            
+       }else{
+        if(is_int($request->search)){
+            $type = "barre";
+            $ref = $request->search;  
+        }else{
+                $type = "immaticulation";
+                $ref = $request->search;          
+        }
+
+
+       }
+       
+     //  dd($search);
+
+        $data = [
+            'entity_uuid' => $request->entity_uuid ?? '',
+            'search' => $ref ?? '',
+            'type' => $type ?? ''
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       // return dd($data);
+
+        if($responses['type'] == 'error'){
+            return response()->json($responses);
+        }else{
+            return response()->json([
+                'type' => 'success',
+                'message' => $dataResponse['message'] ?? "Un élément retrouvé",
+                'code' => 200,
+                'urlback'=> route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]),
+                'data' => $dataResponse['data'] ?? ''
+            ]);
+        } 
+
+       // return response()->json($responses);  
     }
 
     public function findAll($uuid){

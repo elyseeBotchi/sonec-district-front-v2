@@ -76,8 +76,51 @@
 </head>
 
 <body>
-<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); opacity: 0.1; font-size: 80px; color: #e8a7a7; z-index: -1500; white-space: nowrap;">
-    {{ $watermark ?? "DISTRICT D'ABIDJAN ".date('Y') }}
+
+    <div style="
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: -1500; 
+    opacity: 0.1; 
+    pointer-events: none; 
+    font-size: 80px; 
+    color: #e8a7a7; 
+">
+    <!-- En haut à gauche -->
+    <div style="
+        position: absolute; 
+        top: 120px; 
+        left: 20px; 
+        transform: rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+
+    <!-- Au centre -->
+    <div style="
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+
+    <!-- En bas à droite -->
+    <div style="
+        position: absolute; 
+        bottom: 120px; 
+        right: 20px; 
+        transform: rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
 </div>
 @isset($open)
     <div class="col-md-11">
@@ -253,7 +296,7 @@
                         Opérateur
                     </td>
                     <td>
-                        : <strong> {{ $operateur['uuid'] ?? '' }} </strong>
+                        : <strong> {{ $user['operateur_uuid'] ?? '' }} </strong>
                     </td>
                 </tr>
 
@@ -296,11 +339,11 @@
     <span> Généré le {{ date('d-m-Y') }} à {{ date('H:i:s') }} </span>
     <br>
     <footer>
-        @isset($barcodeData)
             <center>
-                <img src="{{ asset($barcodeData) }}" alt="" >
+                <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
+                <img width="200px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
+                
             </center>
-        @endisset
             <br>
         Copyright © {{ date('Y') }} | {{ env('APP_NAME') }}. Tous Droits Réservés
     </footer>

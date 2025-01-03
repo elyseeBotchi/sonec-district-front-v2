@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="{{ env('APP_AUTHOR_NAME') }}">
-    <title>Carte de Stationnement</title>
+    <title>Quittance de Stationnement</title>
 
     <style>
         body {
@@ -16,8 +16,8 @@
         }
 
         .card-container {
-            width: 95mm;
-            height: 55mm;
+            width: 120mm; /* Augmenté pour agrandir la zone */
+            height: 70mm; /* Augmenté pour agrandir la zone */
             border: 2px solid #000;
             border-radius: 15px;
             background-color: #fff;
@@ -60,6 +60,7 @@
             margin-bottom: 10px;
             text-transform: uppercase;
             position: relative;
+            top: -50px;
             z-index: 2;
         }
 
@@ -84,12 +85,30 @@
         }
 
         .qr-code {
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Réduit pour s'adapter à la zone */
+            height: 50px;
             position: absolute;
+            z-index: 2;
+        }
+
+        .qr-top-left {
+            top: 10px;
+            left: 10px;
+        }
+
+        .qr-top-right {
+            top: 10px;
+            right: 10px;
+        }
+
+        .qr-bottom-left {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .qr-bottom-right {
             bottom: 10px;
             right: 10px;
-            z-index: 2;
         }
 
         .footer {
@@ -105,58 +124,62 @@
 </head>
 
 <body>
-
-    
 <div class="card-container">
     <!-- Filigrane -->
     <div class="watermark">
         {{ env('APP_NAME').' '.date('Y') ?? 'TAXE DE DISTRICT '.date('Y') }}
     </div>
-    
-    <!-- Header with logos at the extreme left and right -->
-    <div class="header">
-        <img src="{{ public_path($svgFilePath) }}" alt="QR Code Droite" class="qr-code" style="float: left; width: 50px; height: 50px;">
-        <img src="{{ public_path($svgFilePath2) }}" alt="QR Code Gauche" class="qr-code" style="float: right; width: 50px; height: 50px;">
 
-        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Droit" style="float: left; width: 50px; height: 50px;">
-        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Gauche" style="float: right; width: 50px; height: 50px;">
+    <!-- QR Codes dans les coins -->
+    <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-top-left">
+    <img src="{{ public_path($svgFilePath2) }}" alt="" class="qr-code qr-top-right">
+    <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-bottom-left">
+    <img src="{{ public_path($svgFilePath2) }}" alt="" class="qr-code qr-bottom-right">
+
+    <br>
+    <br>
+    <br>
+    <!-- En-tête -->
+    <div class="header">
+        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 50px; height: 50px;">
+        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 50px; height: 50px;">
     </div>
 
+    <!-- Titre -->
     <div class="title">
         QUITTANCE DE STATIONNEMENT
-        <center style="font-size: 10px;">DISTRICT D'ABIDJAN</span>
+        <center style="font-size: 10px;">DISTRICT D'ABIDJAN</center>
+        <center style="font-size: 10px;margin-top:10px; color:green;"> <b>{{ $paiement['reference'] ?? '' }}</b> </center>
     </div>
-<br>
 
-<div class="info-section"><br/><br/><br/>
-        <table width="100% !important;">
+    <!-- Informations -->
+    <div class="info-section">
+        <table style="width: 100%; font-size: xx-small; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <td>Nom du proprietaire </td>
-                    <td>Carte grise</td>
-                    <td>Immatriculation </td>
+                    <td  style="border: 1px solid black;background-color:orange;"><b>Nom du propriétaire</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>Carte grise</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>Immatriculation</b> </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
+                    <td  style="border: 1px solid black;">{{ $pay_element['nom_du_proprietaire'] ?? '' }}</td>
+                    <td  style="border: 1px solid black;">{{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</td>
+                    <td  style="border: 1px solid black;">{{ $pay_element['numero_dimmatriculation'] ?? '' }}</td>
                 </tr>
             </tbody>
-        </table><br/><br/><br/>
-        <div><p align="left"><strong>Date de paiement : </strong></p></div>
-        <div><p align="left"><strong>Date de validité : {{  calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')) ?? '', $facturation['periodicity'] ?? '') }}</strong></p></div>
+        </table>
+        <p><strong>Date de paiement :</strong> {{ $paiement['updated_at'] ?? '' }}
+        
+        <br><strong>Date de validité :</strong> {{ calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') }}</p>
+
+        <center style="position: relative;bottom: -25px;">
+            <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
+            <img width="200px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
+            
+        </center>
     </div>
-
-    <!-- QR Code at the bottom right -->
-    <img src="{{ public_path($svgFilePath) }}" alt="QR Code Droite" class="qr-code" style="float: left; width: 50px; height: 50px;">
-    <img src="{{ public_path($svgFilePath2) }}" alt="QR Code Gauche" class="qr-code" style="float: right; width: 50px; height: 50px;">
-
 </div>
 </body>
 </html>
-
-
-
-

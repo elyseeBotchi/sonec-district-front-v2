@@ -76,9 +76,58 @@
 </head>
 
 <body>
+    @isset($lock)
 <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); opacity: 0.1; font-size: 80px; color: #e8a7a7; z-index: -1500; white-space: nowrap;">
-    {{ $watermark ?? "DISTRICT D'ABIDJAN ".date('Y') }}
+    {{ $watermark ?? "DIS|TSA- ".date('y') }}
 </div>
+@endisset
+<div style="
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: -1500; 
+    opacity: 0.1; 
+    pointer-events: none; 
+    font-size: 80px; 
+    color: #e8a7a7; 
+">
+    <!-- En haut à gauche -->
+    <div style="
+        position: absolute; 
+        top: 120px; 
+        left: 20px; 
+        transform: rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+
+    <!-- Au centre -->
+    <div style="
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+
+    <!-- En bas à droite -->
+    <div style="
+        position: absolute; 
+        bottom: 120px; 
+        right: 20px; 
+        transform: rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+</div>
+
+
 @isset($open)
     <div class="col-md-11">
         <table style="width: 100%;border: inherit">
@@ -184,11 +233,11 @@
                     <td style="border: 1px solid black; text-align: center;">
                         <b>{{ $user['amount'] ?? '' }} </b>
                     </td>
-                    <td style="border: 1px solid black; text-align: right;">
-                        {{ $pay_element['lieu_rendez_vous'] }}
+                    <td style="border: 1px solid black; text-align: left;">
+                        {{ $pay_element['lieu_rendez_vous'] ?? '' }}
                     </td>  
                     <td style="border: 1px solid black; text-align: right;">
-                        <b>{{ $user['date_rdv'] ?? '' }}</b>
+                        <b>{{ date_create($pay_element['date_rdv'])->format('d-m-Y') ?? '' }}</b>
                     </td>             
                 </tr>
 
@@ -206,11 +255,11 @@
     <span> Généré le {{ date('d-m-Y') }} à {{ date('H:i:s') }} </span>
     <br>
     <footer>
-        @isset($barcodeData)
-            <center>
-                <img src="{{ asset($barcodeData) }}" alt="" >
-            </center>
-        @endisset
+        <center>
+            <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
+            <img width="200px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
+            
+        </center>
             <br>
         Copyright © {{ date('Y') }} | {{ env('APP_NAME') }}. Tous Droits Réservés
     </footer>

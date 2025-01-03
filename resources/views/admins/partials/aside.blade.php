@@ -21,7 +21,7 @@
                
                 
                 @isset($entitesNav[0]['uuid'])
-                    <li class="sidebar-item">
+                    <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}" > 
                         <a class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
                             <i data-feather="calendar" class="feather-icon"></i>
                             <span class="hide-menu">Rendez-vous</span>
@@ -134,31 +134,32 @@
                         </li>
                     @endif
 
+                    @isset($lock)
+                        @if(CanPermission('gabaris_voir_longlet_gabaris'))
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                    <i class="feather-icon fas fa-book"></i>
+                                    <span class="hide-menu">Gabaris </span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                    @if($entitesNav != "")
+                                        @forelse($entitesNav as $val)
+                                            <li class="sidebar-item">
+                                                <a href="{{ route('panel.autorisations.entite.gabari',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                                    <span class="hide-menu">
+                                                    {{  $val['name'] ?? '' }}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @empty
+                                        @endforelse
 
-                    @if(CanPermission('gabaris_voir_longlet_gabaris'))
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                                <i class="feather-icon fas fa-book"></i>
-                                <span class="hide-menu">Gabaris </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                @if($entitesNav != "")
-                                    @forelse($entitesNav as $val)
-                                        <li class="sidebar-item">
-                                            <a href="{{ route('panel.autorisations.entite.gabari',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
-                                                <span class="hide-menu">
-                                                {{  $val['name'] ?? '' }}
-                                                </span>
-                                            </a>
-                                        </li>
-                                    @empty
-                                    @endforelse
+                                    @endif
+                                </ul>
+                            </li>
+                        @endif 
+                    @endisset 
 
-                                @endif
-                            </ul>
-                        </li>
-                    @endif 
-                
                     @if(CanPermission('collaborateurs_voir_longlet_collaborateur'))
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>

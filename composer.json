@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "picqer/php-barcode-generator": "^3.2",
         "stevebauman/location": "^7.4",
         "yoeunes/toastr": "^2.3"
     },

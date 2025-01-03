@@ -384,7 +384,7 @@ class LandingController extends Controller
 
        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-      // return dd($responses);
+        // return dd($responses);
        if(!isset($responses['data']['paiement']['uuid']) || $responses['data']['paiement']['state'] !="success"){
             toastr()->error("Veuillez effectuer le paiement afin de pouvoir télécharger le reçu !");
             return redirect()->back();
@@ -404,9 +404,9 @@ class LandingController extends Controller
 
         $quick_ref = explode('|',$datas['reference']);
         $quick_reference = $quick_ref[3];
-        $coupe = substr($quick_reference[3], 2);
+       // dd($quick_reference);
 
-        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$coupe;
+        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
 
         $renderer = new ImageRenderer(
             new RendererStyle(400),
@@ -421,7 +421,7 @@ class LandingController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
+        $pdf->loadView('pdf.recu-fiche', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference]);
         return $pdf->download($filename.'.pdf');
        
     }
@@ -452,14 +452,13 @@ class LandingController extends Controller
         //return dd($pay_element);
         //return dd($responses);
 
-        $filename = Str::slug('TAXE DE DISTRICT '.$datas['reference'].date('d-m-Y H:i:s'));
+        $filename = Str::slug('FICHE RENDEZ-VOUS'.$datas['reference'].date('d-m-Y H:i:s'));
 
 
         $quick_ref = explode('|',$datas['reference']);
         $quick_reference = $quick_ref[3];
-        $coupe = substr($quick_reference[3], 2);
         
-        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$coupe;
+        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
 
 
         $renderer = new ImageRenderer(
@@ -475,7 +474,7 @@ class LandingController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.fiche-de-rdv', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? ""]);
+        $pdf->loadView('pdf.fiche-de-rdv', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','pay_element' => $pay_element ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference ?? '']);
         return $pdf->download($filename.'.pdf');
        
     }
@@ -512,10 +511,10 @@ class LandingController extends Controller
         
         $quick_ref = explode('|',$datas['reference']);
         $quick_reference = $quick_ref[3];
-        $coupe = substr($quick_reference[3], 2);
+       // $coupe = substr($quick_reference[3], 2);
         
-        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$coupe;
-        $qrcode_text2 = $pay_element['numero_dimmatriculation'].'|'.$coupe;
+        $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
+        $qrcode_text2 = $quick_reference.'|'.$pay_element['numero_dimmatriculation'];
 
         $renderer = new ImageRenderer(
             new RendererStyle(400),
@@ -530,7 +529,7 @@ class LandingController extends Controller
         /* ################################ */
         $filename2 = Str::slug('QUITTANCE2 '.$datas['reference'].date('d-m-Y H:i:s'));
 
-        $qrcode_text2 =  $coupe.'|'.$pay_element['numero_dimmatriculation'];
+        $qrcode_text2 =  $quick_reference.'|'.$pay_element['numero_dimmatriculation'];
         //$qrcode_text = "TAXE DE DISTRICT ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
 
         $renderer2 = new ImageRenderer(
@@ -539,14 +538,14 @@ class LandingController extends Controller
         );
         $writer2 = new Writer($renderer2);
         $qrSvg2 = $writer2->writeString($qrcode_text2);
-        file_put_contents('Qrcode/'.$filename.'.svg', $qrSvg2);
+        file_put_contents('Qrcode/'.$filename2.'.svg', $qrSvg2);
 
         $qrSvg_2 = 'Qrcode/'.$filename2.'.svg';
 
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.carte', ['pay_element' => $pay_element ?? '','paiement' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "","svgFilePath2" => $qrSvg_2 ?? "","entete" => $entete ?? '',"facturation" => $facturation ?? '']);
+        $pdf->loadView('pdf.carte', ['pay_element' => $pay_element ?? '','paiement' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "","svgFilePath2" => $qrSvg_2 ?? "","entete" => $entete ?? '',"facturation" => $facturation ?? '','quick_reference' => $quick_reference ?? '']);
         return $pdf->download($filename.'.pdf');
        
     }

@@ -183,7 +183,12 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
 
             Route::get('rdv/{uuid}', [AdminServicesController::class, 'rendez_vous'])->name('panel.autorisations.services.rdv');
+            Route::get('taxes/rdv/statistique/{uuid}', [AdminServicesController::class, 'stat_rdv'])->name('panel.autorisations.services.taxes.rdv.statistique');
+            Route::get('taxes/rdv/findAll/{uuid}', [AdminServicesController::class, 'rdv_findAll'])->name('panel.autorisations.services.taxes.rdv.find_all');
 
+            Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
+
+           
         });
 
                 
