@@ -83,7 +83,12 @@
                             </tbody>
                         </table>
         
-                        <a href="{{ route('landing.entities.taxe.data.generate.file',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-success">Télécharger le réçu </a> &nbsp; &nbsp;
+                        <a href="{{ route('landing.entities.taxe.data.generate.file',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-success">
+                            Télécharger le réçu
+                         </a> &nbsp;
+                        <a href="{{ route('landing.entities.taxe.data.generate.rdv',['uuid' => $paiement_uuid]) }}" class="btn btn-sm btn-success">
+                            Télécharger la fiche de rendez-vous
+                         </a> &nbsp;
                         <span id="info-carte">
                            
                         </span>

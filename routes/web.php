@@ -193,7 +193,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
                 
         Route::prefix('statistique')->group(function(){
-            Route::get('show/{uuid}', [AdminServicesController::class, 'stat_dashboard'])->name('panel.autorisations.statistique.show.data');
+            Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_dashboard'])->name('panel.autorisations.statistique.show.data');
             Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_data'])->name('panel.autorisations.statistique.data');
             Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_find_data'])->name('panel.autorisations.statistique.find.data');
     

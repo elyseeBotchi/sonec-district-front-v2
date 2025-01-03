@@ -65,12 +65,14 @@ class ServicesController extends Controller
             $ref = $request->search;
             
        }else{
-        if(is_int($request->search)){
+      //  dd(is_int($request->search));
+        if ((int)$request->search == $request->search) {
             $type = "barre";
-            $ref = $request->search;  
-        }else{
-                $type = "immaticulation";
-                $ref = $request->search;          
+            $ref = (int)$request->search;
+        }
+        else {
+                $type = "immatriculation";
+                $ref = $request->search;
         }
 
 
@@ -85,7 +87,7 @@ class ServicesController extends Controller
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-       // return dd($data);
+        //return dd($data);
 
         if($responses['type'] == 'error'){
             return response()->json($responses);
@@ -226,14 +228,16 @@ class ServicesController extends Controller
 
 /* STATISTIQUE DATA */
 
-    public function stat_dashboard($uuid)
+    public function stat_dashboard($uuid,$type_stat)
     {
        // return dd($entity_uuid);
         return view('admins.services.statistique', [
                 'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? ''
         ]);
       
     }
+
 
 
     

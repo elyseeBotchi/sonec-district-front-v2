@@ -402,6 +402,7 @@ class LandingController extends Controller
 
         $filename = Str::slug('RECU PAIEMENT'.$datas['reference'].date('d-m-Y H:i:s'));
 
+       // dd($datas['reference']);
         $quick_ref = explode('|',$datas['reference']);
         $quick_reference = $quick_ref[3];
        // dd($quick_reference);

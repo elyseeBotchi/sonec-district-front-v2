@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card-group">
-    @if(CanPermission('entites_voir_les_cartes_valides'))
+    @if(CanPermission('rendez_vous_voir_le_nombre_de_rendez_valide'))
     <div class="card border-right">
         <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -24,7 +24,7 @@
     </div>
     @endif
     
-    @if(CanPermission('entites_voir_les_cartes_expirees'))
+    @if(CanPermission('rendez_vous_voir_le_nombre_de_rendez_rejete'))
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -46,7 +46,7 @@
         </div>
     @endif
 
-    @if(CanPermission('entites_voir_les_cartes_valides'))
+    @if(CanPermission('rendez_vous_voir_mes_rendez_vous_valide'))
     <div class="card border-right">
         <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -68,7 +68,7 @@
     </div>
     @endif
     
-    @if(CanPermission('entites_voir_les_cartes_expirees'))
+    @if(CanPermission('rendez_vous_voir_mes_rendez_vous_rejete'))
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -91,7 +91,7 @@
     @endif
 
 
-    @if(CanPermission('entites_voir_les_nouveaux_contrevenants'))
+    @if(CanPermission('rendez_vous_voir_le_nombre_de_rendez_vous_du_jour'))
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
@@ -115,7 +115,7 @@
 
 
 
-@if(CanPermission('entites_voir_la_liste_de_donnee_de_lentite'))
+@if(CanPermission('rendez_vous_rechercher_un_vehicule'))
     <div class="row col-md-12">
         <div class="col-md-12 col-lg-12">
             <div class="card">

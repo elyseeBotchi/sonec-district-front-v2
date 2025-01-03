@@ -66,7 +66,7 @@
                         @forelse($entitesNav as $val)
 
                             <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'Operateur']) }}" class="sidebar-link">
+                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'operateur']) }}" class="sidebar-link">
                                     <span class="hide-menu">
                                     PAR OPERATEUR
                                     </span>
@@ -74,7 +74,7 @@
                             </li>
 
                             <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'Rubrique']) }}" class="sidebar-link">
+                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
                                     <span class="hide-menu">
                                     PAR RUBRIQUE
                                     </span>
@@ -82,7 +82,7 @@
                             </li>
 
                             <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'Rdv']) }}" class="sidebar-link">
+                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rdv']) }}" class="sidebar-link">
                                     <span class="hide-menu">
                                     PAR RENDEZ-VOUS
                                     </span>

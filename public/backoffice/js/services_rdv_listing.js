@@ -133,11 +133,11 @@ $(document).ready(function() {
                 
                 
                 var permissions = {
-                    show_rdv_valide: canPermission('entites_voir_les_cartes_valides'),
-                    show_rdv_rejeter: canPermission('entites_voir_les_cartes_expirees'),
-                    show_mes_rdv_valide: canPermission('entites_voir_les_nouveaux_contrevenants'),
-                    show_mes_rdv_rejeter: canPermission('entites_voir_tous_les_contrevenants'),
-                    show_rdv_jours: canPermission('entites_voir_tous_les_contrevenants'),
+                    show_rdv_valide: canPermission('rendez_vous_voir_le_nombre_de_rendez_valide'),
+                    show_rdv_rejeter: canPermission('rendez_vous_voir_le_nombre_de_rendez_rejete'),
+                    show_mes_rdv_valide: canPermission('rendez_vous_voir_mes_rendez_vous_valide'),
+                    show_mes_rdv_rejeter: canPermission('rendez_vous_voir_mes_rendez_vous_rejete'),
+                    show_rdv_jours: canPermission('rendez_vous_voir_le_nombre_de_rendez_vous_du_jour'),
                 };
                 
                 // Vide le select avant d'ajouter de nouvelles options

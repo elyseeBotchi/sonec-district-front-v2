@@ -119,10 +119,10 @@
     @endif
 </div>
 
-
 @push('footer-script')
     <script>
-        var Entity_uuid = Entities()[0]['uuid'];
+        var Entity_uuid = @Json(Entities()[0]['uuid'] ?? '');
+
       //  alert(Entity_uuid)
     </script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
