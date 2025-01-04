@@ -87,6 +87,13 @@
 <script src="{{ asset('template/dist/js/pages/dashboards/dashboard1.min.js') }}"></script>
 --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('backoffice/js/apexcharts/apexcharts.min.js') }}"></script>
+
+<!-- CSS -->
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.css">
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script> --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 

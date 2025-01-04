@@ -256,8 +256,27 @@ class ServicesController extends Controller
 
        // dd($dataResponse);
         return response()->json($dataResponse);
+    }    
+
+
+    public function data_rdv($entity,$rdv)
+    {
+
+        $url_path = "/autorisations/statistiques/rendez-vous/data";
+
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'entity_uuid' => $entity ?? '',
+            'rdv' => $rdv ?? '',
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+       // dd($dataResponse);
+        return response()->json($dataResponse);
     }
 
+    
     public function stat_find_data($status,$paymode,$entity){
         $url_path = "/autorisations/statistiques/find_data";
         $list = array("MTN"=>'mtn_ci',"ORANGE" => 'orange_ci',"WAVE" => 'wave_ci',"MOOV" => 'moov_ci',"TRESOR" => 'tresor_ci',"ALL" => 'all');
