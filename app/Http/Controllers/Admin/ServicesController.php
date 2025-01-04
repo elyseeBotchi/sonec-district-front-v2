@@ -292,4 +292,35 @@ class ServicesController extends Controller
        // dd($dataResponse);
         return response()->json($dataResponse);
     }
+
+    public function data_validationJ($entity,$day='all'){
+        $url_path = "/autorisations/statistiques/validationJ/find_data";
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'status' => $status ?? 'today',
+            'day' => $day ?? "all",
+            'entity_uuid' => $entity ?? ''
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+        //dd($dataResponse);
+        return response()->json($dataResponse);
+    } 
+    
+    public function data_validateur($entity){
+        $url_path = "/autorisations/statistiques/validateur/find_data";
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'entity_uuid' => $entity ?? ''
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+       // dd($dataResponse);
+        return response()->json($dataResponse);
+    }
+
+
+    
 }

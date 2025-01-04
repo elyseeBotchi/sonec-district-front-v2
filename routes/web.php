@@ -197,7 +197,9 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_data'])->name('panel.autorisations.statistique.data');
             Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_rdv'])->name('panel.autorisations.statistique.data');
             Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_find_data'])->name('panel.autorisations.statistique.find.data');
-    
+            Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_validationJ'])->name('panel.autorisations.statistique.data.validateur');
+            Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_validateur'])->name('panel.autorisations.statistique.data.validateur');
+            
         });
 
 

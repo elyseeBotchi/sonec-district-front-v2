@@ -128,7 +128,7 @@
                             <li class="sidebar-item">
                                 <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'agent_validateur']) }}" class="sidebar-link">
                                     <span class="hide-menu">
-                                        PAR AGENT VALIDATEUR
+                                        PAR VALIDATEUR
                                     </span>
                                 </a>
                             </li>

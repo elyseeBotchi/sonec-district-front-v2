@@ -238,6 +238,9 @@ $(document).ready(function() {
                 par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
                 par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
                 par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
+                par_validation_jour: canPermission('statistique_voir_les_statistiques_par_validations_par_jour'),
+                agent_validateur: canPermission('statistique_voir_les_statistiques_par_agent_validateur'),
+                
             };
             
             if(permissions.montant_total_jour){
@@ -750,6 +753,21 @@ $(document).ready(function() {
                         }
                     }
                 }
+
+                if(permissions.par_validation_jour){
+                    if(type_stat === "validation_jour"){
+                        validationJ();
+                    }
+                    
+                }
+
+                if(permissions.agent_validateur){
+                    if(type_stat === "agent_validateur"){
+                        par_validateur();
+                    }
+                    
+                }
+
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des statistiques :', error);
@@ -846,6 +864,248 @@ $(document).ready(function() {
              .catch(error => console.error('Erreur lors de la récupération des rendez-vous:', error));
     
     }
+
+    function validationJ(day = 'all') {
+        // Effectuer une requête fetch pour récupérer les données de validation
+        fetch(`/panel/statistique/data/validation_j/${Entity_uuid}/${day}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data || !data.data) {
+                    throw new Error('Les données reçues sont invalides.');
+                }
+    
+                console.log(data);
+    
+                // Préparer les catégories (dates) et les valeurs (nombre de validations)
+                const categories = data.data.map(item => item.date_validation || 'Non spécifiée');
+                const values = data.data.map(item => item.nombre || 0);
+    
+                // Configuration du graphique ApexCharts
+                const options = {
+                    series: [{
+                        name: "Nombre de validation",
+                        data: values,
+                    }],
+                    annotations: {
+                        points: [{
+                            x: 'Dates',
+                            seriesIndex: 0,
+                            label: {
+                                borderColor: '#775DD0',
+                                offsetY: 0,
+                                style: {
+                                    color: '#fff',
+                                    background: '#775DD0',
+                                },
+                                text: 'Évolution des validations',
+                            }
+                        }]
+                    },
+                    chart: {
+                        height: 350,
+                        type: 'bar',
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 10,
+                            columnWidth: '50%',
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        width: 0
+                    },
+                    grid: {
+                        row: {
+                            colors: ['#fff', '#f2f2f2']
+                        }
+                    },
+                    xaxis: {
+                        labels: {
+                            rotate: -45
+                        },
+                        categories: categories,
+                        tickPlacement: 'on'
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Nombre de validation",
+                        },
+                    },
+                    fill: {
+                        colors: ['#008FFB'], // Couleur du graphique
+                    }
+                };
+    
+                // Initialiser ou mettre à jour le graphique
+                const chartContainer = document.querySelector("#chartvalidationJ");
+                if (chartContainer) {
+                    chartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
+                    const chart = new ApexCharts(chartContainer, options);
+                    chart.render();
+                } else {
+                    console.error("Le conteneur #chartvalidationJ est introuvable.");
+                }
+    
+                // Mettre à jour le titre
+                const titreValidation = document.getElementById('titre_validation_jour');
+                if (titreValidation) {
+                    titreValidation.innerHTML = "HISTORIQUE DES VALIDATIONS PAR JOUR";
+                }
+    
+                // Vérifier et réinitialiser le tableau si nécessaire
+                if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-validationJ')) {
+                    $('#datatable-validationJ').DataTable().destroy();
+                }
+    
+                // Initialiser le tableau DataTables
+                $('#datatable-validationJ').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/fr-FR.json',
+                    },
+                    data: data.data,
+                    columns: [
+                        { data: 'date_validation', title: 'Date de Validation' },
+                        { data: 'nombre', title: 'Nombre de Validations' },
+                    ],
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données:', error);
+            });
+    }
+    
+
+    function par_validateur() {
+        // Effectuer une requête fetch pour récupérer les données de validation
+        fetch(`/panel/statistique/data/validateur/${Entity_uuid}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data || !data.data) {
+                    throw new Error('Les données reçues sont invalides.');
+                }
+    
+                console.log(data);
+    
+                // Préparer les catégories (dates) et les valeurs (nombre de validations)
+                const categories = data.data.map(item => item.date_validation || 'Non spécifiée');
+                const values = data.data.map(item => item.nombre || 0);
+    
+                // Configuration du graphique ApexCharts
+                const options = {
+                    series: [{
+                        name: "Nombre de validation",
+                        data: values,
+                    }],
+                    annotations: {
+                        points: [{
+                            x: 'Dates',
+                            seriesIndex: 0,
+                            label: {
+                                borderColor: '#775DD0',
+                                offsetY: 0,
+                                style: {
+                                    color: '#fff',
+                                    background: '#775DD0',
+                                },
+                                text: 'Évolution des validations',
+                            }
+                        }]
+                    },
+                    chart: {
+                        height: 350,
+                        type: 'bar',
+                    },
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 10,
+                            columnWidth: '50%',
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        width: 0
+                    },
+                    grid: {
+                        row: {
+                            colors: ['#fff', '#f2f2f2']
+                        }
+                    },
+                    xaxis: {
+                        labels: {
+                            rotate: -45
+                        },
+                        categories: categories,
+                        tickPlacement: 'on'
+                    },
+                    yaxis: {
+                        title: {
+                            text: "Nombre de validation",
+                        },
+                    },
+                    fill: {
+                        colors: ['#008FFB'], // Couleur du graphique
+                    }
+                };
+    
+                // Initialiser ou mettre à jour le graphique
+                const chartContainer = document.querySelector("#chartvalidateur");
+                if (chartContainer) {
+                    chartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
+                    const chart = new ApexCharts(chartContainer, options);
+                    chart.render();
+                } else {
+                    console.error("Le conteneur #chartvalidateur est introuvable.");
+                }
+    
+                // Mettre à jour le titre
+                const titreValidation = document.getElementById('titre_validateur');
+                if (titreValidation) {
+                    titreValidation.innerHTML = "HISTIORIQUE DES VALIDATIONS PAR AGENT";
+                }
+    
+                // Vérifier et réinitialiser le tableau si nécessaire
+                if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-validateur')) {
+                    $('#datatable-validateur').DataTable().destroy();
+                }
+    
+                // Initialiser le tableau DataTables
+                $('#datatable-validateur').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/fr-FR.json',
+                    },
+                    data: data.data,
+                    columns: [
+                        {
+                            data: 'firstname',title: 'Auteur de la Validation',
+                            render: function(data, type, row) {
+                                return ` ${data} ${row.lastname}`;
+                            }
+                        },
+                       
+                        { data: 'nombre', title: 'Nombre de Validations' },
+                    ],
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données:', error);
+            });
+    }
+    
 
     document.querySelectorAll('.Load_paiement').forEach(item => {
         item.addEventListener('click', event => {
