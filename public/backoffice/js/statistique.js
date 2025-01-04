@@ -316,7 +316,11 @@ $(document).ready(function() {
                             document.getElementById('nb_total').innerHTML = nb_total || ''; 
 
                             
-                            var total_amount = results.tresor_montant + results.moov_montant + results.mtn_montant + results.orange_montant;
+                            var total_amount = parseFloat(results.wave_montant || 0)+
+                            parseFloat(results.orange_montant || 0)+
+                            parseFloat(results.mtn_montant || 0)+
+                            parseFloat(results.moov_montant || 0)+
+                            parseFloat(results.tresor_montant || 0);
 
                             const total_montant = parseFloat(total_amount).toLocaleString('fr-FR', {
                                 style: 'currency',
