@@ -21,13 +21,19 @@
                
                 
                 @isset($entitesNav[0]['uuid'])
+                
+                @if(CanPermission('rendez_vous_voir_le_module_rendez_vous'))
+
                     <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}" > 
                         <a class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
                             <i data-feather="calendar" class="feather-icon"></i>
                             <span class="hide-menu">Rendez-vous</span>
                         </a>
                     </li>
+                    @endif
+                    
                 @endisset 
+
 
         
                 
