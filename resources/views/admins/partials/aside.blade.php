@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     @endif
-                    
+
                 @endisset 
 
 
@@ -70,11 +70,11 @@
                 
                     @if($entitesNav != "")
                         @forelse($entitesNav as $val)
-                        @if(CanPermission('statistique_voir_les_statistique_par_paiement'))
+                        @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
                         <li class="sidebar-item">
                             <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
                                 <span class="hide-menu">
-                                PAIEMENT
+                                PAR PAIEMENT
                                 </span>
                             </a>
                         </li>

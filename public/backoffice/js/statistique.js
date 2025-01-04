@@ -27,7 +27,7 @@ $(document).ready(function() {
         var permissions = {
             montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
             total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
-            par_paiement: canPermission('statistique_voir_les_statistique_par_paiement'),
+            par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
             par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
             par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
             par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
@@ -233,7 +233,7 @@ $(document).ready(function() {
                var permissions = {
                 montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
                 total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
-                par_paiement: canPermission('statistique_voir_les_statistique_par_paiement'),
+                par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
                 par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
                 par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
                 par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
