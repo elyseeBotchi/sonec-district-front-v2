@@ -99,24 +99,49 @@
         </div>
     </div> --}}
 
-    @if(CanPermission('tableau_de_bord_voir_le_graphe_devolution'))     
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0"></h4>
-                        <div class="ml-auto"></div>
-                    </div>
-                    <div class="pl-4 mb-5">
-                        <canvas id="myChart" style="width:100%;height: 315px;"></canvas>
-                    </div>
-                    <ul class="list-inline text-center mt-4 mb-0">
-                        <li class="list-inline-item text-muted font-italic"></li>
-                    </ul>
-                </div>
+    @if(CanPermission('tableau_de_bord_voir_mes_statistiques_de_validation'))
+        <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title text-center">RENDEZ-VOUS DU JOUR </h4>
             </div>
+                <table class="table" id="datatable-custom">
+                    <tbody class="render-html">
+                        <tr>
+                            <td> <h3>Date</h3> </td>
+                            <td> 
+                                <h3>
+                                    {{ date('d-m-Y') }}
+                                </h3>  
+                            </td>
+                        </tr>                   
+                        <tr>
+                            <td>
+                                <h3>
+                                    Total RDV ce jour
+                                </h3>
+                            
+                            </td>
+                            <td> 
+                                <h3 id="total_rdv_jour"></h3> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h3>
+                                    Reçu par l'agent
+                                </h3>
+                            </td>
+                            <td>
+                                <h3 id="rdv_recu_jour"></h3>     
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
         </div>
     @endif
+
 </div>
 
 @push('footer-script')

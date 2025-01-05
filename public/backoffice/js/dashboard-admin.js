@@ -20,12 +20,13 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-               // console.log("Résultats reçus :", results);
+                console.log("Résultats reçus :", results);
 
                var permissions = {
                 validation_pending: canPermission('tableau_de_bord_voir_les_validations_en_attentes'),
                 nb_total_jour: canPermission('tableau_de_bord_voir_les_paiements_du_jour'),
                 graphe_devolution: canPermission('tableau_de_bord_voir_le_graphe_devolution'),
+                total_rdv_jour: canPermission('tableau_de_bord_voir_mes_statistiques_de_validation'),
             };
             
             if(permissions.validation_pending){
@@ -33,71 +34,17 @@ $(document).ready(function() {
             }  
 
             if(permissions.nb_total_jour){
-                document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
-
+                document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0
             }
 
-            if(permissions.graphe_devolution){
-                // Extraction des données pour les courbes
-                const xValues = results.months || []; // Tableau des mois
-                const yValues = results.valuesY || []; // Données pour la courbe Y
-                const zValues = results.valuesZ || []; // Données pour la courbe Z
-    
-                // Vérification des données
-                if (!xValues.length || !yValues.length || !zValues.length) {
-                    console.error('Données insuffisantes pour tracer le graphique.');
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Attention',
-                        text: 'Les données récupérées sont incomplètes ou vides.',
-                    });
-                    return;
-                }
-    
-                // Générer le graphique
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues, // Les mois
-                        datasets: [
-                            {
-                                label: "Evolution par nombre de paiement",
-                                fill: false,
-                                lineTension: 0.1,
-                                backgroundColor: "rgba(0,0,255,1.0)",
-                                borderColor: "rgba(0,0,255,0.8)",
-                                data: yValues, // Données pour la courbe Y
-                            },
-                            {
-                                label: "Evolution par montant",
-                                fill: false,
-                                lineTension: 0.1,
-                                backgroundColor: "rgba(255,0,0,1.0)",
-                                borderColor: "rgba(255,0,0,0.8)",
-                                data: zValues, // Données pour la courbe Z
-                            },
-                        ],
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: "top",
-                            },
-                            title: {
-                                display: true,
-                                text: "Comparaison des données statistiques",
-                            },
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                            },
-                        },
-                    },
-                });
+            if(permissions.total_rdv_jour){
+                document.getElementById('rdv_recu_jour').innerHTML = results.mes_rdv_jour || 0
             }
+
+            if(permissions.total_rdv_jour){
+                document.getElementById('total_rdv_jour').innerHTML = results.total_rdv_jour || 0
+            }
+
 
         })
             .catch(error => {
