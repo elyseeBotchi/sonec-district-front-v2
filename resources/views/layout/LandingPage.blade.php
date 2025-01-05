@@ -86,8 +86,8 @@
         <div class="container text-justify">
             <div class="row">
                 <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
-                    <p class="mb-0">&copy; <a class="text-white border-bottom" href="https://abidjan.district.ci/index2.php?page=reg">{{  env('APP_NAME') }}</a>. All Rights Reserved. 
-                    Designed by <a class="text-white border-bottom" href="#">{{ env('APP_AUTHOR') }}</a></p>
+                    <p class="mb-0">&copy; <a class="text-white border-bottom" href="https://abidjan.district.ci/index2.php?page=reg" target="_blanck">{{  env('APP_NAME') }}</a>. All Rights Reserved. 
+                    </p>
                 </div>
             </div>
         </div>
