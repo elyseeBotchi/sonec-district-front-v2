@@ -42,7 +42,7 @@
             </div>
 
             <footer class="footer text-center text-muted">
-                All Rights Reserved by {{ env('APP_NAME') }}. Designed and Developed by <a href="#">{{ env('APP_AUTHOR') }}</a>.
+                All Rights Reserved by {{ env('APP_NAME') }}.
             </footer>
         </div>
     </div>
