@@ -114,7 +114,11 @@
                                         >
                                     </center>
                                     <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
-                                    <h1 class="display-1 text-white mb-md-4 animated zoomIn">{{ $service['name'] ?? '' }}</h1>
+                                    <p class="display-1 text-white mb-md-4 animated zoomIn" style="font-size: 45px !important">
+                                        Plateforme digitale de délivrance de la carte de stationnement
+                                    </p>
+
+                                    @isset($lock)
                                     <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
                                         <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
                                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
@@ -124,6 +128,7 @@
                                            COMMENT S'ACQUITTER DE SA TAXE
                                         </a>  {{----}}
                                     </div>
+                                    @endisset
                                 </div>
                             </div>
                         </div>
@@ -313,150 +318,96 @@
                 <div class="container">
                    
                     <div class="step">
-                        <h2>Méthode 1 : Paiement rapide</h2>
+                        {{-- <h2>Méthode 1 : Paiement rapide</h2> --}}
                         <div>
                             <h3>Étape 1</h3>
                             <ul>
                                 <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
                                 <li>Consulter la liste des taxes</li>
-                                <li>Renseigner les informations personnelles du propriétaire du véhicule et les informations afférentes au véhicule</li>
-                                <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
-                                <li>Imprimer votre reçu de paiement</li>
+                                <li>Renseigner le formulaire avec  les informations sur le  propriétaire et véhicule </li>
+                                <li>Procéder au paiement par  Mobile Money (Orange, MTN ou Wave)</li>
+                                <li>Imprimer votre reçu de paiement contenant votre date de RDV pour la validation et le retrait de votre carte de stationnement </li>
                             </ul>
                         </div>
                         <div>
                             <h3>Étape 2</h3>
                             <ul>
-                                <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                                <li>Se rendre au siège du District au Plateau le jour indiqué pour le RDV , muni du reçu de paiement et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
                             </ul>
                         </div>
+                        <div class="note">
+                            <p><strong>NB :</strong></p>
+                            <ul>
+                                <li style="color: red">
+                                    Le reçu de Paiement ne constitue pas une Carte de stationnement. Vous devez obligatoirement vous rendre au district pour le retrait de votre carte de stationnement avant le 31 Mars 2025. Passer ce délai des pénalités automatiques s’appliqueront.
+                                </li>
+                                <li style="color: red">Toute tentative de fraude sur le montant de la taxe à payer sera sanctionnée par une pénalité d’office.</li>
+                            </ul>
+                        </div>
+        
                     </div>
                     <br>
-                    <a class=" btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}"> 
-                        <span class="text-right">
-                            PAYER MA TAXE 
-                        </span> 
-                    </a>
+                    <center>
+                        <a class=" btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}"> 
+                            <span class="text-right">
+                                PAYER MA TAXE 
+                            </span> 
+                        </a>                        
+                    </center>
+
                     <br>
                     <br>
                     <br>
 
                     @isset($lock)@endisset 
-                        <div class="step">
-                            <h2>Méthode 2 : Création de compte et paiement</h2>
-                            <div>
-                                <h3>Étape 1</h3>
-                                <ul>
-                                    <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>                                
-                                    <li>Creer votre compte </li>
-                                    <li>Se connecter à son espace requérant</li>
-                                    <li>Renseigner les informations afférentes aux véhicules </li>
-                                    <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
-                                    <li>Imprimer votre reçu de paiement</li>
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">
+                            Créer un compte
 
-                                </ul>
-                            </div>
-                            <div>
-                                <h3>Étape 2</h3>
-                                <ul>
-                                    <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
+                        </h5>
+                        <h1 class="mb-0">Ce service est destiné aux particuliers et aux professionnels disposant d’une flotte de véhicules.</h1>
+                    </div>
+                   
+                    <p class="mb-4" style="font-size:20px;">
+                        Vous pourrez gérer et suivre les paiements de l’ensemble de votre flotte dans ce espace
                         <br>
-                        <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
-                            CREER UN COMPTE
-                        </a>
+                        Pour créer votre compte il vous faut juste renseigner le formulaire avec les informations du propriétaire et des véhicules .                        
+                        <br>
+                        <center>
+                            <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
+                                CREER UN COMPTE
+                            </a>                     
+                        </center>
+  
                         <br>
                     
                     <br>
     
-                    <br>
-                    <div class="note">
-                        <p><strong>NB :</strong></p>
-                        <ul>
-                            <li>Pour les paiements rapides, votre quittance est émise par email.</li>
-                            {{-- <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace requérant et également émise par email.</li> --}}
-                        </ul>
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">
+                            PAIEMENT RAPIDE DE TAXES DE STATIONNEMENT
+                        </h5>
+                        <h2 class="mb-0">
+                            Le DISTRICT AUTONOME D’ABIDJAN vous fait gagner du temps avec les paiements en ligne de la Taxe de stationnement.
+                        </h2>
+                        
                     </div>
-    
-
-                @isset($lock)
-                <div class="step">
-                    <h2>Méthode 1 : Paiement rapide</h2>
-                    <div>
-                        <h3>Étape 1</h3>
-                        <ul>
-                            <li>Aller sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
-                            <li>Cliquer sur le bouton <strong>Liste des taxes</strong></li>
-                            <li>Aller au bas de la page et cliquer sur le bouton <strong>PAYER LA TAXE</strong></li>
-                            <li>Remplir le formulaire affiché à droite</li>
-                            <li>Cliquer sur le bouton <strong>Payer</strong></li>
-                            <li>Effectuer le paiement selon le mode de paiement choisi</li>
-                            <li>Télécharger le reçu affiché à l’écran</li>
-                        </ul>
+                    <h3 class="mb-0">C’est très simple !</h3>
+                    <p class="mb-4" style="font-size:20px;">
+                        Pour commencer, identifiez dans la liste des taxes, celle qui est applicable au type de véhicule en votre possession et ensuite payer en quelques clics
+                    </p>
+             
+                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                        <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+                           class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                           VOIR LA LISRE ET MONTANT DES TAXES
+                        </a>
+                        <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                            PAYER MA TAXE DE STATIONNEMENT
+                        </a>
                     </div>
-                    <div>
-                        <h3>Étape 2</h3>
-                        <ul>
-                            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
-                        </ul>
-                    </div>
-                </div>
-                <br>
-                <a class=" btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}"> 
-                    <span class="text-right">
-                        PAYER MA TAXE 
-                    </span> 
-                </a>
-                <br>
-                <br>
-                <br>
 
-                <div class="step">
-                    <h2>Méthode 2 : Création de compte et paiement</h2>
-                    <div>
-                        <h3>Étape 1</h3>
-                        <ul>
-                            <li>Aller sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
-                            <li>Cliquer sur le bouton <strong>Créer un compte</strong> en haut à droite</li>
-                            <li>Remplir le formulaire de création de compte et cliquer sur <strong>Valider</strong></li>
-                            <li>Cliquer sur <strong>Mes Véhicules</strong> dans le menu latéral gauche</li>
-                            <li>Cliquer sur le bouton <strong>Ajouter</strong> en haut à gauche</li>
-                            <li>Renseigner les informations du véhicule et cliquer sur <strong>Sauvegarder</strong></li>
-                            <li>Cliquer sur <strong>Payer</strong> devant la liste affichée dans le tableau</li>
-                            <li>Renseigner les informations de paiement</li>
-                            <li>Cliquer sur le bouton <strong>Valider</strong></li>
-                            <li>Effectuer le paiement selon le mode de paiement choisi</li>
-                            <li>Télécharger le reçu affiché à l’écran</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Étape 2</h3>
-                        <ul>
-                            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <br>
-                <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
-                    CREER UN COMPTE
-                </a>
-                <br>
-                <br>
-
-                <br>
-                <div class="note">
-                    <p><strong>NB :</strong></p>
-                    <ul>
-                        <li>Pour les paiements rapides, votre quittance est émise par email.</li>
-                        <li>Pour les paiements avec un compte, votre quittance est disponible dans votre espace utilisateur et également émise par email.</li>
-                    </ul>
-                </div>
-
-               @endisset  
                 </div>
             </div>
 
