@@ -59,7 +59,7 @@
             </div>
 
             <footer class="footer text-center text-muted">
-                All Rights Reserved by {{ env('APP_NAME') }}. Designed and Developed by <a href="#">{{ env('APP_AUTHOR') }}</a>.
+                © {{ env('APP_NAME') }} All Rights Reserved. 
             </footer>
         </div>
     </div>

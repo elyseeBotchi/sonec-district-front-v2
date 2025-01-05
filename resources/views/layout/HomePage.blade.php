@@ -327,7 +327,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>&copy; Copyright {{  date('Y') }}. All Rights Reserved by <a href="#">{{  env('APP_AUTHOR') }}</a></p>
+                        <p> © {{ env('APP_NAME') }} All Rights Reserved. </p>
                     </div>
                     <div class="col-lg-6 text-end">
                         <ul class="link-list">

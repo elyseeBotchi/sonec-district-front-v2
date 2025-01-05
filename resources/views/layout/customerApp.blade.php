@@ -40,7 +40,7 @@
                     </div>
 
                     <footer class="footer text-center text-muted">
-                        All Rights Reserved by {{ env('APP_NAME') }}.
+                        © {{ env('APP_NAME') }} All Rights Reserved
                     </footer>
                 </div>
             </div>
