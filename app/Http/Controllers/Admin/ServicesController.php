@@ -27,6 +27,36 @@ class ServicesController extends Controller
         return view('admins.services.rendez-vous',['Entity_uuid' => $Entity['uuid'] ?? '']);
     }
 
+    
+    public function liste_rdv(){
+
+        $Entity = Entities()[0] ?? '';
+        //dd($Entity);
+        return view('admins.services.liste_rendez-vous',['Entity_uuid' => $Entity['uuid'] ?? '']);
+    }
+    
+    public function rdv_activite($uuid){
+
+        $Entity = Entities()[0] ?? '';
+        //dd($Entity);
+        return view('admins.services.rdv_activite',['Entity_uuid' => $uuid ?? '']);
+    }
+
+    public function rdv_today_activite($uuid){
+        $url_path = "/autorisations/entite/taxes/rdv/today/activite";
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      // return dd($responses);
+
+        return response()->json($responses); 
+    }
+
+    
+
     public function stat_rdv($uuid){
         $url_path = "/autorisations/entite/taxes/rdv/findAllStatistique";
 

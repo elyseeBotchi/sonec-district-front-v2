@@ -117,18 +117,15 @@
                                     <p class="display-1 text-white mb-md-4 animated zoomIn" style="font-size: 45px !important">
                                         Plateforme digitale de délivrance de la carte de stationnement
                                     </p>
-
-                                    @isset($lock)
                                     <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
                                         <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
                                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
-                                            LISTE DES TAXES
+                                           VOIR LA LISTE ET MONTANT DES TAXES
                                         </a>
                                         <a href="#target-comment-sacquitter" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
                                            COMMENT S'ACQUITTER DE SA TAXE
                                         </a>  {{----}}
                                     </div>
-                                    @endisset
                                 </div>
                             </div>
                         </div>
@@ -173,11 +170,12 @@
                     </div>
                 </div>
             </div>
+
             
             <center>
                 <a href="{{ route('quick.payment', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" 
                     class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
-                    PAYER LA TAXE
+                    
                 </a>
             </center>
 
@@ -186,7 +184,6 @@
 
 
 
-<!-- Blog Start -->
 
 <!-- Features Start -->
 <div class="container-fluid py-5 wow">
@@ -204,13 +201,24 @@
                 <div class="container">
                    
                     <div class="step">
-                        {{-- <h2>Méthode 1 : Paiement rapide</h2> --}}
+                        <h2>Méthode 1 : PAIEMENT RAPIDE DE TAXES DE STATIONNEMENT</h2>
+                        <div  style="font-size:20px;">
+                            <br>
+                            Le <b>DISTRICT AUTONOME D’ABIDJAN</b>  vous fait gagner du temps avec les paiements en ligne de la Taxe de stationnement.
+                            <br>
+                                C’est très simple !
+                                <br>
+                                Pour commencer, identifiez dans la liste des taxes, celle qui est applicable au type de véhicule en votre possession et ensuite payer en quelques clics
+
+                                <br>
+                                <br>
+                        </div>
                         <div>
                             <h3>Étape 1</h3>
                             <ul>
                                 <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>
                                 <li>Consulter la liste des taxes</li>
-                                <li>Renseigner le formulaire avec  les informations sur le  propriétaire et véhicule </li>
+                                <li>Renseigner le formulaire avec  les informations sur le  propriétaire et véhicule</li>
                                 <li>Procéder au paiement par  Mobile Money (Orange, MTN ou Wave)</li>
                                 <li>Imprimer votre reçu de paiement contenant votre date de RDV pour la validation et le retrait de votre carte de stationnement </li>
                             </ul>
@@ -218,92 +226,74 @@
                         <div>
                             <h3>Étape 2</h3>
                             <ul>
-                                <li>Se rendre au siège du District au Plateau le jour indiqué pour le RDV , muni du reçu de paiement et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
-                            </ul>
-                        </div>
-                        <div class="note">
-                            <p><strong>NB :</strong></p>
-                            <ul>
-                                <li style="color: red">
-                                    Le reçu de Paiement ne constitue pas une Carte de stationnement. Vous devez obligatoirement vous rendre au district pour le retrait de votre carte de stationnement avant le 31 Mars 2025. Passer ce délai des pénalités automatiques s’appliqueront.
+                                <li>
+                                    Se rendre au siège du District au Plateau le jour indiqué pour le RDV , muni du reçu de paiement et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.
                                 </li>
-                                <li style="color: red">Toute tentative de fraude sur le montant de la taxe à payer sera sanctionnée par une pénalité d’office.</li>
                             </ul>
                         </div>
-        
                     </div>
                     <br>
-                    <center>
-                        <a class=" btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}"> 
-                            <span class="text-right">
-                                PAYER MA TAXE 
-                            </span> 
-                        </a>                        
-                    </center>
+            
+                    
+                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                        <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+                        class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                        VOIR LA LISTE ET MONTANT DES TAXES
+                        </a>
+                        <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                            PAYER MA TAXE DE STATIONNEMENT
+                        </a>  {{----}}
+                    </div>
 
                     <br>
                     <br>
                     <br>
 
                     @isset($lock)@endisset 
-                    <div class="section-title position-relative pb-3 mb-5">
-                        <h5 class="fw-bold text-primary text-uppercase">
-                            Créer un compte
+                        <div class="step">
+                            <h2>Méthode 2 : CREER UN COMPTE </h2>
+                            <div>
+                                <h3>Étape 1</h3>
+                                <ul>
+                                    <li>Se rendre sur le site : <a href="https://district-online.ci/" target="_blank">https://district-online.ci/</a></li>                                
+                                    <li>Creer votre compte </li>
+                                    <li>Se connecter à son espace requérant</li>
+                                    <li>Renseigner les informations afférentes aux véhicules </li>
+                                    <li>Procéder au paiement avec l'un des opérateurs Mobile Money (Orange, MTN ou Wave)</li>
+                                    <li>Imprimer votre reçu de paiement</li>
 
-                        </h5>
-                        <h1 class="mb-0">Ce service est destiné aux particuliers et aux professionnels disposant d’une flotte de véhicules.</h1>
-                    </div>
-                   
-                    <p class="mb-4" style="font-size:20px;">
-                        Vous pourrez gérer et suivre les paiements de l’ensemble de votre flotte dans ce espace
+                                </ul>
+                            </div>
+                            <div>
+                                <h3>Étape 2</h3>
+                                <ul>
+                                    <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
                         <br>
-                        Pour créer votre compte il vous faut juste renseigner le formulaire avec les informations du propriétaire et des véhicules .                        
-                        <br>
-                        <center>
-                            <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
-                                CREER UN COMPTE
-                            </a>                     
-                        </center>
-  
+                        <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
+                            CREER UN COMPTE
+                        </a>
                         <br>
                     
                     <br>
     
-                    <div class="section-title position-relative pb-3 mb-5">
-                        <h5 class="fw-bold text-primary text-uppercase">
-                            PAIEMENT RAPIDE DE TAXES DE STATIONNEMENT
-                        </h5>
-                        <h2 class="mb-0">
-                            Le DISTRICT AUTONOME D’ABIDJAN vous fait gagner du temps avec les paiements en ligne de la Taxe de stationnement.
-                        </h2>
-                        
-                    </div>
-                    <h3 class="mb-0">C’est très simple !</h3>
-                    <p class="mb-4" style="font-size:20px;">
-                        Pour commencer, identifiez dans la liste des taxes, celle qui est applicable au type de véhicule en votre possession et ensuite payer en quelques clics
-                    </p>
-             
-                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
-                        <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
-                           class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
-                           VOIR LA LISRE ET MONTANT DES TAXES
-                        </a>
-                        <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-                            PAYER MA TAXE DE STATIONNEMENT
-                        </a>
-                    </div>
-
-                    <div class="step">
-                    <div class="note">
+                    <br>
+                    <div class="note" >
                         <p><strong>NB :</strong></p>
-                        <ul>
-                            <li style="color: red">
+                        
+                            <h2 style="color: red;text-align:justify;">
                                 Le reçu de Paiement ne constitue pas une Carte de stationnement. Vous devez obligatoirement vous rendre au district pour le retrait de votre carte de stationnement avant le 31 Mars 2025. Passer ce délai des pénalités automatiques s’appliqueront.
-                            </li>
-                            <li style="color: red">Toute tentative de fraude sur le montant de la taxe à payer sera sanctionnée par une pénalité d’office.</li>
-                        </ul>
+                            </h2>
+                            <br>
+                            <h2 style="color: red;text-align:justify;">
+                                Toute tentative de fraude sur le montant de la taxe à payer sera sanctionnée par une pénalité d’office.
+                            </h2>
                     </div>
-                    </div>
+    
+ 
                 </div>
             </div>
 

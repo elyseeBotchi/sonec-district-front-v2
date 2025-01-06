@@ -101,44 +101,44 @@
 
     @if(CanPermission('tableau_de_bord_voir_mes_statistiques_de_validation'))
         <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title text-center">RENDEZ-VOUS DU JOUR </h4>
-            </div>
-                <table class="table" id="datatable-custom">
-                    <tbody class="render-html">
-                        <tr>
-                            <td> <h3>Date</h3> </td>
-                            <td> 
-                                <h3>
-                                    {{ date('d-m-Y') }}
-                                </h3>  
-                            </td>
-                        </tr>                   
-                        <tr>
-                            <td>
-                                <h3>
-                                    Total RDV ce jour
-                                </h3>
-                            
-                            </td>
-                            <td> 
-                                <h3 id="total_rdv_jour"></h3> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h3>
-                                    Reçu par l'agent
-                                </h3>
-                            </td>
-                            <td>
-                                <h3 id="rdv_recu_jour"></h3>     
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> 
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title text-center">RENDEZ-VOUS DU JOUR </h4>
+                    </div>
+                    <table class="table" id="datatable-custom">
+                        <tbody class="render-html">
+                            <tr>
+                                <td> <h3>Date</h3> </td>
+                                <td> 
+                                    <h3>
+                                        {{ date('d-m-Y') }}
+                                    </h3>  
+                                </td>
+                            </tr>                   
+                            <tr>
+                                <td>
+                                    <h3>
+                                        Total RDV ce jour
+                                    </h3>
+                                
+                                </td>
+                                <td> 
+                                    <h3 id="total_rdv_jour"></h3> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>
+                                        Reçu par l'agent
+                                    </h3>
+                                </td>
+                                <td>
+                                    <h3 id="rdv_recu_jour"></h3>     
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
         </div>
     @endif
 

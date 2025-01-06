@@ -121,7 +121,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">RENDEZ-VOUS</h4>
+                        <h4 class="card-title mb-0">RECEPTION DES USAGERS</h4>
                     </div> 
 
                     <div class="ml-auto">
@@ -158,20 +158,6 @@
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-start">
-                            <h4 class="card-title mb-0">HISTORIQUE DE MES VALIDATIONS</h4>
-                        </div> 
-        
-                        <table class="table" id="datatable-custom">
-                            <thead>
-                            <tr></tr>
-                            </thead>
-                            <tbody class="render-html">
-                                <tr>
-                                    <td> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                     
                 </div>

@@ -50,8 +50,10 @@ $(document).ready(function() {
                         validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01 ou AB1234CD"';
                     }                
                     else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
-                        validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
-                        validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
+                      //  validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                      validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+ 
+                      validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
                     }
                     else{
                         validationAttributes = ' minlength="3" maxlength="50"';
@@ -67,10 +69,10 @@ $(document).ready(function() {
                 }
                 
                 formHtml += `
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label text-dark">${field.name} </label>
-                            <input type="${field.type_input}" class="form-control" name="${ slugify(field.name)}" placeholder="${field.name}"  required ${validationAttributes}  />
+                            <input type="${field.type_input}" class="form-control" name="${ slugify(field.name)}"  required ${validationAttributes}  />
                         </div>
                     </div>`;         
             }

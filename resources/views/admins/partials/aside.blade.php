@@ -22,16 +22,36 @@
                 
                 @isset($entitesNav[0]['uuid'])
                 
+                
+
+                @if(CanPermission('activite_du_jour_detail_de_lactivite_du_jour'))
+
+                    <li class="sidebar-item  {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}" > 
+                        <a title="Détail de l’activité du jour" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.activite',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                            <i data-feather="calendar" class="feather-icon"></i>
+                            <span class="hide-menu">Activité du jour </span>
+                        </a>
+                    </li>
+                @endif 
+
                 @if(CanPermission('rendez_vous_voir_le_module_rendez_vous'))
 
                     <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}" > 
-                        <a class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                        <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
                             <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Rendez-vous</span>
+                            <span class="hide-menu">Réception des Usagers</span>
                         </a>
                     </li>
-                    @endif
+                @endif 
 
+                    @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
+                        <li class="sidebar-item  {{ request()->is('panel/services/liste/rdv/*') ? 'selected' : '' }}" > 
+                            <a title="Liste des usagers  reçus" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.liste.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Usagers  reçus</span>
+                            </a>
+                        </li>
+                    @endif
                 @endisset 
 
 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    findAll();
+   // findAll();
     findStat();
 
     function findAll() {
@@ -42,8 +42,8 @@ $(document).ready(function() {
           entete.forEach(col => {
               headerHtml += `<th>${col.name}</th>`;
           });
-          headerHtml += '<th>Statut</th><th>Statut du véhicule</th><th>Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
-          $('#datatable-custom thead').html(headerHtml);
+         // headerHtml += '<th>Statut</th><th>Statut du véhicule</th><th>Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
+         // $('#datatable-custom thead').html(headerHtml);
 
           // Vérifier si la DataTable a déjà été initialisée
           if ($.fn.DataTable.isDataTable('#datatable-custom')) {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
          
           // Initialisation de la DataTable avec les nouvelles données
-          $('#datatable-custom').DataTable({
+        /*   $('#datatable-custom').DataTable({
               data: results,
               columns: [
                   ...entete.map(col => ({ 
@@ -112,7 +112,68 @@ $(document).ready(function() {
               language: {
                   url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json' // URL pour le fichier de traduction en français
               }
-          });
+          }); */
+
+
+          $('#datatable-custom').DataTable({
+            data: results,
+            columns: [ 
+                {
+                    data: 'numero_dimmatriculation',
+                    render: function(data, type, row) {
+                        return `${data}`;
+
+                    }
+                }, 
+                {
+                    data: 'numero_de_la_carte_grise',
+                    render: function(data, type, row) {
+                        return `${data}`;
+
+                    }
+                },
+                {
+                    data: 'service',
+                    render: function(data, type, row) {
+                        return `${data}`;
+
+                    }
+                },
+                {
+                    data: 'state',
+                    render: function(data, type, row) {
+                        switch(data) {
+                            case 'fail':
+                                return `<span class="badge rounded-pill badge-danger">Non valide</span>`;
+                            case 'validate':
+                                return `<span class="badge badge-pill badge-success">Validé</span>`;
+                            default:
+                                return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
+                           
+                        }
+                    }
+                },
+                {
+                    data: 'validate_at',
+                    render: function(data, type, row) {
+                        if (data) {
+                            // Extraire uniquement l'heure et les minutes
+                            const dateObj = new Date(data);
+                            const hours = dateObj.getHours().toString().padStart(2, '0'); // Ajoute un zéro devant si nécessaire
+                            const minutes = dateObj.getMinutes().toString().padStart(2, '0'); // Ajoute un zéro devant si nécessaire
+                            return `${hours}:${minutes}`; // Formater en HH:MM
+                        }
+                        return ''; // Retourner une chaîne vide si `data` est null ou undefined
+                    }
+                    
+                }
+            ],
+            paging: false, // Désactiver la pagination
+            searching: false, // Désactiver le filtre (champ de recherche)
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json' // URL pour le fichier de traduction en français
+            }
+        });
     }
 
      
