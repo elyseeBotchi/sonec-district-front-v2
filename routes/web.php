@@ -190,8 +190,9 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
             Route::get('activite/{uuid}', [AdminServicesController::class, 'rdv_activite'])->name('panel.autorisations.services.activite');
             Route::get('taxes/rdv/today/activite/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.today.activite');
+            Route::get('taxes/historique/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.historique.rdv');
 
-             
+            
         });
 
                 
