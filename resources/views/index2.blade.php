@@ -273,9 +273,12 @@
                         </div>
                         
                         <br>
-                        <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
+                        <center>
+                               <a class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft text-uppercase" href="{{ route('register',['service' => $services[0]['uuid'] ?? '']) }}">
                             CREER UN COMPTE
                         </a>
+                        </center>
+                     
                         <br>
                     
                     <br>
