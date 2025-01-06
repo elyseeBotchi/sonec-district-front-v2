@@ -167,7 +167,83 @@ class LandingController extends Controller
         }
     }
 
+    
+    public function quick_acquitter($name=null,$service)
+    {
+        return view('acquitter-taxe', [
+            'service_uuid' => $service ?? '',
+            'service_name' => $name ?? ''
+        ]);
+    }
+    
+    public function about($name=null,$service)
+    {
+        return view('about', [
+            'service_uuid' => $service ?? '',
+            'service_name' => $name ?? ''
+        ]);
+    }
 
+    public function about_send(Request $request)
+    {
+        if($request->motif ==""){
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>'Veuillez renseigner le motif',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+        $url_path = "/landing/services/send/email";
+
+        if($request->motif =="autre"){
+            $motif = $request->autre_motif;
+        }
+
+        $data = [
+            'entity_uuid' => $request->entity_uuid,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'motif' => $motif ?? $request->motif,
+            'message' => $request->message,
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        $services = Entities_Customer();
+        //return response()->json($responses);
+        if(isset($responses['type'])){
+            if($responses['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=> route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']),
+                    'message'=>$responses['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                 $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$responses['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+            }
+        }
+        else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=> "ne erreur est survenu lors de l'envoi",
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+    }
+    
     public function findOneConfig($uuid){
 
         $url_path = "/landing/services/rubrique/findOneConfig";
@@ -207,7 +283,7 @@ class LandingController extends Controller
             'rdv' => 'required'
         ]);
 
-        return dd($request->rdv);
+       // return dd($request->rdv);
         if($validator->fails()){
             $dataResponse =[
                 'type'=>'error',

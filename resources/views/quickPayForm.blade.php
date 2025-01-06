@@ -20,36 +20,27 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
-                    {{-- <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="service.html" class="nav-item nav-link">Services</a> --}}
-                    <div class="nav-item dropdown">
-                        {{-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Blog</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="detail.html" class="dropdown-item">Blog Detail</a>
-                        </div> --}}
-                    </div>
-                    <div class="nav-item dropdown">
-                        {{-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                            <a href="feature.html" class="dropdown-item">Our features</a>
-                            <a href="team.html" class="dropdown-item">Team Members</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="quote.html" class="dropdown-item">Free Quote</a>
-                        </div> --}}
-                    </div>
-                    {{-- <a href="contact.html" class="nav-item nav-link">Contact</a> --}}
-                </div>
-                {{-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
-                    <i class="fa fa-search"></i>
-                </butaton> --}}
-                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Créer un compte</a>
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
 
-                <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
+                    <div class="nav-item dropdown"></div>
+                    <div class="nav-item dropdown"></div>
+                </div>
+ 
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
+
             </div>
         </nav>
 
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
+                    {{-- <i class="far fa-circle text-white px-2"></i>
+                    <a href="" class="h5 text-white">About</a> --}}
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Navbar & Carousel End -->
 
@@ -58,32 +49,42 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-7">
-                    <div class="section-title position-relative pb-3 mb-5">
-                        <h5 class="fw-bold text-primary text-uppercase">PAIEMENT RAPIDE @isset($service_name) DE {{ $service_name ?? '' }} @endisset</h5>
-                        <h1 class="mb-0">Payez vos taxes en toute simplicité !</h1>
-                    </div>
-                   
-                    <p class="mb-4">
-                        Gagnez du temps avec notre plateforme de paiement rapide et sécurisé. Que ce soit pour les taxes de stationnement réglez vos obligations en quelques clics seulement, sans tracas ni files d'attente. Facile, rapide et efficace — simplifiez vos démarches dès aujourd'hui !                    
-                    </p>
-
-                 
-                    {{-- 
-                    <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
-                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
-                            <i class="fa fa-phone-alt text-white"></i>
-                        </div>
-                    </div>
-
-                    <div class="row gx-3">
-                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
-                            <h5 class="mb-4"><i class="fa fa-reply text-primary me-3"></i>Reply within 24 hours</h5>
-                        </div>
-                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
-                            <h5 class="mb-4"><i class="fa fa-phone-alt text-primary me-3"></i>24 hrs telephone support</h5>
-                        </div>
+                    {{-- <div class="section-title position-relative pb-3 mb-5">
+                            
                     </div> --}}
+                    <p class="mb-4" style="font-size:20px;">
+                        Le <b>DISTRICT AUTONOME D’ABIDJAN</b>  vous fait gagner du temps avec les paiements en ligne de la Taxe de stationnement.
+                        <br>
+                        C’est très simple !
+                        <br>
+                        Pour commencer, identifiez dans la liste des taxes, celle qui est applicable au type de véhicule en votre possession et ensuite payer en quelques clics
 
+                    </p>  
+
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
+                        <strong class="text-uppercase">NB :</strong>
+                            <h3 style="text-align: left">
+                                Le reçu de Paiement ne constitue pas une Carte de stationnement. Vous devez obligatoirement vous rendre au district pour le retrait de votre carte de stationnement avant le 31 Mars 2025. Passer ce délai des pénalités automatiques s’appliqueront.
+                            <br> <br>
+                         
+                                Toute tentative de fraude sur le montant de la taxe à payer sera sanctionnée par une pénalité d’office.
+                            </h3>
+                        </ul>
+                    </div>
+                    
+                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                        <a href="{{ route('quick.liste', ['service' => $services[0]['uuid'] ?? '', 'name' => $service[0]['name'] ?? '']) }}" 
+                           class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                           VOIR LA LISTE ET MONTANT DES TAXES
+                        </a>
+                        
+                        <a href="#formulaire" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                           PAYER SA TAXE DE STATIONNEMENT
+                        </a>  {{----}} 
+                    </div>
+                 
+                   
                     <h3 class="text-center mb-4" style="display: none">LISTE DES TAXES</h3>
                         <div class="table-responsive"  style="display: none">
                             <table class="table table-bordered table-hover text-justify align-middle">
@@ -105,7 +106,8 @@
                     <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
                         
                         <form  class="sendPayForm" action="{{ route('landing.entities.taxe.payment') }}">
-                            <div class="alert alert-info" role="alert">
+                            <h3>FORMULAIRE DE PAIEMENT</h3>
+                            <div class="alert alert-info" role="alert" id="formulaire">
                                 <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
                                 <strong class="text-uppercase">Informations importantes :</strong>
                                 <ul>

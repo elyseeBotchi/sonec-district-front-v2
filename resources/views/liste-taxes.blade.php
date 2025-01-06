@@ -38,17 +38,27 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
-                
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
+
                     <div class="nav-item dropdown"></div>
                     <div class="nav-item dropdown"></div>
                 </div>
  
-                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Créer un compte</a>
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
 
-                <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
             </div>
         </nav>
 
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
+                    {{-- <i class="far fa-circle text-white px-2"></i>
+                    <a href="" class="h5 text-white">About</a> --}}
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -63,7 +73,7 @@
                            
              </p>
 
-             <div class="col-md-12">
+             <div class="col-md-8">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover text-justify align-middle">
                         <thead class="table-primary">

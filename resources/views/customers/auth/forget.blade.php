@@ -1,37 +1,76 @@
-@extends('layout.authentificationApp')
-
+@extends('layout.LandingPage')
 @section('content')
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" >
-
-    <div class="col-md-3 bg-white" style="width: 700px !important; font-family: 'Cambria Math', sans-serif; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        <div class="p-3">
-            <a href="{{ route('welcome.index') }}" class="text-center">
-                <center>
-                    <img src="{{ url('template/assets/images/logo.png') }}" width="70px" alt="">
-                </center>
+@php
+    $services = Entities_Customer();
+@endphp
+    <!-- Navbar & Carousel Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
+            <a href="{{ route('welcome.index') }}" class="navbar-brand p-0">
+                <h3 class="m-0">
+                    <img src="{{ asset('template/assets/images/logo.png') }}"  height="70px" alt="Logo">
+                </h3>
             </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
 
-            <h2 class="mt-3 text-center">Récupération</h2>
-            <p class="" style="font-family :'Montserrat', Helvetica, Arial, serif">
-                
-            </p>
-            
-            <form class="mt-4 sendForm" action="{{ route('panel.password.email') }}" method="POST">
-                @csrf
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="text-dark" for="uname">Email</label>
-                            <input class="form-control" name="email" id="uname" type="email" placeholder="Email" autofocus required />
-                        </div>
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        <button type="submit" class="btn btn-block btn-outline-primary">Poursuivre</button>
-                    </div>
+                    <div class="nav-item dropdown"></div>
+                    <div class="nav-item dropdown"></div>
                 </div>
-            </form>
+ 
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
+
+            </div>
+        </nav>
+
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
+                    {{-- <i class="far fa-circle text-white px-2"></i>
+                    <a href="" class="h5 text-white">About</a> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Carousel End -->
+
+ <!-- Quote Start -->
+ <div class="container-fluid">
+    <div class="container" style="transform: translateY(-70px);">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6">
+                <div class="bg-primary rounded d-flex p-5">
+                    <form class="mt-4 sendForm" action="{{ route('panel.password.email') }}" method="POST">
+                        @csrf
+                        <h3 class="text-light">FORMULAIRE DE RECUPERATION DE MOT DE PASSE</h3>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-light" for="uname">Email</label>
+                                    <input class="form-control" name="email" id="uname" type="email" placeholder="" required />
+                                </div>
+                                <br>
+                            </div>
+                            
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="btn btn-block btn-outline-light">Poursuivre</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+
+
 @endsection
+

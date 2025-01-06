@@ -319,4 +319,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
     Route::get('register/{service}', [CustomerLoginController::class, 'register'])->name('register');
     Route::get('/quick/payment/{name?}/{service}', [LandingController::class, 'quick_pay'])->name('quick.payment');
     Route::get('/quick/liste/{name?}/{service}', [LandingController::class, 'quick_liste'])->name('quick.liste');
+    Route::get('/quick/acquitter/{name?}/{service}', [LandingController::class, 'quick_acquitter'])->name('quick.acquitter');
+    Route::get('/nous/contacter/{name?}/{service}', [LandingController::class, 'about'])->name('about');
+    Route::post('/send/nous/contacter', [LandingController::class, 'about_send'])->name('about.send');
 

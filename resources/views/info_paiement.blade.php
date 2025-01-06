@@ -1,13 +1,17 @@
 @extends('layout.LandingPage')
 
 @section('content')
+@php
+    $services = Entities_Customer();
+@endphp
+
 
     <!-- Navbar & Carousel Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
             <a href="{{ route('welcome.index') }}" class="navbar-brand p-0">
                 <h3 class="m-0">
-                    <img src="{{ asset('template/assets/images/logo.png') }}" height="70px" alt="Logo">
+                    <img src="{{ asset('template/assets/images/logo.png') }}"  height="70px" alt="Logo">
                 </h3>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -16,61 +20,30 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
-                    
-                    <div class="nav-item dropdown">
-                       
-                    </div>
-                    <div class="nav-item dropdown">
-                      
-                    </div>
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
+
+                    <div class="nav-item dropdown"></div>
+                    <div class="nav-item dropdown"></div>
                 </div>
-                {{-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
-                    <i class="fa fa-search"></i>
-                </butaton> --}}
-                <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
+ 
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
+
             </div>
         </nav>
 
-        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            @isset($services)
-                @forelse ($services as $key => $service)
-                    <div class="carousel-inner">
-                        <div class="carousel-item @if($key ==0) active @endif ">
-                            <img class="w-100" src="{{ asset('template/start/img/carousel-'.$key.'.png') }}" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 900px;">
-                                    <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
-                                    <h1 class="display-1 text-white mb-md-4 animated zoomIn">{{ $service['name'] ?? '' }}</h1>
-                                    <a href="{{ route('quick.payment',['service' => $service['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">
-                                        PAYER MAINTENANT
-                                    </a>
-                                    <a href="{{ route('register',['service' => $service['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">
-                                        INSCRIVEZ-VOUS
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                @empty
-                @endforelse
-            @endisset 
-            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
+                    {{-- <i class="far fa-circle text-white px-2"></i>
+                    <a href="" class="h5 text-white">About</a> --}}
+                </div>
+            </div>
         </div>
     </div>
     <!-- Navbar & Carousel End -->
 
-
-    <br>
-
-    <br>
 
     <br>
 

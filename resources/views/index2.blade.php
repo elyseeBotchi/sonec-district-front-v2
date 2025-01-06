@@ -78,7 +78,8 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
-                    
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
+
                     <div class="nav-item dropdown">
                        
                     </div>
@@ -89,8 +90,8 @@
                 {{-- <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="fa fa-search"></i>
                 </butaton> --}}
-                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Créer un compte</a>
-                <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a>
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
+                {{-- <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a> --}}
             </div>
         </nav>
         <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -100,8 +101,8 @@
                         <div class="carousel-item @if($key == 0) active @endif">
                             <img class="w-100" src="{{ asset('template/start/img/carousel-'.$key.'.png') }}" alt="Image">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 900px;">
-                                    <!-- Texte avec classes et styles responsives -->
+                                <div class="p-3">
+                                    <!-- style="max-width: 900px;" Texte avec classes et styles responsives -->
                                     <h1 class="text-white fw-bold text-center d-none d-md-block">
                                         DISTRICT AUTONOME D'ABIDJAN
                                     </h1>
@@ -122,8 +123,13 @@
                                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
                                            VOIR LA LISTE ET MONTANT DES TAXES
                                         </a>
-                                        <a href="#target-comment-sacquitter" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+
+                                        <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
                                            COMMENT S'ACQUITTER DE SA TAXE
+                                        </a>
+
+                                        <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                           PAYER SA TAXE
                                         </a>  {{----}}
                                     </div>
                                 </div>
@@ -146,7 +152,7 @@
     </div>
     <!-- Navbar & Carousel End -->
 
-
+@isset($lock)
 
     <div class="container-fluid py-5 wow" style="display: none">
         <div class="container py-5">
@@ -338,15 +344,17 @@
         </form>
     </div>
 </div>
-
+@endisset
 
 @endsection
 @push('footer-script')
-@isset($services[0]['uuid'])
-    <script>
-        var Entity_uuid = @Json($services[0]['uuid'] ?? '');
-    </script>
-@endisset
+    @isset($services[0]['uuid'])
+        <script>
+            var Entity_uuid = @Json($services[0]['uuid'] ?? '');
+        </script>
+    @endisset
+    @isset($lock)
+    <script src="{{ asset('/backoffice/js/front/indexPage.js') }}"></script>
+    @endisset
 
-<script src="{{ asset('/backoffice/js/front/indexPage.js') }}"></script>
 @endpush
