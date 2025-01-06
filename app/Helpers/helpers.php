@@ -105,7 +105,7 @@ if(!function_exists('getUserIP')) {
         $ip = 'IP non trouvée';
         $hostname = 'Nom de machine non trouvé';
 
-        // Récupérer le nom de la machine
+    /*     // Récupérer le nom de la machine
         if ($os === 'Windows') {
             $hostname = gethostname(); // Méthode intégrée en PHP pour récupérer le nom d'hôte
             $output = shell_exec('ipconfig');
@@ -125,7 +125,7 @@ if(!function_exists('getUserIP')) {
             $output = shell_exec('hostname -I');
             $ips = explode(' ', trim($output));
             $ip = $ips[0] ?? 'IP non trouvée';
-        }
+        } */
 
         $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
@@ -151,7 +151,7 @@ if(!function_exists('getUserIP')) {
             "hostname" => trim($hostname), // Ajouter le nom de la machine
             "ip_prive" => $ip,
             "ip" => $publicIP,
-            "shell" => json_encode($output),
+           // "shell" => json_encode($output),
             "user_agent" => $user_agent,
             "data_location" => $data_location
         ];

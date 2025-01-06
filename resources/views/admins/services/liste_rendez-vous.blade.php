@@ -7,14 +7,11 @@
     <div class="row col-md-12">
         <div class="col-md-12 col-lg-12">
             <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title text-center">RESULTAT DES TRAITEMENTS DU JOUR PAR NOMBRE ET PAR TYPE</h4>
+                </div>
                 <div class="card-body">
-
                     <div class="ml-auto">
-                  
-                        <div class="d-flex align-items-start">
-                            <h4 class="card-title mb-0">LISTE DES USAGERS REÇU</h4>
-                        </div> 
-        
                         <table class="table" id="datatable-custom">
                             <thead>
                             <tr>

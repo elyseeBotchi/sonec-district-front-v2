@@ -40,7 +40,7 @@
                                     <tr>
                                         <td> 
                                             <h3>
-                                                Usagers reçus  et ayant  RDV ce Jour 			
+                                                Usagers ayant  RDV		
                                             </h3>
                                          </td>
                                          <td> 
@@ -57,7 +57,7 @@
                                     <tr>
                                         <td> 
                                             <h3>
-                                               Usager reçus sans RDV reçu 			
+                                               Usager sans RDV  			
                                             </h3>
                                          </td>
                                          <td> 
@@ -76,38 +76,6 @@
                         </div> 
                 </div>
 
-
-                    <div class="ml-auto">
-                  
-                        <div class="d-flex align-items-start">
-                            <h4 class="card-title mb-0">
-                                RESULTAT DES TRAITEMENTS JOURNALIERS PAR NOMBRE ET PAR TYPE
-                            </h4>
-                        </div> 
-        
-                        <table class="table" id="datatable-custom">
-                            <thead>
-                            <tr>
-                                <td>
-                                    Type de Taxe
-                                </td>
-                                <td>
-                                    Montant de la taxe 
-                                </td>
-                                <td>
-                                    Nombre Traité ce jour
-                                </td>
-                               
-                            </tr>
-                            </thead>
-                            <tbody class="render-html">
-                                <tr>
-                                    <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
                 </div>
             </div>
         </div>

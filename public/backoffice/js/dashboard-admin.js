@@ -57,7 +57,100 @@ $(document).ready(function() {
             });
     }
     
+    findAll();
 
+    function findAll() {
+      //  alert(Entity_uuid)
+        fetch(`/panel/services/taxes/rdv/today/activite/${Entity_uuid}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Une erreur est survenue lors de la récupération des données');
+                }
+                return response.json();
+            })
+            .then(data => { 
+                //console.log(data)
+
+                const sans_rdv_rejete = document.getElementById('sans_rdv_rejete');
+                sans_rdv_rejete.innerHTML = data.sans_rdv_rejete || 0 ;
+
+                
+                const sans_rdv_valide = document.getElementById('sans_rdv_valide');
+                sans_rdv_valide.innerHTML = data.sans_rdv_valide || 0 ;
+
+                const sans_rdv_total = document.getElementById('sans_rdv_total');
+                sans_rdv_total.innerHTML = (data.sans_rdv_valide || 0) + (data.sans_rdv_rejete || 0) ;
+
+                
+                const avec_rdv_valide = document.getElementById('avec_rdv_valide');
+                avec_rdv_valide.innerHTML = data.avec_rdv_valide || 0 ;
+
+                const avec_rdv_rejete = document.getElementById('avec_rdv_rejete');
+                avec_rdv_rejete.innerHTML = data.avec_rdv_rejete || 0 ;
+
+                
+                const avec_rdv_total = document.getElementById('avec_rdv_total');
+                avec_rdv_total.innerHTML = (data.avec_rdv_valide || 0) + (data.avec_rdv_rejete || 0) ;
+
+  
+                searchData(data.data)
+                   // 
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
+                alert('Une erreur est survenue lors de la récupération des données.');
+            });
+    }
+
+        
+    function searchData(data) {
+        if (!Array.isArray(data) || data.length === 0) {
+            console.error("Les données fournies ne sont pas valides ou sont vides.");
+            return;
+        }
+    
+        console.log("Données reçues :", data);
+    
+        // Sélectionner le corps du tableau
+        const tableBody = document.querySelector('#datatable-traitement tbody');
+    
+        // Vérifier si le tableau a un `tbody`, sinon en créer un
+        if (!tableBody) {
+            console.error("Le tableau ne contient pas de corps `<tbody>`.");
+            return;
+        }
+    
+        // Effacer les lignes existantes dans le tableau
+        tableBody.innerHTML = '';
+        let nombre_total = 0;
+        // Boucler sur les données et créer les lignes
+        data.forEach(row => {
+            const tr = document.createElement('tr'); // Créer une ligne de tableau
+    
+            // Créer une cellule pour le service
+            const tdService = document.createElement('td');
+            tdService.textContent = row.service || 'N/A'; // Valeur par défaut
+            tr.appendChild(tdService);
+    
+            // Créer une cellule pour le montant payé
+            const tdMontant = document.createElement('td');
+            tdMontant.textContent = row.montant_paye !== undefined ? `${row.montant_paye} F` : '0 F'; // Valeur par défaut
+            tr.appendChild(tdMontant);
+    
+            // Créer une cellule pour le nombre
+            const tdNombre = document.createElement('td');
+            tdNombre.textContent = row.nombre !== undefined ? row.nombre : '0'; // Valeur par défaut
+            nombre_total += row.nombre !== undefined ? row.nombre : 0;
+            tr.appendChild(tdNombre);
+    
+            // Ajouter la ligne au tableau
+            tableBody.appendChild(tr);
+        }
+    );
+
+        document.getElementById('traitement_total').innerHTML = nombre_total;
+    }
 
     document.querySelectorAll('.Load_paiement').forEach(item => {
         item.addEventListener('click', event => {

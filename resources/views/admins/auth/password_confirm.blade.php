@@ -28,10 +28,10 @@
             </div>
         </nav>
 
-        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+        <div class="container-fluid bg-primary py-3 bg-header" style="margin-bottom: 90px;">
             <div class="row py-5">
                 <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <h1 class="display-6 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
                     <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
                     {{-- <i class="far fa-circle text-white px-2"></i>
                     <a href="" class="h5 text-white">About</a> --}}
@@ -46,7 +46,7 @@
     <div class="container" style="transform: translateY(-70px);">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <div class="bg-success rounded d-flex p-5">
+                <div class="bg-success rounded d-flex p-3">
                             
                 <form class="mt-4 sendForm" action="{{ route('panel.password.confirm') }}" method="POST">
                     @csrf

@@ -172,6 +172,8 @@
 </div>
 @endisset 
 
+
+
 @push('footer-script')
 @isset($Entity_uuid)
     <script>

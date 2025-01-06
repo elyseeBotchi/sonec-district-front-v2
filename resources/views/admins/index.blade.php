@@ -82,6 +82,7 @@
         </div>
     @endif 
 
+    
    
 </div>
 
@@ -118,7 +119,7 @@
                             <tr>
                                 <td>
                                     <h3>
-                                        Total RDV ce jour
+                                        Total RDV
                                     </h3>
                                 
                                 </td>
@@ -141,6 +142,143 @@
                 </div> 
         </div>
     @endif
+
+
+    
+@if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+    <div class="row col-md-12">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title text-center">DETAIL DE L'ACTIVITE DU JOUR </h4>
+                            </div>
+                            <table class="table">
+                                <tbody class="render-html">
+                                    <tr>
+                                        <td> 
+                                        
+                                        </td>
+                                        <td> 
+                                            <h3>
+                                                TRAITES
+                                            </h3>  
+                                        </td>
+                                        <td> 
+                                            <h3>
+                                                REJETES
+                                            </h3>  
+                                        </td>
+                                        <td> 
+                                            <h3>
+                                                TOTAL
+                                            </h3>  
+                                        </td>
+                                    </tr>    
+                                    
+                                    <tr>
+                                        <td> 
+                                            <h3>
+                                                Usagers ayant RDV			
+                                            </h3>
+                                        </td>
+                                        <td> 
+                                            <span id="avec_rdv_valide"></span>
+                                        </td>
+                                        <td> 
+                                            <span id="avec_rdv_rejete"></span>
+                                        </td>
+                                        <td> 
+                                            <span id="avec_rdv_total"></span>
+                                        </td>
+                                    </tr> 
+
+                                    <tr>
+                                        <td> 
+                                            <h3>
+                                            Usager sans RDV 			
+                                            </h3>
+                                        </td>
+                                        <td> 
+                                            <span id="sans_rdv_valide"></span>
+                                        </td>
+                                        <td> 
+                                        <span id="sans_rdv_rejete"></span>
+                                        </td>
+                                        <td> 
+                                        <span id="sans_rdv_total"></span>
+                                        </td>
+                                    </tr>      
+                            
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+
+
+                    <div class="ml-auto">
+                
+                        <div class="d-flex align-items-start">
+                            <h4 class="card-title mb-0">
+                                RESULTAT DES TRAITEMENTS PAR NOMBRE ET PAR TYPE
+                            </h4>
+                        </div> 
+        
+                        <table class="table" id="datatable-traitement">
+                            <thead>
+                            <tr>
+                                <td>
+                                    <h3>
+                                        Type de Taxe
+                                    </h3>
+                                    
+                                </td>
+                                <td>
+                                    <h3>
+                                         Montant de la taxe
+                                    </h3>
+                                    
+                                </td>
+                                <td>
+                                    <h3>
+                                        Nombre Traité ce jour
+                                    </h3>
+                                    
+                                </td>
+                            
+                            </tr>
+                            </thead>
+                            <tbody class="render-html">
+                                <tr>
+                                    <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <h3>
+                                            TOTAL
+                                        </h3>
+                                        
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <h3 id="traitement_total"></h3>
+                                    </td>
+                                
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+@endif 
 
 </div>
 

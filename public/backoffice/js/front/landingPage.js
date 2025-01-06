@@ -74,7 +74,7 @@ $(document).ready(function() {
             formHtml += `
                 <div class="col-12">
                     <label class="form-label">${field.name} <code>*</code> </label>
-                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${slugify(field.name)}" style="height: 55px;" required ${validationAttributes} />
+                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${slugify(field.name)}" style="height: 40px;" required ${validationAttributes} />
                 </div>`;
         });
     

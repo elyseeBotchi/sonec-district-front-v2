@@ -49,10 +49,10 @@
             </div>
         </nav>
 
-        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+        <div class="container-fluid bg-primary py-3 bg-header" style="margin-bottom: 90px;">
             <div class="row py-5">
                 <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <h4 class="display-6 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
                     <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
                     {{-- <i class="far fa-circle text-white px-2"></i>
                     <a href="" class="h5 text-white">About</a> --}}
@@ -62,11 +62,11 @@
     </div>
 
 
-    <div class="container-fluid py-5 wow">
-        <div class="container py-5">
-            <div class="section-title position-relative pb-3 mb-5">
-                <h5 class="fw-bold text-primary text-uppercase">LISTE DES TAXES</h5>
-                <h1 class="mb-0">Vous avez la possibilité de payer votre taxe ou de créer un compte pour pouvoir gerer l'ensemble de vos taxes !</h1>
+    <div class="container-fluid wow">
+        <div class="container" style="transform: translateY(-70px);">
+            <div class="col-md-8 section-title position-relative pb-3 mb-5">
+                <h1 class="fw-bold text-primary text-uppercase text-align-justify">LISTE DES TAXES</h1>
+                <h3 class="mb-0">Vous avez la possibilité de payer votre taxe ou de créer un compte pour pouvoir gerer l'ensemble de vos taxes !</h3>
             </div>
            
             <p class="mb-4">

@@ -55,6 +55,26 @@ class ServicesController extends Controller
         return response()->json($responses); 
     }
 
+    public function rdv_today_historique_activite($uuid){
+        return view('admins.services.rdv_resultat_traitement',['Entity_uuid' => $uuid ?? '']);
+   }
+
+   public function rdv_historique_activites($uuid){
+        return view('admins.services.rdv_historique_traitement',['Entity_uuid' => $uuid ?? '']);
+   }
+
+      public function rdv_historique_activites_data($uuid){
+        $url_path = "/autorisations/entite/taxes/rdv/historique/activite/data";
+
+        $data = [
+            'uuid' => $uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       //return dd($responses);
+
+        return response()->json($responses); 
+    }
     
 
     public function stat_rdv($uuid){

@@ -35,7 +35,7 @@ $(document).ready(function() {
                 avec_rdv_total.innerHTML = (data.avec_rdv_valide || 0) + (data.avec_rdv_rejete || 0) ;
 
   
-                searchData(data.data)
+              //  searchData(data.data)
                    // 
             })
             .catch(error => {

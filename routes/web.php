@@ -190,8 +190,11 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
             Route::get('activite/{uuid}', [AdminServicesController::class, 'rdv_activite'])->name('panel.autorisations.services.activite');
             Route::get('taxes/rdv/today/activite/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.today.activite');
-            Route::get('taxes/historique/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.historique.rdv');
+            Route::get('taxes/historique/rdv/{uuid}', [AdminServicesController::class, 'rdv_historique_activites'])->name('panel.autorisations.services.historique.rdv');
+            Route::get('taxes/historique/today/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_historique_activite'])->name('panel.autorisations.services.historique.activite');
+            Route::get('taxes/rdv/historique/activite/data/{uuid}', [AdminServicesController::class, 'rdv_historique_activites_data'])->name('panel.autorisations.services.historique.activite.data');
 
+              
             
         });
 
@@ -204,6 +207,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_validationJ'])->name('panel.autorisations.statistique.data.validateur');
             Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_validateur'])->name('panel.autorisations.statistique.data.validateur');
             
+
+
         });
 
 

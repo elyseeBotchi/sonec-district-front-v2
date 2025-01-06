@@ -28,10 +28,10 @@
             </div>
         </nav>
 
-        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+        <div class="container-fluid bg-primary py-3 bg-header" style="margin-bottom: 90px;">
             <div class="row py-5">
                 <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                    <h1 class="display-4 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <h1 class="display-6 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
                     <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
                     {{-- <i class="far fa-circle text-white px-2"></i>
                     <a href="" class="h5 text-white">About</a> --}}
@@ -43,13 +43,12 @@
 
  <!-- Quote Start -->
  <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container py-5">
+    <div class="container" style="transform: translateY(-70px);"> 
         <div class="row g-5">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="section-title position-relative pb-3 mb-5">
-                    {{-- <h5 class="fw-bold text-primary text-uppercase">
-                        CREATION DE COMPTE
-                    </h5> --}}
+                    <h1 class="fw-bold text-primary text-uppercase text-align-justify">CREER UN COMPTE</h5>  
+
                       <h6 id="TaxeEntity" style="display: none"></h6>
                     <h1 class="mb-0">
                         Ce service est destiné aux particuliers et aux professionnels disposant d’une flotte de véhicules.
@@ -122,81 +121,82 @@
                 
             </div>
 
-            <div class="col-lg-6">
-              
-                <div  style='background-color:#e69d64;' class="rounded h-100 d-flex p-5 wow zoomIn" data-wow-delay="0.9s">
-                            
-                        <form class="mt-4 sendForm" id="formulaire" action="{{ route('customer.register.submit') }}" method="POST">
-                            @csrf
-                            <h3>FORMULAIRE DE CREATION DE COMPTE</h3>
+            <div class="col-md-12 d-flex align-items-center justify-content-center">
+                <div class="col-lg-6">
+                    <div  style='background-color:#e69d64;' class="rounded h-100 d-flex p-5 wow">
+                                
+                            <form class="mt-4 sendForm" id="formulaire" action="{{ route('customer.register.submit') }}" method="POST">
+                                @csrf
+                                <h3>FORMULAIRE DE CREATION DE COMPTE</h3>
 
-                            {{-- <div class="alert alert-info" role="alert">
-                                <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
-                                <strong class="text-uppercase">Informations importantes :</strong>
-                                <ul>
-                                    <li>Les informations fournies sont sujettes à vérification.</li>
-                                </ul>
-                            </div><br> --}}
+                                {{-- <div class="alert alert-info" role="alert">
+                                    <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
+                                    <strong class="text-uppercase">Informations importantes :</strong>
+                                    <ul>
+                                        <li>Les informations fournies sont sujettes à vérification.</li>
+                                    </ul>
+                                </div><br> --}}
+                                
                             
-                           
-                                <div class="col-md-12 row">
-                                     <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="uname">Email</label>
-                                            <input class="form-control" name="email" id="uname" type="email"
-                                                   placeholder="Email" required/>
+                                    <div class="col-md-12 row">
+                                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required>
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="uname">Email</label>
+                                                <input class="form-control" name="email" id="uname" type="email"
+                                                    placeholder="Email" required/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="pwd">Mot de passe</label>
+                                                <input class="form-control" name="password" id="pwd" type="password" placeholder="" required />
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="pwd">Confirmer votre mot de passe</label>
+                                                <input class="form-control" name="confirm" id="confirm_pwd" type="password" placeholder="" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="pwd">Civilité</label>
+                                                <select name="civility_uuid" class="form-control" id="">
+                                                    <option value="m">Monsieur</option>
+                                                    <option value="Mme">Madame</option>
+                                                    <option value="Mlle">Mademoiselle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="pwd">Nom</label>
+                                                <input class="form-control" name="firstname" id="firstname" type="text" placeholder="" required />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="pwd">Prénoms</label>
+                                                <input class="form-control" name="lastname" id="lastname" type="text" placeholder="" required />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="pwd">Mot de passe</label>
-                                            <input class="form-control" name="password" id="pwd" type="password" placeholder="" required />
-                                        </div>
-                                    </div>
+                                
+                                    <div id="form-container" class="col-md-12 row"> <span class="fa fa-spinner fa-spin"></span> </div>
             
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="pwd">Confirmer votre mot de passe</label>
-                                            <input class="form-control" name="confirm" id="confirm_pwd" type="password" placeholder="" required />
+                                    <br>
+                                    <center>
+                                        <div class="col-lg-3 text-center">
+                                            <button type="submit" class="btn btn-block btn-primary">Valider</button>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="pwd">Civilité</label>
-                                            <select name="civility_uuid" class="form-control" id="">
-                                                <option value="m">Monsieur</option>
-                                                <option value="Mme">Madame</option>
-                                                <option value="Mlle">Mademoiselle</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="pwd">Nom</label>
-                                            <input class="form-control" name="firstname" id="firstname" type="text" placeholder="" required />
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="text-dark" for="pwd">Prénoms</label>
-                                            <input class="form-control" name="lastname" id="lastname" type="text" placeholder="" required />
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                                <div id="form-container" class="col-md-12 row"> <span class="fa fa-spinner fa-spin"></span> </div>
-        
-                                <br>
-                                <center>
-                                     <div class="col-lg-3 text-center">
-                                        <button type="submit" class="btn btn-block btn-primary">Valider</button>
-                                    </div>
-                                </center>
-                               
-                            
-                        </form> 
+                                    </center>
+                                
+                                
+                            </form> 
+                    </div>
                 </div>
             </div>
         </div>

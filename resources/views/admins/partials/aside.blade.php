@@ -23,17 +23,6 @@
                 @isset($entitesNav[0]['uuid'])
                 
                 
-
-                @if(CanPermission('activite_du_jour_detail_de_lactivite_du_jour'))
-
-                    <li class="sidebar-item  {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}" > 
-                        <a title="Détail de l’activité du jour" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.activite',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                            <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Activité du jour </span>
-                        </a>
-                    </li>
-                @endif 
-
                 @if(CanPermission('rendez_vous_voir_le_module_rendez_vous'))
 
                     <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}" > 
@@ -44,24 +33,64 @@
                     </li>
                 @endif 
 
-                @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
-                <li class="sidebar-item  {{ request()->is('panel/services/liste/rdv/*') ? 'selected' : '' }}" > 
-                    <a title="Liste des usagers  reçus" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.liste.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                        <i data-feather="calendar" class="feather-icon"></i>
-                        <span class="hide-menu">Usagers  reçus</span>
+              
+                <li class="sidebar-item {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <i data-feather="box" class="feather-icon"></i>
+                        <span class="hide-menu">Activité du jour </span>
                     </a>
-                </li>
-            @endif
+                    <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                       
 
-            @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
-                <li class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}" > 
-                    <a title="Historiques des Traitements" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.historique.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                        <i data-feather="calendar" class="feather-icon"></i>
-                        <span class="hide-menu">Historiques des Traitements</span>
-                    </a>
+                        @if($entitesNav != "")
+                            @forelse($entitesNav as $val)
+                                @if(CanPermission('activite_du_jour_detail_de_lactivite_du_jour'))
+                                    <li class="sidebar-item {{ request()->is('panel/services/activite/jour/*') ? 'selected' : '' }}">
+                                        <a  title="Détail de l’activité du jour" href="{{ route('panel.autorisations.services.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                Activités  
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+                                    <li class="sidebar-item {{ request()->is('panel/services/activite/historique/*') ? 'selected' : '' }}">
+                                        <a  title="Resultat des traitements" href="{{ route('panel.autorisations.services.historique.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                Resultat des traitements
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+                                    
+                                @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+                                    <li class="sidebar-item {{ request()->is('panel/services/liste/rdv') ? 'selected' : '' }}">
+                                        <a title="Usagers reçus" href="{{ route('panel.autorisations.services.liste.rdv',['uuid' => $entitesNav[0]['uuid']]) }}"  class="sidebar-link">
+                                            <span class="hide-menu">
+                                                Usagers  reçus
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            @empty
+                            @endforelse
+                        @endif
+                    
+                    </ul>
                 </li>
-            @endif
-                @endisset 
+
+
+                @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
+                    <li class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}" > 
+                        <a title="Historiques des Traitements" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.historique.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                            <i data-feather="calendar" class="feather-icon"></i>
+                            <span class="hide-menu">Historiques des Traitements</span>
+                        </a>
+                    </li>
+                @endif
+            @endisset 
 
 
         
