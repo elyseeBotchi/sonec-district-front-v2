@@ -72,17 +72,17 @@
                                 
                                 <div class="col-12">
                                     <label class="form-label">Nom <code>*</code></label>
-                                    <input type="text" class="form-control bg-light border-0" id="nom" required  style="height: 55px;">
+                                    <input type="text" name="nom" class="form-control bg-light border-0" id="nom" required  style="height: 55px;">
                                 </div>
 
                                 <div class="col-12">
                                     <label class="form-label">Prénoms <code>*</code></label>
-                                    <input type="text" class="form-control bg-light border-0" id="prenoms" required style="height: 55px;">
+                                    <input type="text" name="prenom" class="form-control bg-light border-0" id="prenoms" required style="height: 55px;">
                                 </div>
 
                                 <div class="col-12">
                                     <label class="form-label">Email <code>*</code></label>
-                                    <input type="text" class="form-control bg-light border-0" placeholder=""  id="email" style="height: 55px;">
+                                    <input type="email" name="email" class="form-control bg-light border-0" placeholder=""  id="email" style="height: 55px;">
                                 </div>
 
 

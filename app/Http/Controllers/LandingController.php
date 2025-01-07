@@ -211,6 +211,7 @@ class LandingController extends Controller
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+       
         $services = Entities_Customer();
         //return response()->json($responses);
         if(isset($responses['type'])){
