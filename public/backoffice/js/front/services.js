@@ -152,7 +152,7 @@ $(document).ready(function() {
                 });
             })
             .catch(error => {
-                console.error('Erreur:', error);
+               // console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
                 alert('Une erreur est survenue lors de la récupération des données.');
             });
@@ -289,14 +289,14 @@ $(document).ready(function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data.data); // Affiche les données reçues
+           // console.log(data.data); // Affiche les données reçues
             const entete = data.data.entete;
             const pay_element = data.data.pay_element;
-            console.log(entete)
+           // console.log(entete)
             generateFormUpdate(entete,pay_element)
         })
         .catch(error => {
-            console.error('Erreur:', error);
+           // console.error('Erreur:', error);
         });
     });
     
@@ -685,7 +685,7 @@ $(document).ready(function() {
                 toastr.warning('Paiement en attente.', 'Alerte');
             }
         } catch (error) {
-            console.error('Erreur lors de la vérification du statut du paiement:', error);
+           // console.error('Erreur lors de la vérification du statut du paiement:', error);
             toastr.error('Impossible de vérifier le statut du paiement. Veuillez réessayer.', 'Erreur réseau');
         }
     }
@@ -824,7 +824,7 @@ $(document).ready(function() {
                 });
             })
             .catch(error => {
-                console.error('Erreur:', error);
+               // console.error('Erreur:', error);
             });
     }
     
