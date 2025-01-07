@@ -65,7 +65,7 @@
 
 
     <!-- Navbar & Carousel Start -->
-    <div class="container-fluid position-relative p-0">
+    <div class="container-fluid position-relative p-0 d-none d-md-block">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
             <a href="{{ route('welcome.index') }}" class="navbar-brand p-0">
                 <h3 class="m-0">
@@ -94,7 +94,7 @@
                 {{-- <a href="{{ route("login") }}" class="btn btn-primary py-2 px-4 ms-3">Connectez-vous</a> --}}
             </div>
         </nav>
-        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div id="header-carousel" class="carousel slide carousel-fade  " data-bs-ride="carousel" >
             @isset($services)
                 @forelse ($services as $key => $service)
                     <div class="carousel-inner">
@@ -103,7 +103,7 @@
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3">
                                     <!-- style="max-width: 900px;" Texte avec classes et styles responsives -->
-                                    <h1 class="text-white fw-bold text-center d-none d-md-block">
+                                    <h1 class="text-white fw-bold text-center">
                                         DISTRICT AUTONOME D'ABIDJAN
                                     </h1>
                                     <center>
@@ -148,9 +148,96 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-          
+        
     </div>
     <!-- Navbar & Carousel End -->
+
+
+
+    <div class="container-fluid position-relative p-0 d-block d-md-none">
+        <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
+            <a href="{{ route('welcome.index') }}" class="navbar-brand p-0">
+                <h3 class="m-0">
+                    <img src="{{ asset('template/assets/images/logo.png') }}"  height="70px" alt="Logo">
+                </h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="{{ route('welcome.index') }}" class="nav-item nav-link active">Accueil</a>
+                    <a href="{{ route('about', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="nav-item nav-link">Nous contacter</a>
+
+                    <div class="nav-item dropdown"></div>
+                    <div class="nav-item dropdown"></div>
+                </div>
+ 
+                <a href="{{ route('register', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 ms-3">Mon compte</a>
+
+            </div>
+        </nav>
+
+        <div class="container-fluid bg-primary py-3 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-6 text-white animated zoomIn">DISTRICT AUTONOME D'ABIDJAN</h1>
+                    <a href="" class="h5 text-white">Plateforme digitale de délivrance de la carte de stationnement</a>
+                    {{-- <i class="far fa-circle text-white px-2"></i>
+                    <a href="" class="h5 text-white">About</a> --}}
+                </div>
+            </div>
+        </div>
+
+        
+    <div class="container-fluid py-5" style="position:relative;top:-150px !important;">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-12">
+                    <div class="container">
+                        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                            <a href="{{ route('quick.liste', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" 
+                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                            VOIR LA LISTE ET MONTANT DES TAXES
+                            </a>
+                            
+                            <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated  slideInRight">
+                                COMMENT S'ACQUITTER DE SA TAXE
+                            </a>
+
+                            <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                PAYER MA TAXE DE STATIONNEMENT
+                            </a>  {{----}}
+                        </div>
+    
+             
+                        <br>
+        
+                        <br>
+                        
+     
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+            <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+               class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+               VOIR LA LISTE ET MONTANT DES TAXES
+            </a>
+
+            <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-secondary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+               COMMENT S'ACQUITTER DE SA TAXE
+            </a>
+
+            <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-secondary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+               PAYER SA TAXE
+            </a>  {{----}}
+        </div>
+    </div>
+
 
 @isset($lock)
 

@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>{{ env('APP_NAME') }} - Payer votre taxe</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
+{{--     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+ --}}    <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
 
@@ -82,7 +83,7 @@
     <!-- Full Screen Search End -->
     @yield('content')
     
-    <div class="container-fluid text-white" style="background: #061429;">
+    {{-- <div class="container-fluid text-white" style="background: #061429;">
         <div class="container text-justify">
             <div class="row">
                 <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
@@ -91,7 +92,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Footer End -->
 
 
