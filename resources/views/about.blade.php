@@ -71,18 +71,18 @@
                             <div class="row g-3">
                                 
                                 <div class="col-12">
-                                    <label class="form-label">Nom</label>
+                                    <label class="form-label">Nom <code>*</code></label>
                                     <input type="text" class="form-control bg-light border-0" id="nom" required  style="height: 55px;">
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label">Prénoms</label>
+                                    <label class="form-label">Prénoms <code>*</code></label>
                                     <input type="text" class="form-control bg-light border-0" id="prenoms" required style="height: 55px;">
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label">Email</label>
-                                    <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="email" style="height: 55px;">
+                                    <label class="form-label">Email <code>*</code></label>
+                                    <input type="text" class="form-control bg-light border-0" placeholder=""  id="email" style="height: 55px;">
                                 </div>
 
 
