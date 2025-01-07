@@ -44,7 +44,7 @@
     <!-- Navbar & Carousel End -->
 
       <!-- Quote Start -->
-      <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+      <div class="container-fluid py-5 wow " >
         <div class="container" style="transform: translateY(-70px);">
             <div class="row g-5 d-flex justify-content-center" >
                {{--  <div class="col-lg-6">
@@ -61,9 +61,9 @@
 
                 <div class="col-lg-6">
                   
-                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
+                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow" >
                         
-                        <form  class="sendForm" action="{{ route('about.send') }}">
+                        <form  class="sendEmailForm" action="{{ route('about.send') }}">
                             <h3>FORMULAIRE DE PRISE DE CONTACT</h3>
                             
                             @csrf
@@ -106,7 +106,8 @@
                                     <label class="form-label">
                                         Message<code>*</code>
                                     </label>
-                                    <textarea name="message" id="" class="form-control" cols="30" rows="10"></textarea>
+                                    <div id="quill-editor" style="height: 300px; background-color:white;"></div>
+                                    <textarea name="message" id="message"class="d-none" style="width: 100%" cols="30" rows="10"></textarea>
                                 </div>
                                 
 
@@ -138,6 +139,89 @@
         }
     });
     </script>
+   
+   
+<!-- Include Quill.js -->
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+<script>
+    // Initialisation de Quill
+    const quill = new Quill('#quill-editor', {
+        theme: 'snow', // Thème clair
+        placeholder: 'Écrivez votre message ici...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'], // Styles de texte
+                ['link', 'image'], // Liens et images
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Listes
+                [{ 'align': [] }], // Alignement
+                ['clean'] // Effacer le formatage
+            ]
+        }
+    });
+
+
+    $('.sendEmailForm').submit(function (e) {
+    e.preventDefault();
+    const messageTextarea = document.getElementById('message');
+        messageTextarea.value = quill.root.innerHTML;
+
+    var action = $(this).attr('action');
+    var formData = new FormData(this);
+    $.ajax({
+        url: action,
+        type: 'POST',
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+            loader();
+            // Remove previous error styles and messages
+            $('.is-invalid').removeClass('is-invalid');
+            $('.invalid-feedback').remove();
+        },
+        success: function (data) {
+            loader('hide');
+            if (data.type === "success") {
+                // Handle success scenarios
+                sendSuccess(data.message, data.urlback);
+            }
+            else if (data.type === "error_validator") {
+                handleErrors(data.errors);
+                var message = ""
+                if (data.errors) {
+                    $.each(data.errors, function (key, value) {
+                        message += value.join('<br>') + '<br>';
+                    });
+                }
+
+                toastr.error(message, 'Erreur', {
+                    closeButton: true,
+                    progressBar: true,
+                    enableHtml: true  // Activer le support HTML pour les messages toastr
+                });
+            }
+            else {
+                SendError(data.message);
+            }
+        },
+        error: function (xhr) {
+            loader('hide');
+            var errors = xhr.responseJSON.errors;
+            handleErrors(errors);
+            SendError('Veuillez corriger les erreurs ci-dessous.');
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+    // Synchroniser le contenu Quill avec le textarea pour l'envoi du formulaire
+   
+</script>
 @endisset
 
 @endpush

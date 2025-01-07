@@ -210,6 +210,7 @@ class LandingController extends Controller
             'message' => $request->message,
         ];
 
+       // dd($data);
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
        
         $services = Entities_Customer();
