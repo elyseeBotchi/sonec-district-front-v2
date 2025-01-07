@@ -315,7 +315,7 @@ $(document).ready(function() {
                             document.getElementById('tresor_montant').innerHTML = tresor_montant || '';
                             document.getElementById('tresor_nb').innerHTML = results.tresor_nb || ''; 
                             
-                            var nb_total = results.tresor_nb + results.moov_nb + results.mtn_nb + results.orange_nb;
+                            var nb_total = results.tresor_nb + results.moov_nb + results.mtn_nb + results.orange_nb + results.wave_nb;
                             document.getElementById('nb_total').innerHTML = nb_total || ''; 
 
                             
