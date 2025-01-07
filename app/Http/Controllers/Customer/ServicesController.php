@@ -196,6 +196,56 @@ class ServicesController extends Controller
 
     }
 
+    
+    public function update(Request $request)
+    {
+        $url_path = "/autorisations/services/taxe/update";
+
+        $data = [
+            'uuid'=> $request->entity_uuid ?? '',
+            'element_uuid' => $request->uuid,
+            'element'=> $request->all(),
+        ];
+
+       // return response()->json($data);
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        
+       // return dd($response);
+        return response()->json($response);
+
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=>'back',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+
+    }
+
     public function delete($uuid,$entity_uuid)
     {
         $url_path = "/autorisations/services/taxe/delete";

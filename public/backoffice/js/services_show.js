@@ -86,6 +86,7 @@ $(document).ready(function() {
                         <td>Référence paiement </td> 
                         <td> ${pay_element['reference'] || ''} </td> 
                     </tr>`;
+
                     function formatDate(dateString) {
                         const date = new Date(dateString);
                         const day = String(date.getDate()).padStart(2, '0');
@@ -134,6 +135,8 @@ $(document).ready(function() {
                             </td> 
                         </tr>`;
 
+                        
+
                         if(pay_element['transaction_id'] !=="" && pay_element['transaction_id'] !==undefined  && pay_element['transaction_id'] !==null ){
                             document.getElementById('validation-info').style.display = "block";
                         }
@@ -143,6 +146,12 @@ $(document).ready(function() {
                         <tr> 
                             <td>Statut</td> 
                             <td><span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span></td> 
+                        </tr>`;
+
+                        html_render += `
+                        <tr> 
+                            <td>Validé par</td> 
+                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} à ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
                         </tr>`;
 
                         //document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
@@ -163,6 +172,13 @@ $(document).ready(function() {
                                <span class="adge bg-danger font-12 text-white font-weight-medium badge-pill "> Rejeté </span>
                             </td> 
                         </tr>`;
+
+                        html_render += `
+                        <tr> 
+                            <td>Validé par</td> 
+                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} à ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
+                        </tr>`;
+
                         document.getElementById('validation-info').style.display = "none";  
                     }
                     

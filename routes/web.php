@@ -267,7 +267,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
         Route::prefix('/services')->group(function(){
             Route::post('/taxe/store', [ServicesController::class, 'store'])->name('customer.entities.taxe.store');
-            Route::get('/taxe/update', [ServicesController::class, 'update'])->name('customer.entities.taxe.update');
+            Route::post('/taxe/update', [ServicesController::class, 'update'])->name('customer.entities.taxe.update');
             Route::get('/taxe/show/{uuid}/{entity_uuid}', [ServicesController::class, 'show'])->name('customer.entities.taxe.show');
             Route::get('/taxe/delete/{uuid}/{entity_uuid}', [ServicesController::class, 'delete'])->name('customer.entities.taxe.delete');
             Route::get('/taxe/find_one/{uuid}/{entity_uuid}', [ServicesController::class, 'find_service'])->name('customer.entities.taxe.find_service');

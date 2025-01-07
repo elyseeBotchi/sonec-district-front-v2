@@ -52,30 +52,22 @@
             
             <div class="modal fade" id="updateElement-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.entite.update') }}" method="POST">
+                    <form class="modal-content sendEntiteForm" action="{{ route('customer.entities.taxe.update') }}" method="POST">
                         @csrf
-                        <input type="hidden" id="uuid" name="uuid" required />
+                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                        <input type="hidden" name="uuid" id="update-uuid" required />
+                        
                         <div class="modal-header">
-                            <h5 class="mb-0 text-uppercase">Modifier  <span id="target_update_name"></span> </h5>
+                            <h5 class="mb-0 text-uppercase">Modifier un véhicule  </h5>
                             <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
                                 <i class="ti ti-x f-20"></i>
                             </a>
                         </div>
                         <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Dénomination <code>*</code></label>
-                                        <input type="text" class="form-control btn-outline-secondary" id="libelle" name="name" required />
-                                    </div>
-                                </div>
-
-
-                                
-                            </div>
+                            <div class="row" id="form-container-update"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-shadow closeUpModal" data-dismiss="modal">Fermer</button>
+                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
                             <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
                         </div>
                     </form>

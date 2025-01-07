@@ -40,13 +40,13 @@
                       
                     <div class="card-footer" id="validation-info" style="display: none">
                         @if(CanPermission('rendez_vous_valider_les_donnees_dun_vehicule')) 
-                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous êtes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
-                            Valider
-                        </button>
+                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous êtes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
+                                Valider
+                            </button>
 
-                        <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous êtes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
-                            Rejeter
-                        </button>
+                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous êtes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
+                                Rejeter
+                            </button>
                         @endif
                     </div>  
                     
