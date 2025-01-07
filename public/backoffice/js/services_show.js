@@ -19,7 +19,7 @@ $(document).ready(function() {
                     telecharger_la_carte: canPermission('entites_telecharger_la_carte'),
                 };
 
-                console.log(data);
+                //console.log(data);
                 if (!data.data) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
@@ -29,8 +29,8 @@ $(document).ready(function() {
                 const pay_element = results.pay_element || {};
                 const factures = results.factures || {};
                 const entity = results.entity || {};
-                console.log(pay_element)
-                console.log(results)
+                //console.log(pay_element)
+               // console.log(results)
                 // Vérification des données avant de les insérer dans le DOM
                 if (!entity.name || !entity.front_name) {
                     throw new Error("Informations de l'entité manquantes");
@@ -236,7 +236,7 @@ $(document).ready(function() {
             })
     
             .catch(error => {
-                console.error('Erreur:', error);
+                //console.error('Erreur:', error);
                 // Afficher un message utilisateur, par exemple un toast ou une alerte
                // alert('Une erreur est survenue lors de la récupération des données.');
             });
@@ -283,7 +283,7 @@ $(document).ready(function() {
 
                     $.get(action, function(data){
                         loader('hide');
-                        console.log(data)
+                        //console.log(data)
                         if(data.type === 'success'){
                         sendSuccess(data.message);
                         findAll();

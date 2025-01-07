@@ -84,7 +84,7 @@ $(document).ready(function() {
             $('#history_container').DataTable();
             })
             .catch(error => {
-                console.error('Erreur:', error);
+               // console.error('Erreur:', error);
                 // Afficher un message utilisateur, par exemple un toast ou une alerte
                // alert('Une erreur est survenue lors de la récupération des données.');
             });
