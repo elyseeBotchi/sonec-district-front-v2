@@ -56,7 +56,7 @@ $(document).ready(function() {
                 })
                 .then(data => {
                     const results = data.data;
-                    console.log(data);
+                    //console.log(data);
 
                     
                     var categories = Object.keys(data.chartsData);
@@ -191,7 +191,7 @@ $(document).ready(function() {
                     // Ajouter un événement pour le bouton Détail
                     $('#datatable-custom').on('click', '.btn-detail', function() {
                         const uuid = $(this).data('uuid');
-                        console.log(uuid)
+                       // console.log(uuid)
                         fetchCandidatDetail(uuid);
                     });
                 });
@@ -520,7 +520,7 @@ $(document).ready(function() {
                     const totalRecu = validRendezVous.map(item => item.total_recu || 0); // Par défaut 0 si non défini
                     
                     // Graphique ApexCharts
-                    console.log(categoriesrdv);
+                   // console.log(categoriesrdv);
                     const options = {
                         series: [
                             { name: "Rendez-vous prévus", data: totalPrevu },
@@ -879,7 +879,7 @@ $(document).ready(function() {
                     throw new Error('Les données reçues sont invalides.');
                 }
     
-                console.log(data);
+//console.log(data);
     
                 // Préparer les catégories (dates) et les valeurs (nombre de validations)
                 const categories = data.data.map(item => item.date_validation || 'Non spécifiée');
@@ -997,10 +997,10 @@ $(document).ready(function() {
                     throw new Error('Les données reçues sont invalides.');
                 }
     
-                console.log(data);
+                //console.log(data);
     
                 // Préparer les catégories (dates) et les valeurs (nombre de validations)
-                const categories = data.data.map(item => item.date_validation || 'Non spécifiée');
+                const categories = data.data.map(item => item.firstname +' '+ item.lastname);
                 const values = data.data.map(item => item.nombre || 0);
     
                 // Configuration du graphique ApexCharts
