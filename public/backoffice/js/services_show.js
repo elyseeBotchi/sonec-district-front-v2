@@ -151,7 +151,7 @@ $(document).ready(function() {
                         html_render += `
                         <tr> 
                             <td>Validé par</td> 
-                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} à ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
+                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
                         </tr>`;
 
                         //document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
@@ -176,7 +176,7 @@ $(document).ready(function() {
                         html_render += `
                         <tr> 
                             <td>Validé par</td> 
-                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} à ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
+                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
                         </tr>`;
 
                         document.getElementById('validation-info').style.display = "none";  
