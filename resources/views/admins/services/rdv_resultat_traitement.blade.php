@@ -30,7 +30,7 @@
                                     
                                 </tr>
                             </thead>
-                            <tbody class="render-html">
+                            <tbody>
                                 <tr>
                                     <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                                 </tr>
