@@ -262,7 +262,7 @@
 
     @endif 
     
-@if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+@if(CanPermission('tableau_de_bord_recap_des_activites_du_jour'))
     <div class="row col-md-12">
         <div class="col-md-12 col-lg-12">
             <div class="card">

@@ -71,7 +71,13 @@ $(document).ready(function() {
             .then(data => { 
                 //console.log(data)
 
-                const sans_rdv_rejete = document.getElementById('sans_rdv_rejete');
+                
+               var permissions = {
+                activite_du_jour: canPermission('tableau_de_bord_recap_des_activites_du_jour'),
+            };
+
+            if(permissions.activite_du_jour){
+                 const sans_rdv_rejete = document.getElementById('sans_rdv_rejete');
                 sans_rdv_rejete.innerHTML = data.sans_rdv_rejete || 0 ;
 
                 
@@ -94,6 +100,8 @@ $(document).ready(function() {
 
   
                 searchData(data.data)
+            }
+               
                    // 
             })
             .catch(error => {
