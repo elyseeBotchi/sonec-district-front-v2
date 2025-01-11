@@ -213,7 +213,7 @@ $(document).ready(function() {
                             if (permissions && permissions.recu_de_paiement) {
                                 receiptLink = (facture.state === "success") 
                                     ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}" class="btn btn-link">Télécharger le reçu</a>` 
-                                    : 'REMBOURSER';
+                                    : '';
                             }
                     
                             // Générer le contenu pour chaque facture
@@ -238,7 +238,7 @@ $(document).ready(function() {
                     document.getElementById('history_render').innerHTML = history_render;
 
                     // Initialisation de DataTables après le rendu du tableau
-                    $('#history_container').DataTable();
+                    //$('#history_container').DataTable();
                 }
             })
     

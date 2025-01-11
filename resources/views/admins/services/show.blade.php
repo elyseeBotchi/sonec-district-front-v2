@@ -101,7 +101,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-3">Historique des paiements</h4>
+                        <h4 class="card-title mb-3">Historique des paiements du véhicule</h4>
     
                         <div class="row table-responsive">
                             <table class="table table-striped" id="history_container">
