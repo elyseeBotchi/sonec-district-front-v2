@@ -143,7 +143,124 @@
         </div>
     @endif
 
+        
 
+    @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+
+                <div class="row">
+                    <div class="row">
+                        @if(canPermission('statistique_voir_le_montant_total_par_jour'))
+                        <div class="col-md-6 cursor-pointer"  style="cursor: pointer;display:none;">
+                            <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement" >
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
+                                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                                <span id="montant_total_jour">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                            </h2>
+                                            <p class="mb-0 text-muted text-truncate">
+                                                <span class="" id="nb_total_jour">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- end card body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        @endif
+                        @if(canPermission('statistique_voir_le_total_des_paiements'))
+                        <div class="col-md-6 cursor-pointer" style="cursor: pointer;display:none;">
+                            <div data-status="all" data-pay="all"  class="card card-animate Load_paiement">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
+                                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                                <span id="total_paiement">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                            </h2>
+                                            <p class="mb-0 text-muted text-truncate">
+                                                <span class="" id="nb_total">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- end card body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col--> 
+                        @endif
+                    </div>
+                    <div id="rendezvousChart" class="col-md-12"></div>
+
+                    <div class="row align-items-start">
+                        <div class="card col-md-12">
+                            <div class="card-header" id="rubrique-facturation-titre">
+                                LISTE DES DATES RENDEZ-VOUS
+                            </div>
+                            <!-- Tableau -->
+                            <div class="row">
+                                <table id="datatable-custom" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Nombre programmé</th>
+                                        <th>Nombre effectivement reçu</th> 
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="render-html" id="rdv"> </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    
+                    
+                        <div class="card-header col-md-12" id="titre_rdv">
+                            Liste des rendez-vous du jour
+                        </div>
+                        <table class="table" id="datatable-rdv">
+                            <thead>
+                                <tr>
+                                    <th>Date de RDV</th>
+                                    <th>Proprietaire</th>
+                                    <th>N° Carte grise</th>
+                                    <th>N° Immatriculation</th>
+                                    <th>N° Paiement</th>
+                                    <th>Montant</th>
+                                    <th>Reference</th>
+                                    <th>Mode de paiement</th>
+                                    <th>ID Transaction</th>
+                                    <th>Statut</th>
+                                    <th>Date paiement</th>
+                                </tr>
+                                </thead>
+                                <tbody ></tbody>
+                        </table>
+                    </div>
+                </div>
+             
+
+    @endif 
     
 @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
     <div class="row col-md-12">
@@ -164,7 +281,7 @@
                                         </td>
                                         <td> 
                                             <h3>
-                                                TRAITES
+                                                VALIDES
                                             </h3>  
                                         </td>
                                         <td> 
@@ -199,7 +316,7 @@
                                     <tr>
                                         <td> 
                                             <h3>
-                                            Usager sans RDV 			
+                                            UsagerS sans RDV 			
                                             </h3>
                                         </td>
                                         <td> 
@@ -280,17 +397,31 @@
     </div>
 @endif 
 
+
 </div>
 
 @push('footer-script')
     <script>
         var Entity_uuid = @Json(Entities()[0]['uuid'] ?? '');
+        var type_stat = @json('rdv' ?? '');
 
       //  alert(Entity_uuid)
     </script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
     <script src="{{ asset('/backoffice/js/dashboard-admin.js') }}"></script> {{-- --}}
-
+    @if(CanPermission('statistique_voir_le_module_statistique'))
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="{{ asset('/backoffice/js/statistique.js') }}"></script> {{-- --}}
+@endif    
 @endpush
 
+
+@push('footer-script')
+    @isset($Entity_uuid)
+        <script>
+            var Entity_uuid = @Json($Entity_uuid ?? '');
+        </script>
+    @endisset
+     
+@endpush
 @endsection
