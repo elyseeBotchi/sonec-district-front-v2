@@ -24,7 +24,8 @@ class FacturationsController extends Controller
         'rubrique_options' =>$request->rubrique_option_uuid,
         'target' =>$request->target,
         'billings' =>$request->billings,
-        
+        'lieu_rdv' => $request->lieu_rdv ?? ''
+         
 
     ];
 

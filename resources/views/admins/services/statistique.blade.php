@@ -388,7 +388,7 @@
 @endif 
 
 
-@if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
+@if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
 @isset($type_stat)
     @if($type_stat =="agent_validateur")
         <div class="row col-md-12">
@@ -403,7 +403,7 @@
                 <table class="table" id="datatable-validateur">
                     <thead>
                         <tr>
-                            <th>Aggent</th>
+                            <th>Agent</th>
                             <th>Nombre</th>
                         </tr>
                         </thead>

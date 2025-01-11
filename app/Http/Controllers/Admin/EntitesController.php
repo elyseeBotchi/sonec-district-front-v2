@@ -129,8 +129,18 @@ class EntitesController extends Controller
 
     public function show($uuid)
     {
-        return view('admins.configurations.entites.show', [
+        $url_path = "/landing/services/operateurs";
+
+        $data = [
             'entity_uuid' => $uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        return view('admins.configurations.entites.show', [
+            'entity_uuid' => $uuid,
+            'lieuRdv' => $responses['lieuRdv'] ?? '',
+
         ]);
     }
 

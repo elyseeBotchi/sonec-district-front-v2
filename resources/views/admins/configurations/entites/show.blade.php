@@ -269,20 +269,20 @@
                         </a>
                     </div>
                     <div class="modal-body">
-                        @isset($lock)
-                            <div class="hide js-show" style="display: block;">
-                                <div class="card-custom mb-4">
-                                    <div class="card-header-custom">
-                                        <span id="languageSelectLabel" style="font-size:x-small;">
-                                            Facturation
-                                        </span>
-                                    </div>
-                                <div class="card-body-custom">
-                                    <br>
-                                </div>
-                                </div>
-                            </div>
-                        @endisset 
+                       
+                        <div class="col-12">
+                            <label class="form-label">Lieu de rendez-vous <code>*</code></label>
+
+                            <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0" style="height: 40px;">
+                                @isset($lieuRdv)
+                                    @forelse($lieuRdv as $key => $value)
+                                        <option value="{{ $value['uuid'] }}"> {{ $value['libelle'] ?? '' }} </option>
+                                    @empty
+                                    @endforelse
+                                @endisset
+                            </select> 
+                        </div>
+
 
 
 

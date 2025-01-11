@@ -773,7 +773,7 @@ $(document).ready(function() {
                 const rubriqueSelect = document.getElementById('rubrique');
                 let tarif_line = ""; // Initialiser correctement la variable
                 rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
-    
+                    console.log(results);
                 // Ajouter l'option vide "Type de véhicule"
                 const defaultOption = document.createElement('option');
                 defaultOption.textContent = 'Type de véhicule';
@@ -797,6 +797,8 @@ $(document).ready(function() {
                                         optionElement.value = facturation.uuid;
                                         optionElement.textContent = option.option_name;
                                         optionElement.setAttribute('data-amount', facturation.amount);
+                                        optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                        optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
     
                                         tarif_line += `<td>${facturation.amount} </td>`;
                                         optgroup.appendChild(optionElement);
@@ -823,7 +825,9 @@ $(document).ready(function() {
                                     facturationOption.value = facturation.uuid;
                                     facturationOption.textContent = rubrique.name;
                                     facturationOption.setAttribute('data-amount', facturation.amount);
-    
+                                    optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                    optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+
                                     tarif_line += `<tr><td>${rubrique.name}</td><td>${facturation.amount}</td></tr>`;
                                     rubriqueSelect.appendChild(facturationOption);
                                 });
@@ -900,6 +904,8 @@ $(document).ready(function() {
                                         optionElement.value = facturation.uuid;
                                         optionElement.textContent = option.option_name;
                                         optionElement.setAttribute('data-amount', facturation.amount);
+                                        optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                        optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
     
                                         tarif_line += `<td>${formattedAmount}</td>`;
                                         optgroup.appendChild(optionElement);
@@ -930,7 +936,9 @@ $(document).ready(function() {
                                     facturationOption.value = facturation.uuid;
                                     facturationOption.textContent = rubrique.name;
                                     facturationOption.setAttribute('data-amount', facturation.amount);
-    
+                                    facturationOption.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                    facturationOption.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+
                                     tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
                                     rubriqueSelect.appendChild(facturationOption);
                                 });
@@ -965,6 +973,13 @@ $(document).ready(function() {
                           })
                         : '';
                     document.getElementById('montant_pay').value = formattedAmount;
+                    
+                    const selectedLieuRDV = selectedOption?.getAttribute('data-lieu_rendez_vous') || '';
+                    const selectedLieuRdvuuid = selectedOption?.getAttribute('data-lieu_rendez_vous_uuid') || '';
+                    document.getElementById('lieu_rdv').value = selectedLieuRDV;
+                    document.getElementById('list_rdv').value = selectedLieuRdvuuid;
+
+
                 });
             })
             .catch(error => {

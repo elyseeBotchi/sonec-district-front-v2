@@ -133,7 +133,7 @@
                                         </div>
                                             <div class="col-12">
                                             <label class="form-label">Type de véhicule <code>*</code></label>
-                                            <select class="form-select bg-light border-0" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;">
+                                            <select class="form-select bg-light border-0 FindLieuRDV" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;">
                                 
                                             </select>
                                         </div>
@@ -148,14 +148,17 @@
                                             
                                         <div class="col-12">
                                             <label class="form-label">Lieu de rendez-vous <code>*</code></label>
-                                            <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0" style="height: 40px;">
+                                            <input type="text" class="form-control bg-light border-0" placeholder="Lieu de rendez vous"  id="lieu_rdv" readonly disabled  style="height: 40px;">
+                                            <input type="hidden"  name="lieu_rdv" id="list_rdv" required style="height: 40px;">
+                                        
+                                            {{-- <select name="lieu_rdv" id="list_rdv" class="form-control bg-light border-0" style="height: 40px;">
                                                 @isset($lieuRdv)
                                                     @forelse($lieuRdv as $key => $value)
                                                         <option value="{{ $value['uuid'] }}"> {{ $value['libelle'] ?? '' }} </option>
                                                     @empty
                                                     @endforelse
                                                 @endisset
-                                            </select>
+                                            </select> --}}
                                         </div>
                                             
                                         <div class="col-12">
