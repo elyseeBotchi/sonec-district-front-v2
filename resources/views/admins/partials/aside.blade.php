@@ -53,16 +53,17 @@
                                         </a>
                                     </li>
                                 @endif
-
-                                @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
-                                    <li class="sidebar-item {{ request()->is('panel/services/activite/historique/*') ? 'selected' : '' }}">
-                                        <a  title="Resultat des traitements" href="{{ route('panel.autorisations.services.historique.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
-                                            <span class="hide-menu">
-                                                Resultat des traitements
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endif
+                                @isset($lock)
+                                    @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+                                        <li class="sidebar-item {{ request()->is('panel/services/activite/historique/*') ? 'selected' : '' }}">
+                                            <a  title="Resultat des traitements" href="{{ route('panel.autorisations.services.historique.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
+                                                <span class="hide-menu">
+                                                    Resultat des traitements
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endisset
                                     
                                 @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
                                     <li class="sidebar-item {{ request()->is('panel/services/liste/rdv') ? 'selected' : '' }}">
@@ -80,16 +81,18 @@
                     
                     </ul>
                 </li>
+                @isset($lock)
+                    @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
+                        <li class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}" > 
+                            <a title="Historiques des Traitements" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.historique.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Historiques des Traitements</span>
+                            </a>
+                        </li>
+                    @endif
+                @endisset
 
 
-                @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
-                    <li class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}" > 
-                        <a title="Historiques des Traitements" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.historique.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                            <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Historiques des Traitements</span>
-                        </a>
-                    </li>
-                @endif
             @endisset 
 
 
