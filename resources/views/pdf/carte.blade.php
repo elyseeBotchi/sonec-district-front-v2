@@ -216,6 +216,7 @@
             <thead>
                 <tr>
                     <td  style="border: 1px solid black;background-color:orange;"><b>Nom du propriétaire</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>Type de taxe</b> </td>
                     <td  style="border: 1px solid black;background-color:orange;"> <b>Carte grise</b> </td>
                     <td  style="border: 1px solid black;background-color:orange;"> <b>Immatriculation</b> </td>
                 </tr>
@@ -223,6 +224,7 @@
             <tbody>
                 <tr>
                     <td  style="border: 1px solid black;">{{ $pay_element['nom_du_proprietaire'] ?? '' }}</td>
+                    <td  style="border: 1px solid black;">{{ $service ?? '' }}</td>
                     <td  style="border: 1px solid black;">{{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</td>
                     <td  style="border: 1px solid black;">{{ $pay_element['numero_dimmatriculation'] ?? '' }}</td>
                 </tr>
