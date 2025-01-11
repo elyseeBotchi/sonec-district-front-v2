@@ -15,7 +15,7 @@
             padding: 0;
         }
 
-        .card-container {
+        .card-container_old {
             width: 120mm; /* Augmenté pour agrandir la zone */
             height: 70mm; /* Augmenté pour agrandir la zone */
             border: 2px solid #000;
@@ -27,6 +27,20 @@
             position: relative;
             overflow: hidden; /* Assure que le filigrane ne dépasse pas */
         }
+
+        .card-container {
+            width: 178mm; /* Largeur pour un papier A5 */
+            height: 120mm; /* Hauteur pour un papier A5 */
+            border: 2px solid #000;
+            border-radius: 15px;
+            background-color: #fff;
+            margin: 10px auto;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden; /* Assure que le filigrane ne dépasse pas */
+        }
+
 
         .watermark {
             position: absolute;
@@ -68,6 +82,7 @@
             font-size: 10px;
             line-height: 1.0;
             margin-bottom: 10px;
+            margin-top: 50px;
             word-wrap: break-word;
             position: relative;
             z-index: 2;
@@ -85,8 +100,8 @@
         }
 
         .qr-code {
-            width: 50px; /* Réduit pour s'adapter à la zone */
-            height: 50px;
+            width: 85px; /* Réduit pour s'adapter à la zone */
+            height: 85px;
             position: absolute;
             z-index: 2;
         }
@@ -126,9 +141,51 @@
 <body>
 <div class="card-container">
     <!-- Filigrane -->
-    <div class="watermark">
-        {{ env('APP_NAME').' '.date('Y') ?? 'TAXE DE DISTRICT '.date('Y') }}
+    <div style="
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: -1500; 
+    opacity: 0.1; 
+    pointer-events: none; 
+    font-size: 65px; 
+    color: #e8a7a7; 
+">
+    <!-- En haut à gauche -->
+    <div style="
+        position: absolute; 
+        top: 165px; 
+        left: 10px; 
+        transform: rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
     </div>
+
+    <!-- Au centre -->
+    <div style="
+        position: absolute; 
+        top: 30%; 
+        left: 50%; 
+        transform: translate(-50%, -50%) rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+
+    <!-- En bas à droite -->
+    <div style="
+          position: absolute; 
+        top: 36%; 
+        left: 75%; 
+        transform: translate(-50%, -50%) rotate(-45deg); 
+        white-space: nowrap;
+    ">
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+    </div>
+</div>
 
     <!-- QR Codes dans les coins -->
     <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-top-left">
@@ -139,10 +196,11 @@
     <br>
     <br>
     <br>
+    <br>
     <!-- En-tête -->
     <div class="header">
-        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 50px; height: 50px;">
-        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 50px; height: 50px;">
+        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 85px; height: 85px;">
+        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 85px; height: 85px;">
     </div>
 
     <!-- Titre -->
@@ -176,9 +234,9 @@
 
         {{-- calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') --}}</p>
 
-        <center style="position: relative;bottom: -25px;">
+        <center style="position: relative;bottom: -130px;">
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
-            <img width="200px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
+            <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
             
         </center>
     </div>

@@ -259,14 +259,15 @@ class ServicesController extends Controller
     }
 
     
-    public function validation($uuid,$entity_uuid,$status){
+    public function validation($uuid,$entity_uuid,$status,$motif=''){
 
         $url_path = "/autorisations/admin/services/show/validate/taxe/info";
 
         $data = [
             'entity_uuid' => $entity_uuid ?? '',
             'uuid' => $uuid ?? '',
-            'status' => $status ?? ''
+            'status' => $status ?? '',
+            'motif' => $motif
         ];
 
        // return dd($data);

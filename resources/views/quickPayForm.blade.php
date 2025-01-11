@@ -129,7 +129,7 @@
                                             
                                         <div class="col-12">
                                             <label class="form-label">Date de la dernière visite <code>*</code></label>
-                                            <input type="date" class="form-control bg-light border-0" placeholder="Téléphone de paiement" max="{{ date('Y-m-d') }}"  name="date_visite" required="" required style="height: 40px;">
+                                            <input type="date" class="form-control bg-light border-0" placeholder="" max="{{ date('Y-m-d') }}"  name="date_visite" required="" required style="height: 40px;">
                                         </div>
                                             <div class="col-12">
                                             <label class="form-label">Type de véhicule <code>*</code></label>

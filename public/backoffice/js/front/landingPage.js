@@ -2,7 +2,7 @@ $(document).ready(function() {
   //  alert(slugify("numero_dimmatriculation"))
     findAll();
     findRubriques();
-   
+   let FormEntete;
     function findAll() { //alert(Entity_uuid)
         fetch(`/landing/services/taxe/findAll/${Entity_uuid}`)
             .then(response => {
@@ -18,7 +18,7 @@ $(document).ready(function() {
     //console.log(data)
                 const entete = data.entete;
                 const entity = data.entity;
-    
+                FormEntete = entete;
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
@@ -43,7 +43,8 @@ $(document).ready(function() {
       
         entete.forEach(field => {
             let validationAttributes = '';
-    
+            let required = "required";
+            let email_message = "";
             // Ajout de règles spécifiques pour chaque type de champ
             if (field.type_input === 'text') {
                 //
@@ -56,6 +57,7 @@ $(document).ready(function() {
                     //validationAttributes = ' pattern="^[A-Z]{2}[0-9]{8}$|^[0-9]{8}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
                     validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
                     validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB12345678, 123456AB,1234567AB,12345678AB, ou encore AB-1234-CD"';
+                    required = ""
                 }
                 else{
                     validationAttributes = ' minlength="3" maxlength="50"';
@@ -64,6 +66,8 @@ $(document).ready(function() {
                 
             } else if (field.type_input === 'email') {
                 //validationAttributes = 'pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"';
+                required = ""
+                email_message = "Ce mail vous permettra de recevoir vos reçu de paiement"
             } 
             
             else if (field.type_input === 'tel') {
@@ -72,18 +76,104 @@ $(document).ready(function() {
                 validationAttributes += ' title="Le numéro de téléphone doit contenir exactement 10 chiffres."';
             }
     
-            formHtml += `
+            if(required ===""){
+                formHtml += `
+                <div class="col-12">
+                    <label class="form-label">${field.name} <code> ${email_message} </code></label>
+                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${slugify(field.name)}" style="height: 40px;" ${required} ${validationAttributes} />
+                </div>`;
+            }
+            else{
+                formHtml += `
                 <div class="col-12">
                     <label class="form-label">${field.name} <code>*</code> </label>
-                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${slugify(field.name)}" style="height: 40px;" required ${validationAttributes} />
+                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${slugify(field.name)}" style="height: 40px;" ${required} ${validationAttributes} />
                 </div>`;
+            }
+       
         });
     
         // Insérer le formulaire généré dans un conteneur existant
         document.getElementById('form-container').innerHTML = formHtml;
     }
 
+    function generateRecap(entete) {
+        let formHtml = `
+            <table class="table table-bordered">
+                
+                <tbody>
+        `;
     
+        // Ajouter la rubrique sélectionnée
+        let selectedRubrique = $('#rubrique option:selected').text();
+        formHtml += `
+            <tr>
+                <td>Type de véhicule</td>
+                <td><b>${selectedRubrique || 'Non renseigné'}</b></td>
+            </tr>
+        `;
+    
+        // Ajouter la date de rendez-vous sélectionnée
+        let selectedText = $('#list_rdv option:selected').text();
+        let dateRdv =  $(`#rdv option:selected`).text();
+      
+        formHtml += `
+            <tr>
+                <td>Date de rendez-vous</td>
+                <td><b>${selectedText || ''} à ${dateRdv || ''}</b></td>
+            </tr>
+        `;
+    
+        // Parcourir chaque champ dans `entete`
+        entete.forEach(field => {
+            let dataValue = ''; // Valeur par défaut
+    
+            // Identifier la valeur de l'input en fonction de son type
+            if (field.type_input === 'text') {
+                dataValue = $(`input[name="${slugify(field.name)}"]`).val();
+            } else if (field.type_input === 'email') {
+                dataValue = $(`input[name="${slugify(field.name)}"]`).val();
+            } else if (field.type_input === 'tel') {
+                dataValue = $(`input[name="${slugify(field.name)}"]`).val();
+            }
+    
+            // Ajouter chaque champ dans une ligne du tableau
+            formHtml += `
+                <tr>
+                    <td>${field.name}</td>
+                    <td><b>${dataValue || 'Non renseigné'}</b></td>
+                </tr>
+            `;
+        });
+    
+        let dateFormatted = ''; // Valeur par défaut
+        let date_visite = $(`input[name="date_visite"]`).val(); // Valeur brute (format ISO: YYYY-MM-DD)
+
+        if (date_visite) {
+            // Convertir la date en objet `Date` et la formater en français
+            let dateObject = new Date(date_visite);
+            let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateFormatted = dateObject.toLocaleDateString('fr-FR', options);
+        }
+    
+        formHtml += `
+            <tr>
+                <td>Date de la dernière visite</td>
+                <td><b> ${dateFormatted || ''}</b></td>
+            </tr>
+        `;
+        // Fermer les balises du tableau
+        formHtml += `
+                </tbody>
+            </table>
+        `;
+    
+        // Retourner le contenu HTML généré
+        return formHtml;
+    }
+    
+    
+ 
     function generateForm__(entete) {
         let formHtml = '';
     
@@ -287,10 +377,13 @@ $(document).ready(function() {
     $('.sendPayForm').submit(function (e) {
         e.preventDefault();
     
+        var dataCollect=`<div class="responsive" style="position:relative;text-align:left;"> `;
+            dataCollect +=generateRecap(FormEntete);
+            dataCollect +='</div>'
         // Ajout de la confirmation SweetAlert2
         Swal.fire({
-            title: 'Confirmation du paiement',
-            text: 'Voulez-vous vraiment procéder au paiement ?',
+            title: 'Veuillez vérifier les informations avant confirmation',
+            html: dataCollect,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Oui, confirmer',
@@ -350,11 +443,11 @@ $(document).ready(function() {
                 });
             } else {
                 // Optionnel : afficher un message si l'utilisateur annule
-                Swal.fire(
+             /*    Swal.fire(
                     'Annulé',
                     'L\'opération a été annulée.',
                     'info'
-                );
+                ); */
             }
         });
     });

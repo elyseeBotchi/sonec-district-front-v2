@@ -38,7 +38,7 @@ $(document).ready(function() {
                             }
                         },
                         { data: 'email' },
-                        { data: 'phone' },
+                        /* { data: 'phone' }, */
                         {
                             data: 'status',
                             render: function(data, type, row) {

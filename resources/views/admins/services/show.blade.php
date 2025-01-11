@@ -38,22 +38,65 @@
                     </div>
 
                       
-                    <div class="card-footer" id="validation-info" style="display: none">
+                    <div class="card-footer" id="validation-info">{{--  style="display: none" --}}
                         @if(CanPermission('rendez_vous_valider_les_donnees_dun_vehicule')) 
-                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="Cette action est irréversible, Vous êtes sur le point de valider les informations" class="btn btn-rounded btn-outline-success col-sm-3 validate-info">
+                            
+                            <button data-toggle="modal" data-target="#rejet-modal" class="btn btn-rounded btn-danger col-sm-3">
+                                Rejeter
+                            </button>
+
+                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="CONFIRMER LA VALIUDATION" class="btn btn-rounded btn-success col-sm-3 validate-info float-right">
                                 Valider
                             </button>
 
-                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'fail']) }}" caption="Cette action est irréversible, Vous êtes sur le point de rejeter les informations" class="btn btn-rounded btn-outline-danger col-sm-3 validate-info">
-                                Rejeter
-                            </button>
+
+       
                         @endif
                     </div>  
                     
 
                 </div> 
-            </div> 
-
+            </div>
+            <div class="modal fade" id="rejet-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="rejetModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <!-- Champ caché pour l'UUID -->
+                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+            
+                        <!-- En-tête du modal -->
+                        <div class="modal-header">
+                            <h5 class="modal-title mb-0 text-uppercase" id="rejetModalLabel">Rejet de la conformité</h5>
+                            <button type="button" class="close btn-link-danger" data-dismiss="modal" aria-label="Fermer">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+            
+                        <!-- Corps du modal -->
+                        <div class="modal-body card">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="rejet_reason">Raison du rejet</label>
+                                    <textarea name="rejet_reason" id="rejet_reason" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Pied de page du modal -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                            <button 
+                                id="rejet-button"
+                                url="{{ route('panel.autorisations.services.taxes.validation', ['uuid' => $element_uuid ?? '', 'entity_uuid' => $entity_uuid ?? '', 'status' => 'fail', 'motif' => '']) }}" 
+                                caption="Confirmer le rejet" 
+                                class="btn btn-primary btn-shadow validate-info">
+                                Rejeter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
             @if(CanPermission('entites_voir_lhistorique_des_paiements_dune_entite'))  
             <div class="col-xl-12">
                 <div class="card">
@@ -115,6 +158,22 @@
         var Element_uuid = @Json($element_uuid);
         var Entity_uuid = @Json($entity_uuid);
         /* ########################################################## */
+            document.addEventListener('DOMContentLoaded', function () {
+                const rejetReasonInput = document.getElementById('rejet_reason');
+                const rejetButton = document.getElementById('rejet-button');
+        
+                // Fonction pour mettre à jour l'URL du bouton
+                const updateRejetButtonUrl = () => {
+                    const motif = encodeURIComponent(rejetReasonInput.value); // Encode la valeur pour URL
+                    const baseUrl = rejetButton.getAttribute('url');
+                    const updatedUrl = baseUrl.replace(/motif=[^&]*/, `motif=${motif}`); // Remplace le paramètre 'motif'
+                    rejetButton.setAttribute('url', updatedUrl);
+                };
+        
+                // Ajouter un événement pour détecter les changements dans le champ texte
+                rejetReasonInput.addEventListener('input', updateRejetButtonUrl);
+            });
+
     </script>
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>

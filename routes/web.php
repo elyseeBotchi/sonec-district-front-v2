@@ -177,7 +177,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('show/{uuid}', [AdminServicesController::class, 'index'])->name('panel.autorisations.services.show.data');
             Route::get('taxes/findAll/{uuid}', [AdminServicesController::class, 'findAll'])->name('panel.autorisations.services.taxes.find_all');
             Route::get('taxes/detail/{uuid}/{entity_uuid}', [AdminServicesController::class, 'show'])->name('panel.autorisations.services.taxes.show');
-            Route::get('taxes/validation/{uuid}/{entity_uuid}/{status}', [AdminServicesController::class, 'validation'])->name('panel.autorisations.services.taxes.validation');
+            Route::get('taxes/validation/{uuid}/{entity_uuid}/{status}/{motif?}', [AdminServicesController::class, 'validation'])->name('panel.autorisations.services.taxes.validation');
             Route::get('taxes/statistique/{uuid}', [AdminServicesController::class, 'statistique'])->name('panel.autorisations.services.taxes.statistique');
             Route::post('taxes/search/findAll', [AdminServicesController::class, 'search'])->name('panel.autorisations.services.taxes.search');
 

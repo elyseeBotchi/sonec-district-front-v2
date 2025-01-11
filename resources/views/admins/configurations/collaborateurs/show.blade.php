@@ -82,16 +82,16 @@
                                                              <input type="text" class="form-control" name="lastname" value="{{ $user->lastname ?? '' }}" required>
                                                          </div>
                                                      </div>
-                                                     <div class="col-sm-6">
+                                                     <div class="col-sm-12">
                                                          <div class="form-group">
                                                              <label class="form-label">Email</label>
                                                              <input type="email" class="form-control" value="{{ $user->email ?? '' }}" readonly>
                                                          </div>
                                                      </div>
-                                                     <div class="col-sm-6">
+                                                     <div class="col-sm-6" style="display: none">
                                                          <div class="form-group">
                                                              <label class="form-label">Telephone</label>
-                                                             <input type="tel" class="form-control" name="phone" value="{{ $user->phone ?? '' }}" required>
+                                                             <input type="tel" class="form-control" name="phone" value="{{ $user->phone ?? '' }}" >
                                                          </div>
                                                      </div>
                                                  </div>

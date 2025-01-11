@@ -73,9 +73,9 @@
                                                     <input type="text" class="form-control" name="email">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="display:none;">
                                                 <div class="form-group">
-                                                    <label class="form-label">Téléphone <code>*</code></label>
+                                                    <label class="form-label">Téléphone </label>
                                                     <input type="text" class="form-control" name="phone">
                                                 </div>
                                             </div>
@@ -98,14 +98,14 @@
                         <tr class="bg-primary text-uppercase">
                             <td class="text-white">Nom & Prénom(s)</td>
                             <td class="text-white">E-mail</td>
-                            <td class="text-white">Téléphone</td>
+                            {{-- <td class="text-white">Téléphone</td> --}}
                             <td class="text-white">Statut</td>
                             <td class="text-white"></td>
                         </tr>
                         </thead>
                         <tbody class="render-html">
                             <tr>
-                                <td colspan="5"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                             </tr>
                         </tbody>
                     </table>

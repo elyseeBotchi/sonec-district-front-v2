@@ -44,32 +44,38 @@ $(document).ready(function() {
                 }
     
                 let html_render = "";
+
+                
+                html_render += `
+                <tr> 
+                    <td><h3>Taxe payé </h3></td> 
+                    <td><h3> ${pay_element['rubrique_name'] || ''} ${pay_element['rubrique_option_name'] || ''} </h3></td> 
+                </tr>`;
+
+                html_render += `
+                <tr> 
+                    <td> <h3> Montant payé </h3></td> 
+                    <td><h3> ${pay_element['amount'] || ''} Francs CFA </h3></td> 
+                </tr>`;
+
                 if (Array.isArray(entete) && entete.length > 0) {
                     entete.forEach(element => {
                         const slugifiedName = slugify(element.name);
                         const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
-                    
-                        html_render += `
-                        <tr> 
-                            <td>${element.name}</td> 
-                            <td>${payElementValue}</td> 
-                        </tr>`;
+                        if(slugifiedName !="email" && slugifiedName !="telephone"){
+                            html_render += `
+                            <tr> 
+                                <td> <h3> ${element.name} </h3></td> 
+                                <td><h3> ${payElementValue} </h3></td> 
+                            </tr>`;  
+                        }
+ 
+
                     });
 
-                    html_render += `
-                    <tr> 
-                        <td>Taxe payé</td> 
-                        <td> ${pay_element['rubrique_name'] || ''} ${pay_element['rubrique_option_name'] || ''} </td> 
-                    </tr>`;
-
-                    html_render += `
-                    <tr> 
-                        <td>Montant payé</td> 
-                        <td> ${pay_element['amount'] || ''} Francs CFA </td> 
-                    </tr>`;
 
                     
-                    html_render += `
+                    /* html_render += `
                     <tr> 
                         <td>Mode de paiement</td> 
                         <td> ${pay_element['mode_paiement'] || ''} </td> 
@@ -79,12 +85,12 @@ $(document).ready(function() {
                     <tr> 
                         <td>ID Transaction </td> 
                         <td> ${pay_element['transaction_id'] || ''} </td> 
-                    </tr>`;
+                    </tr>`; */
 
                     html_render += `
                     <tr> 
-                        <td>Référence paiement </td> 
-                        <td> ${pay_element['reference'] || ''} </td> 
+                        <td> <h3> Référence paiement </h3> </td> 
+                        <td> <h3> ${pay_element['reference'] || ''} </h3> </td> 
                     </tr>`;
 
                     function formatDate(dateString) {
@@ -103,25 +109,26 @@ $(document).ready(function() {
                     if (pay_element['date_fin'] > date_actuelle) {
                         html_render += `
                         <tr> 
-                            <td>Période </td> 
+                            <td> <h3> Période </h3> </td> 
                             <td> 
-                                <span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span> 
+                               <h3>  <span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span> </h3> 
                             </td> 
                         </tr>`;
                     } else if (pay_element['date_fin'] < date_actuelle) {
                         html_render += `
                         <tr> 
-                            <td>Période </td> 
+                            <td><h3> Période </h3> </td> 
                             <td> 
-                                <span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>                            </td> 
+                              <h3>   <span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>    </h3>                        
+                            </td> 
                         </tr>`;
                     }
                     else {
                         html_render += `
                         <tr> 
-                            <td>Période </td> 
+                            <td><h3> Période </h3> </td> 
                             <td> 
-                                <span class="badge badge-pill badge-danger">Aucun paiement valide</span>
+                               <h3>  <span class="badge badge-pill badge-danger">Aucun paiement valide</span></h3> 
                             </td> 
                         </tr>`;
                     }
@@ -129,9 +136,9 @@ $(document).ready(function() {
                     if(pay_element['state'] ==="enable"){
                         html_render += `
                         <tr> 
-                            <td>Statut</td> 
+                            <td> <h3> Statut </h3> </td> 
                             <td>
-                               <span class="adge bg-warning font-12 text-white font-weight-medium badge-pill "> En attente </span>
+                              <h3>  <span class="adge bg-warning font-12 text-white font-weight-medium badge-pill "> En attente </span> </h3> 
                             </td> 
                         </tr>`;
 
@@ -144,20 +151,20 @@ $(document).ready(function() {
                     } else if(pay_element['state'] ==="validate"){
                         html_render += `
                         <tr> 
-                            <td>Statut</td> 
-                            <td><span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span></td> 
+                            <td><h3> Statut </h3> </td> 
+                            <td> <h3> <span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span> </h3> </td> 
                         </tr>`;
 
                         html_render += `
                         <tr> 
-                            <td>Validé par</td> 
-                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
+                            <td> <h3> Validé par </h3> </td> 
+                            <td> <h3>  ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()} </h3> </td> 
                         </tr>`;
 
                         //document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
 
                          if(permissions.telecharger_la_carte){
-                            document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success">Télécharger la carte de stationnement</a>`;
+                            document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success">Imprimer la quittance de stationnement</a>`;
                             document.getElementById('validation-info').style.display = "block";
                         }else{
                             document.getElementById('validation-info').innerHTML =  ``;
@@ -167,16 +174,16 @@ $(document).ready(function() {
                     }else{
                         html_render += `
                         <tr> 
-                            <td>Statut</td> 
+                            <td><h3> Statut </h3> </td> 
                             <td>
-                               <span class="adge bg-danger font-12 text-white font-weight-medium badge-pill "> Rejeté </span>
+                              <h3> <span class="adge bg-danger font-12 text-white font-weight-medium badge-pill "> Rejeté </span> </h3> 
                             </td> 
                         </tr>`;
 
                         html_render += `
                         <tr> 
-                            <td>Validé par</td> 
-                            <td> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()}</td> 
+                            <td> <h3> Validé par </h3> </td> 
+                            <td> <h3> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()} </h3> </td> 
                         </tr>`;
 
                         document.getElementById('validation-info').style.display = "none";  
@@ -269,12 +276,12 @@ $(document).ready(function() {
             //alert(action)
             Swal.fire({
                 icon : 'warning',
-                title: 'Attention !',
-                text: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
+                text : 'Attention !',
+                title: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: `OUI, CONTINUER`,
-                denyButtonText: `NON, FERMER`,
+                denyButtonText: `ANNULER`,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
