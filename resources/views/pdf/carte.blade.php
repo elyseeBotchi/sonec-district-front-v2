@@ -49,7 +49,7 @@
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             opacity: 0.1;
-            font-size: 16px;
+            font-size: 25px;
             color: #e8a7a7;
             white-space: nowrap;
             z-index: 1; /* Derrière tout le contenu de la carte */
@@ -154,7 +154,7 @@
     z-index: -1500; 
     opacity: 0.1; 
     pointer-events: none; 
-    font-size: 65px; 
+    font-size: 50px; 
     color: #e8a7a7; 
 ">
     <!-- En haut à gauche -->
