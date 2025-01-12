@@ -155,7 +155,7 @@
                <td>
                
                </td>
-               <td width="180px" style="font-size: xx-small">
+               <td width="180px" style="font-size: medium">
                    <center>
                        TAXE DU DISTRICT
                        <br>
