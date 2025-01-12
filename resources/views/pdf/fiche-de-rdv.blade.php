@@ -161,13 +161,13 @@
                
                </td>
                <td width="180px" style="font-size: medium">
-                   <center>
-                       TAXE DU DISTRICT
+                <center>
+                    DISTRICT AUTONOME d’ABIDJAN
                        <br>
                        ---------------------------
                        <br>
-                       Direction des finances                      
-                   </center>
+                       Direction Financière                     
+                </center>
                </td>
            </tr>
         </table>

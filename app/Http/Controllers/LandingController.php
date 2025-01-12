@@ -586,7 +586,7 @@ class LandingController extends Controller
 
       // return dd($responses['data']);
 
-        $filename = Str::slug('QUITTANCE '.$datas['reference'].date('d-m-Y H:i:s'));
+        $filename = Str::slug('CARTE DE STATIONNEMENT '.$datas['reference'].date('d-m-Y H:i:s'));
 
         //$qrcode_text = "TAXE DE DISTRICT ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
 
@@ -609,7 +609,7 @@ class LandingController extends Controller
         $qrSvg_ = 'Qrcode/'.$filename.'.svg';
 
         /* ################################ */
-        $filename2 = Str::slug('QUITTANCE2 '.$datas['reference'].date('d-m-Y H:i:s'));
+        $filename2 = Str::slug('CARTE DE STATIONNEMENT2 '.$datas['reference'].date('d-m-Y H:i:s'));
 
         $qrcode_text2 =  $quick_reference.'|'.$pay_element['numero_dimmatriculation'];
         //$qrcode_text = "TAXE DE DISTRICT ".date('Y')." | ref : ".$datas['reference'].' payer le '.date_create($datas['updated_at'])->format('d-m-Y H:i:s');
