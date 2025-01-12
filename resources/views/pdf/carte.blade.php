@@ -219,20 +219,20 @@
         <table style="width: 100%; font-size: meduim; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <td  style="border: 1px solid black;background-color:orange;"><b>NOM DU PROPRIETAIRE</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>TYPE DE VEHICULE</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>MONTANT PAYÉ </b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>N° DE CARTE GRISE</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>N° D'IMMATRICULATION</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;text-align:center;"><b>NOM DU PROPRIETAIRE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;text-align:center;"> <b>TYPE DE VEHICULE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;text-align:center;"> <b>MONTANT PAYÉ </b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;text-align:center;"> <b>NUMÉRO DE CARTE GRISE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;text-align:center;"> <b>NUMÉRO D'IMMATRICULATION</b> </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td  style="border: 1px solid black;"> <b>{{ $pay_element['nom_du_proprietaire'] ?? '' }}</b> </td>
-                    <td  style="border: 1px solid black;"> <b>{{ $service ?? '' }}</b>  </td>
-                    <td  style="border: 1px solid black;"> <b> {{ $paiement['amount'] ?? '' }}</b></td>
-                    <td  style="border: 1px solid black;"> <b> {{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</b></td>
-                    <td  style="border: 1px solid black;"><b>{{ $pay_element['numero_dimmatriculation'] ?? '' }}</b> </td>
+                    <td  style="border: 1px solid black;text-align:center;"> <b>{{ $pay_element['nom_du_proprietaire'] ?? '' }}</b> </td>
+                    <td  style="border: 1px solid black;text-align:center;"> <b>{{ $service ?? '' }}</b>  </td>
+                    <td  style="border: 1px solid black;text-align:center;"> <b> {{ $paiement['amount'] ?? '' }}</b></td>
+                    <td  style="border: 1px solid black;text-align:center;"> <b> {{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</b></td>
+                    <td  style="border: 1px solid black;text-align:center;"><b>{{ $pay_element['numero_dimmatriculation'] ?? '' }}</b> </td>
                 </tr>
             </tbody>
         </table>
