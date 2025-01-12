@@ -290,7 +290,7 @@
                     <td style="border: 1px solid black; text-align: center;">
                         1
                     </td>
-                    <td style="border: 1px solid black; text-align: right;">
+                    <td style="border: 1px solid black; text-align: center;">
                         {{ $user['amount'] ?? '' }} F CFA
                     </td>             
                 </tr>
