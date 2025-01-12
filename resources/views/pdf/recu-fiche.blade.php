@@ -226,7 +226,7 @@
                         </th>
                     </tr>
                 <tbody>
-                    {{dd( $entete) }}
+                 
                     @foreach ($entete as $value)
                         @isset($value['slug'])
                         
