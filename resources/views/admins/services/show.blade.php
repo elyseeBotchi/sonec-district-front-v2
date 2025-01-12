@@ -45,7 +45,7 @@
                                 Rejeter
                             </button>
 
-                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="CONFIRMER LA VALIUDATION" class="btn btn-rounded btn-success col-sm-3 validate-info float-right">
+                            <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="CONFIRMER LA VALIDATION" class="btn btn-rounded btn-success col-sm-3 validate-info float-right">
                                 Valider
                             </button>
 
