@@ -114,7 +114,7 @@ $(document).ready(function() {
         `;
     
         // Ajouter la date de rendez-vous sélectionnée
-        let selectedText = $('#list_rdv').value();
+        let selectedText = $('#list_rdv').val();
         let dateRdv =  $(`#rdv option:selected`).text();
       
         formHtml += `
