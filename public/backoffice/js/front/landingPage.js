@@ -114,13 +114,13 @@ $(document).ready(function() {
         `;
     
         // Ajouter la date de rendez-vous sélectionnée
-        let selectedText = $('#list_rdv option:selected').text();
+        let selectedText = $('#list_rdv').value();
         let dateRdv =  $(`#rdv option:selected`).text();
       
         formHtml += `
             <tr>
                 <td>Date de rendez-vous</td>
-                <td><b>${selectedText || ''} à ${dateRdv || ''}</b></td>
+                <td><b>${selectedText || ''} | ${dateRdv || ''}</b></td>
             </tr>
         `;
     
