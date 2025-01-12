@@ -61,7 +61,7 @@
         /* Style pour le conteneur en bas de la page */
         .bottom-content {
             position: absolute;
-            bottom: -20px; /* Ajustez la valeur selon vos besoins */
+            bottom: -16px; /* Ajustez la valeur selon vos besoins */
             width: 100%;
             text-align: center;
             font-size: xx-small;
@@ -73,6 +73,29 @@
              margin-left: 10px; /* Ajout de marge pour éviter le débordement */
          }
     </style>
+    <style>
+        body {
+            font-size: 16px !important; /* Augmenter la taille globale du texte */
+            line-height: 1.3; /* Améliorer la lisibilité */
+        }
+        table {
+            font-size: 22px; /* Taille de texte dans les tables */
+        }
+        h4 {
+            font-size: 28px; /* Augmenter les titres */
+            text-transform: uppercase;
+        }
+        td, th {
+            font-size: 15px; /* Taille des cellules de tableau */
+        }
+        .bottom-content {
+            font-size: 15px; /* Ajuster le texte en bas de page */
+        }
+        code {
+            font-size: 14px; /* Augmenter la taille des notes */
+        }
+    </style>
+    
 </head>
 
 <body>
@@ -329,7 +352,6 @@
             </tbody>
         </table>
 
-        <br> <br> <br>
       <code style="text-align: justify,font-size:meduim;"> <h3><strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de quittance de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de ce reçu et des pièces afférentes au véhicule.</h3>  </code>
     </div>
 
@@ -338,7 +360,7 @@
 <div class="bottom-content">
     <span> Généré le {{ date('d-m-Y') }} à {{ date('H:i:s') }} </span>
     <br>
-    <footer>
+    <footer style="position:relative;bottom:-20px;">
             <center>
                 <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
                 <img width="250px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />

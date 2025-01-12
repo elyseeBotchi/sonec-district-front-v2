@@ -60,6 +60,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            margin-top:5px;
             position: relative;
             z-index: 2; /* Devant le filigrane */
         }
@@ -71,11 +72,11 @@
         .title {
             text-align: center;
             font-weight: bold;
-            font-size: 25px;
+            font-size: 20px;
             margin-bottom: 10px;
             text-transform: uppercase;
             position: relative;
-            top: -100px;
+            top: -85px;
             z-index: 2;
         }
 
@@ -103,29 +104,29 @@
         }
 
         .qr-code {
-            width: 85px; /* Réduit pour s'adapter à la zone */
-            height: 85px;
+            width: 100px; /* Réduit pour s'adapter à la zone */
+            height: 100px;
             position: absolute;
             z-index: 2;
         }
 
         .qr-top-left {
-            top: 10px;
+            top: -5px;
             left: 10px;
         }
 
         .qr-top-right {
-            top: 10px;
+            top: -5px;
             right: 10px;
         }
 
         .qr-bottom-left {
-            bottom: 10px;
+            bottom: -5px;
             left: 10px;
         }
 
         .qr-bottom-right {
-            bottom: 10px;
+            bottom: -5px;
             right: 10px;
         }
 
@@ -200,11 +201,10 @@
     <br>
     <br>
     <br>
-    <br>
     <!-- En-tête -->
     <div class="header">
-        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 55px; height: 55px;">
-        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 55px; height: 55px;">
+        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 55px; height: 55px;margin-left:19px;">
+        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 65px; height: 65px;margin-right:10px;">
     </div>
 
     <!-- Titre -->
@@ -234,13 +234,13 @@
                 </tr>
             </tbody>
         </table>
-        <p><strong>Date de paiement :</strong> {{ date_create($paiement['updated_at'])->format('d-m-Y h:i:s') ?? '' }}
+        <p style="font-size:xx-small;"><strong>Date de paiement :</strong>  {{ date_create($paiement['updated_at'])->format('d-m-Y h:i:s') ?? '' }}
         <br>
         <br><strong>Date de validité :</strong> {{ date_create($paiement['date_fin'])->format('d-m-Y') }}
 
         {{-- calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') --}}</p>
 
-        <center style="position: relative;bottom: -130px;">
+        <center style="position: relative;bottom: -188px;">
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
             <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
             

@@ -73,6 +73,28 @@
              margin-left: 10px; /* Ajout de marge pour éviter le débordement */
          }
     </style>
+    <style>
+        body {
+            font-size: 16px !important; /* Augmenter la taille globale du texte */
+            line-height: 1.3; /* Améliorer la lisibilité */
+        }
+        table {
+            font-size: 22px; /* Taille de texte dans les tables */
+        }
+        h4 {
+            font-size: 28px; /* Augmenter les titres */
+            text-transform: uppercase;
+        }
+        td, th {
+            font-size: 15px; /* Taille des cellules de tableau */
+        }
+        .bottom-content {
+            font-size: 15px; /* Ajuster le texte en bas de page */
+        }
+        code {
+            font-size: 14px; /* Augmenter la taille des notes */
+        }
+    </style>
 </head>
 
 <body>
