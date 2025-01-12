@@ -119,7 +119,7 @@ $(document).ready(function() {
       
         formHtml += `
             <tr>
-                <td>Date é lieu de rendez-vous</td>
+                <td>Date et lieu de rendez-vous</td>
                 <td><b>${dateRdv || ''} | ${selectedText || ''}  </b></td>
             </tr>
         `;
