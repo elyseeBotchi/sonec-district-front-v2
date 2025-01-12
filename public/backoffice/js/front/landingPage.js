@@ -119,8 +119,8 @@ $(document).ready(function() {
       
         formHtml += `
             <tr>
-                <td>Date de rendez-vous</td>
-                <td><b>${selectedText || ''} | ${dateRdv || ''}</b></td>
+                <td>Date é lieu de rendez-vous</td>
+                <td><b>${dateRdv || ''} | ${selectedText || ''}  </b></td>
             </tr>
         `;
     
