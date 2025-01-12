@@ -82,7 +82,7 @@
             font-size: 22px; /* Taille de texte dans les tables */
         }
         h4 {
-            font-size: 28px; /* Augmenter les titres */
+            font-size: 20px; /* Augmenter les titres */
             text-transform: uppercase;
         }
         td, th {
@@ -93,6 +93,33 @@
         }
         code {
             font-size: 14px; /* Augmenter la taille des notes */
+        }
+
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-top:5px;
+            position: relative;
+            z-index: 2; /* Devant le filigrane */
+        }
+
+        .header img {
+            width: 50px;
+        }
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            position: relative;
+            text-align: center;
+            top: -5px;
+            z-index: 2;
         }
     </style>
 </head>
@@ -152,26 +179,19 @@
 
 @isset($open)
     <div class="col-md-11">
-        <table style="width: 100%;border: inherit">
-           <tr>
-               <td>
-                    <img src="{{ public_path('template/assets/images/logo.png') }}" width="100px">
-                </td>
-               <td>
-               
-               </td>
-               <td width="180px" style="font-size: medium">
-                <center>
-                    DISTRICT AUTONOME d’ABIDJAN
-                       <br>
-                       ---------------------------
-                       <br>
-                       Direction Financière                     
-                </center>
-               </td>
-           </tr>
-        </table>
-        <br>
+        <div class="header">
+            <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 75px; height: 75px;margin-left:19px;">
+            <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 85px; height: 85px;margin-right:10px;">
+        </div>
+    
+        <!-- Titre -->
+        <div class="title">
+            <h4>District Autonome d´Abidjan</h4> 
+            <h4 style="position :relative;top:-30px !important;">Direction Générale des services financiers</h4>
+             <h4  style="position :relative;top:-57px !important;">Direction du recouvrement</h4> 
+        </div>
+
+
 
 
         <div style="background-color: #0a9e2a;color: white;padding: 0.5px">
@@ -234,7 +254,7 @@
             <thead>
                 <tr>
                     <th style="border: 1px solid black;">
-                        Nom Propretaire
+                        Nom du Propretaire
                     </th>
                     <th style="border: 1px solid black;">
                         Montant payé
