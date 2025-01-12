@@ -78,7 +78,7 @@
     <div>
         <h3>Étape 2</h3>
         <ul>
-            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la carte de stationnement.</li>
         </ul>
     </div>
 </div>
@@ -102,7 +102,7 @@
     <div>
         <h3>Étape 2</h3>
         <ul>
-            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+            <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la carte de stationnement.</li>
         </ul>
     </div>
 </div>

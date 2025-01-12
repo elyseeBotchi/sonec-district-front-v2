@@ -352,7 +352,7 @@
             </tbody>
         </table>
 
-      <code style="text-align: justify,font-size:meduim;"> <h3><strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de quittance de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de ce reçu et des pièces afférentes au véhicule.</h3>  </code>
+      <code style="text-align: justify,font-size:meduim;"> <h3><strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de carte de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre carte de stationnement, muni de ce reçu et des pièces afférentes au véhicule.</h3>  </code>
     </div>
 
 @endisset
