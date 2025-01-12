@@ -156,16 +156,16 @@
         <table class="" style="width: 100%;border: inherit;border:none;">
            
             <tr>
-                <td style="font-size: xx-small;" >
+                <td style="font-size: meduim;" >
                     Abidjan le {{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }}
                 </td>
-                <td style="font-size: xx-small"></td>
+                <td style="font-size: meduim"></td>
             </tr> 
             <tr>
-                <td style="font-size: xx-small"  >
+                <td style="font-size: meduim"  >
                     REÇU N° : {{ $user['reference'] ?? '' }}
                 </td>
-                <td style="font-size: xx-small"></td>
+                <td style="font-size: meduim"></td>
             </tr>
            
         </table>
@@ -175,7 +175,7 @@
         <br>
 
         @isset($entete)
-            <table class="bg-white" style="width: 100%;font-size: xx-small;border: inherit">
+            <table class="bg-white" style="width: 100%;font-size: meduim;border: inherit">
                 <thead>
                     <tr>
                         <th  class="cell-padding" colspan="2" style="background-color: silver">
@@ -201,7 +201,7 @@
             </table>
         <br>
         @endisset 
-        <table class="bg-white" style="width: 100%; font-size: xx-small; border-collapse: collapse;">
+        <table class="bg-white" style="width: 100%; font-size: meduim; border-collapse: collapse;">
             <thead>
                 <tr>
                     <th style="border: 1px solid black;">
@@ -259,7 +259,7 @@
       
         <br>
         {{-- A REVOIR POUR LE SCRIPT D'ASSIGNATION --}}
-        <table class="bg-white" style="width: 100%;font-size: xx-small">
+        <table class="bg-white" style="width: 100%;font-size: meduim">
             <thead>
             <tr>
                 <th  class="cell-padding" colspan="3" style="background-color: silver">
@@ -330,7 +330,7 @@
         </table>
 
         <br> <br> <br>
-      <code style="text-align: justify"> <strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de quittance de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de ce reçu et des pièces afférentes au véhicule. </code>
+      <code style="text-align: justify,font-size:meduim;"> <h3><strong>NB:</strong> Ce reçu de paiement ne tient pas lieu de quittance de stationnement. Veuillez vous rendre au district pour la validation et le retrait de votre quittance de stationnement, muni de ce reçu et des pièces afférentes au véhicule.</h3>  </code>
     </div>
 
 @endisset

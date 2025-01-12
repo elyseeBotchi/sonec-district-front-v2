@@ -11,6 +11,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
+            font-size:16px;
             margin: 0;
             padding: 0;
         }
@@ -70,27 +71,29 @@
         .title {
             text-align: center;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 25px;
             margin-bottom: 10px;
             text-transform: uppercase;
             position: relative;
-            top: -50px;
+            top: -100px;
             z-index: 2;
         }
 
         .info-section {
-            font-size: 10px;
+            font-size: 16px;
             line-height: 1.0;
             margin-bottom: 10px;
-            margin-top: 50px;
+            margin-top: -40px;
             word-wrap: break-word;
             position: relative;
+            
             z-index: 2;
         }
 
         .info-section table {
             width: 100%;
             border-collapse: collapse;
+        
         }
 
         .info-section th, .info-section td {
@@ -189,30 +192,31 @@
 
     <!-- QR Codes dans les coins -->
     <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-top-left">
-    <img src="{{ public_path($svgFilePath2) }}" alt="" class="qr-code qr-top-right">
+    <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-top-right">
     <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-bottom-left">
-    <img src="{{ public_path($svgFilePath2) }}" alt="" class="qr-code qr-bottom-right">
+    <img src="{{ public_path($svgFilePath) }}" alt="" class="qr-code qr-bottom-right">
 
+    <br>
     <br>
     <br>
     <br>
     <br>
     <!-- En-tête -->
     <div class="header">
-        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 85px; height: 85px;">
-        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 85px; height: 85px;">
+        <img src="{{ public_path('template/assets/images/logo.png') }}" alt="Logo Gauche" style="float: left; width: 55px; height: 55px;">
+        <img src="{{ public_path('backoffice/armoirie.jpg') }}" alt="Logo Droite" style="float: right; width: 55px; height: 55px;">
     </div>
 
     <!-- Titre -->
     <div class="title">
-        QUITTANCE DE STATIONNEMENT
-        <center style="font-size: 10px;">DISTRICT D'ABIDJAN</center>
-        <center style="font-size: 10px;margin-top:10px; color:green;"> <b>{{ $paiement['reference'] ?? '' }}</b> </center>
+        QUITTANCE DE STATIONNEMENT {{ date('Y') }}
+        <center style="font-size: 20px;">DISTRICT D'ABIDJAN</center>
+        <center style="font-size: 20px;margin-top:10px; color:green;"> <b>{{ $paiement['reference'] ?? '' }}</b> </center>
     </div>
 
     <!-- Informations -->
     <div class="info-section">
-        <table style="width: 100%; font-size: xx-small; border-collapse: collapse;">
+        <table style="width: 100%; font-size: meduim; border-collapse: collapse;">
             <thead>
                 <tr>
                     <td  style="border: 1px solid black;background-color:orange;"><b>Nom du propriétaire</b> </td>
@@ -223,10 +227,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td  style="border: 1px solid black;">{{ $pay_element['nom_du_proprietaire'] ?? '' }}</td>
-                    <td  style="border: 1px solid black;">{{ $service ?? '' }}</td>
-                    <td  style="border: 1px solid black;">{{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</td>
-                    <td  style="border: 1px solid black;">{{ $pay_element['numero_dimmatriculation'] ?? '' }}</td>
+                    <td  style="border: 1px solid black;"> <b>{{ $pay_element['nom_du_proprietaire'] ?? '' }}</b> </td>
+                    <td  style="border: 1px solid black;"> <b>{{ $service ?? '' }}</b>  </td>
+                    <td  style="border: 1px solid black;"> <b> {{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</b></td>
+                    <td  style="border: 1px solid black;"><b>{{ $pay_element['numero_dimmatriculation'] ?? '' }}</b> </td>
                 </tr>
             </tbody>
         </table>
