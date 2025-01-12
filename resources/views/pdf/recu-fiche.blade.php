@@ -226,11 +226,24 @@
                         </th>
                     </tr>
                 <tbody>
+                    {{dd( $entete) }}
                     @foreach ($entete as $value)
                         @isset($value['slug'])
+                        
                         <tr>
                                 <td class="cell-padding">
-                                    {{ $value['name'] ?? '' }}
+                                    @if($value['slug'] =="numero_de_la_carte_grise")
+                                    Numéro de la carte grise
+                                    @elseif($value['slug'] =="numero_dimmatriculation")
+                                    Numéro d'immatriculation
+                                    @elseif($value['slug'] =="telephone")
+                                    Téléphone
+                                    @else
+                                        {{ $value['name'] ?? '' }}
+                                    @endif
+
+                                    
+                                    
                                 </td>
                                 <td style="text-align: right;">
                                     @isset($pay_element[$value['slug']]) 
