@@ -221,7 +221,7 @@
                 <tr>
                     <td  style="border: 1px solid black;background-color:orange;"><b>NOM PROPRIETAIRE</b> </td>
                     <td  style="border: 1px solid black;background-color:orange;"> <b>TYPE DE VEHICULE</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>MONTANT PAYER</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>MONTANT PAYÉ </b> </td>
                     <td  style="border: 1px solid black;background-color:orange;"> <b>N° DE CARTE GRISE</b> </td>
                     <td  style="border: 1px solid black;background-color:orange;"> <b>N° D'IMMATRICULATION</b> </td>
                 </tr>
