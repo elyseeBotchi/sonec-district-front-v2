@@ -209,7 +209,7 @@
 
     <!-- Titre -->
     <div class="title">
-        QUITTANCE DE STATIONNEMENT {{ date('Y') }}
+        CARTE DE STATIONNEMENT {{ date('Y') }}
         <center style="font-size: 20px;">DISTRICT D'ABIDJAN</center>
         <center style="font-size: 20px;margin-top:10px; color:green;"> <b>{{ $paiement['reference'] ?? '' }}</b> </center>
     </div>
@@ -219,16 +219,18 @@
         <table style="width: 100%; font-size: meduim; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <td  style="border: 1px solid black;background-color:orange;"><b>Nom du propriétaire</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>Type de taxe</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>Carte grise</b> </td>
-                    <td  style="border: 1px solid black;background-color:orange;"> <b>Immatriculation</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"><b>NOM PROPRIETAIRE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>TYPE DE VEHICULE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>MONTANT PAYER</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>N° CARTE GRISE</b> </td>
+                    <td  style="border: 1px solid black;background-color:orange;"> <b>N° IMMATRICULATION</b> </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td  style="border: 1px solid black;"> <b>{{ $pay_element['nom_du_proprietaire'] ?? '' }}</b> </td>
                     <td  style="border: 1px solid black;"> <b>{{ $service ?? '' }}</b>  </td>
+                    <td  style="border: 1px solid black;"> <b> {{ $pay_element['amount'] ?? '' }}</b></td>
                     <td  style="border: 1px solid black;"> <b> {{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</b></td>
                     <td  style="border: 1px solid black;"><b>{{ $pay_element['numero_dimmatriculation'] ?? '' }}</b> </td>
                 </tr>
