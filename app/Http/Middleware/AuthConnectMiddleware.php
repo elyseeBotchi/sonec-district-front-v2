@@ -30,7 +30,6 @@ class AuthConnectMiddleware
                 return $response;
             }
             else{
-                dd(AuthConnect()['otp_actif']);
                // Log::info('OTP Step');
                 return redirect()->route('panel.otp');
             }
