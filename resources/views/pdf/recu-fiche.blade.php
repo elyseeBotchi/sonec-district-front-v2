@@ -228,13 +228,13 @@
             <thead>
                 <tr>
                     <th style="border: 1px solid black;">
-                        NATURE DES TAXES
+                        TYPE DE VEHICULE
                     </th>
                     <th style="border: 1px solid black;">
                         QUANTITE
                     </th>
                     <th style="border: 1px solid black;">
-                        TAUX OU TARIF
+                        MONTANT PAYÉ
                     </th>  
                     <th style="border: 1px solid black;">
                         MONTANT
