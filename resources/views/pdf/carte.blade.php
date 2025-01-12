@@ -210,7 +210,7 @@
     <!-- Titre -->
     <div class="title">
         CARTE DE STATIONNEMENT {{ date('Y') }}
-        <center style="font-size: 20px;">DISTRICT D'ABIDJAN</center>
+        <center style="font-size: 20px;">DISTRICT AUTONOME D’ABIDJAN</center>
         <center style="font-size: 20px;margin-top:10px; color:green;"> <b>{{ $paiement['reference'] ?? '' }}</b> </center>
     </div>
 

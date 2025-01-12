@@ -235,9 +235,6 @@
                     </th>
                     <th style="border: 1px solid black;">
                         MONTANT PAYÉ
-                    </th>  
-                    <th style="border: 1px solid black;">
-                        MONTANT
                     </th>             
                 </tr>
             </thead>
@@ -250,22 +247,16 @@
                         1
                     </td>
                     <td style="border: 1px solid black; text-align: center;">
-                        {{ $user['amount'] ?? '' }} 
-                    </td>  
-                    <td style="border: 1px solid black; text-align: center;">
                         {{ $user['amount'] ?? '' }}
                     </td>             
                 </tr>
                 <tr>
                     <td style="border: 1px solid black;">
-                        MONTANT TOTAL
+                        MONTANT TOTAL PAYÉ
                     </td>
                     <td style="border: 1px solid black; text-align: center;">
                         1
                     </td>
-                    <td style="border: 1px solid black;">
-                        <!-- Empty cell -->
-                    </td>  
                     <td style="border: 1px solid black; text-align: right;">
                         {{ $user['amount'] ?? '' }} F CFA
                     </td>             
