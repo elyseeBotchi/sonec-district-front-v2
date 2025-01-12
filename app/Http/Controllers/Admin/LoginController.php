@@ -69,7 +69,7 @@ class LoginController extends Controller
 
             $clientLogin = (new GlobalSendService())->CallApi($url_path,$data,'POST');
            
-           // dd($clientLogin);
+            //dd($clientLogin);
 
             if(isset($clientLogin["type"])){
                 if ($clientLogin["type"] == "success") {

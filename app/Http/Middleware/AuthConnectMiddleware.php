@@ -20,8 +20,8 @@ class AuthConnectMiddleware
     {
 
         //Log::info(json_encode(AuthConnect()));
-        if(isset(AuthConnect()['uuid'])){
-            if(AuthConnect()['otp_actif'] !== true){
+        if(isset(AuthConnect()['uuid'])){ 
+            if(AuthConnect()['otp_actif'] !== true || AuthConnect()['otp_actif'] == 'true'){
                 $response = $next($request);
 
                 $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
@@ -30,6 +30,7 @@ class AuthConnectMiddleware
                 return $response;
             }
             else{
+                dd(AuthConnect()['otp_actif']);
                // Log::info('OTP Step');
                 return redirect()->route('panel.otp');
             }
