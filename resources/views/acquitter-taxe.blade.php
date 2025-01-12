@@ -137,7 +137,7 @@
                                 <h3>Étape 2</h3>
                                 <ul>
                                     <li>
-                                        Se rendre au siège du District au Plateau le jour indiqué pour le RDV , muni du reçu de paiement et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.
+                                        Se rendre au siège du District au Plateau le jour indiqué pour le RDV , muni du reçu de paiement et des pièces afférentes au véhicule pour la validation et le retrait de la carte de stationnement.
                                     </li>
                                 </ul>
                             </div>
@@ -187,7 +187,7 @@
                                 <div>
                                     <h3>Étape 2</h3>
                                     <ul>
-                                        <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la quittance de stationnement.</li>
+                                        <li>Se rendre au district muni du reçu de paiement imprimé et des pièces afférentes au véhicule pour la validation et le retrait de la carte de stationnement.</li>
                                     </ul>
                                 </div>
                             </div>

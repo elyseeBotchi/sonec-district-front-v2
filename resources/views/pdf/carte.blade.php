@@ -230,7 +230,7 @@
                 <tr>
                     <td  style="border: 1px solid black;"> <b>{{ $pay_element['nom_du_proprietaire'] ?? '' }}</b> </td>
                     <td  style="border: 1px solid black;"> <b>{{ $service ?? '' }}</b>  </td>
-                    <td  style="border: 1px solid black;"> <b> {{ $pay_element['amount'] ?? '' }}</b></td>
+                    <td  style="border: 1px solid black;"> <b> {{ $paiement['amount'] ?? '' }}</b></td>
                     <td  style="border: 1px solid black;"> <b> {{ $pay_element['numero_de_la_carte_grise'] ?? '' }}</b></td>
                     <td  style="border: 1px solid black;"><b>{{ $pay_element['numero_dimmatriculation'] ?? '' }}</b> </td>
                 </tr>

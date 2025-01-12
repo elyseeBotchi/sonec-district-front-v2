@@ -164,7 +164,7 @@ $(document).ready(function() {
                         //document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success col-sm-3">Télécharger la carte de stationnement</a>`;
 
                          if(permissions.telecharger_la_carte){
-                            document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success">Imprimer la quittance de stationnement</a>`;
+                            document.getElementById('validation-info').innerHTML =  `<a href="/landing/services/facturation/taxe/data/generate/carte/${pay_element['paiement_uuid']}" class="btn btn-rounded btn-outline-success">Imprimer la carte de stationnement</a>`;
                             document.getElementById('validation-info').style.display = "block";
                         }else{
                             document.getElementById('validation-info').innerHTML =  ``;
