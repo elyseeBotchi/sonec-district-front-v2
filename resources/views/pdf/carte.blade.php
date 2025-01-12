@@ -187,7 +187,7 @@
         transform: translate(-50%, -50%) rotate(-45deg); 
         white-space: nowrap;
     ">
-        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}|{{ $paiement['amount'] ?? '' }}
     </div>
 </div>
 
