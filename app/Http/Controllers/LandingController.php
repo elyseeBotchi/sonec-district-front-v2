@@ -584,7 +584,7 @@ class LandingController extends Controller
         $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
         $facturation = isset($responses['data']['facturation']) ? $responses['data']['facturation'] : '';
 
-       return dd($responses['data']);
+      // return dd($responses['data']);
 
         $filename = Str::slug('QUITTANCE '.$datas['reference'].date('d-m-Y H:i:s'));
 
