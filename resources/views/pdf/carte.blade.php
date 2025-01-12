@@ -49,7 +49,7 @@
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             opacity: 0.1;
-            font-size: 25px;
+            font-size: 16px;
             color: #e8a7a7;
             white-space: nowrap;
             z-index: 1; /* Derrière tout le contenu de la carte */
@@ -165,7 +165,7 @@
         transform: rotate(-45deg); 
         white-space: nowrap;
     ">
-        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}|{{ $paiement['amount'] ?? '' }}
     </div>
 
     <!-- Au centre -->
@@ -176,7 +176,7 @@
         transform: translate(-50%, -50%) rotate(-45deg); 
         white-space: nowrap;
     ">
-        {{ $watermark ?? "DIS|TSA- " . date('y') }}
+        {{ $watermark ?? "DIS|TSA- " . date('y') }}|{{ $paiement['amount'] ?? '' }}
     </div>
 
     <!-- En bas à droite -->
