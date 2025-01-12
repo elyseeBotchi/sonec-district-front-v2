@@ -184,16 +184,16 @@
         <table class="" style="width: 100%;border: inherit;border:none;">
            
             <tr>
-                <td style="font-size: xx-small;" >
+                <td style="font-size: medium;" >
                     Abidjan le {{ date_create($user['updated_at'])->format('d-m-Y H:i:s') ?? '' }}
                 </td>
-                <td style="font-size: xx-small"></td>
+                <td style="font-size: medium"></td>
             </tr> 
             <tr>
-                <td style="font-size: xx-small"  >
+                <td style="font-size: medium"  >
                     REÇU N° : {{ $user['reference'] ?? '' }}
                 </td>
-                <td style="font-size: xx-small"></td>
+                <td style="font-size: medium"></td>
             </tr>
            
         </table>
