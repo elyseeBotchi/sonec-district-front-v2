@@ -249,10 +249,10 @@
                     <td style="border: 1px solid black; text-align: center;">
                         1
                     </td>
-                    <td style="border: 1px solid black; text-align: right;">
+                    <td style="border: 1px solid black; text-align: center;">
                         {{ $user['amount'] ?? '' }} 
                     </td>  
-                    <td style="border: 1px solid black; text-align: right;">
+                    <td style="border: 1px solid black; text-align: center;">
                         {{ $user['amount'] ?? '' }}
                     </td>             
                 </tr>
@@ -299,8 +299,8 @@
                         : <strong> {{ $user['reference'] ?? '' }} </strong>
                     </td>
                     <td rowspan="6">
-                        <center style="position:relative;top:-25px;">
-                            <img src="{{ public_path($svgFilePath) }}" alt="" width="65px" class="qrcode">
+                        <center style="position:relative;top:-48px;">
+                            <img src="{{ public_path($svgFilePath) }}" alt="" width="120px" class="qrcode">
                         </center>
                     </td>
                 </tr>
