@@ -47,7 +47,7 @@
     @endif
 
     @if(CanPermission('entites_voir_les_nouveaux_contrevenants'))
-        <div class="card border-right">
+        <div class="card border-right"  style="display: none">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
@@ -67,7 +67,7 @@
     @endif
 
     @if(CanPermission('entites_voir_tous_les_contrevenants'))  
-    <div class="card">
+    <div class="card" style="display: none">
         <div class="card-body">
             <div class="d-flex d-lg-flex d-md-block align-items-center">
                 <div>
