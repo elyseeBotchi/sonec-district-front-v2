@@ -45,18 +45,18 @@
                                 Rejeter
                             </button>
 
+                            <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement d-none">
+                                Modifier
+                            </button>
+
                             <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="CONFIRMER LA VALIDATION" class="btn btn-rounded btn-success col-sm-3 validate-info float-right">
                                 Valider
                             </button>
-
-
-       
                         @endif
                     </div>  
-                    
-
                 </div> 
             </div>
+
             <div class="modal fade" id="rejet-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="rejetModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -96,7 +96,32 @@
                 </div>
             </div>
             
-            
+                        
+            <div class="modal fade" id="updateElement-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <form class="modal-content sendEntiteForm" action="" method="POST">
+                        @csrf
+                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                        <input type="hidden" name="uuid" id="update-uuid" required />
+                        
+                        <div class="modal-header">
+                            <h5 class="mb-0 text-uppercase">Modifier les informations d'un véhicule  </h5>
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                                <i class="ti ti-x f-20"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" id="form-container-update"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
             @if(CanPermission('entites_voir_lhistorique_des_paiements_dune_entite'))  
             <div class="col-xl-12">
                 <div class="card">

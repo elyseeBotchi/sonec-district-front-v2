@@ -267,6 +267,89 @@ $(document).ready(function() {
             document.getElementById('form-container').innerHTML = formHtml;
         }
 
+            
+    function generateFormUpdate(entete,pay_element) {
+        let formHtml = '';
+      
+        entete.forEach(field => {
+            let validationAttributes = '';
+            const slugifiedName = slugify(field.name);
+            const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
+        
+            // Ajout de règles spécifiques pour chaque type de champ
+            if (field.type_input === 'text') {
+                //
+                if(slugify(field.name)==="numero_dimmatriculation" || slugify(field.name)==="numro_dimmatriculation"){
+                    //validationAttributes = ' pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$"';
+                   // validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})$"';
+                    validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]{1}[0-9]{4,5})|(P[0-9]{6,8})$"';
+
+                    validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01, 12345WWCI01 ou AB1234CD"';
+                }                
+                else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
+                  //  validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+
+                    validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
+                }
+                else{
+                    validationAttributes = ' minlength="3" maxlength="50"';
+                }
+
+                
+            } else if (field.type_input === 'email') {
+                //validationAttributes = 'pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"';
+            } else if (field.type_input === 'tel') {
+                // Regex pour les numéros de téléphone en Côte d'Ivoire (format 10 chiffres, commence par 01, 05, 07, etc.)
+                validationAttributes = ' pattern="^(0[1-9]|25)[0-9]{8}$" maxlength="10" title="Le numéro de téléphone doit commencer par 01, 02, 03, ..., ou 25 et contenir exactement 10 chiffres."';
+                validationAttributes += ' title="Le numéro de téléphone doit contenir exactement 10 chiffres."';
+            }
+    
+            formHtml += `
+             <div class="col-md-12">
+                <div class="form-group">
+                    <label class="form-label">${field.name} </label>
+                    <input type="${field.type_input}" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />
+                </div>
+            </div>`;
+        });
+    
+        // Insérer le formulaire généré dans un conteneur existant
+        document.getElementById('form-container-update').innerHTML = formHtml;
+    }
+
+
+           
+    $('#container').on('click', '.updateElement', function(e) {
+        e.preventDefault();
+        const uuid = this.getAttribute('data-uuid');
+        //const name = this.getAttribute('data-name');
+    
+       // alert(uuid);
+        document.getElementById('update-uuid').value = uuid;
+    
+        // Faire une requête fetch
+        fetch(`/panel/customer/service/taxe/find_one/${Element_uuid}/${Entity_uuid}`, {
+            method: 'GET', // Ou 'POST' selon votre besoin
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoutez d'autres en-têtes si nécessaire, comme l'authentification
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+           // console.log(data.data); // Affiche les données reçues
+            const entete = data.data.entete;
+            const pay_element = data.data.pay_element;
+           // console.log(entete)
+            generateFormUpdate(entete,pay_element)
+        })
+        .catch(error => {
+           // console.error('Erreur:', error);
+        });
+    });
+    
+
         $('.validate-info').on('click', function(e){
             e.preventDefault();
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class ServicesController extends Controller
 {
@@ -242,9 +243,6 @@ class ServicesController extends Controller
     }
 
 
-
-
-
     public function find_service($uuid,$entity_uuid){
         $url_path = "/autorisations/admin/services/show/taxe";
 
@@ -288,8 +286,6 @@ class ServicesController extends Controller
         ]);
       
     }
-
-
 
     
     public function stat_data($entity)
@@ -372,15 +368,84 @@ class ServicesController extends Controller
         return response()->json($dataResponse);
     }
 
-    public function caisse(){
+    public function caisse($entity_uuid){
         return view('admins.services.ajout_usager', [
-            'entity_uuid'=>$entity_uuid ?? '',
+            'Entity_uuid'=>$entity_uuid ?? '',
         ]);
     }
 
     public function caisse_store(Request $request){
+ 
+        $validator = Validator::make($request->all(), [
+            'entity_uuid' => 'required',
+            'paymode' => 'required',
+            'numero_paiement' => 'required',
+            'rubrique_facturation_uuid' => 'required',
+            'date_visite' => 'required',
+            'rdv' => 'required'
+        ]);
+
+       // return dd($request->rdv);
+        if($validator->fails()){
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>"Veuillez renseigner tous les champs",
+                'code'=>400,
+                'errors' => $validator->errors()
+            ];
+            return response()->json($dataResponse);
+        }
         
+        $url_path = "/autorisations/entite/taxes/caisse";
+
+        $data = [
+            'entity_uuid'=> $request->entity_uuid ?? '',
+            'paymode'=> $request->paymode ?? '',
+            'numero_paiement' => $request->numero_paiement ?? '',
+            'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
+            'email' => $request->email ?? '',
+            'date_visite' => $request->date_visite ?? '',
+            'lieu_rdv' => $request->lieu_rdv ?? '',
+            'date_rdv' => $request->rdv ?? '',
+            'element'=> $request->all(),
+        ];
+
+       // return response()->json($data);
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'standby',
+                    'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                    'message'=>$response['message'] ?? '',
+                    'reference' => $response['reference'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
     }
+
 
     
 }

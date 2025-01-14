@@ -3,7 +3,7 @@ $(document).ready(function() {
     findAll();
     findRubriques();
    let FormEntete;
-    function findAll() { //alert(Entity_uuid)
+    function findAll() {
         fetch(`/landing/services/taxe/findAll/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
@@ -15,19 +15,13 @@ $(document).ready(function() {
                 if (!data || !data.entete || !data.data || !data.entity) {
                   //  throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
-    //console.log(data)
                 const entete = data.entete;
                 const entity = data.entity;
                 FormEntete = entete;
                 // Générer le formulaire dynamiquement à partir des en-têtes
+                
+                console.log(entete)
                 generateForm(entete);
-    
-                //document.getElementById('TaxeEntity').innerHTML = entity.name;
-                // Mettre à jour les informations de l'entité dans les éléments HTML
-               /*  let elements = document.getElementsByClassName('services');
-                for (let i = 0; i < elements.length; i++) {
-                    elements[i].innerHTML = entity.front_name;
-                } */
           
             })
             .catch(error => {
@@ -49,15 +43,8 @@ $(document).ready(function() {
             if (field.type_input === 'text') {
                 //
                 if(slugify(field.name)==="numero_dimmatriculation" || slugify(field.name)==="numro_dimmatriculation"){
-                   // validationAttributes = ' pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$"';
-                  // validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})$"';
-                  //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})$"';
-                  //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})$"';
-                    // validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|^[A-Z]{2}-[0-9]{1,4}-[A-Z]{2}$})$"';
-                   // validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})$"';
-                    validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]{1}[0-9]{4,5})|(P[0-9]{6,8})$"';
-
-                  validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01, 12345WWCI01 ou AB1234CD"';
+                    validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})$"';
+                    validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01, 12345WWCI01 ou AB1234CD"';
                 }                
                 else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
                     //validationAttributes = ' pattern="^[A-Z]{2}[0-9]{8}$|^[0-9]{8}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
@@ -177,39 +164,6 @@ $(document).ready(function() {
         // Retourner le contenu HTML généré
         return formHtml;
     }
-    
-    
- 
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-                <div class="col-12">
-                    <label class="form-label">${field.name} <code>*</code> </label>
-                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${ slugify(field.name)}" style="height: 55px;" required />
-                </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
-
-     
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-                <div class="form-group">
-                <li><label class="form-label">${field.name} <code>*</code> </label></li>
-                    <input type="${field.type_input}" class="form-control form-control-sm" name="${ slugify(field.name)}" required />
-                </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
    
     function slugify(string) {
         // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
@@ -320,65 +274,6 @@ $(document).ready(function() {
         });
     });  
 
-    $('.sendPayForm_old').submit(function (e) {
-        e.preventDefault();
-       
-    //SendError();
-        var action = $(this).attr('action');
-        var formData = new FormData(this);
-        $.ajax({
-            url: action,
-            type: 'POST',
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            beforeSend: function () {
-                loader();
-                // Remove previous error styles and messages
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
-            },
-            success: function (data) {
-                loader('hide');
-                if (data.type === "success") {
-                    sendSuccess(data.message, data.urlback);
-                }
-                  
-                else if (data.type === "standby") {
-                    QuicksendStandby(data.message,data.reference);
-                }
-
-                else if (data.type === "error_validator") {
-                    handleErrors(data.errors);
-                    var message = ""
-                    if (data.errors) {
-                        $.each(data.errors, function (key, value) {
-                            message += value.join('<br>') + '<br>';
-                        });
-                    }
-
-                    toastr.error(message, 'Erreur', {
-                        closeButton: true,
-                        progressBar: true,
-                        enableHtml: true  // Activer le support HTML pour les messages toastr
-                    });
-                }
-                else {
-                    SendError(data.message);
-                }
-            },
-            error: function (xhr) {
-                loader('hide');
-                var errors = xhr.responseJSON.errors;
-                handleErrors(errors);
-                SendError('Veuillez corriger les erreurs ci-dessous.');
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-    });
 
     $('.sendPayForm').submit(function (e) {
         e.preventDefault();
@@ -966,7 +861,7 @@ $(document).ready(function() {
     
                 // Mise à jour des éléments HTML
                 document.getElementById('submitBtn').style.display = 'block';
-                document.getElementById('tarif_line').innerHTML = tarif_line;
+               // document.getElementById('tarif_line').innerHTML = tarif_line;
     
                 // Gestionnaire d'événements pour la mise à jour du montant
                 rubriqueSelect.addEventListener('change', () => {
