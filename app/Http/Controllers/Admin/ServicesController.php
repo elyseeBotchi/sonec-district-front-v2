@@ -63,7 +63,7 @@ class ServicesController extends Controller
         return view('admins.services.rdv_historique_traitement',['Entity_uuid' => $uuid ?? '']);
    }
 
-      public function rdv_historique_activites_data($uuid){
+    public function rdv_historique_activites_data($uuid){
         $url_path = "/autorisations/entite/taxes/rdv/historique/activite/data";
 
         $data = [
@@ -372,6 +372,15 @@ class ServicesController extends Controller
         return response()->json($dataResponse);
     }
 
+    public function caisse(){
+        return view('admins.services.ajout_usager', [
+            'entity_uuid'=>$entity_uuid ?? '',
+        ]);
+    }
+
+    public function caisse_store(Request $request){
+        
+    }
 
     
 }

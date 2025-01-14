@@ -194,6 +194,9 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('taxes/historique/today/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_historique_activite'])->name('panel.autorisations.services.historique.activite');
             Route::get('taxes/rdv/historique/activite/data/{uuid}', [AdminServicesController::class, 'rdv_historique_activites_data'])->name('panel.autorisations.services.historique.activite.data');
 
+            Route::get('taxes/caisse/{entity_uuid}', [AdminServicesController::class, 'caisse'])->name('panel.autorisations.services.taxes.caisse');
+            Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
+
               
             
         });

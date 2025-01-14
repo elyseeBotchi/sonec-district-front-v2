@@ -122,15 +122,24 @@
                 <div class="card-body">
                     <div class="d-flex align-items-start">
                         <h4 class="card-title mb-0">RECEPTION DES USAGERS</h4>
+                  
                     </div> 
-
+                    
                     <div class="ml-auto">
+                       
+
                         <div class="hide js-show">
+                            <br>
+                            {{-- <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary">
+                                <i class="fas fa-plus"></i> PAYER A LA CAISSE
+                            </a> --}}
                             <div class="card-custom mb-4">
                                 <div class="card-header-custom">
                                     <span id="languageSelectLabel" style="font-size:x-small;">
                                         <br>
                                     </span>
+
+
                                 </div>
 
                                 <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.rdv.search') }}" method="POST">
