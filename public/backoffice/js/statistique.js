@@ -4,6 +4,7 @@ $(document).ready(function() {
     findStatus('today','all');
     // Exécuter findStatistique toutes les 60 000 millisecondes (1 minute)
     setInterval(findStatistique, 20000);
+    setInterval(findStatus('today','all'), 25000);
     findStatistique();
    // const intervalId = setInterval(findStatistique, 60000);
     //intervalId

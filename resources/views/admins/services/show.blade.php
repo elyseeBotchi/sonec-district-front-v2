@@ -40,15 +40,18 @@
                       
                     <div class="card-footer" id="validation-info">{{--  style="display: none" --}}
                         @if(CanPermission('rendez_vous_valider_les_donnees_dun_vehicule')) 
-                            
                             <button data-toggle="modal" data-target="#rejet-modal" class="btn btn-rounded btn-danger col-sm-3">
                                 Rejeter
                             </button>
+                        @endif
 
-                            <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement d-none">
+                        @if(CanPermission('rendez_vous_modifier_les_informations_du_vehicule')) 
+                            <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement">
                                 Modifier
                             </button>
+                        @endif
 
+                        @if(CanPermission('rendez_vous_valider_les_donnees_dun_vehicule')) 
                             <button url="{{ route('panel.autorisations.services.taxes.validation',['uuid' => $element_uuid ?? '','entity_uuid' => $entity_uuid ?? '','status' => 'validate']) }}" caption="CONFIRMER LA VALIDATION" class="btn btn-rounded btn-success col-sm-3 validate-info float-right">
                                 Valider
                             </button>
