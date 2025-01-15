@@ -306,15 +306,18 @@ $(document).ready(function() {
             }
     
             if(field.type_input !== 'email' && field.type_input !== 'tel'){
-                    formHtml += `
-             <div class="col-md-12">
-                <div class="form-group">
-                    <label class="form-label">${field.name} </label>
-                    <input type="${field.type_input}" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />
-                </div>
-            </div>`;
+                formHtml += `
+                <div class="col-md-12">
+                   <div class="form-group">
+                       <label class="form-label">${field.name} </label>
+                       <input type="${field.type_input}" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />
+                   </div>
+               </div>`;
+            }else{
+                formHtml += `
+                    <input type="hidden" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />`;
             }
-        
+       
         });
     
         // Insérer le formulaire généré dans un conteneur existant

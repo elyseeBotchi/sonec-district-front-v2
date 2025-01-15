@@ -3,7 +3,9 @@
 $(document).ready(function() {
     findStatus('today','all');
     findStatistique();
-
+   // const intervalId = setInterval(findStatistique, 60000);
+    //intervalId
+   // setInterval(() => findStatistique(), 20000)
 
     function findStatus(status,paymode) {
        var libelle_status = ""
