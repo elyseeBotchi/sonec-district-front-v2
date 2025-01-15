@@ -45,7 +45,7 @@
                                 Rejeter
                             </button>
 
-                            <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement d-none">
+                            <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement">
                                 Modifier
                             </button>
 
@@ -99,7 +99,7 @@
                         
             <div class="modal fade" id="updateElement-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <form class="modal-content sendEntiteForm" action="" method="POST">
+                    <form class="modal-content sendForm" action="{{ route('panel.autorisations.services.taxes.element.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
                         <input type="hidden" name="uuid" id="update-uuid" required />

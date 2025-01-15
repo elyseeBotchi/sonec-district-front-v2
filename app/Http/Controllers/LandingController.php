@@ -168,16 +168,28 @@ class LandingController extends Controller
     }
 
     
-    public function quick_acquitter($name=null,$service)
+    public function quick_acquitter($name=null,$service = null)
     {
+        
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+        
         return view('acquitter-taxe', [
             'service_uuid' => $service ?? '',
             'service_name' => $name ?? ''
         ]);
     }
     
-    public function about($name=null,$service)
+    public function about($name=null,$service = null)
     {
+        
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+
         return view('about', [
             'service_uuid' => $service ?? '',
             'service_name' => $name ?? ''

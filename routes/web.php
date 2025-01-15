@@ -197,7 +197,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('taxes/caisse/{entity_uuid}', [AdminServicesController::class, 'caisse'])->name('panel.autorisations.services.taxes.caisse');
             Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
 
-              
+            Route::post('taxes/element/update', [AdminServicesController::class, 'service_update'])->name('panel.autorisations.services.taxes.element.update');
+     
             
         });
 
@@ -329,6 +330,6 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
     Route::get('/quick/payment/{name?}/{service}', [LandingController::class, 'quick_pay'])->name('quick.payment');
     Route::get('/quick/liste/{name?}/{service}', [LandingController::class, 'quick_liste'])->name('quick.liste');
     Route::get('/quick/acquitter/{name?}/{service}', [LandingController::class, 'quick_acquitter'])->name('quick.acquitter');
-    Route::get('/nous/contacter/{name?}/{service}', [LandingController::class, 'about'])->name('about');
+    Route::get('/nous/contacter/{name?}/{service?}', [LandingController::class, 'about'])->name('about');
     Route::post('/send/nous/contacter', [LandingController::class, 'about_send'])->name('about.send');
 

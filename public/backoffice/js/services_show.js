@@ -305,13 +305,16 @@ $(document).ready(function() {
                 validationAttributes += ' title="Le numéro de téléphone doit contenir exactement 10 chiffres."';
             }
     
-            formHtml += `
+            if(field.type_input !== 'email' && field.type_input !== 'tel'){
+                    formHtml += `
              <div class="col-md-12">
                 <div class="form-group">
                     <label class="form-label">${field.name} </label>
                     <input type="${field.type_input}" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />
                 </div>
             </div>`;
+            }
+        
         });
     
         // Insérer le formulaire généré dans un conteneur existant
