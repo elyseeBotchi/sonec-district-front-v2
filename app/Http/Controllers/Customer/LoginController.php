@@ -45,8 +45,13 @@ class LoginController extends Controller
         return view('customers.auth.login');
     }
     
-    public function register($service)
+    public function register($service=null)
     {
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+        
         return view('customers.auth.register',['entity_uuid' => $service]);
     }
 
