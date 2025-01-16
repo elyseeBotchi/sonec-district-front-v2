@@ -236,13 +236,13 @@
                 </tr>
             </tbody>
         </table>
-        <p style="font-size:xx-small;"><strong>Date de paiement :</strong>  {{ date_create($paiement['updated_at'])->format('d-m-Y h:i:s') ?? '' }}
+        <p style="font-size:medium;">Date de paiement : <strong>{{ date_create($paiement['updated_at'])->format('d-m-Y h:i:s') ?? '' }}</strong>  
         <br>
-        <br><strong>Date de validité :</strong> {{ date_create($paiement['date_fin'])->format('d-m-Y') }}
+        <br>Date de validité :<strong> {{ date_create($paiement['date_fin'])->format('d-m-Y') }}</strong> 
 
         {{-- calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') --}}</p>
 
-        <center style="position: relative;bottom: -165px;">
+        <center style="position: relative;bottom: -125px;">
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
             <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
             
