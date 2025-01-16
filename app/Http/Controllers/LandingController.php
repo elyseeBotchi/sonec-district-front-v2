@@ -77,8 +77,13 @@ class LandingController extends Controller
         }
     }
 
-    public function quick_pay($name=null,$service)
+    public function quick_pay($name=null,$service =null)
     {
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+
         $url_path = "/landing/services/operateurs";
 
         $data = [
@@ -129,8 +134,13 @@ class LandingController extends Controller
     
     
 
-    public function quick_liste($name=null,$service)
+    public function quick_liste($name=null,$service=null)
     {
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+        
         $url_path = "/landing/services/operateurs";
 
         $data = [
