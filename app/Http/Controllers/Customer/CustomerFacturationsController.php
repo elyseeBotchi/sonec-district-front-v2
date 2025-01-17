@@ -90,6 +90,7 @@ class CustomerFacturationsController extends Controller
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
             'date_visite' => $request->date_visite ?? '',
             'date_rdv' => $request->rdv ?? '',
+            'lieu_rdv' => $request->lieu_rdv ?? '',
 
         ];
 
