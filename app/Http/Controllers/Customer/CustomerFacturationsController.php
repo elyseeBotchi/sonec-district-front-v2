@@ -131,6 +131,7 @@ class CustomerFacturationsController extends Controller
                     'type'=>'error',
                     'urlback'=>'',
                     'message'=>$response['message'] ?? '',
+                    'errors' => $response['errors'] ?? '',
                     'code'=>500,
                 ];
                 return response()->json($dataResponse);
@@ -140,6 +141,7 @@ class CustomerFacturationsController extends Controller
                 'type'=>'error',
                 'urlback'=>'',
                 'message'=>$response['message'] ?? '',
+                'errors' => $response['errors'] ?? '',
                 'code'=>500,
             ];
             return response()->json($dataResponse);
