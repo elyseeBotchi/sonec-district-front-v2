@@ -224,7 +224,11 @@
 @push('footer-script')
 @isset($services[0]['uuid'])
     <script>
-        var Entity_uuid = @Json($services[0]['uuid'] ?? '');
+        var Entity_uuid = @Json($services[0]['uuid'] ?? '0d7bd150-655a-11ef-8a7c-53d21c84c368');
+    </script>
+    @else
+    <script>
+        var Entity_uuid = '0d7bd150-655a-11ef-8a7c-53d21c84c368';
     </script>
 @endisset
 
