@@ -96,48 +96,51 @@
         </nav>
         <div id="header-carousel" class="carousel slide carousel-fade  " data-bs-ride="carousel" >
             @isset($services)
-                @forelse ($services as $key => $service)
-                    <div class="carousel-inner">
-                        <div class="carousel-item @if($key == 0) active @endif">
-                            <img class="w-100" src="{{ asset('template/start/img/carousel-'.$key.'.png') }}" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3">
-                                    <!-- style="max-width: 900px;" Texte avec classes et styles responsives -->
-                                    <h1 class="text-white fw-bold text-center">
-                                        DISTRICT AUTONOME D'ABIDJAN
-                                    </h1>
-                                    <center>
-                                        <img 
-                                            src="{{ asset('template/assets/images/logo.png') }}" 
-                                            height="150px" 
-                                            alt="Logo" 
-                                            class="d-none d-md-block"
-                                        >
-                                    </center>
-                                    <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
-                                    <p class="display-1 text-white mb-md-4 animated zoomIn" style="font-size: 45px !important">
-                                        Plateforme digitale de délivrance de la carte de stationnement
-                                    </p>
-                                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
-                                        <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
-                                           class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
-                                           VOIR LA LISTE ET MONTANT DES TAXES
-                                        </a>
+                @isset($services[0])
+                    @forelse ($services as $key => $service)
+                        <div class="carousel-inner">
+                            <div class="carousel-item @if($key == 0) active @endif">
+                                <img class="w-100" src="{{ asset('template/start/img/carousel-'.$key.'.png') }}" alt="Image">
+                                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                    <div class="p-3">
+                                        <!-- style="max-width: 900px;" Texte avec classes et styles responsives -->
+                                        <h1 class="text-white fw-bold text-center">
+                                            DISTRICT AUTONOME D'ABIDJAN
+                                        </h1>
+                                        <center>
+                                            <img 
+                                                src="{{ asset('template/assets/images/logo.png') }}" 
+                                                height="150px" 
+                                                alt="Logo" 
+                                                class="d-none d-md-block"
+                                            >
+                                        </center>
+                                        <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
+                                        <p class="display-1 text-white mb-md-4 animated zoomIn" style="font-size: 45px !important">
+                                            Plateforme digitale de délivrance de la carte de stationnement
+                                        </p>
+                                        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+                                            <a href="{{ route('quick.liste', ['service' => $service['uuid'] ?? '', 'name' => $service['name'] ?? '']) }}" 
+                                            class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
+                                            VOIR LA LISTE ET MONTANT DES TAXES
+                                            </a>
 
-                                        <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-                                           COMMENT S'ACQUITTER DE SA TAXE
-                                        </a>
+                                            <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                            COMMENT S'ACQUITTER DE SA TAXE
+                                            </a>
 
-                                        <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-                                           PAYER SA TAXE
-                                        </a>  {{----}}
+                                            <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                            PAYER SA TAXE
+                                            </a>  {{----}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                @endforelse
+                    @empty
+                    @endforelse
+                @endisset 
+
             @endisset
             <button class="carousel-control-prev" style="display: none" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

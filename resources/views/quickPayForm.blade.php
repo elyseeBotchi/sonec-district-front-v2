@@ -167,12 +167,14 @@
                                             </label>
                                             <select name="rdv" id="rdv" class="form-control bg-light border-0" style="height: 40px;">
                                                 @isset($dateValideRdv)
-                                                    @forelse($dateValideRdv as $key => $value)
-                                                        @if($key < $limit)
-                                                            <option value="{{ $value }}"> {{ date_create($value)->format('d-m-Y') }} </option>
-                                                        @endif
-                                                    @empty
-                                                    @endforelse
+                                                    @isset($dateValideRdv[0])
+                                                        @forelse($dateValideRdv as $key => $value)
+                                                            @if($key < $limit)
+                                                                <option value="{{ $value }}"> {{ date_create($value)->format('d-m-Y') }} </option>
+                                                            @endif
+                                                        @empty
+                                                        @endforelse
+                                                    @endisset    
                                                 @endisset
                                             </select>
                                         </div>
@@ -187,15 +189,17 @@
                                             <label for="prenoms" class="col-form-label">Opérateurs autorisés </label>
                                             <div class="row">
                                                 @isset($operateurs)
-                                                    @forelse($operateurs as $operateur)
-                                                        <label class="col-md-2">
-                                                            <input type="radio" name="paymode" value="{{ $operateur['nom_operateur'] ?? '' }}"  />
-                                                            <img class="img-responsive img-thumbnail" width="64" height="64" src="{{ asset('/operateurs/'.$operateur['logo'] ?? '') }}">
-                                                            {{ $operateur['nom'] ?? '' }}
-                                                        </label>
-                                                    @empty
-                                                        <p>Aucun opérateur disponible.</p>
-                                                    @endforelse
+                                                    @isset($operateurs[0])
+                                                        @forelse($operateurs as $operateur)
+                                                            <label class="col-md-2">
+                                                                <input type="radio" name="paymode" value="{{ $operateur['nom_operateur'] ?? '' }}"  />
+                                                                <img class="img-responsive img-thumbnail" width="64" height="64" src="{{ asset('/operateurs/'.$operateur['logo'] ?? '') }}">
+                                                                {{ $operateur['nom'] ?? '' }}
+                                                            </label>
+                                                        @empty
+                                                            <p>Aucun opérateur disponible.</p>
+                                                        @endforelse
+                                                    @endisset     
                                                 @endisset 
                                             </div>
                                         </div>

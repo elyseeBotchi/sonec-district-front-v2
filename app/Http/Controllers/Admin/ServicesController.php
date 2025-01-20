@@ -378,7 +378,7 @@ class ServicesController extends Controller
  
         $validator = Validator::make($request->all(), [
             'entity_uuid' => 'required',
-            'paymode' => 'required',
+            //'paymode' => 'required',
             'numero_paiement' => 'required',
             'rubrique_facturation_uuid' => 'required',
             'date_visite' => 'required',
@@ -401,7 +401,7 @@ class ServicesController extends Controller
 
         $data = [
             'entity_uuid'=> $request->entity_uuid ?? '',
-            'paymode'=> $request->paymode ?? '',
+            'paymode'=> 'cash',
             'numero_paiement' => $request->numero_paiement ?? '',
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
             'email' => $request->email ?? '',

@@ -130,7 +130,7 @@
 
                         <div class="hide js-show">
                             <br>
-                             <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary d-none">
+                             <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary">
                                 <i class="fas fa-plus"></i> PAYER A LA CAISSE
                             </a>
 
@@ -139,8 +139,6 @@
                                     <span id="languageSelectLabel" style="font-size:x-small;">
                                         <br>
                                     </span>
-
-
                                 </div>
 
                                 <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.rdv.search') }}" method="POST">
