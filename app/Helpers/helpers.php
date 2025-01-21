@@ -170,27 +170,60 @@ if(!function_exists('API_AccessKey')) {
 if(!function_exists('Entities_Customer')) {
     function Entities_Customer() {
         $url_path = "/services/findAll";
-
+        $session_key = 'entities_list';
+    
+        // Vérifie si les données sont déjà en session
+        if (session()->has($session_key)) {
+            return session($session_key);
+        }
+    
         $data = [
             'user_uuid' => AuthConnect()['uuid'] ?? ''
         ];
-
-        $entitiesList = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-
-      //  return dd($entitiesList);
-      if(isset($entitiesList['type'])){
-        if($entitiesList['type'] =="success"){
-            return $entitiesList['data']; 
+    
+        // Appel de l'API
+        $entitiesList = (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+    
+        // Vérification du type de réponse
+        if (isset($entitiesList['type'])) {
+            if ($entitiesList['type'] === "success") {
+                // Stocker les données en session
+                session([$session_key => $entitiesList['data']]);
+                return $entitiesList['data'];
+            } else {
+                // Gérer les cas où 'type' n'est pas 'success'
+                return [];
+            }
         }
-        else{
-
-        }
-      }else{
-        return $entities ?? '';
-      }
-        
-        
+    
+        // Retourner une valeur par défaut si aucune donnée valide n'est trouvée
+        return [];
     }
+
+        /* function Entities_Customer_old() {
+
+            $url_path = "/services/findAll";
+
+            $data = [
+                'user_uuid' => AuthConnect()['uuid'] ?? ''
+            ];
+
+            $entitiesList = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //  return dd($entitiesList);
+        if(isset($entitiesList['type'])){
+            if($entitiesList['type'] =="success"){
+                return $entitiesList['data']; 
+            }
+            else{
+
+            }
+        }else{
+            return $entities ?? '';
+        }
+            
+            
+        } */
 }
 
 if(!function_exists('Entity_Customer')) {

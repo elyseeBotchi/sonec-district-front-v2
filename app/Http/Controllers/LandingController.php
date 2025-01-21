@@ -443,7 +443,8 @@ class LandingController extends Controller
         
     public function info_paiement($uuid)
     {
-       
+        usleep(30000);
+
         $url_path = "/landing/services/taxe/send/paiement/email";
 
         $data = [
