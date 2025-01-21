@@ -443,7 +443,7 @@ class LandingController extends Controller
         
     public function info_paiement($uuid)
     {
-        usleep(30000);
+       // usleep(30000);
 
         $url_path = "/landing/services/taxe/send/paiement/email";
 
@@ -455,7 +455,9 @@ class LandingController extends Controller
 
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
-               
+                return view('info_paiement', [
+                    'paiement_uuid' => $uuid,
+                ]);
             }
             else{
                 return view('info_paiement', [
@@ -670,7 +672,7 @@ class LandingController extends Controller
             'hash_ref' =>$uuid,
         ];
 
-        usleep(50000);
+         usleep(50000);
 
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
     
