@@ -444,11 +444,17 @@ class LandingController extends Controller
     public function info_paiement($uuid)
     {
        
+        $url_path = "/landing/services/taxe/send/paiement/email";
+
+        $data = [
+            'paiement_uuid' => $uuid,
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
-                return view('info_paiement', [
-                    'paiement_uuid' => $uuid,
-                ]);
+               
             }
             else{
                 return view('info_paiement', [
