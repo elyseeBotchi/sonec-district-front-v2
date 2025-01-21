@@ -96,8 +96,8 @@
 
                 <div class="row">
                     <center>
-                        <span class="alert alert-danger">
-                            Échec du paiement ! Merci de bien vouloir réessayer ultérieurement ou de contacter l'assistance.
+                        <span class="alert alert-warning">
+                            Merci de bien vouloir patienter ou de contacter l'assistance.
                         </span>
                     </center>
                 </div>
