@@ -85,6 +85,51 @@ class LandingController extends Controller
         if ($service == null) {
             $service = $services[0]['uuid'] ?? '';
         }
+
+        $url_path = "/landing/services/operateurs";
+        $cache_key = "quick_pay_{$service}"; // Clé de cache unique pour chaque service
+
+        // Récupérer ou mettre en cache la réponse
+        $responses = Cache::remember($cache_key, 1440, function () use ($url_path, $service) {
+            $data = [
+                'entity_uuid' => $service
+            ];
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+
+        // Vérifier si les données sont valides
+        $isSuccess = isset($responses['type']) && $responses['type'] === 'success';
+
+        // Déterminer les données à transmettre à la vue
+        $viewData = [
+            'operateurs' => $responses['data'] ?? '',
+            'service_uuid' => $service,
+            'service_name' => $name ?? '',
+            'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+            'lieuRdv' => $responses['lieuRdv'] ?? '',
+            'limit' => $isSuccess ? ($responses['limit'] ?? 5) : 1
+        ];
+
+        // Log des données récupérées
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
+        } else {
+            Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
+        }
+
+        // Retourner la vue avec les données
+        return view('quickPayForm', $viewData);
+    }
+
+
+
+    public function quick_pay_old($name = null, $service = null)
+    {
+        // Récupérer les services
+        $services = Entities_Customer();
+        if ($service == null) {
+            $service = $services[0]['uuid'] ?? '';
+        }
     
         $url_path = "/landing/services/operateurs";
         $cache_key = "quick_pay_{$service}"; // Clé de cache unique pour chaque service
