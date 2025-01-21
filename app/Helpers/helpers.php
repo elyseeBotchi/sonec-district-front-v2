@@ -24,6 +24,7 @@ use App\Models\Log_activity;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\FilesController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 
 if(!function_exists('AuthConnect')) {
@@ -167,8 +168,55 @@ if(!function_exists('API_AccessKey')) {
 }
 
 
-if(!function_exists('Entities_Customer')) {
+if (!function_exists('Entities_Customer')) {
     function Entities_Customer() {
+        $url_path = "/services/findAll";
+        $cache_key = 'entities_customer_list'; // Définir une clé de cache unique
+    
+        // Vérifier ou récupérer depuis le cache
+        $entitiesList = Cache::remember($cache_key, 1440, function () use ($url_path) {
+            $data = [
+                'user_uuid' => AuthConnect()['uuid'] ?? ''
+            ];
+    
+            // Appel à l'API
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+    
+        // Vérifier si la réponse provient du cache ou de l'API
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour Entities_Customer.");
+        } else {
+            Log::info("Données récupérées depuis l'API pour Entities_Customer.");
+        }
+    
+        // Vérification si les données sont valides
+        if (isset($entitiesList['type']) && $entitiesList['type'] === 'success') {
+            return $entitiesList['data'];
+        }
+    
+        // Si la réponse en cache est invalide, forcer un nouvel appel à l'API
+        $data = [
+            'user_uuid' => AuthConnect()['uuid'] ?? ''
+        ];
+        $newEntitiesList = (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+    
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newEntitiesList['type']) && $newEntitiesList['type'] === 'success') {
+            Cache::put($cache_key, $newEntitiesList, 1440); // Mettre à jour le cache
+            return $newEntitiesList['data'];
+        }
+    
+        // Si tout échoue, retourner une valeur par défaut
+        Log::error("Échec de récupération des données pour Entities_Customer.");
+        return [];
+    }
+}
+
+
+
+if(!function_exists('Entities_Customer__old')) {
+    function Entities_Customer__old() {
         $url_path = "/services/findAll";
         $session_key = 'entities_list';
     
@@ -227,7 +275,52 @@ if(!function_exists('Entities_Customer')) {
 }
 
 if(!function_exists('Entity_Customer')) {
-    function Entity_Customer() {
+
+    function Entity_Customer()
+    {
+        $url_path = "/services/findOne";
+        $cache_key = 'entity_customer';
+
+        // Vérifier ou récupérer depuis le cache
+        $entitiesList = Cache::remember($cache_key, 60, function () use ($url_path) {
+            $data = [
+                'uuid' => AuthConnect()['entity_uuid'] ?? ''
+            ];
+
+            // Appel à l'API
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour Entity_Customer");
+        } else {
+            Log::info("Données récupérées depuis l'API pour Entity_Customer");
+        }
+        
+        // Si les données en cache sont valides, on les retourne
+        if (isset($entitiesList['type']) && $entitiesList['type'] == "success") {
+            return $entitiesList['data'];
+        }
+
+        // Forcer un nouvel appel à l'API si les données sont invalides
+        $data = [
+            'uuid' => AuthConnect()['entity_uuid'] ?? ''
+        ];
+        $newEntitiesList = (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newEntitiesList['type']) && $newEntitiesList['type'] == "success") {
+            Cache::put($cache_key, $newEntitiesList, 60); // Met à jour le cache
+            return $newEntitiesList['data'];
+        }
+
+        // Si tout échoue, retourner une valeur par défaut
+        return null;
+    }
+
+
+
+  /*   function Entity_Customer() {
         $url_path = "/services/findOne";
 
         $data = [
@@ -249,11 +342,11 @@ if(!function_exists('Entity_Customer')) {
       }
         
         
-    }
+    } */
 }
 
 if(!function_exists('Entities')) {
-    function Entities() {
+    /* function Entities() {
         $url_path = "/autorisations/entite/findAll";
 
         $data = [
@@ -275,7 +368,49 @@ if(!function_exists('Entities')) {
       }
         
         
+    } */
+
+    function Entities()
+    {
+        $url_path = "/autorisations/entite/findAll";
+        $cache_key = 'entities';
+    
+        // Vérifier ou récupérer depuis le cache
+        $entitiesList = Cache::remember($cache_key, 60, function () use ($url_path) {
+            $data = [
+                'uuid' => AuthConnect()['entity_uuid'] ?? ''
+            ];
+    
+            // Appel à l'API
+            return (new GlobalSendService())->CallApi($url_path, $data, 'GET');
+        });
+    
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour Entities");
+        } else {
+            Log::info("Données récupérées depuis l'API pour Entities");
+        }
+        // Si les données en cache sont valides, on les retourne
+        if (isset($entitiesList['type']) && $entitiesList['type'] == "success") {
+            return $entitiesList['data'];
+        }
+    
+        // Forcer un nouvel appel à l'API si les données sont invalides
+        $data = [
+            'uuid' => AuthConnect()['entity_uuid'] ?? ''
+        ];
+        $newEntitiesList = (new GlobalSendService())->CallApi($url_path, $data, 'GET');
+    
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newEntitiesList['type']) && $newEntitiesList['type'] == "success") {
+            Cache::put($cache_key, $newEntitiesList, 60); // Met à jour le cache
+            return $newEntitiesList['data'];
+        }
+    
+        // Si tout échoue, retourner une valeur par défaut
+        return null;
     }
+    
 }
 
 if(!function_exists('apiBaseUrl')) {

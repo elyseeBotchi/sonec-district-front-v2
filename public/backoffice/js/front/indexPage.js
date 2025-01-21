@@ -17,21 +17,12 @@ $(document).ready(function() {
                 const entete = data.entete;
                 const entity = data.entity;
     
-                // Générer le formulaire dynamiquement à partir des en-têtes
-              //  generateForm(entete);
-    
-                //document.getElementById('TaxeEntity').innerHTML = entity.name;
-                // Mettre à jour les informations de l'entité dans les éléments HTML
-               /*  let elements = document.getElementsByClassName('services');
-                for (let i = 0; i < elements.length; i++) {
-                    elements[i].innerHTML = entity.front_name;
-                } */
           
             })
             .catch(error => {
                 console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
-                alert('Une erreur est survenue lors de la récupération des données.');
+                //alert('Une erreur est survenue lors de la récupération des données.');
             });
     }
     
@@ -50,22 +41,7 @@ $(document).ready(function() {
         document.getElementById('form-container').innerHTML = formHtml;
     }
 
-     
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-                <div class="form-group">
-                <li><label class="form-label">${field.name} <code>*</code> </label></li>
-                    <input type="${field.type_input}" class="form-control form-control-sm" name="${ slugify(field.name)}" required />
-                </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
-   
+
     function slugify(string) {
         // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
         var data = string.toString().toLowerCase()
@@ -97,6 +73,8 @@ $(document).ready(function() {
         }
     });
  
+
+    
     $('#container').on('click', '.payElement', function(e){
         e.preventDefault();
         const uuid = this.getAttribute('data-uuid');

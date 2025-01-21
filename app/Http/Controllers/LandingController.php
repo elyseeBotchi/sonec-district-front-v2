@@ -12,6 +12,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Writer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class LandingController extends Controller
 {
@@ -268,33 +269,93 @@ class LandingController extends Controller
         }
     }
     
-    public function findOneConfig($uuid){
 
+    public function findOneConfig($uuid)
+    {
         $url_path = "/landing/services/rubrique/findOneConfig";
-
-        $data = [
-            //'admin_uuid' => AuthConnect()['uuid'],
-            'entity_uuid' => $uuid,
-        ];
-
-        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-      // return dd($response);
-        return response()->json($response);
+        $cache_key = "rubrique_config_{$uuid}"; // Définir une clé de cache unique basée sur l'UUID
+    
+        // Vérifier ou récupérer depuis le cache
+        $response = Cache::remember($cache_key, 1440, function () use ($url_path, $uuid) {
+            $data = [
+                'entity_uuid' => $uuid,
+            ];
+    
+            // Appel à l'API
+            Log::info("Appel API pour récupérer la rubrique config pour l'entité : {$uuid}");
+    
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+    
+        // Vérifier si la réponse provient du cache ou de l'API
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour findOneConfig : {$uuid}");
+        } else {
+            Log::info("Données récupérées depuis l'API pour findOneConfig : {$uuid}");
+        }
+    
+        // Si la réponse contient des données valides, la retourner
+        if (isset($response['type']) && $response['type'] == 'success') {
+            return response()->json($response);
+        }
+    
+        // Forcer un nouvel appel à l'API si la réponse est invalide
+        $newResponse = (new GlobalSendService())->CallApi($url_path, ['entity_uuid' => $uuid], 'POST');
+    
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newResponse['type']) && $newResponse['type'] == 'success') {
+            Cache::put($cache_key, $newResponse, 60); // Met à jour le cache avec les nouvelles données
+            Log::info("Données mises à jour dans le cache pour l'entité : {$uuid}");
+            return response()->json($newResponse);
+        }
+    
+        // Si tout échoue, retourner une valeur par défaut
+        return response()->json(['message' => 'Erreur lors de la récupération des données'], 500);
     }
+    
+
 
     public function findAllService($uuid)
     {
         $url_path = "/landing/services/findAll";
+        $cache_key = "taxe_data_{$uuid}"; // Définir une clé de cache unique basée sur le uuid
+    
+        // Vérifier ou récupérer depuis le cache
+        $responses = Cache::remember($cache_key, 1440, function () use ($url_path, $uuid) {
+            $data = [
+                'uuid' => $uuid
+            ];
+    
+            // Appel à l'API
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+    
+        
+        // Vérifier si la réponse provient du cache ou de l'API
+        if (Cache::has($cache_key)) {
+            Log::info("Données récupérées depuis le cache pour findAllService : {$uuid}");
+        } else {
+            Log::info("Données récupérées depuis l'API pour findAllService : {$uuid}");
+        }
 
-        $data = [
-            'uuid' => $uuid
-        ];
-
-        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-
-       //dd($responses);
-        return response()->json($responses);
+        // Si la réponse contient des données valides, la retourner
+        if (isset($responses['type']) && $responses['type'] == 'success') {
+            return response()->json($responses);
+        }
+    
+        // Forcer un nouvel appel à l'API si la réponse est invalide
+        $newResponses = (new GlobalSendService())->CallApi($url_path, ['uuid' => $uuid], 'POST');
+    
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newResponses['type']) && $newResponses['type'] == 'success') {
+            Cache::put($cache_key, $newResponses, 60); // Met à jour le cache avec les nouvelles données
+            return response()->json($newResponses);
+        }
+    
+        // Si tout échoue, retourner une valeur par défaut
+        return response()->json(['message' => 'Erreur lors de la récupération des données'], 500);
     }
+    
 
     public function payment(Request $request){
  

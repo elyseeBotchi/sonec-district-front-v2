@@ -22,16 +22,10 @@ $(document).ready(function() {
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
-                //document.getElementById('TaxeEntity').innerHTML = entity.name;
-                // Mettre à jour les informations de l'entité dans les éléments HTML
-               /*  let elements = document.getElementsByClassName('services');
-                for (let i = 0; i < elements.length; i++) {
-                    elements[i].innerHTML = entity.front_name;
-                } */
           
             })
             .catch(error => {
-                console.error('Erreur:', error);
+               // console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
                // alert('Une erreur est survenue lors de la récupération des données.');
             });
@@ -185,39 +179,7 @@ $(document).ready(function() {
         return formHtml;
     }
     
-    
- 
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-                <div class="col-12">
-                    <label class="form-label">${field.name} <code>*</code> </label>
-                    <input type="${field.type_input}" class="form-control bg-light border-0" placeholder="${field.name}" name="${ slugify(field.name)}" style="height: 55px;" required />
-                </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
-
-     
-    function generateForm__(entete) {
-        let formHtml = '';
-    
-        entete.forEach(field => { 
-            formHtml += `
-                <div class="form-group">
-                <li><label class="form-label">${field.name} <code>*</code> </label></li>
-                    <input type="${field.type_input}" class="form-control form-control-sm" name="${ slugify(field.name)}" required />
-                </div>`;
-        });
-    
-        // Insérer le formulaire généré dans un conteneur existant
-        document.getElementById('form-container').innerHTML = formHtml;
-    }
-   
+  
     function slugify(string) {
         // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
         var data = string.toString().toLowerCase()
@@ -285,7 +247,7 @@ $(document).ready(function() {
                 loader('hide');
                 if (data.type === "success") {
                     sendSuccess(data.message, data.urlback);
-                   findAll()
+                    findAll()
                     const closeModalButton = document.querySelector('.closeModal');
                     if (closeModalButton) {
                         closeModalButton.click();
