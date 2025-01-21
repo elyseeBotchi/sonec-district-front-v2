@@ -445,13 +445,17 @@ class LandingController extends Controller
     {
        // usleep(30000);
 
+       return view('info_paiement', [
+        'paiement_uuid' => $uuid,
+        ]);
+
         $url_path = "/landing/services/taxe/send/paiement/email";
 
         $data = [
             'paiement_uuid' => $uuid,
         ];
 
-        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //$responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
         if(isset($responses['type'])){
             if($responses['type'] =='success'){
