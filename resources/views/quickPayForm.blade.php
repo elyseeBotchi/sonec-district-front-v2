@@ -196,8 +196,10 @@
                                                                 <option value="{{ $value }}"> {{ date_create($value)->format('d-m-Y') }} </option>
                                                             @endif
                                                         @empty
-                                                        <option value="{{ date('d-m-Y') }}"> {{ date('d-m-Y') }} </option>
+                                                        <option value="{{ date('Y-m-d') }}"> {{ date('d-m-Y') }} </option>
                                                         @endforelse
+                                                        @else
+                                                        <option value="{{ date('Y-m-d') }}"> {{ date('d-m-Y') }} </option>
                                                     @endisset    
                                                 @endisset
                                             </select>
