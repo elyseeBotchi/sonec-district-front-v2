@@ -119,12 +119,35 @@
 
                                     @csrf
                                     <input type="hidden"  name="entity_uuid" id="SelectEntity" value="{{ $service_uuid ?? '' }}" required />
-                                    <div class="row g-3">
+                                        <div class="row g-3">
+                                            
+                                            {{-- <div id="form-container" >
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </div> --}}
                                         
-                                        <div id="form-container" >
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </div>
-                                    
+                                            <div id="form-container">
+                                                <div class="col-12">
+                                                    <label class="form-label">Nom du proprietaire <code>*</code> </label>
+                                                    <input type="text" class="form-control bg-light border-0" placeholder="Nom du proprietaire" name="nom_du_proprietaire" style="height: 40px;" required="" minlength="3" maxlength="50">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Numero de la carte grise <code>  </code></label>
+                                                    <input type="text" class="form-control bg-light border-0" placeholder="Numero de la carte grise" name="numero_de_la_carte_grise" style="height: 40px;" pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$" title="Le numéro de la carte grise doit être sous le format AB12345678, 123456AB,1234567AB,12345678AB, ou encore AB-1234-CD">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Numero d'immatriculation <code>*</code> </label>
+                                                    <input type="text" class="form-control bg-light border-0" placeholder="Numero d'immatriculation" name="numero_dimmatriculation" style="height: 40px;" required="" title="Le numéro d'immatriculation doit être sous le format 1234AB01, 12345WWCI01, AB1234CD, 2020|12345678ABCI12 ou CH3205074">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Telephone <code>*</code> </label>
+                                                    <input type="tel" class="form-control bg-light border-0" placeholder="Telephone" name="telephone" style="height: 40px;" required="" pattern="^(0[1-9]|25)[0-9]{8}$" maxlength="10" title="Le numéro de téléphone doit commencer par 01, 02, 03, ..., ou 25 et contenir exactement 10 chiffres.">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Email <code> Ce mail vous permettra de recevoir vos reçu de paiement </code></label>
+                                                    <input type="email" class="form-control bg-light border-0" placeholder="Email" name="email" style="height: 40px;">
+                                                </div>
+                                            </div>
+
                                         <div>
                                             
                                         <div class="col-12">

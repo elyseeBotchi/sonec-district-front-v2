@@ -1,6 +1,6 @@
 $(document).ready(function() {
   //  alert(slugify("numero_dimmatriculation"))
-    findAll();
+   // findAll();
     findRubriques();
    let FormEntete;
     function findAll() { //alert(Entity_uuid)
@@ -285,7 +285,7 @@ $(document).ready(function() {
                 loader('hide');
                 if (data.type === "success") {
                     sendSuccess(data.message, data.urlback);
-                    findAll()
+                   // findAll()
                     const closeModalButton = document.querySelector('.closeModal');
                     if (closeModalButton) {
                         closeModalButton.click();
