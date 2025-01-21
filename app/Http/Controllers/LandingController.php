@@ -663,7 +663,7 @@ class LandingController extends Controller
             'hash_ref' =>$uuid,
         ];
 
-        sleep(30);
+        usleep(50000);
 
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
     
