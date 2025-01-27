@@ -24,7 +24,7 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v4.0.2/dist/tesseract.min.js"></script> 
+  {{-- <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v4.0.2/dist/tesseract.min.js"></script> 
     <style>
         video, canvas {
             display: block;
@@ -123,6 +123,9 @@
 <script src="{{ asset('backoffice/js/app_script.js') }}"></script>
 <script src="{{ asset('backoffice/js/js-loading-overlay.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 @stack('footer-script')
 
 <script>

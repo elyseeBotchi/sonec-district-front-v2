@@ -198,8 +198,13 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
 
             Route::post('taxes/element/update', [AdminServicesController::class, 'service_update'])->name('panel.autorisations.services.taxes.element.update');
-     
-            
+           
+           
+            Route::get('cheque/reception', [AdminServicesController::class, 'cheque'])->name('panel.autorisations.services.cheque.reception');
+            Route::post('cheque/reception/store', [AdminServicesController::class, 'cheque_store'])->name('panel.autorisations.services.cheque.reception.store');
+            Route::get('cheque/liste/{status}', [AdminServicesController::class, 'cheque_list'])->name('panel.autorisations.services.cheque.list');
+            Route::get('cheque', [AdminServicesController::class, 'cheque_search'])->name('panel.autorisations.services.taxes.cheque.search');
+
         });
 
                 

@@ -41,7 +41,155 @@ $(document).ready(function() {
         };
         
         if(permissions.par_paiement){
-            if(type_stat ==="paiement"){
+            if (type_stat === "paiement") {
+                // Met à jour le titre avec un indicateur de chargement
+                document.getElementById('titre_liste').innerHTML = `
+                    <i class='fa fa-spinner fa-spin'></i> LISTE DES PAIEMENTS ${libelle_status} ${libelle_paymode} EN COURS DE CHARGEMENT ...
+                `;
+            
+                // Effectue une requête pour récupérer les données de paiement
+                fetch(`/panel/statistique/findStatus/data/${status}/${paymode}/${Entity_uuid}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Une erreur est survenue');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const results = data.data;
+                    const categories = Object.keys(data.chartsData);
+                    const values = Object.values(data.chartsData);
+            
+                    // Configuration du graphe
+                    const options = {
+                        series: [{
+                            name: "Nombre de paiement",
+                            data: values,
+                        }],
+                        annotations: {
+                            points: [{
+                                x: 'Dates',
+                                seriesIndex: 0,
+                                label: {
+                                    borderColor: '#775DD0',
+                                    offsetY: 0,
+                                    style: {
+                                        color: '#fff',
+                                        background: '#775DD0',
+                                    },
+                                    text: 'Évolution des paiements',
+                                },
+                            }]
+                        },
+                        chart: {
+                            height: 350,
+                            type: 'bar',
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 10,
+                                columnWidth: '50%',
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            width: 0
+                        },
+                        grid: {
+                            row: {
+                                colors: ['#fff', '#f2f2f2']
+                            }
+                        },
+                        xaxis: {
+                            labels: {
+                                rotate: -45
+                            },
+                            categories: categories,
+                            tickPlacement: 'on',
+                        },
+                        yaxis: {
+                            title: {
+                                text: "Nombre de paiement",
+                            },
+                        },
+                        fill: {
+                            colors: ['#008FFB'],
+                        }
+                    };
+            
+                    // Détruit le graphe existant pour éviter les doublons
+                    const chartContainer = document.querySelector("#chartPaiement");
+                    if (chartContainer._chartInstance) {
+                        chartContainer._chartInstance.destroy();
+                    }
+                    const chart = new ApexCharts(chartContainer, options);
+                    chartContainer._chartInstance = chart;
+                    chart.render();
+            
+                    // Met à jour le titre
+                    document.getElementById('titre_liste').innerHTML = `
+                        LISTE DES PAIEMENTS ${libelle_status} ${libelle_paymode}
+                    `;
+            
+                    // Réinitialise le tableau si déjà initialisé
+                    if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-custom')) {
+                        $('#datatable-custom').DataTable().destroy();
+                    }
+            
+                    // Initialise le tableau avec les nouvelles données
+                    $('#datatable-custom').DataTable({
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/fr-FR.json',
+                        },
+                        data: results,
+                        columns: [
+                            { data: 'nom_du_proprietaire' },
+                            { data: 'numero_de_la_carte_grise' },
+                            { data: 'numero_dimmatriculation' },
+                            { data: 'telephone' },
+                            { data: 'amount' },
+                            { data: 'reference' },
+                            { data: 'operateur_uuid' },
+                            { data: 'transaction_id' },
+                            {
+                                data: 'paiement_state',
+                                render: (data) => {
+                                    const statusClasses = {
+                                        paid: "badge bg-success-subtle text-success",
+                                        fail: "badge bg-danger-subtle text-danger",
+                                        default: "badge bg-warning-subtle text-warning"
+                                    };
+                                    return `
+                                        <span class="${statusClasses[data] || statusClasses.default}">
+                                            ${data === "paid" ? "Payé" : data === "fail" ? "Rejeté" : data}
+                                        </span>
+                                    `;
+                                }
+                            },
+                            { data: 'created_at' }
+                        ]
+                    });
+            
+                    // Gère le clic sur les boutons détail
+                    $('#datatable-custom').on('click', '.btn-detail', function() {
+                        const uuid = $(this).data('uuid');
+                        fetchCandidatDetail(uuid);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des données :', error);
+                });
+            }
+            
+          /*   if(type_stat ==="paiement"){
             
                 document.getElementById('titre_liste').innerHTML= " <i class='fa fa-spinner fa-spin'></i> LISTE DES PAIEMENTS"+ libelle_status+ " "+libelle_paymode+" EN COURS DE CHARGEMENT ..."
 
@@ -201,7 +349,7 @@ $(document).ready(function() {
                         fetchCandidatDetail(uuid);
                     });
                 });
-            }
+            } */
         }
 
     }

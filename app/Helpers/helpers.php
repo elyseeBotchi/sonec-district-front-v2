@@ -648,3 +648,36 @@ if(!function_exists('translatePeriodicity')) {
     }
 }
 
+if(!function_exists('liste_banques')){
+    function liste_banques() {
+        $banques = [
+            ["nom" => "AFG BANK CÔTE D'IVOIRE", "sigle" => "AFG","status" => true],
+            ["nom" => "BANK OF AFRICA - CÔTE D'IVOIRE", "sigle" => "BOA","status" => true],
+            ["nom" => "BANQUE ATLANTIQUE CÔTE D'IVOIRE", "sigle" => "BAC","status" => true],
+            ["nom" => "BANQUE D'ABIDJAN", "sigle" => "BDA","status" => true],
+            ["nom" => "BANQUE DE L'HABITAT DE CÔTE D'IVOIRE", "sigle" => "BHCI","status" => true],
+            ["nom" => "BANQUE DE L'UNION - CÔTE D'IVOIRE", "sigle" => "BUDI","status" => true],
+            ["nom" => "BANQUE INTERNATIONALE POUR LE COMMERCE ET L'INDUSTRIE DE LA CÔTE D'IVOIRE", "sigle" => "BICICI"],
+            ["nom" => "BANQUE NATIONALE D'INVESTISSEMENT", "sigle" => "BNI","status" => true],
+            ["nom" => "BANQUE POPULAIRE DE CÔTE D'IVOIRE", "sigle" => "BPCI","status" => true],
+            ["nom" => "BANQUE SAHÉLO-SAHARIENNE POUR L'INVESTISSEMENT ET LE COMMERCE - CÔTE D'IVOIRE", "sigle" => "BSIC","status" => true],
+            ["nom" => "BGFIBANK CÔTE D'IVOIRE", "sigle" => "BGFI","status" => true],
+            ["nom" => "BRIDGE BANK GROUP CÔTE D'IVOIRE", "sigle" => "BBG","status" => true],
+            ["nom" => "CITIBANK CÔTE D'IVOIRE", "sigle" => "CITI","status" => true],
+            ["nom" => "CORIS BANK INTERNATIONAL CÔTE D'IVOIRE", "sigle" => "CBI","status" => true],
+            ["nom" => "ECOBANK - CÔTE D'IVOIRE", "sigle" => "ECOBANK","status" => true],
+            ["nom" => "GUARANTY TRUST BANK CÔTE D'IVOIRE", "sigle" => "GTB","status" => true],
+            ["nom" => "MANSA BANK", "sigle" => "MANSA","status" => true],
+            ["nom" => "NSIA BANQUE CÔTE D'IVOIRE", "sigle" => "NSIA","status" => true],
+            ["nom" => "ORABANK CÔTE D'IVOIRE", "sigle" => "ORABANK"],
+            ["nom" => "SOCIÉTÉ GÉNÉRALE DE BANQUES EN CÔTE D'IVOIRE", "sigle" => "SGBCI","status" => true],
+            ["nom" => "SOCIÉTÉ IVOIRIENNE DE BANQUE", "sigle" => "SIB","status" => true],
+            ["nom" => "STANDARD CHARTERED BANK CÔTE D'IVOIRE", "sigle" => "SCB","status" => true],
+            ["nom" => "UNITED BANK FOR AFRICA CÔTE D'IVOIRE", "sigle" => "UBA","status" => true],
+            ["nom" => "VERSUS BANK", "sigle" => "VERSUS","status" => true]
+        ];
+        return $banques;
+        
+    }
+}
+

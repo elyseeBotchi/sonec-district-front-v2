@@ -4,7 +4,7 @@
 @if(CanPermission('statistique_voir_le_module_statistique'))
     <div class="row">
             @if(canPermission('statistique_voir_le_montant_total_par_jour'))
-            <div class="col-md-3 cursor-pointer"  style="cursor: pointer">
+            <div class="col-md-5 cursor-pointer"  style="cursor: pointer">
                 <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -35,7 +35,7 @@
         @endif
 
         @if(canPermission('statistique_voir_le_total_des_paiements'))
-        <div class="col-md-3 cursor-pointer" style="cursor: pointer">
+        <div class="col-md-5 cursor-pointer" style="cursor: pointer">
             <div data-status="all" data-pay="all"  class="card card-animate Load_paiement">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">

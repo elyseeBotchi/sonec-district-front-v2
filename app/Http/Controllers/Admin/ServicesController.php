@@ -379,7 +379,7 @@ class ServicesController extends Controller
         $validator = Validator::make($request->all(), [
             'entity_uuid' => 'required',
             //'paymode' => 'required',
-            'numero_paiement' => 'required',
+            //'numero_paiement' => 'required',
             'rubrique_facturation_uuid' => 'required',
             'date_visite' => 'required',
             'rdv' => 'required'
@@ -399,10 +399,13 @@ class ServicesController extends Controller
         
         $url_path = "/autorisations/entite/taxes/caisse";
 
+        $Entity = Entities()[0] ?? '';
+
+       
         $data = [
-            'entity_uuid'=> $request->entity_uuid ?? '',
+            'entity_uuid'=> $Entity['uuid'] ?? '',
             'paymode'=> 'cash',
-            'numero_paiement' => $request->numero_paiement ?? '',
+           // 'numero_paiement' => $request->numero_paiement ?? '',
             'rubrique_facturation_uuid' => $request->rubrique_facturation_uuid ?? '',
             'email' => $request->email ?? '',
             'date_visite' => $request->date_visite ?? '',
@@ -415,11 +418,15 @@ class ServicesController extends Controller
 
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
+       // dd($response);
        if(isset($response['type'])){
             if($response['type'] =='success'){
                 $dataResponse =[
-                    'type'=>'standby',
-                    'urlback'=> $response['urlback'] ?? '',  // route('customer.entities.taxe.info_paiement',['uuid' => $response['data']]),
+                    'type'=>'success',
+                    'urlback'=> route('panel.autorisations.services.taxes.show',[
+                        'uuid' => $response['element_uuid'] ?? '',
+                        'entity_uuid' => $Entity['uuid'] ?? ''
+                    ]),
                     'message'=>$response['message'] ?? '',
                     'reference' => $response['reference'] ?? '',
                     'code'=>200,
@@ -431,6 +438,7 @@ class ServicesController extends Controller
                     'type'=>'error',
                     'urlback'=>'',
                     'message'=>$response['message'] ?? '',
+                    'errors' => $response['errors'] ?? '',
                     'code'=>500,
                 ];
                 return response()->json($dataResponse);
@@ -440,6 +448,7 @@ class ServicesController extends Controller
                 'type'=>'error',
                 'urlback'=>'',
                 'message'=>$response['message'] ?? '',
+                'errors' => $response['errors'] ?? '',
                 'code'=>500,
             ];
             return response()->json($dataResponse);
@@ -494,5 +503,44 @@ class ServicesController extends Controller
         }
 
     }
+
+
+    public function cheque(){
+
+        $Entity = Entities()[0] ?? '';
+        //dd($Entity);
+        return view('admins.services.reception-cheque',['Entity_uuid' => $Entity['uuid'] ?? '']);
+    }
+
+    public function cheque_liste(){
+
+        $Entity = Entities()[0] ?? '';
+        //dd($Entity);
+        return view('admins.services.reception-cheque',['Entity_uuid' => $Entity['uuid'] ?? '']);
+    }
     
+
+    public function cheque_search(Request $request){
+        $url_path = "/autorisations/entite/taxes/update";
+        $data = [
+            'entity_uuid' => $request->entity_uuid ?? '',
+            'search' => $ref ?? '',
+            'type' => $type ?? ''
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //return dd($data);
+
+        if($responses['type'] == 'error'){
+            return response()->json($responses);
+        }else{
+            return response()->json([
+                'type' => 'success',
+                'message' => $dataResponse['message'] ?? "Un élément retrouvé",
+                'code' => 200,
+                'urlback'=> route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]),
+                'data' => $dataResponse['data'] ?? ''
+            ]);
+        }
+    }
 }

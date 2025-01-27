@@ -130,10 +130,12 @@
 
                         <div class="hide js-show">
                             <br>
-                             <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary d-none">
-                                <i class="fas fa-plus"></i> PAYER A LA CAISSE
-                            </a>
-
+                            @if(CanPermission('rendez_vous_recevoir_les_paiements_cash'))
+                                <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary d-none">
+                                    <i class="fas fa-plus"></i> PAYER A LA CAISSE
+                                </a>
+                            @endif 
+                            
                             <div class="card-custom mb-4">
                                 <div class="card-header-custom">
                                     <span id="languageSelectLabel" style="font-size:x-small;">

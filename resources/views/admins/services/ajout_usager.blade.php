@@ -11,7 +11,7 @@
 }
 
 </style>
-@if(CanPermission('rendez_vous_rechercher_un_vehicule'))@endisset 
+@if(CanPermission('rendez_vous_recevoir_les_paiements_cash'))@endisset 
     <div class="center-form">
         <form class="sendPayForm" action="{{ route('panel.autorisations.services.taxes.caisse.store') }}">
             <h3>FORMULAIRE DE PAIEMENT EN ESPECE</h3>
