@@ -155,7 +155,7 @@ $(document).ready(function() {
                             { data: 'numero_de_la_carte_grise' },
                             { data: 'numero_dimmatriculation' },
                             { data: 'telephone' },
-                            { data: 'amount' },
+                            //{ data: 'amount' },
                             { data: 'reference' },
                             { data: 'operateur_uuid' },
                             { data: 'transaction_id' },
