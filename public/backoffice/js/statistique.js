@@ -377,8 +377,10 @@ $(document).ready(function() {
                 const rendezVous = results.rdv;
                // console.log("Résultats reçus :", results.rdv);
 
-                const ligne_facturations = results.ligne_facturations || [];
-                let par_facturation = ""; // Utilisez let pour permettre la concaténation
+               const ligne_facturations = results.ligne_facturations || [];
+               const ligne_facturations_global = results.ligne_facturations_global || [];
+               let par_facturation = ""; // Utilisez let pour permettre la concaténation
+               let par_facturation_global = ""; // Utilisez let pour permettre la concaténation
     
                 const ligne_render_periode = results.ligne_render_periode || [];
                 let render_periode ="";
@@ -662,7 +664,7 @@ $(document).ready(function() {
                                 style: 'currency',
                                 currency: 'XOF',
                             });
-                                par_facturation += `
+                            par_facturation_global += `
                                     <tr>
                                         <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
                                         <td>${item.line_count || '0'}</td>
@@ -677,7 +679,7 @@ $(document).ready(function() {
                             // Mise à jour du tableau HTML
                             const tableBody = document.getElementById('par_facturation-global');
                             if (tableBody) {
-                                tableBody.innerHTML = par_facturation;
+                                tableBody.innerHTML = par_facturation_global;
                             } else {
                                 console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
                             }
