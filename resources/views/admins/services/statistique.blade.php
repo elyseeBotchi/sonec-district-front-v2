@@ -290,6 +290,45 @@
                 @endisset
             @endif
 
+             
+            @if(CanPermission('statistique_voir_les_statistiques_par_rubrique_global'))
+                @isset($type_stat)
+                    @if($type_stat =="rubrique")
+                        <div class="row">
+                            <div class="row align-items-start">
+                                <div class="card col-md-12">
+                                    <div class="card-header" id="rubrique-facturation-titre-global">
+                                        REPARTITION PAR RUBRIQUE DE FACTURATION
+                                    </div>
+                                            <!-- Tableau -->
+                                    <div class="table-responsive">
+                                        <table class="table" id="datatable-rubrique-facturation-global">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rubrique</th>
+                                                    <th>Nombre</th>
+                                                    <th>Montant Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="render-html" id="par_facturation-global">
+                                                <tr>
+                                                    <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            
+                                <!-- Graphique -->
+                                <div class="col-md-12">
+                                    <canvas id="facturationChartGlobal" width="800" height="800"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endisset
+            @endif
 
     @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
 

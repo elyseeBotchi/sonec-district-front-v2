@@ -394,6 +394,7 @@ $(document).ready(function() {
                 par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
                 par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
                 par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
+                par_rubrique_global: canPermission('statistique_voir_les_statistiques_par_rubrique_global'),
                 par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
                 par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
                 par_validation_jour: canPermission('statistique_voir_les_statistiques_par_validations_par_jour'),
@@ -651,7 +652,89 @@ $(document).ready(function() {
             
                     }
                 } 
+             
                 
+                if(permissions.par_rubrique_global){
+                    if(type_stat === "rubrique"){
+                        ligne_facturations_global.forEach(item => {
+                                
+                            const total_amount = parseFloat(item.total_amount).toLocaleString('fr-FR', {
+                                style: 'currency',
+                                currency: 'XOF',
+                            });
+                                par_facturation += `
+                                    <tr>
+                                        <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
+                                        <td>${item.line_count || '0'}</td>
+                                        <td>${total_amount || '0'}</td>
+                                    </tr>`;
+                                
+                                // Préparer les données pour le camembert
+                                labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
+                                dataValues.push(item.total_amount || 0);
+                            });
+                
+                            // Mise à jour du tableau HTML
+                            const tableBody = document.getElementById('par_facturation-global');
+                            if (tableBody) {
+                                tableBody.innerHTML = par_facturation;
+                            } else {
+                                console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
+                            }
+                                
+                                        // Générer des couleurs dynamiquement
+                            const generateColors = (count, alpha = 0.2) => {
+                                const colors = [];
+                                for (let i = 0; i < count; i++) {
+                                    const r = Math.floor(Math.random() * 256);
+                                    const g = Math.floor(Math.random() * 256);
+                                    const b = Math.floor(Math.random() * 256);
+                                    colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
+                                }
+                                return colors;
+                            };
+            
+                            // Générer les couleurs pour le graphique
+                            const backgroundColors = generateColors(labels.length, 0.2);
+                            const borderColors = generateColors(labels.length, 1);
+            
+                            // Générer le camembert
+                            const ctx = document.getElementById('facturationChartGlobal').getContext('2d');
+                            new Chart(ctx, {
+                                type: 'pie', // Type de graphique
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Montant total par rubrique',
+                                        data: dataValues,
+                                        backgroundColor: backgroundColors, // Couleurs dynamiques pour l'arrière-plan
+                                        borderColor: borderColors, // Couleurs dynamiques pour les bordures
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: false,
+                                    plugins: {
+                                        legend: {
+                                            display: true, // Masque la légende
+                                            position: 'right', // Place la légende à gauche
+                                            labels: {
+                                                align: 'end', // Aligne le texte des éléments de la légende à droite
+                                                usePointStyle: true, // Affiche un point coloré au lieu d'un carré
+                                                padding: 20 // Ajoute un espacement entre les éléments
+                                            }
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Répartition des montants par rubrique'
+                                        }
+                                    }
+                                }
+                            });
+            
+                    }
+                } 
+
                 if(permissions.par_rdv){
 
                     if(type_stat === "rdv"){
