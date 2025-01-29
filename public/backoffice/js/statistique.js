@@ -386,7 +386,11 @@ $(document).ready(function() {
                 
                var permissions = {
                 montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
+                montant_total_jour_global: canPermission('statistique_voir_le_montant_total_par_jour_global'),
+
                 total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
+                total_paiement_global: canPermission('statistique_voir_le_total_des_paiements_global'),
+
                 par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
                 par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
                 par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
@@ -407,7 +411,6 @@ $(document).ready(function() {
                 document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
             }  
      
-                        
             if(permissions.total_paiement){
                 const total_paiement = parseFloat(results.total_paiement).toLocaleString('fr-FR', {
                     style: 'currency',
@@ -416,6 +419,29 @@ $(document).ready(function() {
 
                 document.getElementById('total_paiement').innerHTML = total_paiement || '';
                 document.getElementById('nb_total').innerHTML = results.total_paiement_nbre || '';
+            } 
+
+
+
+             
+            if(permissions.montant_total_jour_global){
+                const montant_total_jour_global = parseFloat(results.montant_total_jour_global).toLocaleString('fr-FR', {
+                    style: 'currency',
+                    currency: 'XOF',
+                });
+
+                document.getElementById('montant_total_jour_global').innerHTML = montant_total_jour_global || '';
+                document.getElementById('nb_total_jour_global').innerHTML = results.nb_total_jour_global || 0;
+            }
+
+            if(permissions.total_paiement_global){
+                const total_paiement_global = parseFloat(results.total_paiement_global).toLocaleString('fr-FR', {
+                    style: 'currency',
+                    currency: 'XOF',
+                });
+
+                document.getElementById('total_paiement_global').innerHTML = total_paiement_global || '';
+                document.getElementById('nb_total_global').innerHTML = results.total_paiement_nbre_global || '';
             }  
                 
                 // Données pour le camembert
