@@ -70,7 +70,7 @@
             <div class="col-md-5"  style="cursor: pointer">
                 <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
                     <div class="card-body">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between text-white">
                             <div>
                                 <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
@@ -78,7 +78,7 @@
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
-                                <p class="mb-0 text-muted text-truncate">
+                                <p class="mb-0 text-muted text-truncate text-white">
                                     <span class="text-white" id="nb_total_jour_global">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
