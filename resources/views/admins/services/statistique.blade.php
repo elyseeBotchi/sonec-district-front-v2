@@ -368,7 +368,7 @@
                                 <th>N° Carte grise</th>
                                 <th>N° Immatriculation</th>
                                 <th>N° Paiement</th>
-                                <th>Montant</th>
+                                {{-- <th>Montant</th> --}}
                                 <th>Reference</th>
                                 <th>Mode de paiement</th>
                                 <th>ID Transaction</th>
