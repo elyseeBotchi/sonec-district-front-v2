@@ -21,6 +21,15 @@
                             </span>
                         </a>
                     </li>
+                    
+                    <li class="sidebar-item {{ request()->is('customer/services/cheque/*') ? 'selected' : '' }} {{ request()->is('customer/services/cheque/detail/*') ? 'selected' : '' }} ">
+                        <a href="{{ route('customer.entities.taxe.cheque', ['target' => $entiteNav['uuid']]) }}" class="sidebar-link">
+                            <i data-feather="tag" class="feather-icon"></i>
+                            <span class="hide-menu">
+                                Chèques
+                            </span>
+                        </a>
+                    </li>
                 @endif
             
                               

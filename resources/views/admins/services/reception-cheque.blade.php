@@ -64,20 +64,20 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="check_date">Date d'émission <span class="text-danger">*</span></label>
-                                                        <input type="date" class="form-control" id="check_date" name="check_date" required>
+                                                        <label for="date_emission">Date d'émission <span class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control" id="date_emission" name="date_emission" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="check_amount">Montant du chèque <span class="text-danger">*</span></label>
-                                                        <input type="number" class="form-control" id="check_amount" name="check_amount" placeholder="Entrez le montant" required>
+                                                        <label for="montant_cheque">Montant du chèque <span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="montant_cheque" name="montant_cheque" placeholder="Entrez le montant" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="account_holder">Titulaire du compte <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="account_holder" name="account_holder" placeholder="Nom du titulaire du compte" required>
+                                                        <label for="titulaire_compte">Titulaire du compte <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="titulaire_compte" name="titulaire_compte" placeholder="Nom du titulaire du compte" required>
                                                     </div>
                                                 </div>
                                             </div>

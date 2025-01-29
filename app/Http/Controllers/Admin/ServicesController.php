@@ -518,7 +518,34 @@ class ServicesController extends Controller
         //dd($Entity);
         return view('admins.services.reception-cheque',['Entity_uuid' => $Entity['uuid'] ?? '']);
     }
-    
+
+    public function cheque_store(Request $request){
+        $url_path = "/autorisations/entite/taxes/cheque/store";
+        $data = [
+            'entity_uuid' => $request->entity_uuid ?? '',
+            'check_number' => $request->check_number ?? '',
+            'banque_emettrice' => $request->banque_emettrice ?? '',
+            'date_emission' => $request->date_emission ?? '',
+            'montant_cheque' => $request->montant_cheque ?? '',
+            'titulaire_compte' => $request->titulaire_compte ?? '',
+            'type' => $type ?? '',
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //return dd($data);
+
+        if($responses['type'] == 'error'){
+            return response()->json($responses);
+        }else{
+            return response()->json([
+                'type' => 'success',
+                'message' => $responses['message'] ?? "Un élément retrouvé",
+                'code' => 200,
+                'urlback'=> route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]),
+                'data' => $responses['data'] ?? ''
+            ]);
+        }
+    }
 
     public function cheque_search(Request $request){
         $url_path = "/autorisations/entite/taxes/update";
@@ -536,10 +563,10 @@ class ServicesController extends Controller
         }else{
             return response()->json([
                 'type' => 'success',
-                'message' => $dataResponse['message'] ?? "Un élément retrouvé",
+                'message' => $responses['message'] ?? "Un élément retrouvé",
                 'code' => 200,
                 'urlback'=> route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]),
-                'data' => $dataResponse['data'] ?? ''
+                'data' => $responses['data'] ?? ''
             ]);
         }
     }

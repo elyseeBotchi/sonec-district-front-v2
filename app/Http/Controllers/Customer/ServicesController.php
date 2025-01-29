@@ -295,50 +295,68 @@ class ServicesController extends Controller
 
 
     public function findOneConfig($uuid)
-{
-    $url_path = "/autorisations/services/rubrique/findOneConfig";
-    $cache_key = "rubrique_config_{$uuid}"; // Définir une clé de cache unique basée sur l'UUID
+    {
+        $url_path = "/autorisations/services/rubrique/findOneConfig";
+        $cache_key = "rubrique_config_{$uuid}"; // Définir une clé de cache unique basée sur l'UUID
 
-    // Vérifier ou récupérer depuis le cache
-    $response = Cache::remember($cache_key, 1440, function () use ($url_path, $uuid) {
+        // Vérifier ou récupérer depuis le cache
+        $response = Cache::remember($cache_key, 1440, function () use ($url_path, $uuid) {
+            $data = [
+                'entity_uuid' => $uuid,
+            ];
+
+            // Appel à l'API
+        //  Log::info("Appel API pour récupérer la rubrique config pour l'entité : {$uuid}");
+
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+
+        // Vérifier si la réponse provient du cache ou de l'API
+        if (Cache::has($cache_key)) {
+        // Log::info("Données récupérées depuis le cache pour findOneConfig : {$uuid}");
+        } else {
+        // Log::info("Données récupérées depuis l'API pour findOneConfig : {$uuid}");
+        }
+
+        // Si la réponse contient des données valides, la retourner
+        if (isset($response['type']) && $response['type'] === 'success') {
+            return response()->json($response);
+        }
+
+        // Forcer un nouvel appel à l'API si la réponse est invalide
+        $newResponse = (new GlobalSendService())->CallApi($url_path, ['entity_uuid' => $uuid], 'POST');
+
+        // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
+        if (isset($newResponse['type']) && $newResponse['type'] === 'success') {
+            Cache::put($cache_key, $newResponse, 60); // Met à jour le cache avec les nouvelles données
+        // Log::info("Données mises à jour dans le cache pour l'entité : {$uuid}");
+            return response()->json($newResponse);
+        }
+
+        // Si tout échoue, retourner une valeur par défaut
+        Log::error("Erreur lors de la récupération des données pour l'entité : {$uuid}");
+        return response()->json(['message' => 'Erreur lors de la récupération des données'], 500);
+    }
+
+    public function cheque($target){
+
+        return view('customers.services.cheque', [
+            'entity_uuid'=>$target ?? '',
+        ]); 
+    }
+
+    public function findCheque($uuid){
+        $url_path = "/autorisations/services/taxe/cheque/find";
+
         $data = [
             'entity_uuid' => $uuid,
         ];
-
-        // Appel à l'API
-        Log::info("Appel API pour récupérer la rubrique config pour l'entité : {$uuid}");
-
-        return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
-    });
-
-    // Vérifier si la réponse provient du cache ou de l'API
-    if (Cache::has($cache_key)) {
-        Log::info("Données récupérées depuis le cache pour findOneConfig : {$uuid}");
-    } else {
-        Log::info("Données récupérées depuis l'API pour findOneConfig : {$uuid}");
+        
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        return response()->json($responses);
     }
 
-    // Si la réponse contient des données valides, la retourner
-    if (isset($response['type']) && $response['type'] === 'success') {
-        return response()->json($response);
-    }
-
-    // Forcer un nouvel appel à l'API si la réponse est invalide
-    $newResponse = (new GlobalSendService())->CallApi($url_path, ['entity_uuid' => $uuid], 'POST');
-
-    // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
-    if (isset($newResponse['type']) && $newResponse['type'] === 'success') {
-        Cache::put($cache_key, $newResponse, 60); // Met à jour le cache avec les nouvelles données
-        Log::info("Données mises à jour dans le cache pour l'entité : {$uuid}");
-        return response()->json($newResponse);
-    }
-
-    // Si tout échoue, retourner une valeur par défaut
-    Log::error("Erreur lors de la récupération des données pour l'entité : {$uuid}");
-    return response()->json(['message' => 'Erreur lors de la récupération des données'], 500);
-}
-
-
+    
    /*  public function findOneConfig_($uuid){
 
         $url_path = "/autorisations/services/rubrique/findOneConfig";
