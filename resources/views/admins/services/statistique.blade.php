@@ -72,7 +72,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between text-white">
                             <div>
-                                <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
+                                <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                     <span id="montant_total_jour_global">
                                         <i class="fa fa-spinner fa-spin"></i>
@@ -103,7 +103,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
+                            <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
                             <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                 <span id="total_paiement_global">
                                     <i class="fa fa-spinner fa-spin"></i>
