@@ -68,7 +68,7 @@
 
         @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
             <div class="col-md-5"  style="cursor: pointer">
-                <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success" >
+                <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
@@ -99,7 +99,7 @@
 
     @if(canPermission('statistique_voir_le_total_des_paiements_global'))
         <div class="col-md-5" style="cursor: pointer">
-            <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success">
+            <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success text-white">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div>
