@@ -47,7 +47,7 @@
                                 </span>
                             </h2>
                             <p class="mb-0 text-muted text-truncate">
-                                <span class="" id="nb_total">
+                                <span class="text-white" id="nb_total">
                                     <i class="fa fa-spinner fa-spin"></i>
                                 </span>
                             </p>
@@ -79,7 +79,7 @@
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour_global">
+                                    <span class="text-white" id="nb_total_jour_global">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </p>
