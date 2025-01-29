@@ -80,7 +80,7 @@
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate text-white">
                                     <span class="text-white" id="nb_total_jour_global">
-                                        <i class="fa fa-spinner fa-spin"></i>
+                                        <i class="fa fa-spinner fa-spin text-white" ></i>
                                     </span>
                                 </p>
                             </div>
