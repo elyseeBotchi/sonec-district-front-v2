@@ -332,59 +332,59 @@
 
     @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
 
-    @isset($type_stat)
-        @if($type_stat =="rdv")
-        <div class="row">
-            <div id="rendezvousChart" class="col-md-12"></div>
+        @isset($type_stat)
+            @if($type_stat =="rdv")
+            <div class="row">
+                <div id="rendezvousChart" class="col-md-12"></div>
 
-            <div class="row align-items-start">
-                <div class="card col-md-12">
-                    <div class="card-header" id="rubrique-facturation-titre">
-                        LISTE DES DATES RENDEZ-VOUS
+                <div class="row align-items-start">
+                    <div class="card col-md-12">
+                        <div class="card-header" id="rubrique-facturation-titre">
+                            LISTE DES DATES RENDEZ-VOUS
+                        </div>
+                        <!-- Tableau -->
+                        <div class="row">
+                            <table id="datatable-custom" class="table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Nombre programmé</th>
+                                    <th>Nombre effectivement reçu</th> 
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="render-html" id="rdv"> </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <!-- Tableau -->
-                    <div class="row">
-                        <table id="datatable-custom" class="table">
-                            <thead>
+
+                
+                
+                    <div class="card-header col-md-12" id="titre_rdv">
+                        Liste des rendez-vous du jour
+                    </div>
+                    <table class="table" id="datatable-rdv">
+                        <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Nombre programmé</th>
-                                <th>Nombre effectivement reçu</th> 
-                                <th>Action</th>
+                                <th>Date de RDV</th>
+                                <th>Proprietaire</th>
+                                <th>N° Carte grise</th>
+                                <th>N° Immatriculation</th>
+                                <th>N° Paiement</th>
+                                <th>Montant</th>
+                                <th>Reference</th>
+                                <th>Mode de paiement</th>
+                                <th>ID Transaction</th>
+                                <th>Statut</th>
+                                <th>Date paiement</th>
                             </tr>
                             </thead>
-                            <tbody class="render-html" id="rdv"> </tbody>
-                        </table>
-                    </div>
+                            <tbody ></tbody>
+                    </table>
                 </div>
-
-            
-              
-                <div class="card-header col-md-12" id="titre_rdv">
-                    Liste des rendez-vous du jour
-                </div>
-                <table class="table" id="datatable-rdv">
-                    <thead>
-                        <tr>
-                            <th>Date de RDV</th>
-                            <th>Proprietaire</th>
-                            <th>N° Carte grise</th>
-                            <th>N° Immatriculation</th>
-                            <th>N° Paiement</th>
-                            <th>Montant</th>
-                            <th>Reference</th>
-                            <th>Mode de paiement</th>
-                            <th>ID Transaction</th>
-                            <th>Statut</th>
-                            <th>Date paiement</th>
-                        </tr>
-                        </thead>
-                        <tbody ></tbody>
-                </table>
             </div>
-        </div>
-        @endif
-    @endisset    
+            @endif
+        @endisset    
 
     @endif 
 
@@ -447,7 +447,7 @@
                             </thead>
                             <tbody id="render_periode"></tbody>
                             <tfoot>
-                                <tr>
+                                <tr style="display: none">
                                     <th>Total</th>
                                     <th ></th>
                                     <th id="montant_total_periode"></th>
