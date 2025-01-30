@@ -1045,10 +1045,10 @@ $(document).ready(function() {
    
     function multipleDeMille(amount) {
         let result = Math.ceil(amount / 1000) * 1000;
-        
-        // Si le résultat est impair, on l'ajuste pour qu'il soit pair
-        if (result % 2 !== 0) {
-            result += 1000; // On ajoute 1000 pour rester un multiple de 1000 et obtenir un nombre pair
+    
+        // Assurer que la moitié du résultat est aussi un multiple de 1000
+        if ((result / 2) % 1000 !== 0) {
+            result -= 1000; // Ajustement vers le bas
         }
     
         return result;
