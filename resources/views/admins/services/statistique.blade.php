@@ -267,12 +267,12 @@
                                                 <tr>
                                                     <th>Rubrique</th>
                                                     <th>Nombre</th>
-                                                    <th>Montant Total</th>
+                                                    {{-- <th>Montant Total</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody class="render-html" id="par_facturation">
                                                 <tr>
-                                                    <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                                    <td colspan="2"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                                                 </tr>
                                             </tbody>
                                         </table>
