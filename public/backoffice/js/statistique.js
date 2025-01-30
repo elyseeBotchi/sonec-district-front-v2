@@ -585,9 +585,9 @@ $(document).ready(function() {
                                 par_facturation += `
                                     <tr>
                                         <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
-                                        <td>${item.line_count || '0'}</td>
+                                        <td>${Math.ceil(item.line_count) || '0'}</td>
                                     </tr>`;
-                                //<td>${total_amount || '0'}</td>
+                                //<td>${total_amount || '0'}</td>Math.ceil(amount / 1000)
                                 // Préparer les données pour le camembert
                                 labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
                                 dataValues.push(item.total_amount || 0);
