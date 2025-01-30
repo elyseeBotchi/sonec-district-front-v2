@@ -918,7 +918,7 @@ $(document).ready(function() {
                         let dataValues = [];  // Pour le camembert
                     
                         ligne_render_periode.forEach(item => {
-                            const total_amount = parseFloat(item.total_amount).toLocaleString('fr-FR', {
+                            const total_amount = parseFloat(multipleDeMille(item.total_amount)).toLocaleString('fr-FR', {
                                 style: 'currency',
                                 currency: 'XOF',
                             });
@@ -934,7 +934,7 @@ $(document).ready(function() {
                     
                             // Préparer les données pour le camembert
                             labels.push(`${item.date_paiement || ''}`);
-                            dataValues.push(parseFloat(item.total_amount) || 0);
+                            dataValues.push(parseFloat(multipleDeMille(item.total_amount)) || 0);
                         });
                     
                         const MontantTotal_P = parseFloat(montantTotalPeriode).toLocaleString('fr-FR', {
@@ -1043,7 +1043,17 @@ $(document).ready(function() {
                 }); */
             });
     }
+   
+    function multipleDeMille(amount) {
+        let result = Math.ceil(amount / 1000) * 1000;
+        
+        // Si le résultat est impair, on l'ajuste pour qu'il soit pair
+        if (result % 2 !== 0) {
+            result += 1000; // On ajoute 1000 pour rester un multiple de 1000 et obtenir un nombre pair
+        }
     
+        return result;
+    }
 
     function rdvToday(){
         const today = new Date();
