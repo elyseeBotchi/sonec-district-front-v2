@@ -178,6 +178,7 @@
                                 </div><!-- end card body -->
                             </div> <!-- end card-->
                         </div> <!-- end col-->
+
                         @endif
                         @if(canPermission('statistique_voir_le_total_des_paiements'))
                         <div class="col-md-6 cursor-pointer" style="cursor: pointer;display:none;">
@@ -209,6 +210,69 @@
                             </div> <!-- end card-->
                         </div> <!-- end col--> 
                         @endif
+
+                        
+        @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
+        <div class="col-md-5"  style="cursor: pointer;display:none;">
+            <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between text-white">
+                        <div>
+                            <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
+                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                <span id="montant_total_jour_global">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                            </h2>
+                            <p class="mb-0 text-muted text-truncate text-white">
+                                <span class="text-white" id="nb_total_jour_global">
+                                    <i class="fa fa-spinner fa-spin text-white" ></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div>
+                            <div class="avatar-sm flex-shrink-0">
+                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    @endif
+
+@if(canPermission('statistique_voir_le_total_des_paiements_global'))
+    <div class="col-md-5" style="cursor: pointer;display:none;">
+        <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
+                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                            <span id="total_paiement_global">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </span>
+                        </h2>
+                        <p class="mb-0 text-muted text-truncate">
+                            <span class="text-white" id="nb_total_global">
+                                <i class="fa fa-spinner fa-spin text-white"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card body -->
+        </div> <!-- end card-->
+    </div> <!-- end col--> 
+@endif
                     </div>
                     <div id="rendezvousChart" class="col-md-12"></div>
 
