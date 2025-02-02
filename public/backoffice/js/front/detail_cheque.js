@@ -3,22 +3,23 @@ $(document).ready(function() {
     findRubriques();
 
     function findAll() {
-        fetch(`/customer/services/cheque/detail/${cheque_uuid}/${Entity_uuid}`)
+        fetch(`/customer/services/cheque/data/${cheque_uuid}/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Une erreur est survenue lors de la récupération des données');
+                   // throw new Error('Une erreur est survenue lors de la récupération des données');
                 }
                 return response.json();
             })
             .then(data => { 
+                console.log(data)
                 if (!data || !data.entete || !data.data || !data.entity) {
-                    throw new Error('Données manquantes ou incorrectes dans la réponse');
+                   // throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
     
                 const entete = data.entete;
                 const results = data.data;
                 const entity = data.entity;
-               // console.log(data)
+                
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
@@ -152,9 +153,9 @@ $(document).ready(function() {
                 });
             })
             .catch(error => {
-               // console.error('Erreur:', error);
+                console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
-                alert('Une erreur est survenue lors de la récupération des données.');
+              //  alert('Une erreur est survenue lors de la récupération des données.');
             });
     }
 

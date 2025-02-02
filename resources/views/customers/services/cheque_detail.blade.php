@@ -13,7 +13,7 @@
                 <thead>
                 <tr></tr>
                 </thead>
-                <tbody class="render-html">
+                <tbody id="render-html">
                     <tr>
                         <td> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                     </tr>
@@ -29,8 +29,8 @@
 @push('footer-script')
 <script>
     var cheque_uuid = @Json($cheque_uuid ?? '');
-    var Entity_uuid = @Json($entty_uuid ?? '');
+    var Entity_uuid = @Json($entity_uuid ?? '');
 </script>
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-<script src="{{ asset('/backoffice/js/front/services_cheque.js') }}"></script> 
+{{-- <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> --}}
+<script src="{{ asset('/backoffice/js/front/detail_cheque.js') }}"></script> 
 @endpush

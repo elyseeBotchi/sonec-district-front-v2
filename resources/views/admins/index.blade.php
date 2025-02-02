@@ -143,325 +143,318 @@
         </div>
     @endif
 
-        
-
     @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
-
-                <div class="row">
-                    <div class="row">
-                        @if(canPermission('statistique_voir_le_montant_total_par_jour'))
-                        <div class="col-md-6 cursor-pointer"  style="cursor: pointer;display:none;">
-                            <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement" >
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
-                                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                                <span id="montant_total_jour">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </span>
-                                            </h2>
-                                            <p class="mb-0 text-muted text-truncate">
-                                                <span class="" id="nb_total_jour">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                                </span>
-                                            </div>
-                                        </div>
+        <div class="row">
+            <div class="row">
+                @if(canPermission('statistique_voir_le_montant_total_par_jour'))
+                <div class="col-md-6 cursor-pointer"  style="cursor: pointer;display:none;">
+                    <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement" >
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
+                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                        <span id="montant_total_jour">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </h2>
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total_jour">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                        </span>
                                     </div>
-                                </div><!-- end card body -->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
 
-                        @endif
-                        @if(canPermission('statistique_voir_le_total_des_paiements'))
-                        <div class="col-md-6 cursor-pointer" style="cursor: pointer;display:none;">
-                            <div data-status="all" data-pay="all"  class="card card-animate Load_paiement">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
-                                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                                <span id="total_paiement">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </span>
-                                            </h2>
-                                            <p class="mb-0 text-muted text-truncate">
-                                                <span class="" id="nb_total">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <div class="avatar-sm flex-shrink-0">
-                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                @endif
+                @if(canPermission('statistique_voir_le_total_des_paiements'))
+                <div class="col-md-6 cursor-pointer" style="cursor: pointer;display:none;">
+                    <div data-status="all" data-pay="all"  class="card card-animate Load_paiement">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
+                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                        <span id="total_paiement">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </h2>
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col--> 
+                @endif
+
+                                
+                @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
+                    <div class="col-md-5"  style="cursor: pointer;display:none;">
+                        <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between text-white">
+                                    <div>
+                                        <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
+                                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                            <span id="montant_total_jour_global">
+                                                <i class="fa fa-spinner fa-spin"></i>
                                             </span>
-                                            </div>
+                                        </h2>
+                                        <p class="mb-0 text-muted text-truncate text-white">
+                                            <span class="text-white" id="nb_total_jour_global">
+                                                <i class="fa fa-spinner fa-spin text-white" ></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                            </span>
                                         </div>
                                     </div>
-                                </div><!-- end card body -->
-                            </div> <!-- end card-->
-                        </div> <!-- end col--> 
-                        @endif
+                                </div>
+                            </div><!-- end card body -->
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+                @endif
 
-                        
-        @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
-        <div class="col-md-5"  style="cursor: pointer;display:none;">
-            <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
-                <div class="card-body">
-                    <div class="d-flex justify-content-between text-white">
-                        <div>
-                            <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
-                            <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="montant_total_jour_global">
-                                    <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                            </h2>
-                            <p class="mb-0 text-muted text-truncate text-white">
-                                <span class="text-white" id="nb_total_jour_global">
-                                    <i class="fa fa-spinner fa-spin text-white" ></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div>
-                            <div class="avatar-sm flex-shrink-0">
-                                <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-    @endif
+                @if(canPermission('statistique_voir_le_total_des_paiements_global'))
+                    <div class="col-md-5" style="cursor: pointer;display:none;">
+                        <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
+                                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                            <span id="total_paiement_global">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </span>
+                                        </h2>
+                                        <p class="mb-0 text-muted text-truncate">
+                                            <span class="text-white" id="nb_total_global">
+                                                <i class="fa fa-spinner fa-spin text-white"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end card body -->
+                        </div> <!-- end card-->
+                    </div> <!-- end col--> 
+                @endif
+            </div>
+            <div id="rendezvousChart" class="col-md-12"></div>
 
-@if(canPermission('statistique_voir_le_total_des_paiements_global'))
-    <div class="col-md-5" style="cursor: pointer;display:none;">
-        <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
-                        <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                            <span id="total_paiement_global">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </span>
-                        </h2>
-                        <p class="mb-0 text-muted text-truncate">
-                            <span class="text-white" id="nb_total_global">
-                                <i class="fa fa-spinner fa-spin text-white"></i>
-                            </span>
-                        </p>
+            <div class="row align-items-start">
+                <div class="card col-md-12">
+                    <div class="card-header" id="rubrique-facturation-titre">
+                        LISTE DES DATES RENDEZ-VOUS
                     </div>
-                    <div>
-                        <div class="avatar-sm flex-shrink-0">
-                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </span>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- end card body -->
-        </div> <!-- end card-->
-    </div> <!-- end col--> 
-@endif
-                    </div>
-                    <div id="rendezvousChart" class="col-md-12"></div>
-
-                    <div class="row align-items-start">
-                        <div class="card col-md-12">
-                            <div class="card-header" id="rubrique-facturation-titre">
-                                LISTE DES DATES RENDEZ-VOUS
-                            </div>
-                            <!-- Tableau -->
-                            <div class="row">
-                                <table id="datatable-custom" class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Nombre programmé</th>
-                                        <th>Nombre effectivement reçu</th> 
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="render-html" id="rdv"> </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    
-                    
-                        <div class="card-header col-md-12" id="titre_rdv">
-                            Liste des rendez-vous du jour
-                        </div>
-                        <table class="table" id="datatable-rdv">
+                    <!-- Tableau -->
+                    <div class="row">
+                        <table id="datatable-custom" class="table">
                             <thead>
-                                <tr>
-                                    <th>Date de RDV</th>
-                                    <th>Proprietaire</th>
-                                    <th>N° Carte grise</th>
-                                    <th>N° Immatriculation</th>
-                                    <th>N° Paiement</th>
-                                    <th>Montant</th>
-                                    <th>Reference</th>
-                                    <th>Mode de paiement</th>
-                                    <th>ID Transaction</th>
-                                    <th>Statut</th>
-                                    <th>Date paiement</th>
-                                </tr>
-                                </thead>
-                                <tbody ></tbody>
+                            <tr>
+                                <th>Date</th>
+                                <th>Nombre programmé</th>
+                                <th>Nombre effectivement reçu</th> 
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="render-html" id="rdv"> </tbody>
                         </table>
                     </div>
                 </div>
-             
 
+            
+            
+                <div class="card-header col-md-12" id="titre_rdv">
+                    Liste des rendez-vous du jour
+                </div>
+                <table class="table" id="datatable-rdv">
+                    <thead>
+                        <tr>
+                            <th>Date de RDV</th>
+                            <th>Proprietaire</th>
+                            <th>N° Carte grise</th>
+                            <th>N° Immatriculation</th>
+                            <th>N° Paiement</th>
+                            <th>Montant</th>
+                            <th>Reference</th>
+                            <th>Mode de paiement</th>
+                            <th>ID Transaction</th>
+                            <th>Statut</th>
+                            <th>Date paiement</th>
+                        </tr>
+                        </thead>
+                        <tbody ></tbody>
+                </table>
+            </div>
+        </div>
     @endif 
     
-@if(CanPermission('tableau_de_bord_recap_des_activites_du_jour'))
-    <div class="row col-md-12">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
+    @if(CanPermission('tableau_de_bord_recap_des_activites_du_jour'))
+        <div class="row col-md-12">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
 
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title text-center">DETAIL DE L'ACTIVITE DU JOUR </h4>
-                            </div>
-                            <table class="table">
-                                <tbody class="render-html">
-                                    <tr>
-                                        <td> 
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title text-center">DETAIL DE L'ACTIVITE DU JOUR </h4>
+                                </div>
+                                <table class="table">
+                                    <tbody class="render-html">
+                                        <tr>
+                                            <td> 
+                                            
+                                            </td>
+                                            <td> 
+                                                <h3>
+                                                    VALIDES
+                                                </h3>  
+                                            </td>
+                                            <td> 
+                                                <h3>
+                                                    REJETES
+                                                </h3>  
+                                            </td>
+                                            <td> 
+                                                <h3>
+                                                    TOTAL
+                                                </h3>  
+                                            </td>
+                                        </tr>    
                                         
-                                        </td>
-                                        <td> 
-                                            <h3>
-                                                VALIDES
-                                            </h3>  
-                                        </td>
-                                        <td> 
-                                            <h3>
-                                                REJETES
-                                            </h3>  
-                                        </td>
-                                        <td> 
-                                            <h3>
-                                                TOTAL
-                                            </h3>  
-                                        </td>
-                                    </tr>    
-                                    
-                                    <tr>
-                                        <td> 
-                                            <h3>
-                                                Usagers ayant RDV			
-                                            </h3>
-                                        </td>
-                                        <td> 
-                                            <span id="avec_rdv_valide"></span>
-                                        </td>
-                                        <td> 
-                                            <span id="avec_rdv_rejete"></span>
-                                        </td>
-                                        <td> 
-                                            <span id="avec_rdv_total"></span>
-                                        </td>
-                                    </tr> 
+                                        <tr>
+                                            <td> 
+                                                <h3>
+                                                    Usagers ayant RDV			
+                                                </h3>
+                                            </td>
+                                            <td> 
+                                                <span id="avec_rdv_valide"></span>
+                                            </td>
+                                            <td> 
+                                                <span id="avec_rdv_rejete"></span>
+                                            </td>
+                                            <td> 
+                                                <span id="avec_rdv_total"></span>
+                                            </td>
+                                        </tr> 
 
-                                    <tr>
-                                        <td> 
-                                            <h3>
-                                            UsagerS sans RDV 			
-                                            </h3>
-                                        </td>
-                                        <td> 
-                                            <span id="sans_rdv_valide"></span>
-                                        </td>
-                                        <td> 
-                                        <span id="sans_rdv_rejete"></span>
-                                        </td>
-                                        <td> 
-                                        <span id="sans_rdv_total"></span>
-                                        </td>
-                                    </tr>      
-                            
-                                </tbody>
-                            </table>
-                        </div> 
-                    </div>
+                                        <tr>
+                                            <td> 
+                                                <h3>
+                                                    UsagerS sans RDV 			
+                                                </h3>
+                                            </td>
+                                            <td> 
+                                                <span id="sans_rdv_valide"></span>
+                                            </td>
+                                            <td> 
+                                            <span id="sans_rdv_rejete"></span>
+                                            </td>
+                                            <td> 
+                                            <span id="sans_rdv_total"></span>
+                                            </td>
+                                        </tr>      
+                                
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </div>
 
 
-                    <div class="ml-auto">
-                
-                        <div class="d-flex align-items-start">
-                            <h4 class="card-title mb-0">
-                                RESULTAT DES TRAITEMENTS PAR NOMBRE ET PAR TYPE
-                            </h4>
-                        </div> 
-        
-                        <table class="table" id="datatable-traitement">
-                            <thead>
-                            <tr>
-                                <td>
-                                    <h3>
-                                        Type de Taxe
-                                    </h3>
-                                    
-                                </td>
-                                <td>
-                                    <h3>
-                                         Montant de la taxe
-                                    </h3>
-                                    
-                                </td>
-                                <td>
-                                    <h3>
-                                        Nombre Traité ce jour
-                                    </h3>
-                                    
-                                </td>
-                            
-                            </tr>
-                            </thead>
-                            <tbody class="render-html">
-                                <tr>
-                                    <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
+                        <div class="ml-auto" style="display:none;">
+                    
+                            <div class="d-flex align-items-start">
+                                <h4 class="card-title mb-0">
+                                    RESULTAT DES TRAITEMENTS PAR NOMBRE ET PAR TYPE
+                                </h4>
+                            </div> 
+            
+                            <table class="table" id="datatable-traitement">
+                                <thead>
                                 <tr>
                                     <td>
                                         <h3>
-                                            TOTAL
+                                            Type de Taxe
                                         </h3>
                                         
                                     </td>
-                                    <td></td>
                                     <td>
-                                        <h3 id="traitement_total"></h3>
+                                        <h3>
+                                            Montant de la taxe
+                                        </h3>
+                                        
+                                    </td>
+                                    <td>
+                                        <h3>
+                                            Nombre Traité ce jour
+                                        </h3>
+                                        
                                     </td>
                                 
                                 </tr>
-                            </tfoot>
-                        </table>
+                                </thead>
+                                <tbody class="render-html">
+                                    <tr>
+                                        <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot style="display:none;">
+                                    <tr>
+                                        <td>
+                                            <h3>
+                                                TOTAL
+                                            </h3>
+                                            
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <h3 id="traitement_total"></h3>
+                                        </td>
+                                    
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
                     </div>
-                    
                 </div>
             </div>
         </div>
-    </div>
-@endif 
-
-
+    @endif 
 </div>
 
 @push('footer-script')

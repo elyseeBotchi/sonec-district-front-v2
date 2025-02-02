@@ -10,52 +10,58 @@ $(document).ready(function() {
                 }
                 return response.json();
             })
-            .then(data => { 
-                if (!data ||!data.data) {
+            .then(data => {
+                if (!data || !data.data) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
     
                 const results = data.data;
-              
-                const table =  "<tr>";
-                table +=`<td>libelle</td>`;
-                table +=`<td>0</td>`;
-                table +=`<td></td>`;
-                table +=`<td></td>`;
-                table += "</tr>";
-                results.forEach((result) => {
-                    table +=`<tr>`;
+                let table = `
+                    <tr>
+                        <th>Libellé</th>
+                        <th>Quantité</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+    
+                results.forEach(result => {
+                    table += `<tr>`;
                     table += `<td>${result.libelle || ''}</td>`;
-                    table += `<td>${result.quantite || ''}</td>`;
-                    
-                    switch(result.status) {
+                    table += `<td>${Math.ceil(result.quantite) || 0}</td>`;
+    
+                    // Gestion des statuts avec badge
+                    let statusBadge = '';
+                    switch (result.status) {
                         case 'init':
-                            return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
-                            case 'enable':
-                                return `<span class="badge badge-pill badge-warning">En attente de validation</span>`;
+                            statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
+                            break;
+                        case 'enable':
+                            statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
+                            break;
                         case 'validate':
-                            return `<span class="badge badge-pill badge-success">Validé</span>`;
+                            statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                            break;
                         case 'disable':
-                            return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
-                        default :
-                             return '';
-                       
+                            statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                            break;
+                        default:
+                            statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
                     }
-                    table += `<td>
-                    
-                    </td>`;
-                    table += "</tr>";
+    
+                    table += `<td>${statusBadge}</td>`;
+                    table += `<td><a href="/customer/services/cheque/detail/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"> <i class='fa fa-eye'></i> </a></td>`;
+                    table += `</tr>`;
                 });
-
-                document.getElementById('render-html').innerHTML= table;
+    
+                document.getElementById('render-html').innerHTML = table;
             })
             .catch(error => {
-                document.getElementById('render-html').innerHTML='';
-               // console.error('Erreur:', error);
-                // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
-              //  alert('Une erreur est survenue lors de la récupération des données.');
+                document.getElementById('render-html').innerHTML = '<tr><td colspan="4">Aucune donnée disponible</td></tr>';
+                console.error('Erreur:', error);
             });
     }
+    
 
     
     function generateFormUpdate(entete,pay_element) {

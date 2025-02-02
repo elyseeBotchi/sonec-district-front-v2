@@ -423,6 +423,8 @@ class ServicesController extends Controller
         ];
         
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
         return response()->json($responses);
     }
 }
