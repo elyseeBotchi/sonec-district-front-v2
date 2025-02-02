@@ -356,19 +356,73 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
-    
-   /*  public function findOneConfig_($uuid){
-
-        $url_path = "/autorisations/services/rubrique/findOneConfig";
+    public function cheque_store(Request $request){
+        $url_path = "/autorisations/services/taxe/cheque/store";
 
         $data = [
-            //'admin_uuid' => AuthConnect()['uuid'],
-            'entity_uuid' => $uuid,
+            'entity_uuid' => $request->entity_uuid,
+            'libelle' => $request->libelle,
+            //'cheque_number' => $request->cheque_number,
+            //'cheque_date' => $request->cheque_date,
+            //'cheque_amount' => $request->cheque_amount,
+            //'cheque_bank' => $request->cheque_bank,
         ];
-
+        
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-      // return dd($response);
-        return response()->json($response);
-    } */
+
+       // dd($response);
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=> route('customer.entities.taxe.cheque.detail',[
+                        'uuid' => $response['data']['uuid'],
+                        'entity_uuid' =>$request->entity_uuid
+                    ]),
+                    'message'=>$response['message'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+    }
     
+    
+    public function chequeDetail($uuid,$entity_uuid){
+
+        return view('customers.services.cheque_detail', [
+            'entity_uuid'=>$entity_uuid ?? '',
+            'cheque_uuid'=>$uuid ?? '',
+        ]); 
+    }
+
+
+    public function chequeData($cheque_uuid){
+        $url_path = "/autorisations/services/taxe/cheque/data";
+
+        $data = [
+            'cheque_uuid' => $cheque_uuid,
+        ];
+        
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        return response()->json($responses);
+    }
 }

@@ -925,7 +925,7 @@ $(document).ready(function() {
                             render_periode += `
                                 <tr>
                                     <td>${item.date_paiement || ''}</td>
-                                    <td>${item.nombre_paiement || '0'}</td>
+                                    <td>${Math.ceil(item.nombre_paiement) || '0'}</td>
                                     <td>${total_amount || '0'}</td>
                                 </tr>`;
                             
@@ -1044,6 +1044,7 @@ $(document).ready(function() {
     }
    
     function multipleDeMille(amount) {
+        amount = Math.ceil(amount);
         let result = Math.ceil(amount / 1000) * 1000;
     
         // Assurer que la moitié du résultat est aussi un multiple de 1000
@@ -1275,7 +1276,7 @@ $(document).ready(function() {
     
                 // Préparer les catégories (dates) et les valeurs (nombre de validations)
                 const categories = data.data.map(item => item.firstname +' '+ item.lastname);
-                const values = data.data.map(item => item.nombre || 0);
+                const values = data.data.map(item => Math.ceil(item.nombre) || 0);
     
                 // Configuration du graphique ApexCharts
                 const options = {
@@ -1370,8 +1371,12 @@ $(document).ready(function() {
                                 return ` ${data} ${row.lastname}`;
                             }
                         },
-                       
-                        { data: 'nombre', title: 'Nombre de Validations' },
+                        {
+                            data: 'nombre',title: 'Nombre de Validations',
+                            render: function(data, type, row) {
+                                return ` ${Math.ceil(data)} `;
+                            }
+                        },
                     ],
                 });
             })

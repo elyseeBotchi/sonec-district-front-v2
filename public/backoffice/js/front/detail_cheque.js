@@ -1,9 +1,9 @@
 $(document).ready(function() {
     findAll();
-
+    findRubriques();
 
     function findAll() {
-        fetch(`/customer/services/cheque/findAll/${Entity_uuid}`)
+        fetch(`/customer/services/cheque/detail/${cheque_uuid}/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Une erreur est survenue lors de la récupération des données');
@@ -11,50 +11,207 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => { 
-                if (!data ||!data.data) {
+                if (!data || !data.entete || !data.data || !data.entity) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
     
+                const entete = data.entete;
                 const results = data.data;
-              
-                const table =  "<tr>";
-                table +=`<td>libelle</td>`;
-                table +=`<td>0</td>`;
-                table +=`<td></td>`;
-                table +=`<td></td>`;
-                table += "</tr>";
-                results.forEach((result) => {
-                    table +=`<tr>`;
-                    table += `<td>${result.libelle || ''}</td>`;
-                    table += `<td>${result.quantite || ''}</td>`;
-                    
-                    switch(result.status) {
-                        case 'init':
-                            return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
-                            case 'enable':
-                                return `<span class="badge badge-pill badge-warning">En attente de validation</span>`;
-                        case 'validate':
-                            return `<span class="badge badge-pill badge-success">Validé</span>`;
-                        case 'disable':
-                            return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
-                        default :
-                             return '';
-                       
-                    }
-                    table += `<td>
-                    
-                    </td>`;
-                    table += "</tr>";
+                const entity = data.entity;
+               // console.log(data)
+                // Générer le formulaire dynamiquement à partir des en-têtes
+                generateForm(entete);
+    
+                document.getElementById('TaxeEntity').innerHTML = entity.name;
+                // Mettre à jour les informations de l'entité dans les éléments HTML
+                /* let elements = document.getElementsByClassName('services');
+                for (let i = 0; i < elements.length; i++) {
+                    elements[i].innerHTML = entity.front_name;
+                } */
+    
+                // Construire dynamiquement les en-têtes du tableau
+                let headerHtml = '<tr>';
+                entete.forEach(col => {
+                    headerHtml += `<th>${col.name}</th>`;
                 });
+                headerHtml += '<th>Validité</th><th>Statut</th><th style="width:150px !important;">Action</th></tr>'; // Ajout des colonnes "Statut" et "Action"
+                $('#datatable-custom thead').html(headerHtml);
+    
+                // Vérifier si la DataTable a déjà été initialisée
+                if ($.fn.DataTable.isDataTable('#datatable-custom')) {
+                    // Détruire l'instance existante avant de recréer une nouvelle DataTable
+                    $('#datatable-custom').DataTable().destroy();
+                }
+    
+               
+                // Initialisation de la DataTable avec les nouvelles données
+                $('#datatable-custom').DataTable({
+                    data: results,
+                    columns: [
+                        ...entete.map(col => ({ 
+                            data: slugify(col.name),
+                           // data: col.field // Utiliser le champ correspondant pour chaque colonne
+                        })),
+                        {
+                            data: 'date_fin',
+                            render: function(data, type, row) {
+                                // Fonction pour formater une date au format dd - m - Y
+                                function formatDate(dateString) {
+                                    const date = new Date(dateString);
+                                    const day = String(date.getDate()).padStart(2, '0');
+                                    const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
+                                    const year = date.getFullYear();
+                                    return `${day} - ${month} - ${year}`;
+                                }
 
-                document.getElementById('render-html').innerHTML= table;
+                                var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+
+                                const dateDebutFormatted = formatDate(row.date_debut);
+                                const dateFinFormatted = formatDate(data);
+
+                                if (data > date_actuelle) {
+                                    return `<span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span>`;
+                                } else if (data < date_actuelle) {
+                                    return `<span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>`;
+                                }
+                                else {
+                                    return `<span class="badge badge-pill badge-danger">Date dépassée</span>`; // Gérer les cas où la condition n'est pas remplie
+                                }
+                            }
+                        },
+                        {
+                            data: 'state',
+                            render: function(data, type, row) {
+                                switch(data) {
+                                    case 'init':
+                                        return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                                        case 'enable':
+                                            return `<span class="badge badge-pill badge-warning">En attente de validation</span>`;
+                                    case 'validate':
+                                        return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                    case 'disable':
+                                        return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    default :
+                                         return '';
+                                   
+                                }
+                            }
+                        },
+                        {
+                            data: 'uuid',
+                            render: function(data, type, row) {
+                                let permissions = {
+                                    show: true,
+                                    edit: true,
+                                    change: true
+                                };
+    
+                                let actions = '';
+    
+                                if (permissions.show) {
+                                    actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                                }
+    
+                                if (permissions.edit && row.state !=="validate") {
+                                    actions += `<a href="#" data-toggle="modal" data-target="#updateElement-modal" data-uuid="${data}" data-name="${row.name}" data-description="${row.description}" title="Modifier l'entité ${row.name}" class="btn btn-outline-warning btn-icon waves-effect waves-light material-shadow-none updateElement"><i class="fa fa-edit"></i></a> &nbsp; `;
+                                }
+    
+                                if (permissions.change) {
+                                    let icon = row.state === 'enable' ? '<i class="fa fa-lock"></i>' : '<i class="fa fa-unlock"></i>';
+                                    let msg = row.state === 'enable' ? 'Verrouiller ' : 'Déverrouiller';
+                                    let className = row.state === 'enable' ? 'btn-outline-danger' : 'btn-outline-success';
+                                   // actions += `<a href="/customer/services/taxe/delete/${data}/${Entity_uuid}" title="${msg}" class="btn btn-sm btn-icon waves-effect waves-light material-shadow-none ${className} sendDeleteLink">${icon}</a>`;
+                                }
+                                var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
+
+                                if (permissions.edit) {
+                                    if(row.state === 'enable' && (row.date_fin > date_actuelle)){
+                                        /* actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `; */
+                                    }
+                                    else if(row.state === 'enable' && (row.date_fin < date_actuelle)){
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                    }
+                                    else if(row.state !== 'enable'){
+                                       // actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                    }
+                                    else{
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                        //  actions +='';
+                                    }
+                                }
+    
+                                return actions;
+                            }
+                        }
+                    ],
+                    paging: false, // Désactiver la pagination
+                    searching: false, // Désactiver le filtre (champ de recherche)
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json' // URL pour le fichier de traduction en français
+                    }
+                });
             })
             .catch(error => {
-                document.getElementById('render-html').innerHTML='';
                // console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
-              //  alert('Une erreur est survenue lors de la récupération des données.');
+                alert('Une erreur est survenue lors de la récupération des données.');
             });
+    }
+
+
+    function generateForm(entete) {
+        let formHtml = '';
+      
+        entete.forEach(field => {
+            let validationAttributes = '';
+    
+            // Ajout de règles spécifiques pour chaque type de champ
+            if (field.type_input === 'text') {
+                //
+                if(slugify(field.name)==="numero_dimmatriculation" || slugify(field.name)==="numro_dimmatriculation"){
+                    //validationAttributes = ' pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$"';
+                    //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})$"';
+                    //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]{1}[0-9]{4,5})|(P[0-9]{6,8})$"';
+
+                    pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]?[0-9]{4,10})|(P[0-9]{6,8})|(CHP[0-9]{7})|(R[0-9]{7})|([0-9]{4}\|[0-9]{8}[A-Z]{2}CI[0-9]{2})|(CH[0-9]{4,10})|([A-Z0-9]{15,20})$"
+                    validationAttributes += ' onkeydown="return !(event.key === \' \')"';
+
+                    validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01, 12345WWCI01 ou AB1234CD"';
+                }                
+                else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
+                    //validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,10})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    validationAttributes += ' onkeydown="return !(event.key === \' \')"';
+
+                    validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
+                }
+                else{
+                    validationAttributes = ' minlength="3" maxlength="50"';
+                }
+
+                         // Forcer la saisie en majuscules
+                         validationAttributes += ' style="text-transform:uppercase;" oninput="this.value = this.value.toUpperCase();"';
+                 
+                
+            } else if (field.type_input === 'email') {
+                //validationAttributes = 'pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"';
+            } else if (field.type_input === 'tel') {
+                // Regex pour les numéros de téléphone en Côte d'Ivoire (format 10 chiffres, commence par 01, 05, 07, etc.)
+                validationAttributes = ' pattern="^(0[1-9]|25)[0-9]{8}$" maxlength="10" title="Le numéro de téléphone doit commencer par 01, 02, 03, ..., ou 25 et contenir exactement 10 chiffres."';
+                validationAttributes += ' title="Le numéro de téléphone doit contenir exactement 10 chiffres."';
+            }
+    
+            formHtml += `
+             <div class="col-md-12">
+                <div class="form-group">
+                    <label class="form-label">${field.name} </label>
+                    <input type="${field.type_input}" class="form-control" placeholder="${field.name}" name="${ slugify(field.name)}"  required ${validationAttributes} />
+                </div>
+            </div>`;
+        });
+    
+        // Insérer le formulaire généré dans un conteneur existant
+        document.getElementById('form-container').innerHTML = formHtml;
     }
 
     
@@ -108,6 +265,8 @@ $(document).ready(function() {
         document.getElementById('form-container-update').innerHTML = formHtml;
     }
 
+
+
     function slugify(string) {
         // Remplacer les espaces et les caractères spéciaux par des tirets, et convertir en minuscule
         var data = string.toString().toLowerCase()
@@ -155,6 +314,33 @@ $(document).ready(function() {
     });
     
  
+    $('#container').on('click', '.payElement', function(e){
+        e.preventDefault();
+        const uuid = this.getAttribute('data-uuid');
+        const name = this.getAttribute('data-name');
+        const pay_libelle = this.getAttribute('data-pay_libelle');
+        
+          //  alert(name)
+        document.getElementById('pay_uuid').value = uuid;
+        document.getElementById('target_pay_name').innerHTML = name;
+      //  document.getElementById('pay_libelle').value = pay_libelle;
+
+   
+      /* VERIFICATION DE L'EXISTENCE D'UN PAIEMENT */
+        const PayModalButton = new bootstrap.Modal(document.getElementById('payElement-modal'), {
+            backdrop: 'static', // Empêche la fermeture en cliquant en dehors
+            keyboard: true // Empêche la fermeture en appuyant sur la touche Échap
+        });
+    
+        if(PayModalButton) {
+            PayModalButton.show();
+        }
+        
+      /* ######################################### */
+    
+    });
+
+  
     $('.sendEntiteForm').submit(function (e) {
         e.preventDefault();
 
@@ -218,6 +404,77 @@ $(document).ready(function() {
             processData: false
         });
     });  
+
+
+    $('.sendPayForm').submit(function (e) {
+        e.preventDefault();
+
+        var action = $(this).attr('action');
+        var formData = new FormData(this);
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            beforeSend: function () {
+                loader();
+                // Remove previous error styles and messages
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            },
+            success: function (data) {
+                loader('hide');
+                if (data.type === "success") {
+                    sendSuccess(data.message, data.urlback);
+                   // findAll()
+                    const closeModalButton = document.querySelector('.closeModal');
+                    if (closeModalButton) {
+                        closeModalButton.click();
+                    }
+                    
+                    const closeUpModalButton = document.querySelector('.closeUpModal');
+                    if (closeUpModalButton) {
+                        closeUpModalButton.click();
+                    }
+                }
+                
+                else if (data.type === "standby") {
+                    sendStandby(data.message,data.reference);
+                }
+
+                else if (data.type === "error_validator") {
+                    handleErrors(data.errors);
+                    var message = ""
+                    if (data.errors) {
+                        $.each(data.errors, function (key, value) {
+                            message += value.join('<br>') + '<br>';
+                        });
+                    }
+
+                    toastr.error(message, 'Erreur', {
+                        closeButton: true,
+                        progressBar: true,
+                        enableHtml: true  // Activer le support HTML pour les messages toastr
+                    });
+                }
+                else {
+                    SendError(data.message);
+                }
+            },
+            error: function (xhr) {
+                loader('hide');
+                var errors = xhr.responseJSON.errors;
+                handleErrors(errors);
+                SendError('Veuillez corriger les erreurs ci-dessous.');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
       // delete
     $('#container').on('click', '.sendDeleteLink', function(e){
         e.preventDefault();
@@ -281,6 +538,28 @@ $(document).ready(function() {
             processData: false
         });
     }
+
+/* function loader(state = "show") {
+    switch (state) {
+        case "show":
+            JsLoadingOverlay.show({
+                'overlayBackgroundColor': '#666666',
+                'overlayOpacity': 0.4,
+                'spinnerIcon': 'ball-spin',
+                'spinnerColor': '#1fbd03',
+                'spinnerSize': '1x',
+                'overlayIDName': 'overlay',
+                'spinnerIDName': 'spinner',
+                'spinnerZIndex': 99999,
+                'overlayZIndex': 99998,
+                'lockScroll': true,
+            });
+            break;
+        default:
+            JsLoadingOverlay.hide();
+            break;
+    }
+} */
 
     function loader(state = "show", message = "Chargement en cours...") {
         switch (state) {
@@ -386,6 +665,61 @@ $(document).ready(function() {
                 if (paymentCheckTimeout) clearTimeout(paymentCheckTimeout);
                 break;
         }
+    }
+    
+
+    async function checkPaymentStatus(reference) {
+      //  console.log('Vérification du statut du paiement...');
+        try {
+            const response = await fetch(`/customer/services/facturation/verification-paiement/${reference}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erreur réseau lors de la vérification du statut du paiement.');
+            }
+    
+            const result = await response.json();
+           // console.log(result)
+            const paymentStatus = result.paymentStatus;
+    
+            if (paymentStatus === 'success') {
+               // console.log('Paiement approuvé.');
+                loaderMessage("hide");
+                sendSuccess('Le paiement a été approuvé !', result.urlback);
+            } else if (paymentStatus === 'fail') {
+                //console.log('Paiement échoué.');
+                loaderMessage("hide");
+                toastr.error('Le paiement a échoué !', 'Erreur');
+            } else {
+                toastr.warning('Paiement en attente.', 'Alerte');
+            }
+        } catch (error) {
+           // console.error('Erreur lors de la vérification du statut du paiement:', error);
+            toastr.error('Impossible de vérifier le statut du paiement. Veuillez réessayer.', 'Erreur réseau');
+        }
+    }
+    
+    function sendStandby(message, reference) {
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 120000,
+            extendedTimeOut: 0,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+            newestOnTop: true,
+            hideDuration: 0,
+            showDuration: 300,
+        };
+    
+        if (message) {
+            toastr.info(message, 'Information');
+        }
+        loaderMessage('show', reference);
     }
     
         
