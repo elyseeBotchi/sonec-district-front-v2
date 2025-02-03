@@ -229,7 +229,7 @@ $(document).ready(function() {
                 // Vide le select avant d'ajouter de nouvelles options
                 if(permissions.show_carte_valide){
                     const carte_valide = document.getElementById('carte_valide');
-                    carte_valide.innerHTML = results.carte_valide;                    
+                    carte_valide.innerHTML = Math.ceil(results.carte_valide);                    
                 }
 
                 if(permissions.show_carte_expirer){

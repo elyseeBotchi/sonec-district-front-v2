@@ -28,10 +28,31 @@
                         </div>
                         <div class="modal-body">
                             <div class="row" id="form-container">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="libelle">Libellé de la cotation <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="libelle" name="libelle" placeholder="Libellé de la cotation" required>
+                                        <label for="libelle">Nom de l'entreprise <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="libelle" name="nom_du_proprietaire" value="{{ Authconnect()['firstname'] ?? '' }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">N° Compte contribuable <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="contribuable" name="contribuable" placeholder="" value="{{ Authconnect()['contribuable'] ?? '' }}" @isset(Authconnect()['contribuable']) disabled @endisset required />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">Nombre de véhicule à déclarer <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="nombre_vehicule" name="nombre_vehicule" placeholder="" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">Contact téléphonique <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -115,6 +136,8 @@
                     <thead>
                     <tr>
                         <th>Désignation de la cotation</th>
+                        <th>Réference de la cotation</th>
+                        <th>contribuable</th>
                         <th>Nombre de véhicule</th>
                         <th>Statut</th>
                         <th style="width:150px !important;">Action</th>
@@ -122,7 +145,7 @@
                     </thead>
                     <tbody id="render-html">
                         <tr>
-                            <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                            <td colspan="6"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                         </tr>
                     </tbody>
                 </table>

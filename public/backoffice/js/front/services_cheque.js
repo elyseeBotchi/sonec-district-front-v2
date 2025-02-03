@@ -16,17 +16,12 @@ $(document).ready(function() {
                 }
     
                 const results = data.data;
-                let table = `
-                    <tr>
-                        <th>Libellé</th>
-                        <th>Quantité</th>
-                        <th>Statut</th>
-                        <th>Action</th>
-                    </tr>
-                `;
+                let table = ``;
     
                 results.forEach(result => {
                     table += `<tr>`;
+                    table += `<td>${result.reference || ''}</td>`;
+                    table += `<td>${result.contribuable || ''}</td>`;
                     table += `<td>${result.libelle || ''}</td>`;
                     table += `<td>${Math.ceil(result.quantite) || 0}</td>`;
     

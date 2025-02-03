@@ -357,15 +357,23 @@ class ServicesController extends Controller
     }
 
     public function cheque_store(Request $request){
+        if($request->contribuable ==""){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Le numéro contribuable est requis',
+                'code' => 400,
+            ], 400);
+        }
+
         $url_path = "/autorisations/services/taxe/cheque/store";
 
         $data = [
             'entity_uuid' => $request->entity_uuid,
             'libelle' => $request->libelle,
-            //'cheque_number' => $request->cheque_number,
-            //'cheque_date' => $request->cheque_date,
-            //'cheque_amount' => $request->cheque_amount,
-            //'cheque_bank' => $request->cheque_bank,
+            'nom_du_proprietaire' => $request->nom_du_proprietaire,
+            'contribuable' => $request->contribuable,
+            'nombre_vehicule' => $request->nombre_vehicule,
+            'telephone' => $request->cheque_amount,
         ];
         
         $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
