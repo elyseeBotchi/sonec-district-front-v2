@@ -26,7 +26,7 @@
                         <a href="{{ route('customer.entities.taxe.cheque', ['target' => $entiteNav['uuid']]) }}" class="sidebar-link">
                             <i data-feather="tag" class="feather-icon"></i>
                             <span class="hide-menu">
-                                Chèques
+                                Générer une proforma
                             </span>
                         </a>
                     </li>

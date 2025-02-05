@@ -5,14 +5,25 @@
         
 
         <div class="col-sm-12 card-body">
+            <div class="alert alert-info" role="alert" id="formulaire">
+                <i class="fa fa-info-circle me-2" aria-hidden="true"></i>
+                <strong class="text-uppercase">Informations importantes :</strong>
+                <ul>
+                    <li>
+                        Ce service est destiné aux entreprises disposant d'une flotte et souhaitant effectuer des paiements par chèque.
+                    </li>
+                    
+                </ul>
+            </div>
+            <br>
+
             <div class="text-end mb-4">
                <h4> LISTE DES DEMANDE DE COTATION </h4>
-               <br> <br>
+               <br> 
                <a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#add-modal">
-                    <i class="fas fa-plus"></i> DEMANDER UNE COTATION
+                    <i class="fas fa-plus"></i> GENERER UNE PROFORMA
                 </a>
             </div>
-
 
             <div class="modal fade" id="add-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -28,6 +39,13 @@
                         </div>
                         <div class="modal-body">
                             <div class="row" id="form-container">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="libelle">Libellé de la cotation <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="libelle" name="libelle" required>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="libelle">Nom de l'entreprise <span class="text-danger">*</span></label>
@@ -54,6 +72,16 @@
                                         <label for="libelle">Contact téléphonique <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="telephone" name="telephone" placeholder="" required>
                                     </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Type de véhicule <code>*</code></label>
+                                    <select class="form-select bg-light border-0 FindLieuRDV" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;"></select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Montant à payer</label>
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 40px;">
                                 </div>
                             </div>
                         </div>
@@ -137,7 +165,7 @@
                     <tr>
                         <th>Désignation de la cotation</th>
                         <th>Réference de la cotation</th>
-                        <th>contribuable</th>
+                        <th>Contribuable</th>
                         <th>Nombre de véhicule</th>
                         <th>Statut</th>
                         <th style="width:150px !important;">Action</th>

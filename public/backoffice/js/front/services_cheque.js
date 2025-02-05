@@ -20,10 +20,10 @@ $(document).ready(function() {
     
                 results.forEach(result => {
                     table += `<tr>`;
+                    table += `<td>${result.libelle || ''}</td>`;
                     table += `<td>${result.reference || ''}</td>`;
                     table += `<td>${result.contribuable || ''}</td>`;
-                    table += `<td>${result.libelle || ''}</td>`;
-                    table += `<td>${Math.ceil(result.quantite) || 0}</td>`;
+                    table += `<td>${Math.ceil(result.nombre_vehicule) || ''}</td>`;
     
                     // Gestion des statuts avec badge
                     let statusBadge = '';

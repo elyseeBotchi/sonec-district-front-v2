@@ -1,4 +1,4 @@
-@extends('layout.customerApp')
+@extends('layout.adminApp')
 
 @section('content')
 <div id="container">
@@ -31,10 +31,10 @@
                     <td>Nombre de voiture à déclarer </td>
                     <td> <b id="nbre_vehicule-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td>Contact téléphonique </td>
                     <td> <b id="telephone-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <td>Statut de la demande </td>
                     <td> <b id="statut-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
@@ -52,7 +52,7 @@
                 <br>
                 <center class="col-md-12"><span  id="alert-message"></span> </center>
             </span>
-            
+        
             
             <table class="table table-striped table-bordered" id="datatable-custom">
                 <thead>
@@ -62,22 +62,37 @@
                     <th>Numéro d'immatriculation</th>
                     <th>Type de véhicule</th>
                     <th>Montant</th>
+                    <th>État</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody id="render-html">
                     <tr>
-                        <td colspan="6"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                        <td colspan="9"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                     </tr>
                 </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align:right">Total :</th>
+                        <th id="totalAmount"></th>
+                        <th colspan="2"></th>
+                    </tr>
+                </tfoot>
             </table>
-            <center id="submit-cotation"></center>
+            <br>
+            <br>
+
+            <center class="row">
+                <div id="submit-cotation"></div>
+                <div id="pay-cotation"></div>
+            </center>
         </div>
     </div>
 
 
     
-    <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <form class="modal-content sendEntiteForm" action="{{ route('customer.entities.taxe.store') }}" method="POST">
                 @csrf
@@ -122,9 +137,9 @@
     </div>
 
     
-    <div class="modal fade" id="updateElement-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="updateElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg  modal-dialog-centered modal-dialog-scrollable">
-            <form class="modal-content sendEntiteForm" action="{{ route('customer.entities.taxe.update') }}" method="POST">
+            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.taxes.element.update') }}" method="POST">
                 @csrf
                 <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
                 <input type="hidden" name="uuid" id="update-uuid" required />
@@ -165,6 +180,73 @@
             </form>
         </div>
     </div>
+
+
+    
+    <div class="modal fade" id="payElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.cheque.reception.update') }}" method="POST">
+                @csrf
+                <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                <input type="hidden" name="cheque_uuid" value="{{ $cheque_uuid ?? '' }}" required />
+    
+                <div class="modal-header">
+                    <h5 class="mb-0 text-uppercase">PROCEDER AU PAIEMENT PAR CHEQUE</h5>
+                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                        <i class="ti ti-x f-20"></i>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="form-container">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="check_number">Numéro du chèque <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="numero_cheque" name="numero_cheque" placeholder="Entrez le numéro du chèque" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="bank_name w-100">Banque émettrice <span class="text-danger">*</span></label>
+                                <select class="form-control bg-light border-0 js-example-basic-single" name="banque_emettrice" style="height: 50px !important;width: 100%;padding: 0.375rem 0.75rem;" required>
+                                    <option value="" disabled selected>Sélectionnez une banque</option>
+                                    @forelse(liste_banques() as $bank)
+                                        <option value="{{ $bank['sigle'] ?? "" }}">
+                                            {{ $bank['sigle'] ?? '' }} | {{ $bank['nom'] ?? '' }}
+                                        </option>
+                                        @empty
+                                        <option value="" disabled>Aucune banque disponible</option>
+                                    @endforelse
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date_emission">Date d'émission <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="date_emission" name="date_emission" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="montant_cheque">Montant du chèque <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="montant_cheque" name="montant_cheque" placeholder="Entrez le montant" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="titulaire_compte">Titulaire du compte <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="titulaire_compte" name="titulaire_compte" placeholder="Nom du titulaire du compte" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -174,5 +256,5 @@
         var Entity_uuid = @Json($entity_uuid ?? '');
     </script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> 
-<script src="{{ asset('/backoffice/js/front/detail_cheque.js') }}"></script> 
+<script src="{{ asset('/backoffice/js/cheque-show.js') }}"></script> 
 @endpush

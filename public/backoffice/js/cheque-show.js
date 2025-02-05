@@ -3,7 +3,7 @@ $(document).ready(function() {
     findRubriques();
 
     function findAll() {
-        fetch(`/customer/services/cheque/data/${cheque_uuid}/${Entity_uuid}`)
+        fetch(`/panel/services/cheque/data/${cheque_uuid}/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Une erreur est survenue lors de la récupération des données');
@@ -26,7 +26,13 @@ $(document).ready(function() {
                         statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
                         break;
                     case 'validate':
-                        statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                            statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                        break;
+                    case 'pending':
+                            statusBadge = `<span class="badge badge-pill badge-info">En cours d'encaissement</span>`;
+                        break;
+                    case 'cotation':
+                        statusBadge = `<span class="badge badge-pill badge-info">Cotation validé</span>`;
                         break;
                     case 'disable':
                         statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
@@ -42,7 +48,7 @@ $(document).ready(function() {
                     'reference-cotation': cheque.reference,
                     'contribuable-cotation': cheque.contribuable,
                     'nbre_vehicule-cotation': cheque.nombre_vehicule,
-                    'telephone-cotation': cheque.telephone,
+                    //'telephone-cotation': cheque.telephone,
                     'statut-cotation': statusBadge,
                 };
     
@@ -53,14 +59,10 @@ $(document).ready(function() {
                 });
                 
                 if(cheque.status ==="init"){
-                    let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
-                                                <i class="fas fa-plus"></i> Ajouter un véhicule
-                                            </a>`;
-
-                    document.getElementById('add-cotation').innerHTML = buttonAddCotation;
+                    
 
                     if(cheque.status ==='init' && cheque.nombre_vehicule <= results.length){
-                        let button = `<a href="/customer/services/cheque/submit/cotation/${cheque.uuid}" 
+                        let button = `<a href="/panel/services/cheque/submit/cotation/${cheque.uuid}" 
                                         caption = "<h3>VOUS ÊTES SUR LE POINT DE SOUMETTRE VOTRE DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
                                         title="Soumettre ma demande de cotation" 
                                         class="btn btn-sm btn-info sendDeleteLink"> 
@@ -72,17 +74,43 @@ $(document).ready(function() {
                     if(cheque.nombre_vehicule !== results.length){
                         diffVehicule = cheque.nombre_vehicule - results.length;
                         document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins '+ diffVehicule +' véhicule(s) avant soumission de votre demande de cotation </h3>';    
-                    }
+                    } 
                 }
                 else{
-                    document.getElementById('add-cotation').innerHTML = "";
+
+
+                    /* document.getElementById('add-cotation').innerHTML = ""; */
                     document.getElementById('submit-cotation').innerHTML = "";
                     document.getElementById('alert-message').innerHTML = '';    
                     if(cheque.status =="enable"){
-                        let buttonDownoald = `<a href="/customer/services/cheque/fiche/cotation/${cheque_uuid}/${Entity_uuid}" 
-                            class="btn btn-sm btn-success"> 
-                            Télécharger la fiche de cotation </a> `;
+
+                        let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
+                            <i class="fas fa-plus"></i> Ajouter un véhicule
+                        </a>`;
+
+                        document.getElementById('add-cotation').innerHTML = buttonAddCotation;
+
+                        let buttonDownoald = `<a href="/panel/services/cheque/valider/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                        caption = "<h3>VOUS ÊTES SUR LE POINT DE VALIDER LA DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                        title="Valider la demande de cotation" 
+                        class="btn btn-sm btn-success sendDeleteLink"> 
+                        Valider la cotation </a> `;
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+                    }else{
+                        let buttonDownoald = `<a href="/panel/services/cheque/valider/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                        title="Télécharger la facture" 
+                        class="btn btn-sm btn-success"> 
+                        Télécharger la facture </a>`;
+                        document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+
+                        let buttonPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#payElement-modal" 
+                                        data-uuid="${cheque.uuid}" 
+                                        data-name="${cheque.libelle}" 
+                                        title="Procéder au paiement" 
+                                        class="btn btn-sm btn-warning">
+                                        Procéder au paiement </a> &nbsp;`;
+                        document.getElementById('pay-cotation').innerHTML = buttonPay;
+
                     }
                 }
 
@@ -102,49 +130,81 @@ $(document).ready(function() {
                         { data: 'nom_du_proprietaire' },
                         { data: 'numero_de_la_carte_grise' },
                         { data: 'numero_dimmatriculation' },
+                        { data: 'rubrique_name' },
                         {
-                            data: 'rubrique_name',
+                            data: 'amount',
+                            render: function (data, type, row) {
+                              return  data.toLocaleString('fr-FR') + ' F CFA'
+                            }
                         },
-                        { data: 'amount' },
+                        {
+                            data: 'cheques_entity_state',
+                            render: function (data) {
+                                let statusBadge = '';
+                                switch (data) {
+                                    case 'init':
+                                        statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
+                                        break;
+                                    case 'enable':
+                                        statusBadge = `<span class="badge badge-pill badge-warning">En attente </span>`;
+                                        break;
+                                    case 'validate':
+                                        statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                                        break;
+                                    case 'disable':
+                                        statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                        break;
+                                    default:
+                                        statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
+                                }
+                                return statusBadge;
+                            }
+                        },
                         {
                             data: 'uuid',
                             render: function (data, type, row) {
-                                const dateActuelle = new Date().toISOString().split('T')[0];
                                 let actions = '';
-    
-                                if (row.state !== 'validate' && cheque.status ==='init') {
+                                if (row.cheques_entity_state !== 'validate' && cheque.status === 'enable') {
                                     actions += `<a href="#" data-toggle="modal" data-target="#updateElement-modal" 
                                         data-uuid="${row.element_uuid}" 
                                         data-name="${row.numero_dimmatriculation}" 
                                         title="Modifier le véhicule ${row.numero_dimmatriculation}" 
                                         class="btn btn-sm btn-outline-warning updateElement">
                                         <i class="fa fa-edit"></i></a> &nbsp;`;
+                
+                                    actions += `<a href="/panel/services/cheque/valider/ligne/cotation/${row.cheques_entity_uuid}/${Entity_uuid}" 
+                                        data-uuid="${row.cheques_entity_uuid}" 
+                                        caption="<h3>VOUS ÊTES SUR LE POINT DE VALIDER CE VÉHICULE. CONTINUER ?</h3>" 
+                                        title="Valider le véhicule" 
+                                        class="btn btn-sm btn-outline-success sendDeleteLink"> 
+                                        Valider </a>`;
                                 }
-    
-                              
-                                actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" 
-                                    title="Voir les détails" 
-                                    class="btn btn-sm btn-outline-primary">
-                                    <i class="fa fa-eye"></i></a>`;
-
-                                if (row.state === 'enable' && cheque.status ==='init') {
-                                    actions += `&nbsp;<a href="#" data-uuid="${data}" 
-                                            caption = "<h3>VOUS ÊTES SUR LE POINT DE RETIRER CE VEHICULE DE VOTRE LISTE DE COTATION. <br> VOULEZ VOUS CONTUNIER ? </h3>"
-                                            title="Retirer le véhicule" 
-                                            class="btn btn-sm btn-outline-danger sendDeleteLink"> 
-                                            <i class="fa fa-trash"></i></a> &nbsp;`;
-                                }
-                                
                                 return actions;
                             }
                         }
                     ],
                     paging: false,
                     searching: false,
+                    info: false,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json'
+                    },
+                    footerCallback: function (row, data, start, end, display) {
+                        let api = this.api();
+                
+                        // Calcul du total de la colonne 'amount'
+                        let total = api
+                            .column(4, { page: 'current' }) // Index de la colonne 'amount'
+                            .data()
+                            .reduce((a, b) => {
+                                return (parseFloat(a) || 0) + (parseFloat(b) || 0);
+                            }, 0);
+                
+                        // Affichage du total dans le tfoot
+                        $(api.column(4).footer()).html(total.toLocaleString('fr-FR') + ' F CFA');
                     }
-                }); 
+                });
+                
             })
             .catch(error => {
                 console.error('Erreur:', error);
@@ -349,7 +409,7 @@ $(document).ready(function() {
         document.getElementById('update-uuid').value = uuid;
     
         // Faire une requête fetch
-        fetch(`/customer/services/taxe/find_one/${uuid}/${Entity_uuid}`, {
+        fetch(`/panel/customer/service/taxe/find_one/${uuid}/${Entity_uuid}`, {
             method: 'GET', // Ou 'POST' selon votre besoin
             headers: {
                 'Content-Type': 'application/json',
@@ -565,14 +625,13 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                         findAll();
                         sendSuccess(data.message,data.urlback);
                     } else {
-                        sendError(data.message || 'Une erreur est survenue.');
+                        toastr.error(data.message || 'Une erreur est survenue.', 'Erreur');
                     }
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     if (typeof loader === 'function') loader('hide');
-                    console.error('Erreur AJAX:', textStatus, errorThrown);
-                    sendError('Erreur lors de la suppression. Veuillez réessayer plus tard.');
-                });
+                   // console.error('Erreur AJAX:', textStatus, errorThrown);
+                    toastr.error(errorThrown, 'Erreur');                });
         }
     });
 });
@@ -962,6 +1021,7 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                 return response.json();
             })
             .then(data => {
+                document.getElementById('montant_payUpdate').value = '';
                 const results = data.data;
                 const rubriqueSelect = document.getElementById('rubriqueUpdate');
                 let tarif_line = ""; // Initialiser correctement la variable
