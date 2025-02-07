@@ -698,13 +698,14 @@ class ServicesController extends Controller
 
 
     public function chequeData($cheque_uuid,$entity_uuid){
-        $url_path = "/autorisations/entite/taxe/cheque/data";
+        $url_path = "/autorisations/entite/taxes/cheque/data";
 
         $data = [
             'cheque_uuid' => $cheque_uuid,
             'entity_uuid' => $entity_uuid,
         ];
         
+        //return dd($data);
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
         //return dd($responses);
@@ -725,7 +726,7 @@ class ServicesController extends Controller
     }
 
     public function fiche_cotation($uuid,$entity_uuid){
-        $url_path = "/autorisations/entite/taxe/cheque/data";
+        $url_path = "/autorisations/services/taxe/cheque/data";
 
         $data = [
             'entity_uuid' => $entity_uuid,
@@ -780,7 +781,7 @@ class ServicesController extends Controller
 
 
     public function facture_cotation($uuid,$entity_uuid){
-        $url_path = "/autorisations/entite/taxe/cheque/data";
+        $url_path = "/autorisations/services/taxe/cheque/data";
 
         $data = [
             'entity_uuid' => $entity_uuid,
