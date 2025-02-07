@@ -130,8 +130,14 @@
                                             </a>
 
                                             <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-                                            PAYER SA TAXE
-                                            </a>  {{----}}
+                                                PAYER SA TAXE
+                                            </a>
+
+                                            <a href="{{ route('quick.proforma',['service' => $services[0]['uuid'] ?? '']) }}" class="btn btn-outline-light py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                                GENERER UNE PROFORMA
+                                            </a>
+                                            
+                                            {{----}}
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +207,7 @@
                         <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
                             <a href="{{ route('quick.liste', ['service' => $services[0]['uuid'] ?? '', 'name' => $services[0]['name'] ?? '']) }}" 
                             class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInLeft">
-                            VOIR LA LISTE ET MONTANT DES TAXES
+                            VOIR LA LISTE ET MONTANT DES TAXES ***
                             </a>
                             
                             <a href="{{ route('quick.acquitter',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated  slideInRight">
@@ -210,7 +216,13 @@
 
                             <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
                                 PAYER MA TAXE DE STATIONNEMENT
-                            </a>  {{----}}
+                            </a> 
+
+                            <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $services[0]['name'] ?? '']) }}" class="btn btn-primary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                                GENERER UNE PROFORMA
+                            </a> 
+                            
+                            {{----}}
                         </div>
     
              
@@ -236,8 +248,14 @@
             </a>
 
             <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-secondary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
-               PAYER SA TAXE
-            </a>  {{----}}
+                PAYER SA TAXE
+             </a>
+
+             <a href="{{ route('quick.payment',['service' => $services[0]['uuid'] ?? '','name' => $service['name'] ?? '']) }}" class="btn btn-secondary py-2 px-4 py-md-3 px-md-5 animated slideInRight">
+                GENERER UNE PROFORMA
+             </a>
+            
+            {{----}}
         </div>
     </div>
 

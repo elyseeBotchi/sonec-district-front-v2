@@ -780,14 +780,14 @@ $(document).ready(function() {
 
                     // Créer les catégories et les données à partir des entrées valides
                     const categoriesrdv = validRendezVous.map(item => item.date_rdv); // Les dates
-                    const totalPrevu = validRendezVous.map(item => item.total_prevu || 0); // Par défaut 0 si non défini
+                    //const totalPrevu = validRendezVous.map(item => item.total_prevu || 0); // Par défaut 0 si non défini
                     const totalRecu = validRendezVous.map(item => item.total_recu || 0); // Par défaut 0 si non défini
                     
                     // Graphique ApexCharts
                    // console.log(categoriesrdv);
                     const options = {
                         series: [
-                            { name: "Rendez-vous prévus", data: totalPrevu },
+                            /* { name: "Rendez-vous prévus", data: totalPrevu }, */
                             { name: "Rendez-vous reçus", data: totalRecu }
                         ],
                         chart: { height: 350, type: 'bar' },
@@ -806,7 +806,7 @@ $(document).ready(function() {
                                 rotate: -45, // Pour éviter l'écrasement des labels
                             },
                         },
-                        yaxis: { title: { text: 'Nombre de rendez-vous' } },
+                     /*    yaxis: { title: { text: 'Nombre de rendez-vous' } },
                         fill: { opacity: 1 },
                         legend: { position: 'top' },
                         colors: ['#008FFB', '#00E396'],
@@ -818,7 +818,7 @@ $(document).ready(function() {
                         tooltip: {
                             shared: true, // Affiche un tooltip partagé
                             intersect: false,
-                        },
+                        }, */
                     };
                     
                     const chartRDV = new ApexCharts(document.querySelector("#rendezvousChart"), options);

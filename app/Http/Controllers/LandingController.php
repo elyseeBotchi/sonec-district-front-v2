@@ -122,6 +122,52 @@ class LandingController extends Controller
     }
 
 
+    
+    public function quick_proforma($service = null)
+    {
+        // Récupérer les services
+        $services = Entities_Customer();
+        if ($service == null) {
+            $service = $services[0]['uuid'] ?? '';
+        }
+
+        $url_path = "/landing/services/operateurs";
+        $cache_key = "quick_pay_{$service}"; // Clé de cache unique pour chaque service
+
+        // Récupérer ou mettre en cache la réponse
+        $responses = Cache::remember($cache_key, 1440, function () use ($url_path, $service) {
+            $data = [
+                'entity_uuid' => $service
+            ];
+            return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        });
+
+        // Vérifier si les données sont valides
+        $isSuccess = isset($responses['type']) && $responses['type'] === 'success';
+
+        // Déterminer les données à transmettre à la vue
+        $viewData = [
+            'operateurs' => $responses['data'] ?? '',
+            'service_uuid' => $service,
+            'service_name' => $name ?? '',
+            'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+            'lieuRdv' => $responses['lieuRdv'] ?? '',
+            'limit' => $isSuccess ? ($responses['limit'] ?? 5) : 1
+        ];
+
+        // Log des données récupérées
+        if (Cache::has($cache_key)) {
+           // Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
+        } else {
+           // Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
+        }
+
+        // Retourner la vue avec les données
+        return view('quickPayForm', $viewData);
+    }
+    
+
+
 
     public function quick_pay_old($name = null, $service = null)
     {
@@ -703,19 +749,31 @@ class LandingController extends Controller
 
        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-      // return dd($responses);
-       if(!isset($responses['data']['paiement']['uuid']) || $responses['data']['paiement']['state'] !="success"){
+      // return dd($responses,$data);
+       if((!isset($responses['data']['paiement']['uuid']) || $responses['data']['paiement']['state'] !="success") && !isset($responses['data']['cheque']['uuid'])){
             toastr()->error("Veuillez effectuer le paiement afin de pouvoir télécharger le reçu !");
             return redirect()->back();
         }
 
-        $datas = isset($responses['data']['paiement']) ? $responses['data']['paiement'] : '';
-        $target = isset($responses['data']['target']) ? $responses['data']['target'] : '';
-        $service = isset($responses['data']['service']) ? $responses['data']['service'] : '';
-        $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : '';
-        $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
-        $facturation = isset($responses['data']['facturation']) ? $responses['data']['facturation'] : '';
 
+        if(isset($responses['data']['cheque']['uuid'])){
+            $datas = isset($responses['data']['cheque']) ? $responses['data']['cheque'] : '';
+            $target = isset($responses['data']['target']) ? $responses['data']['target'] : '';
+            $service = isset($responses['data']['service']) ? $responses['data']['service'] : '';
+            $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : '';
+            $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
+            $facturation = isset($responses['data']['facturation']) ? $responses['data']['facturation'] : '';
+    
+        }else{
+            $datas = isset($responses['data']['paiement']) ? $responses['data']['paiement'] : '';
+            $target = isset($responses['data']['target']) ? $responses['data']['target'] : '';
+            $service = isset($responses['data']['service']) ? $responses['data']['service'] : '';
+            $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : '';
+            $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : '';
+            $facturation = isset($responses['data']['facturation']) ? $responses['data']['facturation'] : '';
+    
+        }
+  
       // return dd($responses['data']);
 
         $filename = Str::slug('CARTE DE STATIONNEMENT '.$datas['reference'].date('d-m-Y H:i:s'));

@@ -696,6 +696,13 @@ if(!function_exists('getStatusBadge')){
             case 'disable':
                 $statusBadge = '<span class="badge rounded-pill badge-warning">Suspendu</span>';
                 break;
+            case 'fail':
+                $statusBadge = '<span class="badge rounded-pill badge-danger">Annulé</span>';
+                break;
+                
+            case 'pending':
+                $statusBadge = '<span class="badge rounded-pill badge-primary">Annulé</span>';
+                break;
             default:
                 $statusBadge = '<span class="badge badge-pill badge-light">Inconnu</span>';
                 break;

@@ -510,6 +510,56 @@ class ServicesController extends Controller
     }
 
 
+    public function service_store(Request $request)
+    {
+        $url_path = "/autorisations/entite/taxes/store";
+
+        $data = [
+            'uuid'=> $request->entity_uuid ?? '',
+            'user_uuid' => $request->user_uuid ?? '',
+            'element'=> $request->all(),
+        ];
+
+       // return response()->json($data);
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        
+       // return dd($response);
+        //return response()->json($response);
+
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=>'back',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+
+    }
+
+
     public function cheque(){
 
         $Entity = Entities()[0] ?? '';
@@ -726,6 +776,62 @@ class ServicesController extends Controller
        
     }
 
+
+
+
+    public function facture_cotation($uuid,$entity_uuid){
+        $url_path = "/autorisations/services/taxe/cheque/data";
+
+        $data = [
+            'entity_uuid' => $entity_uuid,
+            'cheque_uuid' => $uuid,
+        ];
+       // return dd($uuid);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       // return dd($responses);
+        //return response()->json($responses);
+
+
+
+        
+        $datas = isset($responses['cheque']) ? $responses['cheque'] : '';
+        $payElement = isset($responses['data']) ? $responses['data'] : '';
+        $target = isset($responses['target']) ? $responses['target'] : '';
+        $service = isset($responses['services']) ? $responses['services'] : '';
+        $entete = isset($responses['entete']) ? $responses['entete'] : '';
+        $entity = isset($responses['entity']) ? $responses['entity'] : '';
+        
+
+        //return dd($responses['data']);
+
+        $filename = Str::slug('FICHE DE COTATION'.$datas['reference'].date('d-m-Y H:i:s'));
+
+       // dd($datas['reference']);
+        $quick_ref = explode('|',$datas['reference']);
+        $quick_reference = $quick_ref[3];
+       // dd($quick_reference);
+
+        $qrcode_text = $datas['contribuable'].'|'.$quick_reference;
+
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new SvgImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrSvg = $writer->writeString($qrcode_text);
+        file_put_contents('Qrcode/cotations/'.$filename.'.svg', $qrSvg);
+
+        $qrSvg_ = 'Qrcode/cotations/'.$filename.'.svg';
+
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadView('pdf.facture-cotation', ['payElement' => $payElement,'user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference]);
+        return $pdf->download($filename.'.pdf');
+       
+    }
+
     public function valider_ligne_cotation($uuid,$entity_uuid){
         $url_path = "/autorisations/entite/taxes/cheque/validation/ligne/cotation";
 
@@ -755,4 +861,38 @@ class ServicesController extends Controller
         //return dd($responses);
         return response()->json($responses);
     }
+
+    public function valider_cheque(Request $request){
+        $url_path = "/autorisations/entite/taxes/cheque/valider";
+
+        $data = [
+            'uuid' => $request->uuid,
+            'entity_uuid' => $request->entity_uuid,
+            'motif' => $request->motif ?? '',
+            'status' => 'validate',
+            'date_encaissement' => $request->date_encaissement ?? '',
+        ];
+        //return dd($data);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       // return dd($responses);
+        return response()->json($responses);
+    }
+
+    
+    public function annuler_cheque($uuid,$entity_uuid){
+        $url_path = "/autorisations/entite/taxes/cheque/annuler";
+
+        $data = [
+            'uuid' => $uuid,
+            'entity_uuid' => $entity_uuid,
+            'status' => 'fail'
+        ];
+       // return dd($data);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
+
 }

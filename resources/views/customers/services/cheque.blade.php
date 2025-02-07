@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="libelle">N° Compte contribuable <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="contribuable" name="contribuable" placeholder="" value="{{ Authconnect()['contribuable'] ?? '' }}" @isset(Authconnect()['contribuable']) disabled @endisset required />
+                                        <input type="text" class="form-control" id="contribuable" name="contribuable" placeholder="" value="{{ Authconnect()['contribuable'] ?? '' }}" @isset(Authconnect()['contribuable']) readonly @endisset required />
                                     </div>
                                 </div>
                                 
@@ -73,7 +73,7 @@
                                         <input type="text" class="form-control" id="telephone" name="telephone" placeholder="" required>
                                     </div>
                                 </div>
-
+{{-- 
                                 <div class="col-12">
                                     <label class="form-label">Type de véhicule <code>*</code></label>
                                     <select class="form-select bg-light border-0 FindLieuRDV" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;"></select>
@@ -82,7 +82,7 @@
                                 <div class="col-12">
                                     <label class="form-label">Montant à payer</label>
                                     <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 40px;">
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="modal-footer">

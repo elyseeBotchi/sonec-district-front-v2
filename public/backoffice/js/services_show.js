@@ -223,7 +223,7 @@ $(document).ready(function() {
                                 <td>${entity.name || 'N/A'}</td>
                                 <td>${facture.reference || 'N/A'}</td>
                                 <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
-                                <td>${facture.operateur_uuid || 'N/A'}</td>
+                                <td>${facture.operateur_uuid || 'N/A ****'}</td>
                                 <td>${translateStatus(facture.state) || 'N/A'}</td>
                                 <td>${receiptLink}</td>
                             </tr>`;

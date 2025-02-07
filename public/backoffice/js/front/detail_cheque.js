@@ -25,11 +25,19 @@ $(document).ready(function() {
                     case 'enable':
                         statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
                         break;
+                        
+                    case 'pending':
+                        statusBadge = `<span class="badge badge-pill badge-warning">En cours d'encaissement </span>`;
+                        break;
                     case 'validate':
                         statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
                         break;
                     case 'disable':
                         statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                        break;
+                        
+                    case 'fail':
+                        statusBadge = `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
                         break;
                     default:
                         statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
@@ -128,11 +136,11 @@ $(document).ready(function() {
                                     <i class="fa fa-eye"></i></a>`;
 
                                 if (row.state === 'enable' && cheque.status ==='init') {
-                                    actions += `&nbsp;<a href="#" data-uuid="${data}" 
+                                    /* actions += `&nbsp;<a href="#" data-uuid="${data}" 
                                             caption = "<h3>VOUS ÊTES SUR LE POINT DE RETIRER CE VEHICULE DE VOTRE LISTE DE COTATION. <br> VOULEZ VOUS CONTUNIER ? </h3>"
                                             title="Retirer le véhicule" 
                                             class="btn btn-sm btn-outline-danger sendDeleteLink"> 
-                                            <i class="fa fa-trash"></i></a> &nbsp;`;
+                                            <i class="fa fa-trash"></i></a> &nbsp;`; */
                                 }
                                 
                                 return actions;

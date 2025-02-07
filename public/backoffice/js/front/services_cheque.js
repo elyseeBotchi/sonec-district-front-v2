@@ -34,11 +34,19 @@ $(document).ready(function() {
                         case 'enable':
                             statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
                             break;
+                            
+                        case 'pending':
+                            statusBadge = `<span class="badge badge-pill badge-warning">En cours d'encaissement </span>`;
+                            break;
                         case 'validate':
                             statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
                             break;
                         case 'disable':
                             statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                            break;
+                            
+                        case 'fail':
+                            statusBadge = `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
                             break;
                         default:
                             statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;

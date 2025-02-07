@@ -4,46 +4,206 @@
 <div id="container">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-            <h4 class="mb-sm-0">DETAIL DE LA DEMANDE DE COTATION <span id="libelle-cheque"></span> </h4>    
+            <h1 class="mb-sm-0">DETAIL DE LA DEMANDE DE COTATION <span id="libelle-cheque"></span> </h1>    
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <table class="table">
-                <tr>
-                    <td>Libellé</td>
-                    <td><b id="libelle-cotation"> <i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
-                <tr>
-                    <td>Nom de l'entreprise</td>
-                    <td ><b id="entreprise-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
-                <tr>
-                    <td>Compte contribuable</td>
-                    <td > <b id="contribuable-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
-                <tr>
-                    <td>Réference</td>
-                    <td  > <b id="reference-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
-                <tr>
-                    <td>Nombre de voiture à déclarer </td>
-                    <td> <b id="nbre_vehicule-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
-                {{-- <tr>
-                    <td>Contact téléphonique </td>
-                    <td> <b id="telephone-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr> --}}
-                <tr>
-                    <td>Statut de la demande </td>
-                    <td> <b id="statut-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td> 
+                            <h3>Libellé</h3>
+                        </td>
+                        <td>
+                            <h3><b id="libelle-cotation"> <i class="fa fa-spinner fa-spin"></i></b> </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>
+                                Nom de l'entreprise   
+                            </h3>
+                        </td>
+                        <td>
+                            <h3>
+                                <b id="entreprise-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>
+                                Compte contribuable
+                            </h3>
+                        </td>
+                        <td >
+                            <h3>
+                                <b id="contribuable-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>
+                                Réference
+                            </h3>
+                        </td>
+                        <td> 
+                            <h3>
+                                <b id="reference-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>
+                                Nombre de voiture à déclarer 
+                            </h3>
+                        </td>
+                        <td> 
+                            <h3>
+                                <b id="nbre_vehicule-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3> 
+                        </td>
+                    </tr>
+                    {{-- <tr>
+                        <td>Contact téléphonique </td>
+                        <td> <b id="telephone-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
+                    </tr> --}}
+                    <tr>
+                        <td>
+                            <h3>
+                                Statut de la demande
+                            </h3> 
+                        </td>
+                        <td>
+                            <h3>
+                                <b id="statut-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3>  
+                        </td>
+                    </tr>
+                       
+                </tbody>
+                
+                
+
+
             </table>
+
+            <div  class="info-cheque">
+<br>
+<br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <h1>INFORMATIONS DU CHEQUE</h1>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h3>
+                                Numéro du chèque
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="numero-cheque"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+
+                        
+                        <tr  >
+                            <td>
+                                <h3>
+                                Banque émettrice
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="banque-cheque"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+
+                        
+                        <tr>
+                            <td>
+                                <h3>
+                                Date d'émission
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="date-emission"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>
+                                Date d'encaissement
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="date-encaissement"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h3>
+                                Montant chèque
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="montant-cheque"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <h3>
+                                Titulaire du compte
+                                </h3> 
+                            </td>
+                            <td>
+                                <h3>
+                                    <b id="titulaire-compte"><i class="fa fa-spinner fa-spin"></i></b>
+                                </h3>  
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
+    <div id="pay-cotation"  class="text-center"></div>
+
     <div class="row"> 
+        
+
+        
+        
+        <div id="rejeter-cotation" class="float-left"></div>
+
+        <hr>
+        
+        <div id="confirm-cotation" class="float-right"></div>
+        
+    
+
         
         <div class="col-md-12">
             <br>
@@ -81,20 +241,19 @@
                 </tfoot>
             </table>
             <br>
-            <br>
-
-            <center class="row">
-                <div id="submit-cotation"></div>
-                <div id="pay-cotation"></div>
-            </center>
+       
         </div>
+
+        
     </div>
 
-
+        <center>
+            <span id="submit-cotation"></span>
+        </center>
     
     <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <form class="modal-content sendEntiteForm" action="{{ route('customer.entities.taxe.store') }}" method="POST">
+            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.taxes.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
                 <input type="hidden" value="cotation" name="target" required/>
@@ -241,8 +400,40 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary btn-shadow closePayModal" data-dismiss="modal">Fermer</button>
                     <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+     
+    <div class="modal fade" id="confirmElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.taxes.cheque.valider.cheque') }}" method="POST">
+                @csrf
+                <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                <input type="hidden" name="uuid"  value="{{ $cheque_uuid ?? '' }}" required />
+                <input type="hidden" value="{{ $cheque_uuid ?? '' }}" name="cheque_uuid" required />
+               
+                <div class="modal-header">
+                    <h5 class="mb-0 text-uppercase">VALIDER LE PAIEMENT DU CHEQUE </h5>
+                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                        <i class="ti ti-x f-20"></i>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Date d'encaissement <code>*</code></label>
+                            <input type="date" class="form-control" placeholder="Date d'encaissement" id="dateEncaissementUpdate" name="date_encaissement" required style="height: 40px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-shadow closeConfirmModal" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary btn-shadow" id="submitdateEncaissementUpdate">Sauvegarder</button>
                 </div>
             </form>
         </div>

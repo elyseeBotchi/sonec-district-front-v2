@@ -198,7 +198,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
 
             Route::post('taxes/element/update', [AdminServicesController::class, 'service_update'])->name('panel.autorisations.services.taxes.element.update');
-           
+            Route::post('/taxes/element/store', [AdminServicesController::class, 'service_store'])->name('panel.autorisations.services.taxes.store');//customer.entities.taxe.store
+ 
            
             Route::get('cheque/reception', [AdminServicesController::class, 'cheque'])->name('panel.autorisations.services.cheque.reception');
             Route::post('cheque/reception/store', [AdminServicesController::class, 'cheque_store'])->name('panel.autorisations.services.cheque.reception.store');
@@ -212,6 +213,10 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'fiche_cotation'])->name('panel.autorisations.services.taxes.cheque.fiche.cotation');
             Route::get('/cheque/valider/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
             Route::get('/cheque/valider/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
+            Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'facture_cotation'])->name('panel.autorisations.services.taxes.cheque.facture.cotation');
+           
+            Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
+            Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
 
         });
 
@@ -351,6 +356,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
     Route::post('customer/register/submit', [CustomerLoginController::class, 'register_submit'])->name('customer.register.submit');
     Route::get('register/{service?}', [CustomerLoginController::class, 'register'])->name('register');
     Route::get('/quick/payment/{name?}/{service?}', [LandingController::class, 'quick_pay'])->name('quick.payment');
+    Route::get('/quick/proforma/{service?}', [CustomerLoginController::class, 'proforma'])->name('quick.proforma');
     Route::get('/quick/liste/{name?}/{service?}', [LandingController::class, 'quick_liste'])->name('quick.liste');
     Route::get('/quick/acquitter/{name?}/{service?}', [LandingController::class, 'quick_acquitter'])->name('quick.acquitter');
     Route::get('/nous/contacter/{name?}/{service?}', [LandingController::class, 'about'])->name('about');

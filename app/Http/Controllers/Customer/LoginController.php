@@ -57,6 +57,16 @@ class LoginController extends Controller
 
     
 
+    public function proforma($service=null)
+    {
+        $services = Entities_Customer();
+        if($service == null){
+            $service = $services[0]['uuid'] ?? '';
+        }
+        
+        return view('customers.auth.proforma',['entity_uuid' => $service]);
+    }
+
     public function Connexion(Request $request)
     {
 

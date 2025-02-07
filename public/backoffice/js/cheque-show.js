@@ -37,6 +37,10 @@ $(document).ready(function() {
                     case 'disable':
                         statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
                         break;
+                        
+                    case 'fail':
+                        statusBadge = `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                        break;
                     default:
                         statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
                 }
@@ -58,6 +62,44 @@ $(document).ready(function() {
                     document.getElementById(id).innerHTML = fields[id] || '';
                 });
                 
+                /* var permissions = {
+                    valider_le_cheque: canPermission('cheques_valider_un_cheque'),
+                    valider_la_cotation: canPermission('cheques_valider_une_cotation'),
+                    proceder_au_paiement: canPermission('cheques_proceder_au_paiement_par_cheque'),
+                    telecharger_la_facture: canPermission('cheques_telecharger_la_facture'),
+                    imprimer_la_carte: canPermission('entites_telecharger_la_carte'), 
+                    voir_les_infos_du_cheque: canPermission('cheques_voir_les_informations_du_cheque'), 
+                }; */
+
+
+                if(cheque.status === "pending" || cheque.status === "validate" || cheque.status === "fail"){
+                    document.getElementById("numero-cheque").innerHTML = cheque.numero_cheque || '' ;
+                    document.getElementById("banque-cheque").innerHTML = cheque.banque_emettrice || '' ;
+                    document.getElementById("date-emission").innerHTML = cheque.date_emission || '' ;
+                    document.getElementById("date-encaissement").innerHTML = cheque.date_encaissement || '' ;
+                    const montant_cheque = parseFloat(cheque.montant_cheque).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById("montant-cheque").innerHTML = montant_cheque || '' ;
+                    document.getElementById("titulaire-compte").innerHTML = cheque.nom_du_proprietaire || '' ;
+                    
+
+                    let elements = document.getElementsByClassName("info-cheque");
+                    for (let i = 0; i < elements.length; i++) {
+                        elements[i].style.display = "block";
+                    }
+
+                }else{
+                    let elements = document.getElementsByClassName("info-cheque");
+                    for (let i = 0; i < elements.length; i++) {
+                        elements[i].style.display = "none";
+                    }
+
+                }
+
+
                 if(cheque.status ==="init"){
                     
 
@@ -88,29 +130,54 @@ $(document).ready(function() {
                             <i class="fas fa-plus"></i> Ajouter un véhicule
                         </a>`;
 
-                        document.getElementById('add-cotation').innerHTML = buttonAddCotation;
+                       // document.getElementById('add-cotation').innerHTML = buttonAddCotation;
 
                         let buttonDownoald = `<a href="/panel/services/cheque/valider/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
                         caption = "<h3>VOUS ÊTES SUR LE POINT DE VALIDER LA DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
                         title="Valider la demande de cotation" 
-                        class="btn btn-sm btn-success sendDeleteLink"> 
+                        class="btn btn-success sendDeleteLink"> 
                         Valider la cotation </a> `;
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                     }else{
-                        let buttonDownoald = `<a href="/panel/services/cheque/valider/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
-                        title="Télécharger la facture" 
-                        class="btn btn-sm btn-success"> 
-                        Télécharger la facture </a>`;
-                        document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail"){
+                                let buttonDownoald = `<a href="/panel/services/cheque/facture/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                                title="Télécharger la facture" 
+                                class="btn btn-success"> 
+                                Télécharger la facture </a>`;
+                                document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+                        }
 
-                        let buttonPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#payElement-modal" 
-                                        data-uuid="${cheque.uuid}" 
-                                        data-name="${cheque.libelle}" 
-                                        title="Procéder au paiement" 
-                                        class="btn btn-sm btn-warning">
-                                        Procéder au paiement </a> &nbsp;`;
-                        document.getElementById('pay-cotation').innerHTML = buttonPay;
+                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail"){
+                            let buttonPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#payElement-modal" 
+                                            data-uuid="${cheque.uuid}" 
+                                            data-name="${cheque.libelle}" 
+                                            title="Procéder au paiement" 
+                                            class="btn btn-warning">
+                                            PROCEDER AU PAIEMENT </a> &nbsp;`;
+                            document.getElementById('pay-cotation').innerHTML = buttonPay;
 
+                        }
+
+                        if(cheque.status =="pending"){
+                           
+                            let buttonConfirmPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#confirmElement-modal" 
+                            data-uuid="${cheque.uuid}" 
+                            data-name="${cheque.libelle}" 
+                            title="confirmer le paiement" 
+                            class="btn btn-sm btn-success">
+                            CONFIRMER LE PAIEMENT </a> &nbsp;`;
+                            document.getElementById('confirm-cotation').innerHTML = buttonConfirmPay;
+
+                            let buttonRejetPay = `&nbsp;&nbsp;&nbsp;<a href="/panel/services/cheque/annuler/cheque/${cheque.uuid}/${Entity_uuid}"
+                            data-uuid="${cheque.uuid}" 
+                            title="Annuler le paiement" 
+                            caption = "<h3>VOUS ÊTES SUR LE POINT DE REJETER LE PAIEMENT . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                            class="btn btn-sm btn-danger float-right sendDeleteLink">
+                            ANNULER LE PAIEMENT </a> &nbsp;`;
+                            document.getElementById('rejeter-cotation').innerHTML = buttonRejetPay;
+
+                        }
+                        
                     }
                 }
 
@@ -178,6 +245,10 @@ $(document).ready(function() {
                                         title="Valider le véhicule" 
                                         class="btn btn-sm btn-outline-success sendDeleteLink"> 
                                         Valider </a>`;
+                                }
+
+                                if(cheque.status ==='validate'){
+                                   actions += `<a href="/landing/services/facturation/taxe/data/generate/carte/${row.cheques_entity_uuid}" class="btn btn-rounded btn-sm btn-outline-success">Imprimer</a>`;
                                 }
                                 return actions;
                             }
@@ -489,6 +560,18 @@ $(document).ready(function() {
                     if (closeUpModalButton) {
                         closeUpModalButton.click();
                     }
+
+                    const closePayModalButton = document.querySelector('.closePayModal');
+                    if (closePayModalButton) {
+                        closePayModalButton.click();
+                    }
+
+                    const closeConfirmModalButton = document.querySelector('.closeConfirmModal');
+                    if (closeConfirmModalButton) {
+                        closeConfirmModalButton.click();
+                    }
+
+                    
                 }
                 else if (data.type === "error_validator") {
                     handleErrors(data.errors);
@@ -553,7 +636,19 @@ $(document).ready(function() {
                     const closeUpModalButton = document.querySelector('.closeUpModal');
                     if (closeUpModalButton) {
                         closeUpModalButton.click();
+                    }  
+
+                    const closePayModalButton = document.querySelector('.closePayModal');
+                    if (closePayModalButton) {
+                        closePayModalButton.click();
                     }
+
+                    
+                    const closeConfirmModalButton = document.querySelector('.closeConfirmModal');
+                    if (closeConfirmModalButton) {
+                        closeConfirmModalButton.click();
+                    }
+                    
                 }
                 
                 else if (data.type === "standby") {
