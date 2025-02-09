@@ -376,8 +376,8 @@ $(document).ready(function() {
             .then(data => {
                 const results = data.data;
                 //console.log("Résultats reçus :", results);
-                console.log(results.chart);
-                const chartMensuel = results.chart;  
+               // console.log(data);
+                const chartMensuel = results.chart || [];  
                 const rendezVous = results.rdv;
                // console.log("Résultats reçus :", results.rdv);
 
