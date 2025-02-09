@@ -1045,7 +1045,7 @@ $(document).ready(function() {
                     /* ######################################################################### */
                     /* ######################################################################### */
                         const labels_mois = chartMensuel.map(item => item.payment_month); // Mois
-                        const amounts_mois = chartMensuel.map(item => parseFloat(item.total_amount)); // Montants
+                        const amounts_mois = chartMensuel.map(item => parseFloat(multipleDeMille(item.total_amount))); // Montants
                     
                         const canvas = document.getElementById('chartPaiementMois');
                     

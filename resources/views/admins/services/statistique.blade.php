@@ -130,125 +130,126 @@
     </div>
 
     @if(CanPermission('statistique_voir_les_statistiques_par_operateur'))
-    @isset($type_stat)
-        @if($type_stat =="operateur")
-            <div class="row align-items-start">
-                <div class="card col-md-12">
-                    <div class="card-header" id="">
-                        REPARTITION PAR OPERATEURS
+            @isset($type_stat)
+                @if($type_stat =="operateur")
+                    <div class="row align-items-start">
+                        <div class="card col-md-12">
+                            <div class="card-header" id="">
+                                REPARTITION PAR OPERATEURS
+                            </div>
+                                    <!-- Tableau -->
+                            <div class="table-responsive">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Operateurs</th>
+                                            <th>Nombre</th>
+                                            <th>Montant Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="render-html" id="par_operateur">
+                                        
+                                        <tr>
+                                            <td> WAVE </td>
+                                            <td> 
+                                                <span id="wave_nb">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="wave_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td> ORANGE </td>
+                                            <td> 
+                                                <span id="orange_nb">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="orange_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td> MTN </td>
+                                            <td> 
+                                                <span id="mtn_nb">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="mtn_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+                                        
+                                        
+                                        <tr>
+                                            <td> MOOV </td>
+                                            <td> 
+                                                <span id="moov_nb">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="moov_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td> TRESOR PAY </td>
+                                            <td> 
+                                                <span id="tresor_nb">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="tresor_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td> TOTAL</td>
+                                            <td> 
+                                                <span id="nb_total">
+                                                <i class=""></i>
+                                                </span> 
+                                            </td>
+                                            <td> 
+                                                <span id="total_montant">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                                </span> 
+                                            </td>
+                                        </tr>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Graphique -->
+                        <div class="col-md-12">
+                            <canvas id="OperateursChart" width="800" height="800"></canvas>
+                        </div>
                     </div>
-                            <!-- Tableau -->
-                    <div class="table-responsive">
-                        <table class="table" id="">
-                            <thead>
-                                <tr>
-                                    <th>Operateurs</th>
-                                    <th>Nombre</th>
-                                    <th>Montant Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="render-html" id="par_operateur">
-                                
-                                <tr>
-                                    <td> WAVE </td>
-                                    <td> 
-                                        <span id="wave_nb">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="wave_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-
-                                
-                                <tr>
-                                    <td> ORANGE </td>
-                                    <td> 
-                                        <span id="orange_nb">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="orange_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-                                
-                                <tr>
-                                    <td> MTN </td>
-                                    <td> 
-                                        <span id="mtn_nb">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="mtn_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-                                
-                                
-                                <tr>
-                                    <td> MOOV </td>
-                                    <td> 
-                                        <span id="moov_nb">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="moov_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-
-                                
-                                <tr>
-                                    <td> TRESOR PAY </td>
-                                    <td> 
-                                        <span id="tresor_nb">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="tresor_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td> TOTAL</td>
-                                    <td> 
-                                        <span id="nb_total">
-                                        <i class=""></i>
-                                        </span> 
-                                    </td>
-                                    <td> 
-                                        <span id="total_montant">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                        </span> 
-                                    </td>
-                                </tr>
-
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Graphique -->
-                <div class="col-md-12">
-                    <canvas id="OperateursChart" width="800" height="800"></canvas>
-                </div>
-            </div>
-        @endif
-    @endisset     
+                @endif
+            @endisset  
+               
             @endif
            
             @if(CanPermission('statistique_voir_les_statistiques_par_rubrique'))
@@ -330,63 +331,63 @@
                 @endisset
             @endif
 
-    @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+        @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
 
-        @isset($type_stat)
-            @if($type_stat =="rdv")
-            <div class="row">
-                <div id="rendezvousChart" class="col-md-12"></div>
+            @isset($type_stat)
+                @if($type_stat =="rdv")
+                <div class="row">
+                    <div id="rendezvousChart" class="col-md-12"></div>
 
-                <div class="row align-items-start">
-                    <div class="card col-md-12">
-                        <div class="card-header" id="rubrique-facturation-titre">
-                            LISTE DES DATES RENDEZ-VOUS
+                    <div class="row align-items-start">
+                        <div class="card col-md-12">
+                            <div class="card-header" id="rubrique-facturation-titre">
+                                LISTE DES DATES RENDEZ-VOUS
+                            </div>
+                            <!-- Tableau -->
+                            <div class="row">
+                                <table id="datatable-custom" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Nombre programmé</th>
+                                        <th>Nombre effectivement reçu</th> 
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="render-html" id="rdv"> </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <!-- Tableau -->
-                        <div class="row">
-                            <table id="datatable-custom" class="table">
-                                <thead>
+
+                    
+                    
+                        <div class="card-header col-md-12" id="titre_rdv">
+                            Liste des rendez-vous du jour
+                        </div>
+                        <table class="table" id="datatable-rdv">
+                            <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Nombre programmé</th>
-                                    <th>Nombre effectivement reçu</th> 
-                                    <th>Action</th>
+                                    <th>Date de RDV</th>
+                                    <th>Proprietaire</th>
+                                    <th>N° Carte grise</th>
+                                    <th>N° Immatriculation</th>
+                                    <th>N° Paiement</th>
+                                    <th>Montant</th>
+                                    <th>Reference</th>
+                                    <th>Mode de paiement</th>
+                                    <th>ID Transaction</th>
+                                    <th>Statut</th>
+                                    <th>Date paiement</th>
                                 </tr>
                                 </thead>
-                                <tbody class="render-html" id="rdv"> </tbody>
-                            </table>
-                        </div>
+                                <tbody ></tbody>
+                        </table>
                     </div>
-
-                
-                
-                    <div class="card-header col-md-12" id="titre_rdv">
-                        Liste des rendez-vous du jour
-                    </div>
-                    <table class="table" id="datatable-rdv">
-                        <thead>
-                            <tr>
-                                <th>Date de RDV</th>
-                                <th>Proprietaire</th>
-                                <th>N° Carte grise</th>
-                                <th>N° Immatriculation</th>
-                                <th>N° Paiement</th>
-                                <th>Montant</th>
-                                <th>Reference</th>
-                                <th>Mode de paiement</th>
-                                <th>ID Transaction</th>
-                                <th>Statut</th>
-                                <th>Date paiement</th>
-                            </tr>
-                            </thead>
-                            <tbody ></tbody>
-                    </table>
                 </div>
-            </div>
-            @endif
-        @endisset    
+                @endif
+            @endisset    
 
-    @endif 
+        @endif 
 
  @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
     @isset($type_stat)
