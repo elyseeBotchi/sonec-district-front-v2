@@ -7,7 +7,7 @@
             <ul id="sidebarnav">
 
                 @isset(AuthConnect()['role']['name'])
-                    @if(AuthConnect()['role']['name'] !="Superviseurs" || AuthConnect()['role']['name'] !="PAILLEUR")
+                    @if(AuthConnect()['role']['name'] !=="Superviseurs" && AuthConnect()['role']['name'] !=="PAILLEUR")
                         <li class="sidebar-item"  >
                             <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
                                 <i data-feather="bar-chart" class="feather-icon"></i>
