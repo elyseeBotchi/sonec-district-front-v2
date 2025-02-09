@@ -29,12 +29,12 @@ class LoginController extends Controller
     {
         //dd(AuthConnect()['role']);
         $Entities = Entities();
-        if(AuthConnect()['role'] =="PAILLEUR"){
+        if(AuthConnect()['role']['name'] =="PAILLEUR"){
             return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement']);
         }
 
         
-        if(AuthConnect()['role'] =="Superviseurs"){
+        if(AuthConnect()['role']['name'] =="Superviseurs"){
             return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'validation_jour']);
         }
 
