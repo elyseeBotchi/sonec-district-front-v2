@@ -411,23 +411,29 @@ $(document).ready(function() {
             };
             
             if(permissions.montant_total_jour){
-                const montant_total_jour = parseFloat(results.montant_total_jour).toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'XOF',
-                });
+                if(type_stat === "paiement"){
+                    const montant_total_jour = parseFloat(results.montant_total_jour).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
 
-                document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
-                document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
+                    document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
+                    document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
+                }
+              
             }  
      
-            if(permissions.total_paiement){
-                const total_paiement = parseFloat(results.total_paiement).toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'XOF',
-                });
+            if(permissions.total_paiement ){
+                if(type_stat === "paiement"){
+                    const total_paiement = parseFloat(results.total_paiement).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
 
-                document.getElementById('total_paiement').innerHTML = total_paiement || '';
-                document.getElementById('nb_total').innerHTML = results.total_paiement_nbre || '';
+                    document.getElementById('total_paiement').innerHTML = total_paiement || '';
+                    document.getElementById('nb_total').innerHTML = results.total_paiement_nbre || '';
+                }
+
             } 
 
 
