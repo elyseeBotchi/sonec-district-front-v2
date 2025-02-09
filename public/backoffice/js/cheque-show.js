@@ -62,17 +62,17 @@ $(document).ready(function() {
                     document.getElementById(id).innerHTML = fields[id] || '';
                 });
                 
-                /* var permissions = {
+                /* */ var permissions = {
                     valider_le_cheque: canPermission('cheques_valider_un_cheque'),
                     valider_la_cotation: canPermission('cheques_valider_une_cotation'),
                     proceder_au_paiement: canPermission('cheques_proceder_au_paiement_par_cheque'),
                     telecharger_la_facture: canPermission('cheques_telecharger_la_facture'),
                     imprimer_la_carte: canPermission('entites_telecharger_la_carte'), 
                     voir_les_infos_du_cheque: canPermission('cheques_voir_les_informations_du_cheque'), 
-                }; */
+                };
 
 
-                if(cheque.status === "pending" || cheque.status === "validate" || cheque.status === "fail"){
+                if(cheque.status === "pending" || cheque.status === "validate" || cheque.status === "fail" && permissions.voir_les_infos_du_cheque){
                     document.getElementById("numero-cheque").innerHTML = cheque.numero_cheque || '' ;
                     document.getElementById("banque-cheque").innerHTML = cheque.banque_emettrice || '' ;
                     document.getElementById("date-emission").innerHTML = cheque.date_emission || '' ;
@@ -124,7 +124,7 @@ $(document).ready(function() {
                     /* document.getElementById('add-cotation').innerHTML = ""; */
                     document.getElementById('submit-cotation').innerHTML = "";
                     document.getElementById('alert-message').innerHTML = '';    
-                    if(cheque.status =="enable"){
+                    if(cheque.status =="enable" &&  permissions.valider_la_cotation){
 
                         let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
                             <i class="fas fa-plus"></i> Ajouter un véhicule
@@ -139,7 +139,7 @@ $(document).ready(function() {
                         Valider la cotation </a> `;
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                     }else{
-                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail"){
+                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail" && permissions.telecharger_la_facture){
                                 let buttonDownoald = `<a href="/panel/services/cheque/facture/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
                                 title="Télécharger la facture" 
                                 class="btn btn-success"> 
@@ -147,7 +147,7 @@ $(document).ready(function() {
                                 document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                         }
 
-                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail"){
+                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail" && permissions.proceder_au_paiement){
                             let buttonPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#payElement-modal" 
                                             data-uuid="${cheque.uuid}" 
                                             data-name="${cheque.libelle}" 
@@ -158,7 +158,7 @@ $(document).ready(function() {
 
                         }
 
-                        if(cheque.status =="pending"){
+                        if(cheque.status =="pending" && permissions.valider_le_cheque){
                            
                             let buttonConfirmPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#confirmElement-modal" 
                             data-uuid="${cheque.uuid}" 
@@ -231,7 +231,7 @@ $(document).ready(function() {
                             data: 'uuid',
                             render: function (data, type, row) {
                                 let actions = '';
-                                if (row.cheques_entity_state !== 'validate' && cheque.status === 'enable') {
+                                if (row.cheques_entity_state !== 'validate' && cheque.status === 'enable' && permissions.imprimer_la_carte ) {
                                     actions += `<a href="#" data-toggle="modal" data-target="#updateElement-modal" 
                                         data-uuid="${row.element_uuid}" 
                                         data-name="${row.numero_dimmatriculation}" 
@@ -247,7 +247,7 @@ $(document).ready(function() {
                                         Valider </a>`;
                                 }
 
-                                if(cheque.status ==='validate'){
+                                if(cheque.status ==='validate' && permissions.imprimer_la_carte){
                                    actions += `<a href="/landing/services/facturation/taxe/data/generate/carte/${row.cheques_entity_uuid}" class="btn btn-rounded btn-sm btn-outline-success">Imprimer</a>`;
                                 }
                                 return actions;

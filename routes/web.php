@@ -318,6 +318,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('/cheque/data/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeData'])->name('customer.entities.taxe.cheque.data');
             Route::get('/cheque/submit/cotation/{uuid}', [ServicesController::class, 'cheque_cotation'])->name('customer.entities.taxe.cheque.submit.cotation');
             Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'fiche_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
+            Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'facture_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
 
             Route::get('/cheque/{target}', [ServicesController::class, 'cheque'])->name('customer.entities.taxe.cheque');
 

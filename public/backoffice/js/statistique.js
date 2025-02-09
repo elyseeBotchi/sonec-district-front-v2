@@ -34,13 +34,14 @@ $(document).ready(function() {
             montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
             total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
             par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
+            par_paiement_detaille: canPermission('statistique_voir_les_statistiques_par_paiement_detaille'),
             par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
             par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
             par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
             par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
         };
         
-        if(permissions.par_paiement){
+        if(permissions.par_paiement && permissions.par_paiement_detaille){
             if (type_stat === "paiement") {
                 // Met à jour le titre avec un indicateur de chargement
                 document.getElementById('titre_liste').innerHTML = `
@@ -133,6 +134,8 @@ $(document).ready(function() {
                     const chart = new ApexCharts(chartContainer, options);
                     chartContainer._chartInstance = chart;
                     chart.render();
+
+
             
                     // Met à jour le titre
                     document.getElementById('titre_liste').innerHTML = `
@@ -373,7 +376,8 @@ $(document).ready(function() {
             .then(data => {
                 const results = data.data;
                 //console.log("Résultats reçus :", results);
-                
+                console.log(results.chart);
+                const chartMensuel = results.chart;  
                 const rendezVous = results.rdv;
                // console.log("Résultats reçus :", results.rdv);
 
@@ -394,6 +398,8 @@ $(document).ready(function() {
                 total_paiement_global: canPermission('statistique_voir_le_total_des_paiements_global'),
 
                 par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
+                par_paiement_detaille: canPermission('statistique_voir_les_statistiques_par_paiement_detaille'),
+                
                 par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
                 par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
                 par_rubrique_global: canPermission('statistique_voir_les_statistiques_par_rubrique_global'),
@@ -1029,8 +1035,53 @@ $(document).ready(function() {
                     if(type_stat === "agent_validateur"){
                         par_validateur();
                     }
-                    
                 }
+
+
+                
+                    
+
+
+                    /* ######################################################################### */
+                    /* ######################################################################### */
+                        const labels_mois = chartMensuel.map(item => item.payment_month); // Mois
+                        const amounts_mois = chartMensuel.map(item => parseFloat(item.total_amount)); // Montants
+                    
+                        const canvas = document.getElementById('chartPaiementMois');
+                    
+                        if (!canvas) {
+                            console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
+                            return;
+                        }
+                    
+                        const ctx = canvas.getContext('2d');
+                    
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels_mois,
+                                datasets: [{
+                                    label: 'Montant total des paiements',
+                                    data: amounts_mois,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    
+                    
+
+                    /* ######################################################################### */
+                    /* ######################################################################### */
 
             })
             .catch(error => {

@@ -391,11 +391,19 @@
  @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
     @isset($type_stat)
         @if($type_stat =="paiement")
+
             <div class="row col-md-12">
-                <div id="chartPaiement" style="width: 100% !important"></div>
+                <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
             </div>
 
-            <div class="row card">
+            <br>
+
+            @if(CanPermission('statistique_voir_les_statistiques_par_paiement_detaille'))
+                <div class="row col-md-12">
+                    <div id="chartPaiement" style="width: 100% !important"></div>
+                </div>
+            @endif
+            <div class="row card" style="display: none">
                 <div class="card-header" id="titre_liste">
                     Liste des paiements du jours
                 </div>

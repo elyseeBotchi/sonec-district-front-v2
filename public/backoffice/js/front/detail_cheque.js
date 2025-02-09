@@ -67,7 +67,7 @@ $(document).ready(function() {
 
                     document.getElementById('add-cotation').innerHTML = buttonAddCotation;
 
-                    if(cheque.status ==='init' && cheque.nombre_vehicule <= results.length){
+                    if(cheque.status ==='init'){
                         let button = `<a href="/customer/services/cheque/submit/cotation/${cheque.uuid}" 
                                         caption = "<h3>VOUS ÊTES SUR LE POINT DE SOUMETTRE VOTRE DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
                                         title="Soumettre ma demande de cotation" 
@@ -92,6 +92,14 @@ $(document).ready(function() {
                             Télécharger la fiche de cotation </a> `;
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                     }
+
+                    if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail" || cheque.status === "validate"){
+                        let buttonDownoald = `<a href="/customer/services/cheque/facture/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                        title="Télécharger la facture" 
+                        class="btn btn-success"> 
+                        Télécharger la facture </a>`;
+                        document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+                }
                 }
 
                 // Génération du formulaire

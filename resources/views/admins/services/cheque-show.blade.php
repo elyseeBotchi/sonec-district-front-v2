@@ -92,10 +92,10 @@
 
             </table>
 
-            <div  class="info-cheque">
+            <div  class="info-cheque" style="display: none">
 <br>
 <br>
-                <table class="table">
+                <table class="table" >
                     <thead>
                         <tr>
                             <th colspan="2">

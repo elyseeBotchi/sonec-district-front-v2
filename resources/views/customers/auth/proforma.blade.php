@@ -51,7 +51,7 @@
 
                       <h6 id="TaxeEntity" style="display: none"></h6>
                     <h1 class="mb-0">
-                        Ce service est destiné aux entreprises disposant d'une flotte et souhaitant effectuer des paiements par chèque.
+                        Ce service est destiné uniquement aux entreprises disposant d'une flotte et souhaitant effectuer des paiements par chèque.
                     </h1>
                 </div>
             
@@ -61,7 +61,7 @@
                 <p class="mb-4" style="font-size: 20px">
                     Vous pourrez gérer et suivre les paiements de l’ensemble de votre flotte dans cet espace. 
                     <br>
-                    Pour créer votre compte il vous faut juste renseigner le formulaire avec les informations du propriétaire et des véhicules . 
+                    Pour créer votre compte il vous faut juste renseigner le formulaire avec les informations de l'entreprise et des véhicules . 
                 </p>
 
                 <div class="step">

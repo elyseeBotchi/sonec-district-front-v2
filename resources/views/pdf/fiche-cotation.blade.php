@@ -299,6 +299,46 @@
 
     </div>
 
+    @php $totalAmount = 0; @endphp
+    <br> <br> {{-- <br> <br> <br><br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br> --}}
+<table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
+ <thead>
+     <tr>
+         <th  class="cell-padding" colspan="4" style="background-color: silver;text-align:center;">
+             LISTE DES VEHICULES
+         </th>
+     </tr>
+       
+     <tr>
+         <th>NUMERO DE LA CARTE GRISE</th>
+         <th>NUMERO D'IMMATRICULATION</th>
+         <th>TYPE DE VEHICULE</th>
+         <th>MONTANT</th>
+     </tr>
+ </thead>
+ <tbody id="render-html">
+     @isset($payElement)
+         @forelse($payElement as $pay)
+             <tr>
+                 <td>{{ $pay['numero_de_la_carte_grise'] ?? '' }}</td>
+                 <td> {{ $pay['numero_dimmatriculation'] ?? '' }} </td>
+                 <td> {{ $pay['rubrique_name'] ?? '' }} </td>
+                 <td> {{ $pay['amount'] ?? '' }} </td>
+                 @php $totalAmount += $pay['amount'] ?? 0; @endphp
+             </tr>
+         @empty
+         @endforelse
+     @endisset
+ </tbody>
+
+ <tfoot>
+     <tr>
+         <th colspan="3" style="text-align:left">Total :</th>
+         <th id="totalAmount">{{ $totalAmount }}</th>
+     </tr>
+ </tfoot>
+</table>
+
 @endisset
 
 <div class="bottom-content">

@@ -469,7 +469,8 @@ class ServicesController extends Controller
 
 
 
-        
+        $payElement = isset($responses['data']) ? $responses['data'] : '';
+
         $datas = isset($responses['cheque']) ? $responses['cheque'] : '';
         $target = isset($responses['target']) ? $responses['target'] : '';
         $service = isset($responses['services']) ? $responses['services'] : '';
@@ -501,7 +502,60 @@ class ServicesController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.fiche-cotation', ['user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference]);
+        $pdf->loadView('pdf.fiche-cotation', ['payElement' => $payElement ?? '','user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference]);
+        return $pdf->download($filename.'.pdf');
+       
+    }
+
+    public function facture_cotation($uuid,$entity_uuid){
+        $url_path = "/autorisations/services/taxe/cheque/data";
+
+        $data = [
+            'entity_uuid' => $entity_uuid,
+            'cheque_uuid' => $uuid,
+        ];
+       // return dd($uuid);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       // return dd($responses);
+        //return response()->json($responses);
+
+
+
+        
+        $datas = isset($responses['cheque']) ? $responses['cheque'] : '';
+        $payElement = isset($responses['data']) ? $responses['data'] : '';
+        $target = isset($responses['target']) ? $responses['target'] : '';
+        $service = isset($responses['services']) ? $responses['services'] : '';
+        $entete = isset($responses['entete']) ? $responses['entete'] : '';
+        $entity = isset($responses['entity']) ? $responses['entity'] : '';
+        
+
+        //return dd($responses['data']);
+
+        $filename = Str::slug('FICHE DE COTATION'.$datas['reference'].date('d-m-Y H:i:s'));
+
+       // dd($datas['reference']);
+        $quick_ref = explode('|',$datas['reference']);
+        $quick_reference = $quick_ref[3];
+       // dd($quick_reference);
+
+        $qrcode_text = $datas['contribuable'].'|'.$quick_reference;
+
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new SvgImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrSvg = $writer->writeString($qrcode_text);
+        file_put_contents('Qrcode/cotations/'.$filename.'.svg', $qrSvg);
+
+        $qrSvg_ = 'Qrcode/cotations/'.$filename.'.svg';
+
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadView('pdf.facture-cotation', ['payElement' => $payElement,'user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference]);
         return $pdf->download($filename.'.pdf');
        
     }
