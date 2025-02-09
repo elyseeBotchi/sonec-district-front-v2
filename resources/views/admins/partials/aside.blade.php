@@ -5,13 +5,17 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li class="sidebar-item" >
-                    <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
-                        <i data-feather="bar-chart" class="feather-icon"></i>
-                        <span class="hide-menu">Tableau de bord</span>
-                    </a>
-                </li>
 
+                @isset(AuthConnect()['role']['name'])
+                    @if(AuthConnect()['role']['name'] !="Superviseurs" || AuthConnect()['role']['name'] !="PAILLEUR")
+                        <li class="sidebar-item"  >
+                            <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
+                                <i data-feather="bar-chart" class="feather-icon"></i>
+                                <span class="hide-menu">Tableau de bord</span>
+                            </a>
+                        </li>
+                    @endif
+                @endisset
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
                         <i data-feather="home" class="feather-icon"></i>
