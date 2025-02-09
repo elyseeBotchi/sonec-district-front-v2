@@ -27,6 +27,18 @@ class LoginController extends Controller
      */
     public function index()
     {
+        dd(AuthConnect()['role']);
+        $Entities = Entities();
+        if(AuthConnect()['role'] =="PAILLEUR"){
+            return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement']);
+        }
+
+        
+        if(AuthConnect()['role'] =="Superviseurs"){
+            return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'validation_jour']);
+        }
+
+       // if(AuthConnect()['role'])
         return view('admins.index');
     }
 
