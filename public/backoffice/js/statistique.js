@@ -1398,6 +1398,44 @@ $(document).ready(function() {
                     console.error("Le conteneur #chartvalidateur est introuvable.");
                 }
     
+                /* ############################################################# */
+
+                // Configuration du graphique en camembert ApexCharts
+                    const pieOptions = {
+                        series: values, // Les valeurs des données
+                        chart: {
+                            height: 350,
+                            type: 'pie', // Type Pie Chart
+                        },
+                        labels: categories, // Les catégories (dates)
+                        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'], // Couleurs des parts
+                        legend: {
+                            position: 'bottom' // Position de la légende
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 300
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }]
+                    };
+
+                    // Initialiser ou mettre à jour le graphique en camembert
+                    const pieChartContainer = document.querySelector("#chartCamembert");
+                    if (pieChartContainer) {
+                        pieChartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
+                        const pieChart = new ApexCharts(pieChartContainer, pieOptions);
+                        pieChart.render();
+                    } else {
+                        console.error("Le conteneur #chartCamembert est introuvable.");
+                    }
+
+                /* ############################################################# */
                 // Mettre à jour le titre
                 const titreValidation = document.getElementById('titre_validateur');
                 if (titreValidation) {

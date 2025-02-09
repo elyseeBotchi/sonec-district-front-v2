@@ -506,6 +506,11 @@
             <div id="chartvalidateur" style="width: 100% !important"></div>
         </div>
 
+
+        <div class="row col-md-12">
+            <div id="chartCamembert" style="width: 100% !important"></div>
+        </div>
+
         <div class="row card">
             <div class="card-header" id="titre_validateur">
                 HISTIORIQUE DES VALIDATIONS PAR AGENTS
