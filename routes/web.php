@@ -230,6 +230,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_validateur'])->name('panel.autorisations.statistique.data.validateur');
             
 
+            Route::get('detail/{uuid}/{type_stat}', [AdminServicesController::class, 'statistique_dashboard'])->name('panel.autorisations.statistique.detail');
 
         });
 

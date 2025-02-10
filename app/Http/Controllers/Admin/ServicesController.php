@@ -293,6 +293,16 @@ class ServicesController extends Controller
     }
 
     
+    public function statistique_dashboard($uuid,$type_stat)
+    {
+       // return dd($entity_uuid);
+        return view('admins.services.statistique-dashboard', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? ''
+        ]);
+      
+    }
+
     public function stat_data($entity)
     {
 

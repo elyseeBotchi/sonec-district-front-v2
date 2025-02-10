@@ -208,6 +208,32 @@
                     @endif
                 @endif 
 
+
+                {{-- ####################################################### --}}
+                @if(CanPermission('entites_configurer_une_entite'))
+                    @isset(AuthConnect()['role']['name'])
+                        @if(AuthConnect()['role']['name'] =="Administrateur")
+                            <li class="sidebar-item">
+                                <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                    <i data-feather="box" class="feather-icon"></i>
+                                    <span class="hide-menu">STATISTIQUE  </span>
+                                </a>
+                                <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                PAR PAIEMENT  
+                                            </span>
+                                        </a>
+                                    </li>
+                                
+                                </ul>
+                            </li>
+                        @endif
+                    @endisset
+
+                @endif
+                {{-- ####################################################### --}}
                 @if(CanPermission('statistique_voir_le_module_statistique'))
                     <li class="list-divider"></li>
                     <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
