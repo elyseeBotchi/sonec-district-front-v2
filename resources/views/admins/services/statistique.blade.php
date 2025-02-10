@@ -65,6 +65,80 @@
                         </div><!-- end card body -->
                     </div> <!-- end card-->
                 </div> <!-- end col--> 
+
+
+
+                {{-- ######################################################################## --}}
+
+                <div class="col-md-5" >
+                    <div data-status="all" data-pay="all"  class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-medium text-muted mb-0">PAIEMENTS DU JOUR CHEQUE</p>
+                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                        <span id="total_paiement_cheque">
+                                           {{--  <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </h2>
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                            TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </p>
+                                    
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                            TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col--> 
+                {{-- ############################################################### --}}
+                <div class="col-md-5" >
+                    <div data-status="all" data-pay="all"  class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS CHEQUE</p>
+                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                        <span id="total_paiement_cheque">
+                                            {{-- <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </h2>
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                            TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </p>
+                                    
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                            TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col--> 
             @endif
         @endif
         @endisset 
