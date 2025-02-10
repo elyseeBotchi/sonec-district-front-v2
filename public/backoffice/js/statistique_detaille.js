@@ -432,21 +432,24 @@ $(document).ready(function() {
 
                 if(permissions.par_rubrique){
                     if(type_stat === "rubrique"){
-                        ligne_facturations.forEach(item => {
+                        const today = new Date().toISOString().split('T')[0];
+
+                        const rubrique_lines = stat.par_jour?.[today].details;
+                        rubrique_lines.forEach(item => {
                                 
-                            const total_amount = parseFloat(item.total_amount).toLocaleString('fr-FR', {
+                            /* const total_amount = parseFloat(item.total_amount).toLocaleString('fr-FR', {
                                 style: 'currency',
                                 currency: 'XOF',
-                            });
+                            }); */
                                 par_facturation += `
                                     <tr>
                                         <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
-                                        <td>${Math.ceil(item.line_count) || '0'}</td>
+                                        <td>${item.nombre_lignes || '0'}</td>
                                     </tr>`;
                                 //<td>${total_amount || '0'}</td>Math.ceil(amount / 1000)
                                 // Préparer les données pour le camembert
                                 labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
-                                dataValues.push(item.total_amount || 0);
+                                dataValues.push(item.montant_total_ligne || 0);
                             });
                 
                             // Mise à jour du tableau HTML

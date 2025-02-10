@@ -226,7 +226,15 @@
                                             </span>
                                         </a>
                                     </li>
-                                
+
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                            PAR RUBRIQUE
+                                            </span>
+                                        </a>
+                                    </li>
+        
                                     <li class="sidebar-item">
                                         <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'periode']) }}" class="sidebar-link">
                                             <span class="hide-menu">
