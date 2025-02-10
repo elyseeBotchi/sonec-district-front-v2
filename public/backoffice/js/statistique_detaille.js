@@ -253,13 +253,16 @@ $(document).ready(function() {
             
             if(permissions.montant_total_jour){
                 if(type_stat === "paiement"){
-                    const montant_total_jour = parseFloat(results.montant_total_jour).toLocaleString('fr-FR', {
+                    const today = new Date().toISOString().split('T')[0];
+
+                    const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
+                    
 
                     document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
-                    document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
+                    document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
                 }
               
             }  
