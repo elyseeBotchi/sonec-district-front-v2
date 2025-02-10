@@ -215,7 +215,7 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                const stat = data.stat;
+                const stat = data.stats;
                 //console.log("Résultats reçus :", results);
                // console.log(data);
                const chartMensuel = results.chart || [];  
