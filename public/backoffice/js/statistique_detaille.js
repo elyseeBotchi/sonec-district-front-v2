@@ -215,9 +215,9 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                const stat = data.stats;
+                const stat = results.stats;
                 //console.log("Résultats reçus :", results);
-               // console.log(data);
+                console.log(stat);
                const chartMensuel = results.chart || [];  
                const rendezVous = results.rdv;
                // console.log("Résultats reçus :", results.rdv);
@@ -994,8 +994,8 @@ $(document).ready(function() {
                     /* ######################################################################### */
                     /* ######################################################################### */
                         // 📌 Récupérer dynamiquement les données par mois
-                        const labels_mois = Object.keys(stats.par_mois); // Liste des mois
-                        const amounts_mois = labels_mois.map(mois => parseFloat(stats.par_mois[mois].montant_total));
+                        const labels_mois = Object.keys(stat.par_mois); // Liste des mois
+                        const amounts_mois = labels_mois.map(mois => parseFloat(stat.par_mois[mois].montant_total));
 
                         // 📌 Vérification des données récupérées
                        // console.log("Mois:", labels_mois);
@@ -1038,8 +1038,9 @@ $(document).ready(function() {
                         if(permissions.par_paiement && permissions.par_paiement_detaille){
                             if (type_stat === "paiement") {     
                                // const results = stats.par_jour;
-                                const categories = Object.keys(stats.par_jour);
-                                const values = categories.map(jour => parseFloat(stats.par_jour[jour].nombre_lignes));
+                                const categories = Object.keys(stat.par_jour);
+                                const values = categories.map(jour => parseFloat(stat.par_jour[jour].nombre_lignes));
+                                const valuesAmount = categories.map(jour => parseFloat(stat.par_jour[jour].montant_total));
 
                                // const values = Object.values(stats.par_mois);
                         
