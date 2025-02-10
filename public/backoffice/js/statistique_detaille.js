@@ -869,30 +869,33 @@ $(document).ready(function() {
 
                 if(permissions.par_rdv){
                     if(type_stat === "periode"){
+                        let render_periode = '';
                         let montantTotalPeriode = 0;
-                        let render_periode = '';  // Assurez-vous que cette variable est initialisée
-                        let labels = [];  // Pour le camembert
-                        let dataValues = [];  // Pour le camembert
-                    
-                        ligne_render_periode.forEach(item => {
-                            const total_amount = parseFloat(multipleDeMille(item.total_amount)).toLocaleString('fr-FR', {
+                        const labels = [];
+                        const dataValues = [];
+
+                        Object.keys(stat.par_jour).forEach(date => {
+                            const { nombre_lignes, montant_total } = stat.par_jour[date]; // Extraction des valeurs
+
+                            const total_amount = parseFloat(montant_total || 0).toLocaleString('fr-FR', {
                                 style: 'currency',
                                 currency: 'XOF',
                             });
-                    
+
                             render_periode += `
                                 <tr>
-                                    <td>${item.date_paiement || ''}</td>
-                                    <td>${Math.ceil(item.nombre_paiement) || '0'}</td>
+                                    <td>${date || ''}</td>
+                                    <td>${nombre_lignes || '0'}</td>
                                     <td>${total_amount || '0'}</td>
                                 </tr>`;
                             
-                            montantTotalPeriode += parseFloat(item.total_amount);
-                    
+                            montantTotalPeriode += parseFloat(montant_total || 0);
+
                             // Préparer les données pour le camembert
-                            labels.push(`${item.date_paiement || ''}`);
-                            dataValues.push(parseFloat(multipleDeMille(item.total_amount)) || 0);
+                            labels.push(date);
+                            dataValues.push(parseFloat(montant_total || 0));
                         });
+
                     
                         const MontantTotal_P = parseFloat(montantTotalPeriode).toLocaleString('fr-FR', {
                             style: 'currency',
@@ -901,9 +904,11 @@ $(document).ready(function() {
                     
                         document.getElementById('montant_total_periode').innerHTML = MontantTotal_P;
                     
-                        // Préparer les données pour le graphique
-                        const categories = labels;
-                        const values = dataValues;
+                        
+                        const categories = Object.keys(stat.par_jour);
+                       // const values = categories.map(jour => parseFloat(stat.par_jour[jour].nombre_lignes));
+                        const values = categories.map(jour => parseFloat(stat.par_jour[jour].montant_total));
+
                     
                         var options = {
                             series: [{
