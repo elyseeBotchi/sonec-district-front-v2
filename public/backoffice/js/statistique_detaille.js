@@ -778,10 +778,7 @@ $(document).ready(function() {
                                 <tr>
                                     <td>${date || ''}</td>
                                     <td>${nombre_lignes || '0'}</td>
-                                    <td>${total_amount || '0'}</td>
-                                    <td>
-                                        <button class="btn-details" data-date="${stat.par_jour[date][details]}">Voir Détails</button>
-                                    </td>                                     
+                                    <td>${total_amount || '0'}</td>                                   
                                 </tr>`;
                             
                             montantTotalPeriode += parseFloat(montant_total || 0);

@@ -549,7 +549,6 @@
                                 <th>Date</th>
                                 <th>Nombre de paiement</th>
                                 <th>Montant total</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody id="render_periode"></tbody>
@@ -557,7 +556,7 @@
                                 <tr style="display: none">
                                     <th>Total</th>
                                     <th ></th>
-                                    <th id="montant_total_periode" colspan="2"></th>
+                                    <th id="montant_total_periode"></th>
                                 </tr>
                             </tfoot>
                     </table>
