@@ -574,7 +574,7 @@ $(document).ready(function() {
                             }
                         
                             // Mise à jour du tableau HTML
-                            const tableBody = document.getElementById('par_facturation');
+                            const tableBody = document.getElementById('par_facturation-global');
                             if (tableBody) {
                                 tableBody.innerHTML = par_facturation;
                             } else {
