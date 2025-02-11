@@ -5,7 +5,7 @@
     <div class="row">
         @isset($type_stat)
         @if($type_stat =="paiement")
-            @if(canPermission('statistique_voir_le_montant_total_par_jour'))
+            @if(canPermission('statistique_partenaires_voir_le_montant_total_par_jour'))
                 <div class="col-md-5" >
                     <div data-status="today" data-pay="all"  class="card card-animate highlight" >
                         <div class="card-body">
@@ -36,7 +36,7 @@
                 </div> <!-- end col-->
             @endif
 
-            @if(canPermission('statistique_voir_le_total_des_paiements'))
+            @if(canPermission('statistique_partenaires_voir_le_montant_total'))
                 <div class="col-md-5" >
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
@@ -145,247 +145,67 @@
 
     </div>
 
-    @if(CanPermission('statistique_voir_les_statistiques_par_operateur'))
-            @isset($type_stat)
-                @if($type_stat =="operateur")
-                    <div class="row align-items-start">
-                        <div class="card col-md-12">
-                            <div class="card-header" id="">
-                                REPARTITION PAR OPERATEURS
-                            </div>
-                                    <!-- Tableau -->
-                            <div class="table-responsive">
-                                <table class="table" id="">
-                                    <thead>
-                                        <tr>
-                                            <th>Operateurs</th>
-                                            <th>Nombre</th>
-                                            <th>Montant Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="render-html" id="par_operateur">
-                                        
-                                        <tr>
-                                            <td> WAVE </td>
-                                            <td> 
-                                                <span id="wave_nb">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="wave_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
 
-                                        
-                                        <tr>
-                                            <td> ORANGE </td>
-                                            <td> 
-                                                <span id="orange_nb">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="orange_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td> MTN </td>
-                                            <td> 
-                                                <span id="mtn_nb">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="mtn_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
-                                        
-                                        
-                                        <tr>
-                                            <td> MOOV </td>
-                                            <td> 
-                                                <span id="moov_nb">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="moov_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
+    @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
+        @isset($type_stat)
+            @if($type_stat =="paiement")
 
-                                        
-                                        <tr>
-                                            <td> TRESOR PAY </td>
-                                            <td> 
-                                                <span id="tresor_nb">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="tresor_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td> TOTAL</td>
-                                            <td> 
-                                                <span id="nb_total">
-                                                <i class=""></i>
-                                                </span> 
-                                            </td>
-                                            <td> 
-                                                <span id="total_montant">
-                                                <i class="fa fa-spinner fa-spin"></i>
-                                                </span> 
-                                            </td>
-                                        </tr>
-
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Graphique -->
-                        <div class="col-md-12">
-                            <canvas id="OperateursChart" width="800" height="800"></canvas>
-                        </div>
+                @if(canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'))
+                    <div class="row col-md-12">
+                        <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
                     </div>
-                @endif
-            @endisset  
-
+                @endif 
+                <br>
+                @if(CanPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'))
+                    <div class="row col-md-12">
+                        <div id="chartPaiement" style="width: 100% !important"></div>
+                    </div>
+                @endif        
             @endif
-   
-        @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+        @endisset
+    @endif 
 
-            @isset($type_stat)
-                @if($type_stat =="rdv")
-                <div class="row">
-                    <div id="rendezvousChart" class="col-md-12"></div>
+    @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
 
-                    <div class="row align-items-start">
-                        <div class="card col-md-12">
-                            <div class="card-header" id="rubrique-facturation-titre">
-                                LISTE DES DATES RENDEZ-VOUS
-                            </div>
-                            <!-- Tableau -->
-                            <div class="row">
-                                <table id="datatable-custom" class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Nombre programmé</th>
-                                        <th>Nombre effectivement reçu</th> 
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="render-html" id="rdv"> </tbody>
-                                </table>
-                            </div>
-                        </div>
+        @isset($type_stat)
+            @if($type_stat =="periode")
 
-                    
-                    
-                        <div class="card-header col-md-12" id="titre_rdv">
-                            Liste des rendez-vous du jour
-                        </div>
-                        <table class="table" id="datatable-rdv">
+                <div class="row col-md-12">
+                    <div id="periodeChart" style="width: 100% !important"></div>
+                </div>
+
+
+                <div class="row card">
+                    <div class="card-header" id="titre_liste">
+                        Historique des paiements par période
+                    </div>
+
+                    <div class="pt-5 table-responsive">
+                        <table class="table" id="datatable-periode">
                             <thead>
                                 <tr>
-                                    <th>Date de RDV</th>
-                                    <th>Proprietaire</th>
-                                    <th>N° Carte grise</th>
-                                    <th>N° Immatriculation</th>
-                                    <th>N° Paiement</th>
-                                    <th>Montant</th>
-                                    <th>Reference</th>
-                                    <th>Mode de paiement</th>
-                                    <th>ID Transaction</th>
-                                    <th>Statut</th>
-                                    <th>Date paiement</th>
+                                    <th>Date</th>
+                                    <th>Nombre de paiement</th>
+                                    <th>Montant total</th>
                                 </tr>
                                 </thead>
-                                <tbody ></tbody>
+                                <tbody id="render_periode"></tbody>
+                                <tfoot>
+                                    <tr style="display: none">
+                                        <th>Total</th>
+                                        <th ></th>
+                                        <th id="montant_total_periode"></th>
+                                    </tr>
+                                </tfoot>
                         </table>
                     </div>
                 </div>
-                @endif
-            @endisset    
-
-        @endif 
-
- @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
-    @isset($type_stat)
-        @if($type_stat =="paiement")
-
-            @if(canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'))
-                <div class="row col-md-12">
-                    <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
-                </div>
-            @endif 
-            <br>
-            @if(CanPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'))
-                <div class="row col-md-12">
-                    <div id="chartPaiement" style="width: 100% !important"></div>
-                </div>
-            @endif        
+                
+            @endif
+        @endisset
         @endif
-    @endisset
-@endif 
 
-@if(CanPermission('statistique_voir_les_statistiques_par_periode'))
-
-    @isset($type_stat)
-        @if($type_stat =="periode")
-
-            <div class="row col-md-12">
-                <div id="periodeChart" style="width: 100% !important"></div>
-            </div>
-
-
-            <div class="row card">
-                <div class="card-header" id="titre_liste">
-                    Historique des paiements par période
-                </div>
-
-                <div class="pt-5 table-responsive">
-                    <table class="table" id="datatable-periode">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Nombre de paiement</th>
-                                <th>Montant total</th>
-                            </tr>
-                            </thead>
-                            <tbody id="render_periode"></tbody>
-                            <tfoot>
-                                <tr style="display: none">
-                                    <th>Total</th>
-                                    <th ></th>
-                                    <th id="montant_total_periode"></th>
-                                </tr>
-                            </tfoot>
-                    </table>
-                </div>
-            </div>
-            
-        @endif
-    @endisset
-    @endif
-
-@endif 
+    @endif 
 
 
 @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
