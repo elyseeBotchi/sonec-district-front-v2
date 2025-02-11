@@ -431,100 +431,100 @@ $(document).ready(function() {
                 }
 
                 if(permissions.par_rubrique){
-                    if(type_stat === "rubrique"){
-                        const today = "2025-02-10" ;//new Date().toISOString().split('T')[0];
-                        const totalLine = 0;
-                        const totalAmount = 0;
+                    if (type_stat === "rubrique") {
+                        const today = "2025-02-10"; // new Date().toISOString().split('T')[0];
+                        let totalLine = 0;
+                        let totalAmount = 0;
+                        let par_facturation = ""; // S'assurer que cette variable est bien initialisée
                         const rubrique_lines = stat.par_jour?.[today]?.details;
-                        if (Array.isArray(rubrique_lines) && rubrique_lines.length > 0){
-                             rubrique_lines.forEach(item => {
-                                
-                            const total_amount = parseFloat(item.montant_total_ligne).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
+                    
+                        if (Array.isArray(rubrique_lines) && rubrique_lines.length > 0) {
+                            rubrique_lines.forEach(item => {
+                                const total_amount = parseFloat(item.montant_total_ligne || 0).toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'XOF',
+                                });
+                    
                                 par_facturation += `
                                     <tr>
                                         <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
-                                        <td>${item.nombre_lignes || '0'}</td>
-                                        <td>${total_amount || '0'}</td>
+                                        <td>${parseInt(item.nombre_lignes || '0', 10)}</td>
+                                        <td>${total_amount}</td>
                                     </tr>`;
-                               
+                    
                                 // Préparer les données pour le camembert
                                 labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
-                                dataValues.push(item.montant_total_ligne || 0);
-
-                                totalLine += parseInt(item.nombre_lignes) || 0;
+                                dataValues.push(parseFloat(item.montant_total_ligne) || 0);
+                    
+                                totalLine += parseInt(item.nombre_lignes || '0', 10);
                                 totalAmount += parseFloat(item.montant_total_ligne) || 0;
                             });
-                
+                    
+                            // Ajout de la ligne total
                             par_facturation += `
                             <tr>
-                                <td>Total</td>
-                                <td>${totalLine || '0'}</td>
-                                <td>${totalAmount || '0'}</td>
+                                <td><strong>Total</strong></td>
+                                <td><strong>${totalLine}</strong></td>
+                                <td><strong>${totalAmount.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' })}</strong></td>
                             </tr>`;
                         }
-                       
-                            // Mise à jour du tableau HTML
-                            const tableBody = document.getElementById('par_facturation');
-                            if (tableBody) {
-                                tableBody.innerHTML = par_facturation;
-                            } else {
-                                console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
-                            }
-                                
-                                        // Générer des couleurs dynamiquement
-                            const generateColors = (count, alpha = 0.2) => {
-                                const colors = [];
-                                for (let i = 0; i < count; i++) {
-                                    const r = Math.floor(Math.random() * 256);
-                                    const g = Math.floor(Math.random() * 256);
-                                    const b = Math.floor(Math.random() * 256);
-                                    colors.push(`rgba(${r}, ${g}, ${b}, ${alpha})`);
-                                }
-                                return colors;
-                            };
-            
-                            // Générer les couleurs pour le graphique
-                            const backgroundColors = generateColors(labels.length, 0.2);
-                            const borderColors = generateColors(labels.length, 1);
-            
-                            // Générer le camembert
-                            const ctx = document.getElementById('facturationChart').getContext('2d');
-                            new Chart(ctx, {
-                                type: 'pie', // Type de graphique
-                                data: {
-                                    labels: labels,
-                                    datasets: [{
-                                        label: 'Montant total par rubrique',
-                                        data: dataValues,
-                                        backgroundColor: backgroundColors, // Couleurs dynamiques pour l'arrière-plan
-                                        borderColor: borderColors, // Couleurs dynamiques pour les bordures
-                                        borderWidth: 1
-                                    }]
-                                },
-                                options: {
-                                    responsive: false,
-                                    plugins: {
-                                        legend: {
-                                            display: true, // Masque la légende
-                                            position: 'right', // Place la légende à gauche
-                                            labels: {
-                                                align: 'end', // Aligne le texte des éléments de la légende à droite
-                                                usePointStyle: true, // Affiche un point coloré au lieu d'un carré
-                                                padding: 20 // Ajoute un espacement entre les éléments
-                                            }
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: 'Répartition des montants par rubrique'
+                    
+                        // Mise à jour du tableau HTML
+                        const tableBody = document.getElementById('par_facturation');
+                        if (tableBody) {
+                            tableBody.innerHTML = par_facturation;
+                        } else {
+                            console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
+                        }
+                    
+                        // Générer des couleurs dynamiquement
+                        const generateColors = (count, alpha = 0.2) => {
+                            return Array.from({ length: count }, () => {
+                                const r = Math.floor(Math.random() * 256);
+                                const g = Math.floor(Math.random() * 256);
+                                const b = Math.floor(Math.random() * 256);
+                                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                            });
+                        };
+                    
+                        // Générer les couleurs pour le graphique
+                        const backgroundColors = generateColors(labels.length, 0.2);
+                        const borderColors = generateColors(labels.length, 1);
+                    
+                        // Générer le camembert
+                        const ctx = document.getElementById('facturationChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'pie', // Type de graphique
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Montant total par rubrique',
+                                    data: dataValues,
+                                    backgroundColor: backgroundColors, // Couleurs dynamiques pour l'arrière-plan
+                                    borderColor: borderColors, // Couleurs dynamiques pour les bordures
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: {
+                                    legend: {
+                                        display: true, // Afficher la légende
+                                        position: 'right',
+                                        labels: {
+                                            align: 'end',
+                                            usePointStyle: true,
+                                            padding: 20
                                         }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Répartition des montants par rubrique'
                                     }
                                 }
-                            });
-            
-                    }
+                            }
+                        });
+                    }                    
                 } 
              
                 
