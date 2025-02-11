@@ -531,7 +531,7 @@ $(document).ready(function() {
                             let par_facturation = ""; // Initialisation de la variable pour stocker les lignes du tableau
                             const global_par_rubrique = stat.global_par_rubrique;
                         
-                            if (Array.isArray(global_par_rubrique) && global_par_rubrique.length > 0) {
+                            if (global_par_rubrique.length > 0) {
                                 global_par_rubrique.forEach(item => {
                                     console.log('****** global_par_rubrique',item);
                                     console.log(item);
