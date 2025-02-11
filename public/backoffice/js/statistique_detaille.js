@@ -432,26 +432,30 @@ $(document).ready(function() {
 
                 if(permissions.par_rubrique){
                     if(type_stat === "rubrique"){
-                        const today = new Date().toISOString().split('T')[0];
+                        const today = "2025-02-10" ;//new Date().toISOString().split('T')[0];
 
-                        const rubrique_lines = stat.par_jour?.[today].details;
-                        rubrique_lines.forEach(item => {
+                        const rubrique_lines = stat.par_jour?.[today]?.details;
+                        if (Array.isArray(rubrique_lines) && rubrique_lines.length > 0){
+                             rubrique_lines.forEach(item => {
                                 
-                            /* const total_amount = parseFloat(item.total_amount).toLocaleString('fr-FR', {
+                            const total_amount = parseFloat(item.montant_total_ligne).toLocaleString('fr-FR', {
                                 style: 'currency',
                                 currency: 'XOF',
-                            }); */
+                            });
                                 par_facturation += `
                                     <tr>
                                         <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
                                         <td>${item.nombre_lignes || '0'}</td>
+                                        <td>${total_amount || '0'}</td>
                                     </tr>`;
-                                //<td>${total_amount || '0'}</td>Math.ceil(amount / 1000)
+                               
                                 // Préparer les données pour le camembert
                                 labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
                                 dataValues.push(item.montant_total_ligne || 0);
                             });
                 
+                        }
+                       
                             // Mise à jour du tableau HTML
                             const tableBody = document.getElementById('par_facturation');
                             if (tableBody) {
@@ -1521,7 +1525,7 @@ $(document).ready(function() {
     }
     
 
-    document.querySelectorAll('.Load_paiement').forEach(item => {
+    document.querySelectorAll('.Load_paiement__').forEach(item => {
         item.addEventListener('click', event => {
             // Enlever la classe highlight de tous les éléments
             document.querySelectorAll('.Load_paiement').forEach(element => {
@@ -1539,4 +1543,23 @@ $(document).ready(function() {
     });
 
 
+
+    
+
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const card = document.querySelector(".Load_paiement");
+    const totalPaiement = document.getElementById("total_paiement_global");
+    const nbTotalGlobal = document.getElementById("nb_total_global");
+
+    if (card) {
+        card.addEventListener("click", function () {
+            
+            // Basculer l'affichage des éléments
+            totalPaiement.style.display = totalPaiement.style.display === "none" ? "inline" : "none";
+            nbTotalGlobal.style.display = nbTotalGlobal.style.display === "none" ? "inline" : "none";
+        });
+    }
 });

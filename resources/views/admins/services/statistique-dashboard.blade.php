@@ -151,12 +151,12 @@
                             <div>
                                 <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour_global">
+                                    <span id="montant_total_jour_global" style="display: none">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate text-white">
-                                    <span class="text-white" id="nb_total_jour_global">
+                                    <span class="text-white" id="nb_total_jour_global" style="display: none">
                                         <i class="fa fa-spinner fa-spin text-white" ></i>
                                     </span>
                                 </p>
@@ -182,12 +182,12 @@
                         <div>
                             <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
                             <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                <span id="total_paiement_global">
+                                <span id="total_paiement_global" style="display: none">
                                     <i class="fa fa-spinner fa-spin"></i>
                                 </span>
                             </h2>
                             <p class="mb-0 text-muted text-truncate">
-                                <span class="text-white" id="nb_total_global">
+                                <span class="text-white" id="nb_total_global" style="display: none">
                                     <i class="fa fa-spinner fa-spin text-white"></i>
                                 </span>
                             </p>
@@ -345,7 +345,7 @@
                                                 <tr>
                                                     <th>Rubrique</th>
                                                     <th>Nombre</th>
-                                                    {{-- <th>Montant Total</th> --}}
+                                                    <th>Montant Total</th> 
                                                 </tr>
                                             </thead>
                                             <tbody class="render-html" id="par_facturation">
