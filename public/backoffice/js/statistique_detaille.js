@@ -533,6 +533,7 @@ $(document).ready(function() {
                         
                             if (Array.isArray(global_par_rubrique) && global_par_rubrique.length > 0) {
                                 global_par_rubrique.forEach(item => {
+                                    console.log('****** global_par_rubrique',item);
                                     console.log(item);
                                     // Extraction et formatage des valeurs
                                     const rubriqueName = item.rubrique_name || '';
