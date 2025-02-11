@@ -433,7 +433,8 @@ $(document).ready(function() {
                 if(permissions.par_rubrique){
                     if(type_stat === "rubrique"){
                         const today = "2025-02-10" ;//new Date().toISOString().split('T')[0];
-
+                        const totalLine = 0;
+                        const totalAmount = 0;
                         const rubrique_lines = stat.par_jour?.[today]?.details;
                         if (Array.isArray(rubrique_lines) && rubrique_lines.length > 0){
                              rubrique_lines.forEach(item => {
@@ -452,8 +453,17 @@ $(document).ready(function() {
                                 // Préparer les données pour le camembert
                                 labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
                                 dataValues.push(item.montant_total_ligne || 0);
+
+                                totalLine += parseInt(item.nombre_lignes) || 0;
+                                totalAmount += parseFloat(item.montant_total_ligne) || 0;
                             });
                 
+                            par_facturation += `
+                            <tr>
+                                <td>Total</td>
+                                <td>${totalLine || '0'}</td>
+                                <td>${totalAmount || '0'}</td>
+                            </tr>`;
                         }
                        
                             // Mise à jour du tableau HTML
