@@ -779,6 +779,9 @@ $(document).ready(function() {
                                     <td>${date || ''}</td>
                                     <td>${nombre_lignes || '0'}</td>
                                     <td>${total_amount || '0'}</td>
+                                    <td>
+                                        <button class="btn-details" data-date="${stat.par_jour[date][details]}">Voir Détails</button>
+                                    </td>                                     
                                 </tr>`;
                             
                             montantTotalPeriode += parseFloat(montant_total || 0);
@@ -870,6 +873,72 @@ $(document).ready(function() {
                         } else {
                             console.error("Élément avec l'ID 'render_periode' introuvable dans le DOM.");
                         }
+
+
+
+                            // Gestion du clic sur les boutons "Voir Détails"
+                            document.querySelectorAll('.btn-details').forEach(button => {
+                                button.addEventListener('click', function () {
+                                    const selectedDate = this.getAttribute('data-date');
+                                    afficherDetailsLignesDuJour(selectedDate);
+                                });
+                            });
+                    }
+
+                    if(type_stat === "periode"){
+                          
+                            const tableauStats = document.getElementById("tableauStats");
+                            const headerRow = document.getElementById("headerRow");
+                            const tableBody = document.getElementById("tableBody");
+                        
+                            // Récupérer toutes les dates uniques
+                            let dates = Object.keys(stats.global_par_mois);
+                        
+                            // Ajouter les dates dans l'en-tête du tableau
+                            dates.forEach(date => {
+                                let th = document.createElement("th");
+                                th.textContent = date;
+                                headerRow.appendChild(th);
+                            });
+                        
+                            // Préparer un objet pour organiser les données par rubrique
+                            let rubriques = {};
+                        
+                            // Remplir l'objet rubriques avec les données
+                            dates.forEach(date => {
+                                stats.global_par_mois[date].forEach(item => {
+                                    let key = `${item.rubrique_name} - ${item.option_name || ''}`;
+                                    if (!rubriques[key]) {
+                                        rubriques[key] = { "rubrique_name": item.rubrique_name, "option_name": item.option_name, "data": {} };
+                                    }
+                                    rubriques[key].data[date] = item.total_lignes;
+                                });
+                            });
+                        
+                            // Générer le tableau en fonction des rubriques
+                            Object.keys(rubriques).forEach(key => {
+                                let row = document.createElement("tr");
+                        
+                                // Colonnes Rubrique et Option
+                                let cellRubrique = document.createElement("td");
+                                cellRubrique.textContent = rubriques[key].rubrique_name;
+                                row.appendChild(cellRubrique);
+                        
+                                let cellOption = document.createElement("td");
+                                cellOption.textContent = rubriques[key].option_name || "-";
+                                row.appendChild(cellOption);
+                        
+                                // Ajouter les valeurs par date
+                                dates.forEach(date => {
+                                    let cell = document.createElement("td");
+                                    cell.textContent = rubriques[key].data[date] || 0; // 0 si aucune donnée
+                                    row.appendChild(cell);
+                                });
+                        
+                                tableBody.appendChild(row);
+                            });
+                        
+                        
                     }
                 }
 
@@ -1029,6 +1098,13 @@ $(document).ready(function() {
             });
     }
    
+
+    function afficherDetailsLignesDuJour(date) {
+        alert("Affichage des détails pour la date : " + date);
+        // Tu peux ici récupérer plus d'infos via une requête AJAX ou afficher un modal.
+    }
+
+
     function multipleDeMille(amount) {
         amount = Math.ceil(amount);
         let result = Math.ceil(amount / 1000) * 1000;

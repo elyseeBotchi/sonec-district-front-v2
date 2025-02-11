@@ -513,6 +513,26 @@
 
     @isset($type_stat)
         @if($type_stat =="periode")
+
+            <div class="row card">
+                <div class="card-header" id="titre_liste">
+                    Historique des paiements par mois
+                </div>
+
+                <div class="pt-5 table-responsive">
+                    <table id="tableauStats"  class="table" border="1">
+                        <thead>
+                            <tr id="headerRow">
+                                <th>Rubrique</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+
             <div class="row col-md-12">
                 <div id="periodeChart" style="width: 100% !important"></div>
             </div>
@@ -529,6 +549,7 @@
                                 <th>Date</th>
                                 <th>Nombre de paiement</th>
                                 <th>Montant total</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody id="render_periode"></tbody>
@@ -536,7 +557,7 @@
                                 <tr style="display: none">
                                     <th>Total</th>
                                     <th ></th>
-                                    <th id="montant_total_periode"></th>
+                                    <th id="montant_total_periode" colspan="2"></th>
                                 </tr>
                             </tfoot>
                     </table>
