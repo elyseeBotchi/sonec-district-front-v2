@@ -302,129 +302,7 @@ $(document).ready(function() {
                 // Données pour le camembert
                 const labels = [];
                 const dataValues = [];
-                if(permissions.par_operateur){
-                    if(type_stat ==="operateur"){
-                            
-
-                            const wave_montant = parseFloat(results.wave_montant).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-
-                            document.getElementById('wave_montant').innerHTML = wave_montant || '';
-                            document.getElementById('wave_nb').innerHTML = results.wave_nb || '';
-
-                            
-                            const orange_montant = parseFloat(results.orange_montant).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-                            
-
-                            document.getElementById('orange_montant').innerHTML = orange_montant || '';
-                            document.getElementById('orange_nb').innerHTML = results.orange_nb || '';
-
-                            
-                            const mtn_montant = parseFloat(results.mtn_montant).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-
-                            document.getElementById('mtn_montant').innerHTML = mtn_montant || '';
-                            document.getElementById('mtn_nb').innerHTML = results.mtn_nb || ''; 
-
-                            
-                            const moov_montant = parseFloat(results.moov_montant).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-                            document.getElementById('moov_montant').innerHTML = moov_montant || '';
-                            document.getElementById('moov_nb').innerHTML = results.moov_nb || ''; 
-
-                            
-                            const tresor_montant = parseFloat(results.tresor_montant).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-
-                            document.getElementById('tresor_montant').innerHTML = tresor_montant || '';
-                            document.getElementById('tresor_nb').innerHTML = results.tresor_nb || ''; 
-                            
-                            var nb_total = results.tresor_nb + results.moov_nb + results.mtn_nb + results.orange_nb + results.wave_nb;
-                            document.getElementById('nb_total').innerHTML = nb_total || ''; 
-
-                            
-                            var total_amount = parseFloat(results.wave_montant || 0)+
-                            parseFloat(results.orange_montant || 0)+
-                            parseFloat(results.mtn_montant || 0)+
-                            parseFloat(results.moov_montant || 0)+
-                            parseFloat(results.tresor_montant || 0);
-
-                            const total_montant = parseFloat(total_amount).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-                            document.getElementById('total_montant').innerHTML = total_montant || ''; 
-
-                                // Données pour le camembert
-                            const labelsOperateurs = ['Wave','Orange', 'MTN','Moov','Trésor'];
-                            const dataValuesOperateurs = [
-                                parseFloat(results.wave_montant || 0),
-                                parseFloat(results.orange_montant || 0),
-                                parseFloat(results.mtn_montant || 0),
-                                parseFloat(results.moov_montant || 0),
-                                parseFloat(results.tresor_montant || 0)
-                            ];
-
-
-                            // Générer le camembert
-                            const ctxOperateur = document.getElementById('OperateursChart').getContext('2d');
-                            new Chart(ctxOperateur, {
-                                type: 'pie', // Type de graphique
-                                data: {
-                                    labels: labelsOperateurs,
-                                    datasets: [{
-                                        label: 'Montant total par rubrique',
-                                        data: dataValuesOperateurs,
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                        ],
-                                        borderWidth: 1
-                                    }]
-                                },
-                                options: {
-                                    responsive: false,
-                                    plugins: {
-                                        legend: {
-                                            display: true, // Masque la légende
-                                            position: 'right', // Place la légende à droite
-                                            labels: {
-                                                align: 'end', // Aligne le texte des éléments de la légende à droite
-                                                usePointStyle: true, // Affiche un point coloré au lieu d'un carré
-                                                padding: 20 // Ajoute un espacement entre les éléments
-                                            }
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: 'Répartition des montants par rubrique'
-                                        }
-                                    }
-                                }
-                            });
-
-                    }
-                }
+              
 
                 if(permissions.par_rubrique){
                     if (type_stat === "rubrique") {
@@ -889,7 +767,7 @@ $(document).ready(function() {
                             const tableBody = document.getElementById("tableBody");
                         
                             // Récupérer toutes les dates uniques
-                            let dates = Object.keys(stats.global_par_mois);
+                            let dates = Object.keys(stat.global_par_mois);
                         
                             // Ajouter les dates dans l'en-tête du tableau
                             dates.forEach(date => {
@@ -903,7 +781,7 @@ $(document).ready(function() {
                         
                             // Remplir l'objet rubriques avec les données
                             dates.forEach(date => {
-                                stats.global_par_mois[date].forEach(item => {
+                                stat.global_par_mois[date].forEach(item => {
                                     let key = `${item.rubrique_name} - ${item.option_name || ''}`;
                                     if (!rubriques[key]) {
                                         rubriques[key] = { "rubrique_name": item.rubrique_name, "option_name": item.option_name, "data": {} };

@@ -514,6 +514,11 @@
     @isset($type_stat)
         @if($type_stat =="periode")
 
+            <div class="row col-md-12">
+                <div id="periodeChart" style="width: 100% !important"></div>
+            </div>
+
+            
             <div class="row card">
                 <div class="card-header" id="titre_liste">
                     Historique des paiements par mois
@@ -531,12 +536,7 @@
                     </table>
                 </div>
             </div>
-
-
-            <div class="row col-md-12">
-                <div id="periodeChart" style="width: 100% !important"></div>
-            </div>
-
+            
             <div class="row card">
                 <div class="card-header" id="titre_liste">
                     Historique des paiements par période
