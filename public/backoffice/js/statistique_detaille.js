@@ -526,7 +526,49 @@ $(document).ready(function() {
                 
                 if(permissions.par_rubrique_global){
                     if(type_stat === "rubrique"){
-                        
+                        let totalLine = 0;
+                        let totalAmount = 0;
+                        let par_facturation = ""; // S'assurer que cette variable est bien initialisée
+                        const global_par_rubrique = stat.global_par_rubrique;
+                        if (Array.isArray(global_par_rubrique) && global_par_rubrique.length > 0) {
+                            global_par_rubrique.forEach(item => {
+                                const total_amount = parseFloat(item.total_montant || 0).toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'XOF',
+                                });
+                    
+                                par_facturation += `
+                                    <tr>
+                                        <td>${item.rubrique_name || ''} ${item.option_name || ''}</td>
+                                        <td>${parseInt(item.total_lignes || '0', 10)}</td>
+                                        <td>${total_amount}</td>
+                                    </tr>`;
+                    
+                                // Préparer les données pour le camembert
+                                labels.push(`${item.rubrique_name || ''} ${item.option_name || ''}`);
+                                dataValues.push(parseFloat(item.total_montant) || 0);
+                    
+                                totalLine += parseInt(item.total_lignes || '0', 10);
+                                totalAmount += parseFloat(item.total_montant) || 0;
+                            });
+                    
+                            // Ajout de la ligne total
+                            par_facturation += `
+                            <tr>
+                                <td><strong>Total</strong></td>
+                                <td><strong>${totalLine}</strong></td>
+                                <td><strong>${totalAmount.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' })}</strong></td>
+                            </tr>`;
+                        }
+                    
+                        // Mise à jour du tableau HTML
+                        const tableBody = document.getElementById('par_facturation');
+                        if (tableBody) {
+                            tableBody.innerHTML = par_facturation;
+                        } else {
+                            console.error("Élément avec l'ID 'par_facturation' introuvable dans le DOM.");
+                        }
+                         
                     }
                 } 
 
