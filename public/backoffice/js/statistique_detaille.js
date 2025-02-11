@@ -228,20 +228,20 @@ $(document).ready(function() {
                
                 
                var permissions = {
-                montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
-                montant_total_jour_global: canPermission('statistique_voir_le_montant_total_par_jour_global'),
+                //montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
+                //montant_total_jour_global: canPermission('statistique_voir_le_montant_total_par_jour_global'),
 
-                total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
-                total_paiement_global: canPermission('statistique_voir_le_total_des_paiements_global'),
+                //total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
+                //total_paiement_global: canPermission('statistique_voir_le_total_des_paiements_global'),
 
-                par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
-                par_paiement_detaille: canPermission('statistique_voir_les_statistiques_par_paiement_detaille'),
+                //par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
+                //par_paiement_detaille: canPermission('statistique_voir_les_statistiques_par_paiement_detaille'),
                 
-                par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
-                par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
-                par_rubrique_global: canPermission('statistique_voir_les_statistiques_par_rubrique_global'),
-                par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
-                par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
+                //par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
+                //par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
+                //par_rubrique_global: canPermission('statistique_voir_les_statistiques_par_rubrique_global'),
+                //par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
+                //par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
                 par_validation_jour: canPermission('statistique_voir_les_statistiques_par_validations_par_jour'),
                 agent_validateur: canPermission('statistique_voir_les_statistiques_par_agent_validateur'),
                 
@@ -253,7 +253,7 @@ $(document).ready(function() {
                 statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier: canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'),
                 statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel:canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'),
                 statistique_partenaires_voir_le_montant_total_par_jour:canPermission('statistique_partenaires_voir_le_montant_total_par_jour'),
-
+                statistique_partenaires_voir_le_montant_total:canPermission('statistique_partenaires_voir_le_montant_total')
 
             };
             
