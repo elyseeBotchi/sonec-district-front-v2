@@ -1,7 +1,7 @@
 
 
 $(document).ready(function() {
-    findStatus('today','all');
+  //  findStatus('today','all');
     findStatistique();
     // Exécuter findStatistique toutes les 60 000 millisecondes (1 minute)
    // setInterval(findStatistique, 20000);
@@ -251,13 +251,14 @@ $(document).ready(function() {
                 statistique_partenaires_voir_les_statistiques_par_jour: canPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'),
                 statistique_partenaires_voir_les_statistiques_par_periode:canPermission('statistique_partenaires_voir_les_statistiques_par_periode'),
                 statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier: canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'),
-                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel:canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel')
+                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel:canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'),
+                statistique_partenaires_voir_le_montant_total_par_jour:canPermission('statistique_partenaires_voir_le_montant_total_par_jour'),
 
 
             };
             
             if(type_stat === "paiement"){
-                if(permissions.montant_total_jour){
+                if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
                     const today = new Date().toISOString().split('T')[0];
 
                     const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
@@ -270,7 +271,7 @@ $(document).ready(function() {
                     document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
                 }
               
-                if(permissions.total_paiement){
+                if(permissions.statistique_partenaires_voir_le_montant_total){
                     const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
