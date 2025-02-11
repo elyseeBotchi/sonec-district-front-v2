@@ -377,7 +377,7 @@
                                 
                                 <div class="card col-md-12">
                                     <div class="card-header" id="rubrique-facturation-titre-global">
-                                        REPARTITION PAR RUBRIQUE DE FACTURATION
+                                        REPARTITION PAR RUBRIQUE DE FACTURATION GLOBAL
                                     </div>
                                             <!-- Tableau -->
                                     <div class="table-responsive">

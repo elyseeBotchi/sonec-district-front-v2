@@ -293,12 +293,21 @@ class ServicesController extends Controller
     }
 
     
-    public function statistique_dashboard($uuid,$type_stat)
+    public function statistique_dashboard($uuid,$type_stat,$type_sous_stat =null)
     {
+
+        if($type_stat =="rubrique"){
+            return view('admins.services.statistique-rubrique', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
+            ]); 
+        }
        // return dd($entity_uuid);
         return view('admins.services.statistique-dashboard', [
                 'Entity_uuid'=>$uuid ?? '',
-                'type_stat' => $type_stat ?? ''
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
         ]);
       
     }

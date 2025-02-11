@@ -280,6 +280,7 @@ $(document).ready(function() {
 
              
             if(permissions.montant_total_jour_global){
+                if (type_stat === "paiement") {
                 const montant_total_jour_global = parseFloat(results.montant_total_jour_global).toLocaleString('fr-FR', {
                     style: 'currency',
                     currency: 'XOF',
@@ -287,16 +288,19 @@ $(document).ready(function() {
 
                 document.getElementById('montant_total_jour_global').innerHTML = montant_total_jour_global || '';
                 document.getElementById('nb_total_jour_global').innerHTML = results.nb_total_jour_global || 0;
+                }
             }
 
             if(permissions.total_paiement_global){
-                const total_paiement_global = parseFloat(results.total_paiement_global).toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'XOF',
-                });
+                if (type_stat === "paiement") {
+                    const total_paiement_global = parseFloat(results.total_paiement_global).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
 
-                document.getElementById('total_paiement_global').innerHTML = total_paiement_global || '';
-                document.getElementById('nb_total_global').innerHTML = results.total_paiement_nbre_global || '';
+                    document.getElementById('total_paiement_global').innerHTML = total_paiement_global || '';
+                    document.getElementById('nb_total_global').innerHTML = results.total_paiement_nbre_global || '';
+                }
             }  
                 
                 // Données pour le camembert
@@ -305,7 +309,7 @@ $(document).ready(function() {
               
 
                 if(permissions.par_rubrique){
-                    if (type_stat === "rubrique") {
+                    if (type_stat === "rubrique" && type_sous_stat ==="jour") {
                         const today = "2025-02-10"; // new Date().toISOString().split('T')[0];
                         let totalLine = 0;
                         let totalAmount = 0;
@@ -401,7 +405,7 @@ $(document).ready(function() {
                     }   
                     
                     
-                    if(type_stat === "rubrique"){
+                    if(type_stat === "rubrique"  && type_sous_stat ==="mois"){
                           
                         const tableauStats = document.getElementById("tableauStats");
                         const headerRow = document.getElementById("headerRow");
@@ -456,7 +460,7 @@ $(document).ready(function() {
              
                 
             /**/     if(permissions.par_rubrique_global){
-                        if (type_stat === "rubrique") {
+                        if (type_stat === "rubrique"  && type_sous_stat ==="tous") {
                             let totalLine = 0;
                             let totalAmount = 0;
                             let par_facturation = ""; // Initialisation de la variable pour stocker les lignes du tableau
@@ -464,8 +468,7 @@ $(document).ready(function() {
                         
                             if (global_par_rubrique.length > 0) {
                                 global_par_rubrique.forEach(item => {
-                                    console.log('****** global_par_rubrique',item);
-                                    console.log(item);
+                                   
                                     // Extraction et formatage des valeurs
                                     const rubriqueName = item.rubrique_name || '';
                                     const optionName = item.option_name ? ` - ${item.option_name}` : '';

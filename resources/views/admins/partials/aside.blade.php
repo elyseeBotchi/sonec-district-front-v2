@@ -220,32 +220,61 @@
                                 </a>
                                 <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
                                             <span class="hide-menu">
                                                 PAR PAIEMENT  
                                             </span>
                                         </a>
                                     </li>
 
-                                    <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
-                                            <span class="hide-menu">
-                                            PAR RUBRIQUE
-                                            </span>
-                                        </a>
-                                    </li>
         
-                                    <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'periode']) }}" class="sidebar-link">
-                                            <span class="hide-menu">
-                                            PAR PERIODE
-                                            </span>
-                                        </a>
-                                    </li>
+                                    <li class="sidebar-item"> 
+                                        <a class="has-arrow sidebar-link" href="javascript:void(0)"
+                                        aria-expanded="false">
+                                        <span class="hide-menu">PAR RUBRIQUE</span>
+                                    </a>
+                                    <ul aria-expanded="false" class="collapse second-level base-level-line">
+                                        <li class="sidebar-item">
+                                            <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
+                                                <span
+                                                    class="hide-menu">
+                                                     Par jour
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois',]) }}" class="sidebar-link">
+                                                <span
+                                                    class="hide-menu">
+                                                     Par mois
+                                                </span>
+                                            </a>
+                                        </li>
+
+                                        <li class="sidebar-item">
+                                            <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous',]) }}" class="sidebar-link">
+                                                <span
+                                                    class="hide-menu">
+                                                     Tous
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR PERIODE
+                                        </span>
+                                    </a>
+                                </li>
 
 
                                 </ul>
                             </li>
+
+
                         @endif
                     @endisset
 
