@@ -245,10 +245,19 @@ $(document).ready(function() {
                 par_validation_jour: canPermission('statistique_voir_les_statistiques_par_validations_par_jour'),
                 agent_validateur: canPermission('statistique_voir_les_statistiques_par_agent_validateur'),
                 
+
+                statistique_partenaires_voir_les_statistiques_global: canPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_mois: canPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_jour: canPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_periode:canPermission('statistique_partenaires_voir_les_statistiques_par_periode'),
+                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier: canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'),
+                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel:canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel')
+
+
             };
             
-            if(permissions.montant_total_jour){
-                if(type_stat === "paiement"){
+            if(type_stat === "paiement"){
+                if(permissions.montant_total_jour){
                     const today = new Date().toISOString().split('T')[0];
 
                     const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
@@ -261,10 +270,7 @@ $(document).ready(function() {
                     document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
                 }
               
-            }  
-     
-            if(permissions.total_paiement ){
-                if(type_stat === "paiement"){
+                if(permissions.total_paiement){
                     const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
@@ -272,14 +278,145 @@ $(document).ready(function() {
 
                     document.getElementById('total_paiement').innerHTML = total_paiement || '';
                     document.getElementById('nb_total').innerHTML = stat.nombre_lignes_global || '';
-                }
+                }  
+                
+                if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel){
+                    /* ######################################################################### */
+                    /* ######################################################################### */
+                        // 📌 Récupérer dynamiquement les données par mois
+                        const labels_mois = Object.keys(stat.par_mois); // Liste des mois
+                        const amounts_mois = labels_mois.map(mois => parseFloat(stat.par_mois[mois].montant_total));
 
-            } 
+                        // 📌 Vérification des données récupérées
+                       // console.log("Mois:", labels_mois);
+                       // console.log("Montants par Mois:", amounts_mois);
+
+                        
+                        const canvas = document.getElementById('chartPaiementMois');
+                    
+                        if (!canvas) {
+                            console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
+                            return;
+                        }
+                    
+                        const ctx = canvas.getContext('2d');
+                    
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels_mois,
+                                datasets: [{
+                                    label: 'Montant total des paiements',
+                                    data: amounts_mois,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                }  
+                    
+
+                if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier){
+                    if (type_stat === "paiement") {     
+                        // const results = stats.par_jour;
+                        const categories = Object.keys(stat.par_jour);
+                        const values = categories.map(jour => parseFloat(stat.par_jour[jour].nombre_lignes));
+                        const valuesAmount = categories.map(jour => parseFloat(stat.par_jour[jour].montant_total));
+
+                        // const values = Object.values(stats.par_mois);
+                
+                        // Configuration du graphe
+                        const options = {
+                            series: [{
+                                name: "Nombre de paiement",
+                                data: values,
+                            }],
+                            annotations: {
+                                points: [{
+                                    x: 'Dates',
+                                    seriesIndex: 0,
+                                    label: {
+                                        borderColor: '#775DD0',
+                                        offsetY: 0,
+                                        style: {
+                                            color: '#fff',
+                                            background: '#775DD0',
+                                        },
+                                        text: 'Évolution des paiements',
+                                    },
+                                }]
+                            },
+                            chart: {
+                                height: 350,
+                                type: 'bar',
+                            },
+                            plotOptions: {
+                                bar: {
+                                    borderRadius: 10,
+                                    columnWidth: '50%',
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                width: 0
+                            },
+                            grid: {
+                                row: {
+                                    colors: ['#fff', '#f2f2f2']
+                                }
+                            },
+                            xaxis: {
+                                labels: {
+                                    rotate: -45
+                                },
+                                categories: categories,
+                                tickPlacement: 'on',
+                            },
+                            yaxis: {
+                                title: {
+                                    text: "Nombre de paiement",
+                                },
+                            },
+                            fill: {
+                                colors: ['#008FFB'],
+                            }
+                        };
+                
+                        // Détruit le graphe existant pour éviter les doublons
+                        const chartContainer = document.querySelector("#chartPaiement");
+                        if (chartContainer._chartInstance) {
+                            chartContainer._chartInstance.destroy();
+                        }
+                        const chart = new ApexCharts(chartContainer, options);
+                        chartContainer._chartInstance = chart;
+                        chart.render();
+                    }
+                }
+                    /* ######################################################################### */
+                    /* ######################################################################### */
+
+               
+                
+                
+            }  
+     
+
 
 
 
              
-            if(permissions.montant_total_jour_global){
+           /*  if(permissions.montant_total_jour_global){
                 if (type_stat === "paiement") {
                 const montant_total_jour_global = parseFloat(results.montant_total_jour_global).toLocaleString('fr-FR', {
                     style: 'currency',
@@ -289,9 +426,9 @@ $(document).ready(function() {
                 document.getElementById('montant_total_jour_global').innerHTML = montant_total_jour_global || '';
                 document.getElementById('nb_total_jour_global').innerHTML = results.nb_total_jour_global || 0;
                 }
-            }
+            } */
 
-            if(permissions.total_paiement_global){
+           /*  if(permissions.total_paiement_global){
                 if (type_stat === "paiement") {
                     const total_paiement_global = parseFloat(results.total_paiement_global).toLocaleString('fr-FR', {
                         style: 'currency',
@@ -301,14 +438,14 @@ $(document).ready(function() {
                     document.getElementById('total_paiement_global').innerHTML = total_paiement_global || '';
                     document.getElementById('nb_total_global').innerHTML = results.total_paiement_nbre_global || '';
                 }
-            }  
+            }  */ 
                 
                 // Données pour le camembert
                 const labels = [];
                 const dataValues = [];
               
 
-                if(permissions.par_rubrique){
+                if(permissions.statistique_partenaires_voir_les_statistiques_par_jour){
                     if (type_stat === "rubrique" && type_sous_stat ==="jour") {
                         const today = "2025-02-10"; // new Date().toISOString().split('T')[0];
                         let totalLine = 0;
@@ -459,7 +596,7 @@ $(document).ready(function() {
                 } 
              
                 
-            /**/     if(permissions.par_rubrique_global){
+                if(permissions.statistique_partenaires_voir_les_statistiques_global){
                         if (type_stat === "rubrique"  && type_sous_stat ==="tous") {
                             let totalLine = 0;
                             let totalAmount = 0;
@@ -520,180 +657,8 @@ $(document).ready(function() {
                 
                 }  
 
-                if(permissions.par_rdv){
 
-                    if(type_stat === "rdv"){
-                        rdvToday();
-                        // Récupérer l'élément <tbody> où les données seront injectées
-                        var render_rdv = document.getElementById('rdv');
-
-                        // Nettoyer le tableau avant d'ajouter les données
-                        render_rdv.innerHTML = '';
-
-                        // Parcourir le tableau et ajouter chaque ligne au tableau
-                        rendezVous.forEach(item => {
-                            // Créer une nouvelle ligne
-                            var row = document.createElement('tr');
-                            
-                            // Ajouter les cellules pour chaque propriété
-                            var dateCell = document.createElement('th');
-                            dateCell.textContent = item.date_rdv;
-
-                            var countCell = document.createElement('th');
-                            countCell.textContent = item.total_prevu;
-
-                            var effCell = document.createElement('th');
-                            effCell.textContent = item.total_recu || 0;
-
-                            var actionCell = document.createElement('th');
-                            actionCell.innerHTML  = `<button class='btn btn-info show-rdv' data-rdv='${item.date_rdv}' > Voir la liste </button>`;
-
-                            // Ajouter les cellules à la ligne
-                            row.appendChild(dateCell);
-                            row.appendChild(countCell);
-                            row.appendChild(effCell);
-                            row.appendChild(actionCell);
-                            
-
-                            // Ajouter la ligne au tableau
-                            render_rdv.appendChild(row);
-                        });
-                        /* GRAPHE D'EVOLUTION */
-                    // Filtrer les entrées valides
-                    const validRendezVous = rendezVous.filter(item => item.date_rdv !== null);
-
-                    // Créer les catégories et les données à partir des entrées valides
-                    const categoriesrdv = validRendezVous.map(item => item.date_rdv); // Les dates
-                    //const totalPrevu = validRendezVous.map(item => item.total_prevu || 0); // Par défaut 0 si non défini
-                    const totalRecu = validRendezVous.map(item => item.total_recu || 0); // Par défaut 0 si non défini
-                    
-                    // Graphique ApexCharts
-                   // console.log(categoriesrdv);
-                    const options = {
-                        series: [
-                            /* { name: "Rendez-vous prévus", data: totalPrevu }, */
-                            { name: "Rendez-vous reçus", data: totalRecu }
-                        ],
-                        chart: { height: 350, type: 'bar' },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 5,
-                                horizontal: false,
-                                columnWidth: '45%' // Permet de donner de l'espace entre les barres
-                            }
-                        },
-                        dataLabels: { enabled: false },
-                        xaxis: {
-                            categories: categoriesrdv,
-                            title: { text: 'Dates' },
-                            labels: {
-                                rotate: -45, // Pour éviter l'écrasement des labels
-                            },
-                        },
-                     /*    yaxis: { title: { text: 'Nombre de rendez-vous' } },
-                        fill: { opacity: 1 },
-                        legend: { position: 'top' },
-                        colors: ['#008FFB', '#00E396'],
-                        grid: {
-                            row: {
-                                colors: ['#fff', '#f2f2f2'] // Alternance de couleurs de fond
-                            }
-                        },
-                        tooltip: {
-                            shared: true, // Affiche un tooltip partagé
-                            intersect: false,
-                        }, */
-                    };
-                    
-                    const chartRDV = new ApexCharts(document.querySelector("#rendezvousChart"), options);
-                    chartRDV.render();
-                    /* ACTION POUR AFFICHER LA LISTE */
-                        document.getElementById('rdv').addEventListener('click', function(event) {
-                            if (event.target.classList.contains('show-rdv')) {
-                                var date_rdv = event.target.getAttribute('data-rdv');
-                        
-                                // Effectuer une requête fetch pour récupérer les rendez-vous de cette date
-                                fetch(`/panel/statistique/data/rendezvous/${Entity_uuid}/${date_rdv}`)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                            document.getElementById('titre_rdv').innerHTML= "LISTE DES RENDEZ VOUS DU " + date_rdv 
-                                            // Vérifie si le tableau a déjà été initialisé
-                                            if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-rdv')) {
-                                                // Détruire l'instance existante
-                                                $('#datatable-rdv').DataTable().destroy();
-                                            }
-
-                                            $('#datatable-rdv').DataTable({
-                                                language: {
-                                                    url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/fr-FR.json',
-                                                },
-                                                data: data.data,
-                                                columns: [
-                                                    { data: 'date_rdv' },
-                                                    {
-                                                        data: 'nom_du_proprietaire',
-                                                        render: function(data, type, row) {
-                                                            return ` ${data}`;
-                                                        }
-                                                    },                        {
-                                                        data: 'numero_de_la_carte_grise',
-                                                        render: function(data, type, row) {
-                                                            return ` ${data}`;
-                                                        }
-                                                    },                        {
-                                                        data: 'numero_dimmatriculation',
-                                                        render: function(data, type, row) {
-                                                            return ` ${data}`;
-                                                        }
-                                                    },
-                                                    { data: 'telephone' },
-                                                    { data: 'amount' },
-                                                    { data: 'reference' },
-                                                    { data: 'operateur_uuid' },
-                                                    { data: 'transaction_id' },
-                                                    {
-                                                        data: 'state',
-                                                        render: function(data, type, row) {
-                                                            if(data ==="validate"){
-                                                                return `
-                                                                <span class="badge bg-success-subtle text-success"> Validé</span>
-                                                            `;
-                                                            }
-                                                            else if(data ==="fail"){
-                                                                return `
-                                                                <span class="badge bg-danger-subtle text-danger"> Rejété </span>
-                                                            `;
-                                                            }
-                                                            else if(data ==="enable"){
-                                                                return `
-                                                                <span class="badge bg-danger-subtle text-danger"> En attente de validation </span>
-                                                            `;
-                                                            }else{
-                                                                return `
-                                                                <span class="badge bg-warning-subtle text-warning"> ${data} </span>
-                                                            `;
-                                                            }
-
-                                                        }
-                                                    },
-                                                    {
-                                                        data: 'created_at',
-                                                        render: function(data, type, row) {
-                                                            return `${data}`;
-                                                        }
-                                                    },
-                                                ]
-                                            });
-                                            
-                                    })
-                                    .catch(error => console.error('Erreur lors de la récupération des rendez-vous:', error));
-                            }
-                        });
-                    }
-                }
-
-
-                if(permissions.par_rdv){
+                if(permissions.statistique_partenaires_voir_les_statistiques_par_periode){
                     if(type_stat === "periode"){
                         let render_periode = '';
                         let montantTotalPeriode = 0;
@@ -815,8 +780,6 @@ $(document).ready(function() {
                                 });
                             });
                     }
-
-              
                 }
 
                 if(permissions.par_validation_jour){
@@ -836,133 +799,7 @@ $(document).ready(function() {
                 
                     
 
-                if(type_stat === "paiement"){
-                    /* ######################################################################### */
-                    /* ######################################################################### */
-                        // 📌 Récupérer dynamiquement les données par mois
-                        const labels_mois = Object.keys(stat.par_mois); // Liste des mois
-                        const amounts_mois = labels_mois.map(mois => parseFloat(stat.par_mois[mois].montant_total));
-
-                        // 📌 Vérification des données récupérées
-                       // console.log("Mois:", labels_mois);
-                       // console.log("Montants par Mois:", amounts_mois);
-
-                        
-                        const canvas = document.getElementById('chartPaiementMois');
-                    
-                        if (!canvas) {
-                            console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
-                            return;
-                        }
-                    
-                        const ctx = canvas.getContext('2d');
-                    
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels_mois,
-                                datasets: [{
-                                    label: 'Montant total des paiements',
-                                    data: amounts_mois,
-                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-                    
-                    
-
-                        if(permissions.par_paiement && permissions.par_paiement_detaille){
-                            if (type_stat === "paiement") {     
-                               // const results = stats.par_jour;
-                                const categories = Object.keys(stat.par_jour);
-                                const values = categories.map(jour => parseFloat(stat.par_jour[jour].nombre_lignes));
-                                const valuesAmount = categories.map(jour => parseFloat(stat.par_jour[jour].montant_total));
-
-                               // const values = Object.values(stats.par_mois);
-                        
-                                // Configuration du graphe
-                                const options = {
-                                    series: [{
-                                        name: "Nombre de paiement",
-                                        data: values,
-                                    }],
-                                    annotations: {
-                                        points: [{
-                                            x: 'Dates',
-                                            seriesIndex: 0,
-                                            label: {
-                                                borderColor: '#775DD0',
-                                                offsetY: 0,
-                                                style: {
-                                                    color: '#fff',
-                                                    background: '#775DD0',
-                                                },
-                                                text: 'Évolution des paiements',
-                                            },
-                                        }]
-                                    },
-                                    chart: {
-                                        height: 350,
-                                        type: 'bar',
-                                    },
-                                    plotOptions: {
-                                        bar: {
-                                            borderRadius: 10,
-                                            columnWidth: '50%',
-                                        }
-                                    },
-                                    dataLabels: {
-                                        enabled: false
-                                    },
-                                    stroke: {
-                                        width: 0
-                                    },
-                                    grid: {
-                                        row: {
-                                            colors: ['#fff', '#f2f2f2']
-                                        }
-                                    },
-                                    xaxis: {
-                                        labels: {
-                                            rotate: -45
-                                        },
-                                        categories: categories,
-                                        tickPlacement: 'on',
-                                    },
-                                    yaxis: {
-                                        title: {
-                                            text: "Nombre de paiement",
-                                        },
-                                    },
-                                    fill: {
-                                        colors: ['#008FFB'],
-                                    }
-                                };
-                        
-                                // Détruit le graphe existant pour éviter les doublons
-                                const chartContainer = document.querySelector("#chartPaiement");
-                                if (chartContainer._chartInstance) {
-                                    chartContainer._chartInstance.destroy();
-                                }
-                                const chart = new ApexCharts(chartContainer, options);
-                                chartContainer._chartInstance = chart;
-                                chart.render();
-                            }
-                        }
-                    /* ######################################################################### */
-                    /* ######################################################################### */
-
-                }
+                
 
             })
             .catch(error => {

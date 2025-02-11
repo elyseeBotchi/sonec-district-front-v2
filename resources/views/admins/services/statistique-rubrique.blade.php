@@ -209,7 +209,7 @@
 
             @endif
            
-            @if(CanPermission('statistique_voir_les_statistiques_par_rubrique'))
+            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
                 @isset($type_stat,$type_sous_stat)
                     @if($type_stat =="rubrique" && $type_sous_stat =="jour")
                         <div class="row">
@@ -249,8 +249,8 @@
             @endif
 
              
-            @if(CanPermission('statistique_voir_les_statistiques_par_rubrique_global'))
-                @isset($type_stat,$type_sous_stat)
+            @isset($type_stat,$type_sous_stat)
+                @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
                     @if($type_stat =="rubrique" && $type_sous_stat =="tous")
                         <div class="card">
                             <div class="card-header" id="rubrique-facturation-titre-global">
@@ -278,6 +278,11 @@
                                 </div>
                         </div>
                     @endif
+                @endif
+
+
+                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
+
                     @if($type_stat =="rubrique" && $type_sous_stat =="mois")
                         <div class="row card">
                             <div class="card-header" id="titre_liste">
@@ -296,8 +301,10 @@
                             </div>
                         </div>
                     @endif
-                @endisset
-            @endif
+
+                @endif
+            @endisset
+           
 
 
 
