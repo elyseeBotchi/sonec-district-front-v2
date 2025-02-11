@@ -524,7 +524,7 @@ $(document).ready(function() {
                 } 
              
                 
-                if(permissions.par_rubrique_global){
+            /*     if(permissions.par_rubrique_global){
                     if(type_stat === "rubrique"){
                         let totalLine = 0;
                         let totalAmount = 0;
@@ -570,7 +570,7 @@ $(document).ready(function() {
                         }
                          
                     }
-                } 
+                }  */
 
                 if(permissions.par_rdv){
 
