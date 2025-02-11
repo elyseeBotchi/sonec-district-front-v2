@@ -374,6 +374,7 @@
                     @if($type_stat =="rubrique")
                         <div class="row">
                             <div class="row align-items-start">
+                                
                                 <div class="card col-md-12">
                                     <div class="card-header" id="rubrique-facturation-titre-global">
                                         REPARTITION PAR RUBRIQUE DE FACTURATION
@@ -402,6 +403,23 @@
                                 <div class="col-md-12">
                                     <canvas id="facturationChartGlobal" width="800" height="800"></canvas>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row card">
+                            <div class="card-header" id="titre_liste">
+                                Historique des paiements par mois
+                            </div>
+            
+                            <div class="pt-5 table-responsive">
+                                <table id="tableauStats"  class="table" border="1">
+                                    <thead>
+                                        <tr id="headerRow">
+                                            <th>Rubrique</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody"></tbody>
+                                </table>
                             </div>
                         </div>
                     @endif
@@ -518,25 +536,7 @@
                 <div id="periodeChart" style="width: 100% !important"></div>
             </div>
 
-            
-            <div class="row card">
-                <div class="card-header" id="titre_liste">
-                    Historique des paiements par mois
-                </div>
 
-                <div class="pt-5 table-responsive">
-                    <table id="tableauStats"  class="table" border="1">
-                        <thead>
-                            <tr id="headerRow">
-                                <th>Rubrique</th>
-                                <th>Option</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-            
             <div class="row card">
                 <div class="card-header" id="titre_liste">
                     Historique des paiements par période

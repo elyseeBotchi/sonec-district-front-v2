@@ -398,7 +398,60 @@ $(document).ready(function() {
                                 }
                             }
                         });
-                    }                    
+                    }   
+                    
+                    
+                    if(type_stat === "rubrique"){
+                          
+                        const tableauStats = document.getElementById("tableauStats");
+                        const headerRow = document.getElementById("headerRow");
+                        const tableBody = document.getElementById("tableBody");
+                    
+                        // Récupérer toutes les dates uniques
+                        let dates = Object.keys(stat.global_par_mois);
+                    
+                        // Ajouter les dates dans l'en-tête du tableau
+                        dates.forEach(date => {
+                            let th = document.createElement("th");
+                            th.textContent = date;
+                            headerRow.appendChild(th);
+                        });
+                    
+                        // Préparer un objet pour organiser les données par rubrique
+                        let rubriques = {};
+                    
+                        // Remplir l'objet rubriques avec les données
+                        dates.forEach(date => {
+                            stat.global_par_mois[date].forEach(item => {
+                                let key = `${item.rubrique_name} - ${item.option_name || ''}`;
+                                if (!rubriques[key]) {
+                                    rubriques[key] = { "rubrique_name": item.rubrique_name, "data": {} };
+                                }
+                                rubriques[key].data[date] = item.total_lignes;
+                            });
+                        });
+                    
+                        // Générer le tableau en fonction des rubriques
+                        Object.keys(rubriques).forEach(key => {
+                            let row = document.createElement("tr");
+                    
+                            // Colonnes Rubrique et Option
+                            let cellRubrique = document.createElement("td");
+                            cellRubrique.textContent = rubriques[key].rubrique_name;
+                            row.appendChild(cellRubrique);
+                    
+                            // Ajouter les valeurs par date
+                            dates.forEach(date => {
+                                let cell = document.createElement("td");
+                                cell.textContent = rubriques[key].data[date] || 0; // 0 si aucune donnée
+                                row.appendChild(cell);
+                            });
+                    
+                            tableBody.appendChild(row);
+                        });
+                    
+                    
+                    }
                 } 
              
                 
@@ -760,61 +813,7 @@ $(document).ready(function() {
                             });
                     }
 
-                    if(type_stat === "periode"){
-                          
-                            const tableauStats = document.getElementById("tableauStats");
-                            const headerRow = document.getElementById("headerRow");
-                            const tableBody = document.getElementById("tableBody");
-                        
-                            // Récupérer toutes les dates uniques
-                            let dates = Object.keys(stat.global_par_mois);
-                        
-                            // Ajouter les dates dans l'en-tête du tableau
-                            dates.forEach(date => {
-                                let th = document.createElement("th");
-                                th.textContent = date;
-                                headerRow.appendChild(th);
-                            });
-                        
-                            // Préparer un objet pour organiser les données par rubrique
-                            let rubriques = {};
-                        
-                            // Remplir l'objet rubriques avec les données
-                            dates.forEach(date => {
-                                stat.global_par_mois[date].forEach(item => {
-                                    let key = `${item.rubrique_name} - ${item.option_name || ''}`;
-                                    if (!rubriques[key]) {
-                                        rubriques[key] = { "rubrique_name": item.rubrique_name, "option_name": item.option_name, "data": {} };
-                                    }
-                                    rubriques[key].data[date] = item.total_lignes;
-                                });
-                            });
-                        
-                            // Générer le tableau en fonction des rubriques
-                            Object.keys(rubriques).forEach(key => {
-                                let row = document.createElement("tr");
-                        
-                                // Colonnes Rubrique et Option
-                                let cellRubrique = document.createElement("td");
-                                cellRubrique.textContent = rubriques[key].rubrique_name;
-                                row.appendChild(cellRubrique);
-                        
-                                let cellOption = document.createElement("td");
-                                cellOption.textContent = rubriques[key].option_name || "-";
-                                row.appendChild(cellOption);
-                        
-                                // Ajouter les valeurs par date
-                                dates.forEach(date => {
-                                    let cell = document.createElement("td");
-                                    cell.textContent = rubriques[key].data[date] || 0; // 0 si aucune donnée
-                                    row.appendChild(cell);
-                                });
-                        
-                                tableBody.appendChild(row);
-                            });
-                        
-                        
-                    }
+              
                 }
 
                 if(permissions.par_validation_jour){
