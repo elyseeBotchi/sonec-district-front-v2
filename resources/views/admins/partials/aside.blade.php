@@ -211,8 +211,7 @@
 
                 {{-- ####################################################### --}}
                 @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                    @isset(AuthConnect()['role']['name'])
-                        @if(AuthConnect()['role']['name'] =="Administrateur")
+                    
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                     <i data-feather="box" class="feather-icon"></i>
@@ -286,99 +285,98 @@
 
                                 </ul>
                             </li>
-
-
-                        @endif
-                    @endisset
-
                 @endif
                 {{-- ####################################################### --}}
-                @if(CanPermission('statistique_voir_le_module_statistique'))
-                    <li class="list-divider"></li>
-                    <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
-                
-                    @if($entitesNav != "")
-                        @forelse($entitesNav as $val)
-                        @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
-                        <li class="sidebar-item">
-                            <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
-                                <span class="hide-menu">
-                                PAR PAIEMENT
-                                </span>
-                            </a>
-                        </li>
-                        @endif 
-                        
-                        @if(CanPermission('statistique_voir_les_statistiques_par_operateur'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'operateur']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                    PAR OPERATEUR
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        @if(CanPermission('statistique_voir_les_statistiques_par_rubrique'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                    PAR RUBRIQUE
-                                    </span>
-                                </a>
-                            </li>
-
-                        @endif
-
-                        @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'periode']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                    PAR PERIODE
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        
-                    
-                            <li class="list-divider">OPERATIONS</li>
-                        @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rdv']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                    PAR RENDEZ-VOUS
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'agent_validateur']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                        PAR VALIDATEUR
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        @if(CanPermission('statistique_voir_les_statistiques_par_validations_par_jour'))
-                            <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'validation_jour']) }}" class="sidebar-link">
-                                    <span class="hide-menu">
-                                        VALIDATION PAR JOUR
-                                    </span>
-                                </a>
-                            </li>
-                        @endif
-
-                        @empty
-                        @endforelse
+                @isset(AuthConnect()['role']['name'])
+                    @if(AuthConnect()['role']['name'] =="Administrateur")
                     @endif
+                @endisset
+                    @if(CanPermission('statistique_voir_le_module_statistique'))
+                        <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
+                    
+                        @if($entitesNav != "")
+                            @forelse($entitesNav as $val)
+                            @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR PAIEMENT
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif 
+                            
+                            @if(CanPermission('statistique_voir_les_statistiques_par_operateur'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'operateur']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR OPERATEUR
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
 
-                @endif
+                            @if(CanPermission('statistique_voir_les_statistiques_par_rubrique'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR RUBRIQUE
+                                        </span>
+                                    </a>
+                                </li>
 
+                            @endif
+
+                            @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'periode']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR PERIODE
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            
+                        
+                                <li class="list-divider">OPERATIONS</li>
+                            @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rdv']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                        PAR RENDEZ-VOUS
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'agent_validateur']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                            PAR VALIDATEUR
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(CanPermission('statistique_voir_les_statistiques_par_validations_par_jour'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'validation_jour']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                            VALIDATION PAR JOUR
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @empty
+                            @endforelse
+                        @endif
+
+                    @endif
+              
 
                 
 

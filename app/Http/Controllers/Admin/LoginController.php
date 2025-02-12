@@ -30,7 +30,7 @@ class LoginController extends Controller
         //dd(AuthConnect()['role']);
         $Entities = Entities();
         if(AuthConnect()['role']['name'] =="PAILLEUR"){
-            return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement']);
+            return redirect()->route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']); //route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'paiement']);
         }
 
         
