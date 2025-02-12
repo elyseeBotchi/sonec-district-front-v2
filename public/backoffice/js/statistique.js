@@ -409,6 +409,17 @@ $(document).ready(function() {
                 par_validation_jour: canPermission('statistique_voir_les_statistiques_par_validations_par_jour'),
                 agent_validateur: canPermission('statistique_voir_les_statistiques_par_agent_validateur'),
                 
+
+                
+                statistique_partenaires_voir_les_statistiques_global: canPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_mois: canPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_jour: canPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'),
+                statistique_partenaires_voir_les_statistiques_par_periode:canPermission('statistique_partenaires_voir_les_statistiques_par_periode'),
+                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier: canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'),
+                statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel:canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'),
+                statistique_partenaires_voir_le_montant_total_par_jour:canPermission('statistique_partenaires_voir_le_montant_total_par_jour'),
+                statistique_partenaires_voir_le_montant_total:canPermission('statistique_partenaires_voir_le_montant_total')
+
             };
             
 
@@ -438,7 +449,7 @@ $(document).ready(function() {
                 }  
             }
 
-            
+
             if(permissions.montant_total_jour){
                 if(type_stat === "paiement"){
                      /* const today = new Date().toISOString().split('T')[0];
