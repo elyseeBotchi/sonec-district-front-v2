@@ -411,36 +411,65 @@ $(document).ready(function() {
                 
             };
             
+
+
+            if(type_stat === "paiement"){
+                if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
+                    const today = new Date().toISOString().split('T')[0];
+
+                    const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+                    
+
+                    document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
+                    document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
+                }
+              
+                if(permissions.statistique_partenaires_voir_le_montant_total){
+                    const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById('total_paiement').innerHTML = total_paiement || '';
+                    document.getElementById('nb_total').innerHTML = stat.nombre_lignes_global || '';
+                }  
+            }
+
+            
             if(permissions.montant_total_jour){
                 if(type_stat === "paiement"){
-                    const today = new Date().toISOString().split('T')[0];
+                     /* const today = new Date().toISOString().split('T')[0];
                     const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
 
-                    /* const montant_total_jour = parseFloat(results.montant_total_jour).toLocaleString('fr-FR', {
+                   const montant_total_jour = parseFloat(results.montant_total_jour).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
-                    });*/
+                    });
 
                     document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
                     //document.getElementById('nb_total_jour').innerHTML = results.nb_total_jour || 0;
                     document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
-
+                    */
                 }
               
             }  
      
             if(permissions.total_paiement ){
                 if(type_stat === "paiement"){
-                    const total_paiement = parseFloat(results.total_paiement).toLocaleString('fr-FR', {
+                    /* const total_paiement = parseFloat(results.total_paiement).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
 
                     document.getElementById('total_paiement').innerHTML = total_paiement || '';
-                    document.getElementById('nb_total').innerHTML = results.total_paiement_nbre || '';
+                    document.getElementById('nb_total').innerHTML = results.total_paiement_nbre || ''; 
+                    */
                 }
 
             } 
