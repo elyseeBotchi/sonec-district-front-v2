@@ -146,7 +146,6 @@
     </div>
 
 
-    @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
         @isset($type_stat)
             @if($type_stat =="paiement")
 
@@ -163,7 +162,7 @@
                 @endif        
             @endif
         @endisset
-    @endif 
+    
 
     @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
 
