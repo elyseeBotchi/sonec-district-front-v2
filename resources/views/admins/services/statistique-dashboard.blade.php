@@ -209,29 +209,29 @@
 
 
 @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
-@isset($type_stat)
-    @if($type_stat =="validation_jour")
-        <div class="row col-md-12">
-            <div id="chartvalidationJ" style="width: 100% !important"></div>
-        </div>
+    @isset($type_stat)
+        @if($type_stat =="validation_jour")
+            <div class="row col-md-12">
+                <div id="chartvalidationJ" style="width: 100% !important"></div>
+            </div>
 
-        <div class="row card">
-            <div class="card-header" id="titre_validation_jour">
+            <div class="row card">
+                <div class="card-header" id="titre_validation_jour">
+                </div>
+                <div class="pt-5 table-responsive">
+                    <table class="table" id="datatable-validationJ">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Nombre</th>
+                            </tr>
+                            </thead>
+                            <tbody ></tbody>
+                    </table>
+                </div>
             </div>
-            <div class="pt-5 table-responsive">
-                <table class="table" id="datatable-validationJ">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Nombre</th>
-                        </tr>
-                        </thead>
-                        <tbody ></tbody>
-                </table>
-            </div>
-        </div>
-    @endif
-@endisset
+        @endif
+    @endisset
 @endif 
 
 

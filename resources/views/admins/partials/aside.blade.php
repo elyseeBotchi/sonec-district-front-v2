@@ -273,7 +273,7 @@
                                     </li>
                                 @endif
 
-                                @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
                                     <li class="sidebar-item">
                                         <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
                                             <span class="hide-menu">
