@@ -5,7 +5,7 @@
     <div class="row">
         @isset($type_stat)
         @if($type_stat =="paiement")
-            @if(canPermission('statistique_voir_le_montant_total_par_jour'))
+            @if(canPermission('statistique_partenaires_voir_le_montant_total_par_jour'))
                 <div class="col-md-5" >
                     <div data-status="today" data-pay="all"  class="card card-animate highlight" >
                         <div class="card-body">
@@ -36,7 +36,7 @@
                 </div> <!-- end col-->
             @endif
 
-            @if(canPermission('statistique_voir_le_total_des_paiements'))
+            @if(canPermission('statistique_partenaires_voir_le_montant_total'))
                 <div class="col-md-5" >
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
