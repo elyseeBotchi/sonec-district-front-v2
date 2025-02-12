@@ -212,79 +212,79 @@
                 {{-- ####################################################### --}}
                 @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
                     
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                                    <i data-feather="box" class="feather-icon"></i>
-                                    <span class="hide-menu">STATISTIQUE  </span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                    @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                            <i data-feather="box" class="feather-icon"></i>
+                            <span class="hide-menu">STATISTIQUE  </span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                            @isset($entitesNav[0])
+                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
 
-                                        <li class="sidebar-item">
-                                            <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
-                                                <span class="hide-menu">
-                                                    PAR PAIEMENT  
-                                                </span>
-                                            </a>
-                                        </li>
-                                    @endif 
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                PAR PAIEMENT  
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif 
 
-                                    @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                                        <li class="sidebar-item"> 
-                                            <a class="has-arrow sidebar-link" href="javascript:void(0)"
-                                                aria-expanded="false">
-                                                <span class="hide-menu">PAR RUBRIQUE</span>
-                                            </a>
-                                            <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
-                                                    <li class="sidebar-item">
-                                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
-                                                            <span
-                                                                class="hide-menu">
-                                                                Par jour
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                                    <li class="sidebar-item"> 
+                                        <a class="has-arrow sidebar-link" href="javascript:void(0)"
+                                            aria-expanded="false">
+                                            <span class="hide-menu">PAR RUBRIQUE</span>
+                                        </a>
+                                        <ul aria-expanded="false" class="collapse second-level base-level-line">
+                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
+                                                <li class="sidebar-item">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
+                                                        <span
+                                                            class="hide-menu">
+                                                            Par jour
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
 
-                                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
-                                                    <li class="sidebar-item">
-                                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois',]) }}" class="sidebar-link">
-                                                            <span
-                                                                class="hide-menu">
-                                                                Par mois
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
+                                                <li class="sidebar-item">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois',]) }}" class="sidebar-link">
+                                                        <span
+                                                            class="hide-menu">
+                                                            Par mois
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
 
-                                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
-                                                    <li class="sidebar-item">
-                                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous',]) }}" class="sidebar-link">
-                                                            <span
-                                                                class="hide-menu">
-                                                                Tous
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                @endif
-                                            </ul>
-                                        </li>
-                                    @endif
-
-                                    @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                                        <li class="sidebar-item">
-                                            <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$val['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
-                                                <span class="hide-menu">
-                                                PAR PERIODE
-                                                </span>
-                                            </a>
-                                        </li>
+                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
+                                                <li class="sidebar-item">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous',]) }}" class="sidebar-link">
+                                                        <span
+                                                            class="hide-menu">
+                                                            Tous
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </li>
                                 @endif
 
-
-                                </ul>
-                            </li>
+                                @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                            PAR PERIODE
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endisset
+                        </ul>
+                    </li>
                 @endif
                 {{-- ####################################################### --}}
                 @isset(AuthConnect()['role']['name'])
