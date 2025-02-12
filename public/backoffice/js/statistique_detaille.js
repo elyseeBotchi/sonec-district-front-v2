@@ -448,7 +448,7 @@ $(document).ready(function() {
 
                 if(permissions.statistique_partenaires_voir_les_statistiques_par_jour){
                     if (type_stat === "rubrique" && type_sous_stat ==="jour") {
-                        const today = "2025-02-10"; // new Date().toISOString().split('T')[0];
+                        const today = new Date().toISOString().split('T')[0];
                         let totalLine = 0;
                         let totalAmount = 0;
                         let par_facturation = ""; // S'assurer que cette variable est bien initialisée
