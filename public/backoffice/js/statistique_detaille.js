@@ -545,7 +545,7 @@ $(document).ready(function() {
                 
                 if(permissions.statistique_partenaires_voir_les_statistiques_par_mois){
                    
-                            if (type_stat === "rubrique" && type_sous_stat === "mois") {
+                            /* if (type_stat === "rubrique" && type_sous_stat === "mois") {
                                 const tableauStats = document.getElementById("tableauStats");
                                 const headerRow1 = document.getElementById("headerRow1"); // Première ligne d'en-tête
                                 const headerRow2 = document.getElementById("headerRow2"); // Deuxième ligne d'en-tête
@@ -576,15 +576,7 @@ $(document).ready(function() {
                                     headerRow2.appendChild(thMontant);
                                 });
                             
-                                // Ajouter les colonnes "Total Nombre" et "Montant Total"
-                                let thTotalLignes = document.createElement("th");
-                                thTotalLignes.textContent = "Total Nombre";
-                                thTotalLignes.rowSpan = 2;
-                            
-                                let thMontantTotal = document.createElement("th");
-                                thMontantTotal.textContent = "Total Montant";
-                                thMontantTotal.rowSpan = 2;
-                            
+                               
                                 // Préparer un objet pour organiser les données par rubrique
                                 let rubriques = {};
                                 let totalParMois = {}; // Stocker les totaux par mois
@@ -692,8 +684,127 @@ $(document).ready(function() {
                                 totalRow.appendChild(totalMontantCell);
                             
                                 tableBody.appendChild(totalRow);
-                            }
-                            
+                            } */
+                       
+                    
+                    if (type_stat === "rubrique" && type_sous_stat === "mois") {
+                        const tableauStats = document.getElementById("tableauStats");
+                        const headerRow1 = document.getElementById("headerRow1"); // Première ligne d'en-tête
+                        const headerRow2 = document.getElementById("headerRow2"); // Deuxième ligne d'en-tête
+                        const tableBody = document.getElementById("tableBody");
+                    
+                        // Vider les anciennes données du tableau
+                        headerRow1.innerHTML = "<th rowspan='2'>Rubrique</th>"; // En-tête principale
+                        headerRow2.innerHTML = ""; // Deuxième ligne des sous-en-têtes
+                        tableBody.innerHTML = ""; // Corps du tableau
+                    
+                        // Récupérer toutes les dates uniques
+                        let dates = Object.keys(stat.global_par_mois);
+                    
+                        // Ajouter les en-têtes des mois (fusionnés)
+                        dates.forEach(date => {
+                            let thMois = document.createElement("th");
+                            thMois.textContent = date;
+                            thMois.colSpan = 2; // Fusionner deux colonnes (Nombre et Montant)
+                            headerRow1.appendChild(thMois);
+                    
+                            // Ajouter les sous-colonnes "Nombre" et "Montant"
+                            let thNombre = document.createElement("th");
+                            thNombre.textContent = "Nombre";
+                            headerRow2.appendChild(thNombre);
+                    
+                            let thMontant = document.createElement("th");
+                            thMontant.textContent = "Montant";
+                            headerRow2.appendChild(thMontant);
+                        });
+                    
+                        // Préparer un objet pour organiser les données par rubrique
+                        let rubriques = {};
+                        let totalParMois = {}; // Stocker les totaux par mois
+                        let totalMontantParMois = {}; // Stocker les montants totaux par mois
+                    
+                        // Remplir l'objet rubriques avec les données
+                        dates.forEach(date => {
+                            stat.global_par_mois[date].forEach(item => {
+                                let key = `${item.rubrique_name} - ${item.option_name || ''}`;
+                                if (!rubriques[key]) {
+                                    rubriques[key] = { 
+                                        "rubrique_name": item.rubrique_name, 
+                                        "data": {}, 
+                                        "total_lignes": 0, 
+                                        "total_montant": 0 
+                                    };
+                                }
+                                rubriques[key].data[date] = {
+                                    lignes: item.total_lignes,
+                                    montant: item.total_montant
+                                };
+                                rubriques[key].total_lignes += item.total_lignes; // Total par rubrique
+                                rubriques[key].total_montant += item.total_montant; // Montant total par rubrique
+                    
+                                // Ajouter au total général par mois
+                                totalParMois[date] = (totalParMois[date] || 0) + item.total_lignes;
+                                totalMontantParMois[date] = (totalMontantParMois[date] || 0) + item.total_montant;
+                            });
+                        });
+                    
+                        // Générer le tableau en fonction des rubriques
+                        Object.keys(rubriques).forEach(key => {
+                            let row = document.createElement("tr");
+                    
+                            // Colonnes Rubrique et Option
+                            let cellRubrique = document.createElement("td");
+                            cellRubrique.textContent = rubriques[key].rubrique_name;
+                            row.appendChild(cellRubrique);
+                    
+                            // Ajouter les valeurs par date (Nombre et Montant côte à côte)
+                            dates.forEach(date => {
+                                let data = rubriques[key].data[date] || { lignes: 0, montant: 0 };
+                    
+                                // Colonne "Nombre"
+                                let cellLignes = document.createElement("td");
+                                cellLignes.textContent = data.lignes;
+                                cellLignes.style.fontWeight = "bold";
+                                row.appendChild(cellLignes);
+                    
+                                // Colonne "Montant"
+                                let cellMontant = document.createElement("td");
+                                cellMontant.textContent = data.montant.toLocaleString() + " F"; // Formatage du montant
+                                cellMontant.style.fontWeight = "bold";
+                                row.appendChild(cellMontant); // Ajouter la cellule à la ligne
+                            });
+                    
+                            // Supprimer les colonnes "Total Nombre" et "Montant Total" par rubrique
+                            // Ces lignes ont été supprimées pour retirer le dernier bloc à droite
+                            tableBody.appendChild(row);
+                        });
+                    
+                        // Ajouter la ligne "Total Général" en bas du tableau
+                        let totalRow = document.createElement("tr");
+                        let totalLabelCell = document.createElement("td");
+                        totalLabelCell.textContent = "TOTAL GENERAL";
+                        totalLabelCell.style.fontWeight = "bold";
+                        totalLabelCell.style.fontSize = "16px";
+                        totalRow.appendChild(totalLabelCell);
+                    
+                        // Ajouter les valeurs des totaux par mois
+                        dates.forEach(date => {
+                            let totalCellLignes = document.createElement("td");
+                            totalCellLignes.textContent = totalParMois[date] || 0;
+                            totalCellLignes.style.fontWeight = "bold";
+                            totalCellLignes.style.fontSize = "16px";
+                            totalRow.appendChild(totalCellLignes);
+                    
+                            let totalCellMontant = document.createElement("td");
+                            totalCellMontant.textContent = (totalMontantParMois[date] || 0).toLocaleString() + " F"; // Formatage du montant
+                            totalCellMontant.style.fontWeight = "bold";
+                            totalCellMontant.style.fontSize = "16px";
+                            totalRow.appendChild(totalCellMontant);
+                        });
+                    
+                       
+                        tableBody.appendChild(totalRow);
+                    }
                 }
              
                 
