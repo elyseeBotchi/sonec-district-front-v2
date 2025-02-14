@@ -415,9 +415,9 @@ class LandingController extends Controller
         
         // Vérifier si la réponse provient du cache ou de l'API
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour findAllService : {$uuid}");
+           // Log::info("Données récupérées depuis le cache pour findAllService : {$uuid}");
         } else {
-            Log::info("Données récupérées depuis l'API pour findAllService : {$uuid}");
+           // Log::info("Données récupérées depuis l'API pour findAllService : {$uuid}");
         }
 
         // Si la réponse contient des données valides, la retourner

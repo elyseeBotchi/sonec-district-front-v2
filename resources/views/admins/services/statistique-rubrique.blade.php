@@ -290,14 +290,20 @@
                             </div>
             
                             <div class="pt-5 table-responsive">
-                                <table id="tableauStats"  class="table" border="1">
+                                <table id="tableauStats" border="1" class="table" cellspacing="0" cellpadding="5">
                                     <thead>
-                                        <tr id="headerRow">
-                                            <th>Rubrique</th>
+                                        <tr id="headerRow1">
+                                            <!-- Première ligne des en-têtes (Rubrique + Mois fusionnés) -->
+                                            <th rowspan="2">Rubrique</th>
+                                        </tr>
+                                        <tr id="headerRow2">
+                                            <!-- Deuxième ligne des en-têtes (Sous-colonnes Nombre et Montant) -->
                                         </tr>
                                     </thead>
-                                    <tbody id="tableBody"></tbody>
-                                </table>
+                                    <tbody id="tableBody">
+                                        <!-- Les données seront insérées ici dynamiquement -->
+                                    </tbody>
+                                </table>                                
                             </div>
                         </div>
                     @endif
