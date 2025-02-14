@@ -1,6 +1,6 @@
 $(document).ready(function() {
     findRubriques()
-    findAll();
+    //findAll();
     findStat();
 
     
