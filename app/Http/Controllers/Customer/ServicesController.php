@@ -454,6 +454,21 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+    public function cheque_remove_cotation($uuid,$element_uuid){
+        $url_path = "/autorisations/services/taxe/cheque/remove/cotation";
+
+        $data = [
+            'uuid' => $uuid,
+            'element_uuid' => $element_uuid
+
+        ];
+       // return dd($uuid);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
+
     public function fiche_cotation($uuid,$entity_uuid){
         $url_path = "/autorisations/services/taxe/cheque/data";
 

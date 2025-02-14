@@ -175,7 +175,6 @@ $(document).ready(function() {
                             class="btn btn-sm btn-danger float-right sendDeleteLink">
                             ANNULER LE PAIEMENT </a> &nbsp;`;
                             document.getElementById('rejeter-cotation').innerHTML = buttonRejetPay;
-
                         }
                         
                     }

@@ -25,13 +25,19 @@ $(document).ready(function() {
                     case 'enable':
                         statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
                         break;
+
+                    case 'cotation':
+                        statusBadge = `<span class="badge badge-pill badge-warning">En attente de paiement</span>`;
+                        break;
                         
                     case 'pending':
                         statusBadge = `<span class="badge badge-pill badge-warning">En cours d'encaissement </span>`;
                         break;
+
                     case 'validate':
                         statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
                         break;
+
                     case 'disable':
                         statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
                         break;
@@ -60,13 +66,20 @@ $(document).ready(function() {
                     document.getElementById(id).innerHTML = fields[id] || '';
                 });
                 
-                if(cheque.status ==="init"){
+                
+                                    
+                if(cheque.status ==="init"|| cheque.status ==="cotation" || cheque.status ==="enable"){
                     let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
-                                                <i class="fas fa-plus"></i> Ajouter un véhicule
-                                            </a>`;
+                                            <i class="fas fa-plus"></i> Ajouter un véhicule
+                                        </a>`;
 
                     document.getElementById('add-cotation').innerHTML = buttonAddCotation;
+                }
 
+
+                if(cheque.status ==="init"){
+
+                    
                     if(cheque.status ==='init'){
                         let button = `<a href="/customer/services/cheque/submit/cotation/${cheque.uuid}" 
                                         caption = "<h3>VOUS ÊTES SUR LE POINT DE SOUMETTRE VOTRE DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
@@ -77,13 +90,23 @@ $(document).ready(function() {
                         document.getElementById('submit-cotation').innerHTML = button;
                     }
                     
-                    if(cheque.nombre_vehicule !== results.length){
+                    if (cheque.nombre_vehicule > results.length) {
                         diffVehicule = cheque.nombre_vehicule - results.length;
-                        document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins '+ diffVehicule +' véhicule(s) avant soumission de votre demande de cotation </h3>';    
+                        document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins ' + diffVehicule + ' véhicule(s) avant soumission de votre demande de cotation</h3>';
                     }
                 }
                 else{
-                    document.getElementById('add-cotation').innerHTML = "";
+                    if(cheque.status ==="init"|| cheque.status ==="cotation" || cheque.status ==="enable"){
+                        let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
+                                                <i class="fas fa-plus"></i> Ajouter un véhicule
+                                            </a>`;
+    
+                        document.getElementById('add-cotation').innerHTML = buttonAddCotation;
+                    }else{
+                        document.getElementById('add-cotation').innerHTML = "";
+                    }
+
+                   
                     document.getElementById('submit-cotation').innerHTML = "";
                     document.getElementById('alert-message').innerHTML = '';    
                     if(cheque.status =="enable"){
@@ -144,11 +167,11 @@ $(document).ready(function() {
                                     <i class="fa fa-eye"></i></a>`;
 
                                 if (row.state === 'enable' && cheque.status ==='init') {
-                                    /* actions += `&nbsp;<a href="#" data-uuid="${data}" 
+                                    actions += `&nbsp;<a href="/customer/services/cheque/remove/cotation/${cheque.uuid}/${row.cheques_entity_uuid}" data-uuid="${data}" 
                                             caption = "<h3>VOUS ÊTES SUR LE POINT DE RETIRER CE VEHICULE DE VOTRE LISTE DE COTATION. <br> VOULEZ VOUS CONTUNIER ? </h3>"
                                             title="Retirer le véhicule" 
                                             class="btn btn-sm btn-outline-danger sendDeleteLink"> 
-                                            <i class="fa fa-trash"></i></a> &nbsp;`; */
+                                            <i class="fa fa-trash"></i></a> &nbsp;`;
                                 }
                                 
                                 return actions;
