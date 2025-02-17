@@ -314,7 +314,7 @@ $(document).ready(function() {
                 `;
             }
     
-            if(field.type_input !== 'email' && field.type_input !== 'tel'  && slugify(field.name) !== 'nom_du_proprietaire'){
+            if(field.type_input !== 'email' && field.type_input !== 'tel' ){ //&& slugify(field.name) !== 'nom_du_proprietaire'
                 if(required ===""){
                 
                     formHtml += `

@@ -77,18 +77,18 @@
                                 <div>
                                     <p class="fw-medium text-muted mb-0">PAIEMENTS DU JOUR CHEQUE</p>
                                     <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_cheque">
+                                        <span id="total_paiement_cheque_j">
                                            {{--  <i class="fa fa-spinner fa-spin"></i> --}}
                                         </span>
                                     </h2>
                                     <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                        <span class="" id="nb_total_cheque_j" style="display: block;color:black;">
                                             TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
                                         </span>
                                     </p>
                                     
                                     <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                        <span class="" id="nb_total_carte_j" style="display: block;color:black;">
                                             TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
                                         </span>
                                     </p>
@@ -104,6 +104,7 @@
                         </div><!-- end card body -->
                     </div> <!-- end card-->
                 </div> <!-- end col--> 
+
                 {{-- ############################################################### --}}
                 <div class="col-md-5" >
                     <div data-status="all" data-pay="all"  class="card card-animate">
@@ -117,13 +118,13 @@
                                         </span>
                                     </h2>
                                     <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                        <span class="" id="nb_total_cheque" style="display: block;color:black;">
                                             TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
                                         </span>
                                     </p>
                                     
                                     <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
+                                        <span class="" id="total_carte_valide_cheque" style="display: block;color:black;">
                                             TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
                                         </span>
                                     </p>

@@ -75,7 +75,6 @@
         </div>
     </div>
 
-
     
     <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -93,6 +92,13 @@
                 <div class="modal-body">
                     <div class="row" id="form-container"></div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Nom du proprietaire </label>
+                                <input type="text" class="form-control" value="{{ UserConnect()['firstname'] ?? '' }} {{ UserConnect()['lastname'] ?? '' }}" placeholder="Nom du proprietaire" name="nom_du_proprietaire" required="" minlength="3" maxlength="50" style="text-transform:uppercase;" oninput="this.value = this.value.toUpperCase();">
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Type de véhicule <code>*</code></label>
                             <select class="form-select bg-light border-0 FindLieuRDV form-control" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;"></select>

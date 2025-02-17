@@ -223,10 +223,17 @@ $(document).ready(function() {
                // console.log("Résultats reçus :", results.rdv);
 
                const ligne_facturations_global = results.ligne_facturations_global || [];
-               let par_facturation = ""; // Utilisez let pour permettre la concaténation
-               let par_facturation_global = ""; // Utilisez let pour permettre la concaténation
-               
-                
+                let par_facturation = ""; // Utilisez let pour permettre la concaténation
+                let par_facturation_global = ""; // Utilisez let pour permettre la concaténation
+
+                let total_cheque_journalier = results.total_cheque_journalier || 0;
+                let nb_total_cheque_j = results.nb_total_cheque_j || 0;
+                let total_carte_valide_journalier = results.total_carte_valide_journalier || 0;
+
+                let total_paiement_cheque = results.total_paiement_cheque || 0;
+                let nb_total_cheque = results.total_cheque || 0;
+                let total_carte_valide = results.total_carte_valide || 0;
+
                var permissions = {
                 //montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
                 //montant_total_jour_global: canPermission('statistique_voir_le_montant_total_par_jour_global'),
@@ -270,6 +277,36 @@ $(document).ready(function() {
                     document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
                     document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
                 }
+
+                /* ######################################################### */
+                if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
+
+                    const total_paiement_cheque_j = parseFloat((total_cheque_journalier ?? 0)).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+                    
+
+                    document.getElementById('total_paiement_cheque_j').innerHTML = total_paiement_cheque_j || '';
+                    document.getElementById('nb_total_cheque_j').innerHTML = nb_total_cheque_j || 0;
+                    document.getElementById('nb_total_carte_j').innerHTML = total_carte_valide_journalier || 0;
+                }
+
+                              
+                if(permissions.statistique_partenaires_voir_le_montant_total){
+                    const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById('total_paiement_cheque').innerHTML = total_paiement_cheque || '';
+                    document.getElementById('nb_total_cheque').innerHTML = nb_total_cheque || '';
+                    document.getElementById('total_carte_valide_cheque').innerHTML = total_carte_valide || '';
+
+                    
+                } 
+
+                /* ######################################################### */
               
                 if(permissions.statistique_partenaires_voir_le_montant_total){
                     const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {

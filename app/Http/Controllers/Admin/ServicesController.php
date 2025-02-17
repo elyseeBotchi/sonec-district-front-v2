@@ -800,7 +800,7 @@ class ServicesController extends Controller
 
 
     public function facture_cotation($uuid,$entity_uuid){
-        $url_path = "/autorisations/services/taxe/cheque/data";
+        $url_path = "/autorisations/entite/taxes/cheque/data";
 
         $data = [
             'entity_uuid' => $entity_uuid,
