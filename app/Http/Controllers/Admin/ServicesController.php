@@ -586,11 +586,13 @@ class ServicesController extends Controller
         return view('admins.services.reception-cheque',['Entity_uuid' => $Entity['uuid'] ?? '']);
     }
 
-    public function cheque_liste(){
+    public function cheque_liste($status){
 
         $Entity = Entities()[0] ?? '';
         //dd($Entity);
-        return view('admins.services.reception-cheque',['Entity_uuid' => $Entity['uuid'] ?? '']);
+        return view('admins.services.liste-cheque',[
+            'Entity_uuid' => $Entity['uuid'] ?? '',
+            'status' => $status ?? '']);
     }
 
     public function cheque_store(Request $request){
@@ -714,6 +716,21 @@ class ServicesController extends Controller
         ]);
     }
 
+
+    public function chequefindAll($status,$entity_uuid){
+        $url_path = "/autorisations/entite/taxes/cheque/findAll";
+
+        $data = [
+            'status' => $status,
+            'entity_uuid' => $entity_uuid,
+        ];
+        
+        //return dd($data);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
 
 
     public function chequeData($cheque_uuid,$entity_uuid){

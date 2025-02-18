@@ -110,10 +110,10 @@ $(document).ready(function() {
                                         class="btn btn-sm btn-info sendDeleteLink"> 
                                         Soumettre pour cotation </a> `;
     
-                        document.getElementById('submit-cotation').innerHTML = button;
+                       // document.getElementById('submit-cotation').innerHTML = button;
                     }
                     
-                    if(cheque.nombre_vehicule !== results.length){
+                    if(cheque.nombre_vehicule >= results.length){
                         diffVehicule = cheque.nombre_vehicule - results.length;
                         document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins '+ diffVehicule +' véhicule(s) avant soumission de votre demande de cotation </h3>';    
                     } 
@@ -254,7 +254,7 @@ $(document).ready(function() {
                         }
                     ],
                     paging: false,
-                    searching: false,
+                    searching: true,
                     info: false,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/fr-FR.json'

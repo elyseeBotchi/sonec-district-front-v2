@@ -34,65 +34,100 @@
                             <span class="hide-menu">Réception des Usagers</span>
                         </a>
                     </li>
-                    
+                @endif 
                     {{-- <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}" > 
                         <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="" aria-expanded="false">
                             <i data-feather="calendar" class="feather-icon"></i>
                             <span class="hide-menu">Réception des chèques</span>
                         </a>
                     </li> --}}
-
-                    @if(CanPermission('cheques_receptionner_un_cheque'))
-                        <li class="sidebar-item  {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}" > 
-                            <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.cheque.reception') }}" aria-expanded="false">
-                                <i data-feather="calendar" class="feather-icon"></i>
-                                <span class="hide-menu">Réception chèques</span>
-                            </a>
-                        </li>
-                    @endif 
-
+                    @isset($lock)
+                        @if(CanPermission('cheques_receptionner_un_cheque'))
+                            <li class="sidebar-item  {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}" > 
+                                <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.cheque.reception') }}" aria-expanded="false">
+                                    <i data-feather="calendar" class="feather-icon"></i>
+                                    <span class="hide-menu">Réception chèques</span>
+                                </a>
+                            </li>
+                        @endif 
+                    @endisset
                    
 
-                        @isset($lock)
+                    
                     @if(CanPermission('cheques_voir_le_module_cheque'))
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <li class="sidebar-item {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}">
+                            <a class="sidebar-link has-arrow {{ request()->is('panel/services/cheque/*') ? 'active' : '' }}" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="box" class="feather-icon"></i>
                                 <span class="hide-menu">Chèque </span>
                             </a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                @if(CanPermission('cheques_receptionner_un_cheque'))
-                                    <li class="sidebar-item">
-                                        <a href="{{ route("panel.autorisations.services.cheque.reception") }}" class="sidebar-link">
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line {{ request()->is('panel/services/cheque/*') ? 'in' : '' }}">
+                                @if(CanPermission('cheques_receptionner_un_cheque')) 
+                                    <li class="sidebar-item {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
+                                        <a href="{{ route("panel.autorisations.services.cheque.reception") }}" class="sidebar-link {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
                                             <span class="hide-menu">
                                                 Receptionner   
                                             </span>
                                         </a>
                                     </li>
                                 @endif 
+
                                 @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'pending']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'init']) }}" class="sidebar-link">
                                             <span class="hide-menu">
-                                                En attente
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endif 
-                                @if(CanPermission('cheques_voir_les_cheques_valide'))
-                                    <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'validate']) }}" class="sidebar-link">
-                                            <span class="hide-menu">
-                                            Validé
+                                                En cours d'édition
                                             </span>
                                         </a>
                                     </li>
                                 @endif
+
+                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'enable']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                En attente de cotation
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif 
+                            
+                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'cotation']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                En attente de paiement
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif 
+
+                                
+                                
+                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'pending']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                En cours de paiement
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif 
+
+                                @if(CanPermission('cheques_voir_les_cheques_valide'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'validate']) }}" class="sidebar-link">
+                                            <span class="hide-menu">
+                                                Payé
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if(CanPermission('cheques_voir_les_cheques_rejetes'))
                                     <li class="sidebar-item">
                                         <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'fail']) }}" class="sidebar-link">
                                             <span class="hide-menu">
-                                            Rejeté
+                                                Rejeté
                                             </span>
                                         </a>
                                     </li>
@@ -110,8 +145,8 @@
                             </ul>
                         </li>
                     @endif
-                    @endisset 
-                @endif 
+                  
+                
 
                 @if(CanPermission('activite_du_jour_voir_le_module_activite_du_jour'))
                     <li class="sidebar-item {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}">
@@ -291,6 +326,7 @@
                     @if(AuthConnect()['role']['name'] =="Administrateur")
                     @endif
                 @endisset
+
                     @if(CanPermission('statistique_voir_le_module_statistique'))
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}

@@ -73,7 +73,7 @@
                                         <input type="text" class="form-control" id="telephone" name="telephone" placeholder="" required>
                                     </div>
                                 </div>
-{{-- 
+                            {{-- 
                                 <div class="col-12">
                                     <label class="form-label">Type de véhicule <code>*</code></label>
                                     <select class="form-select bg-light border-0 FindLieuRDV" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;"></select>

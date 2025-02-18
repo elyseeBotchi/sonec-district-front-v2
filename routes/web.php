@@ -204,10 +204,11 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('cheque/reception', [AdminServicesController::class, 'cheque'])->name('panel.autorisations.services.cheque.reception');
             Route::post('cheque/reception/store', [AdminServicesController::class, 'cheque_store'])->name('panel.autorisations.services.cheque.reception.store');
             Route::post('cheque/reception/update', [AdminServicesController::class, 'cheque_update'])->name('panel.autorisations.services.cheque.reception.update');
-            Route::get('cheque/liste/{status}', [AdminServicesController::class, 'cheque_list'])->name('panel.autorisations.services.cheque.list');
+            Route::get('cheque/liste/{status}', [AdminServicesController::class, 'cheque_liste'])->name('panel.autorisations.services.cheque.list');
             Route::post('cheque/search', [AdminServicesController::class, 'cheque_search'])->name('panel.autorisations.services.taxes.cheque.search');
             Route::get('cheque/show/{cheque_uuid}/{entity_uuid}', [AdminServicesController::class, 'cheque_show'])->name('panel.autorisations.services.taxes.cheque.show');
 
+            Route::get('/cheque/liste/findAll/{status}/{entity_uuid}', [AdminServicesController::class, 'chequefindAll'])->name('panel.autorisations.services.taxes.cheque.find_all');
             Route::get('/cheque/data/{uuid}/{entity_uuid}', [AdminServicesController::class, 'chequeData'])->name('panel.autorisations.services.taxes.cheque.data');
             Route::get('/cheque/submit/cotation/{uuid}', [AdminServicesController::class, 'cheque_cotation'])->name('panel.autorisations.services.taxes.cheque.submit.cotation');
             Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'fiche_cotation'])->name('panel.autorisations.services.taxes.cheque.fiche.cotation');
@@ -218,6 +219,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
             Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
 
+
+           // customer/services/cheque/findAll
         });
 
                 
