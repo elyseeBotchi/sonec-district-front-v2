@@ -52,6 +52,7 @@ $(document).ready(function() {
                     result.reference || '',
                     result.contribuable || '',
                     Math.ceil(result.nombre_vehicule) || '',
+                    result.nombre_vehicule_enregistre || 0,
                     statusBadge,
                     `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`
                 ]);
@@ -70,7 +71,8 @@ $(document).ready(function() {
                     { title: "Libellé" },
                     { title: "Référence" },
                     { title: "Contribuable" },
-                    { title: "Nombre de véhicules" },
+                    { title: "Nombre de véhicules à déclaré" },
+                    { title: "Nombre de véhicules enregistré" },
                     { title: "Statut" },
                     { title: "Action" }
                 ],

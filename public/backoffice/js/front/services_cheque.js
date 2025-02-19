@@ -24,6 +24,7 @@ $(document).ready(function() {
                     table += `<td>${result.reference || ''}</td>`;
                     table += `<td>${result.contribuable || ''}</td>`;
                     table += `<td>${Math.ceil(result.nombre_vehicule) || ''}</td>`;
+                    table += `<td>${Math.ceil(result.nombre_vehicule_enregistre) || ''}</td>`;
     
                     // Gestion des statuts avec badge
                     let statusBadge = '';

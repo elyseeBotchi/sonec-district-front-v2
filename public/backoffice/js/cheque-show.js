@@ -52,6 +52,7 @@ $(document).ready(function() {
                     'reference-cotation': cheque.reference,
                     'contribuable-cotation': cheque.contribuable,
                     'nbre_vehicule-cotation': cheque.nombre_vehicule,
+                    'nbre_vehicule_enregistrer-cotation': cheque.nombre_vehicule_enregistre,
                     //'telephone-cotation': cheque.telephone,
                     'statut-cotation': statusBadge,
                 };

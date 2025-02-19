@@ -68,6 +68,19 @@
                             </h3> 
                         </td>
                     </tr>
+                    
+                    <tr>
+                        <td>
+                            <h3>
+                                Nombre de voiture enregistré 
+                            </h3>
+                        </td>
+                        <td> 
+                            <h3>
+                                <b id="nbre_vehicule_enregistrer-cotation"><i class="fa fa-spinner fa-spin"></i></b>
+                            </h3> 
+                        </td>
+                    </tr>
                     {{-- <tr>
                         <td>Contact téléphonique </td>
                         <td> <b id="telephone-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>

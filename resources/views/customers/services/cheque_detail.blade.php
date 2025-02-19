@@ -32,6 +32,10 @@
                     <td> <b id="nbre_vehicule-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
                 </tr>
                 <tr>
+                    <td>Nombre de voiture enregistré  </td>
+                    <td> <b id="nbre_vehicule_enregistrer-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
+                </tr>
+                <tr>
                     <td>Contact téléphonique </td>
                     <td> <b id="telephone-cotation"><i class="fa fa-spinner fa-spin"></i></b> </td>
                 </tr>

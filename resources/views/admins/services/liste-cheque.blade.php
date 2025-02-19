@@ -27,14 +27,15 @@
                                     <th>Désignation de la cotation</th>
                                     <th>Réference de la cotation</th>
                                     <th>Contribuable</th>
-                                    <th>Nombre de véhicule</th>
+                                    <th>Nombre de véhicule à déclaré</th>
+                                    <th>Nombre de véhicule enregistré</th>
                                     <th>Statut</th>
                                     <th style="width:150px !important;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody id="render-html">
                                     <tr>
-                                        <td colspan="7"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                        <td colspan="8"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
                                     </tr>
                                 </tbody>
                             </table>
