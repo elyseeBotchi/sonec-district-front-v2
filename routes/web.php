@@ -213,6 +213,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('/cheque/submit/cotation/{uuid}', [AdminServicesController::class, 'cheque_cotation'])->name('panel.autorisations.services.taxes.cheque.submit.cotation');
             Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'fiche_cotation'])->name('panel.autorisations.services.taxes.cheque.fiche.cotation');
             Route::get('/cheque/valider/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
+            Route::get('/cheque/reinitialiser/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
             Route::get('/cheque/valider/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
             Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'facture_cotation'])->name('panel.autorisations.services.taxes.cheque.facture.cotation');
            

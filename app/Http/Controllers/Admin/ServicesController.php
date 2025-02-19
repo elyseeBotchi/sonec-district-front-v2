@@ -884,6 +884,24 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+
+    public function reinitialiser_ligne_cotation($uuid,$entity_uuid){
+        $url_path = "/autorisations/entite/taxes/cheque/reinitialiser/ligne/cotation";
+
+        $data = [
+            'uuid' => $uuid,
+            'entity_uuid' => $entity_uuid,
+            'status' => 'enable'
+        ];
+       // return dd($data);
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
+
+
+
     public function valider_cotation($uuid,$entity_uuid){
         $url_path = "/autorisations/entite/taxes/cheque/validation/cotation";
 

@@ -244,6 +244,15 @@ $(document).ready(function() {
                                         title="Valider le véhicule" 
                                         class="btn btn-sm btn-outline-success sendDeleteLink"> 
                                         Valider </a>`;
+                                }else{
+                                    if(cheque.status !=='validate' && cheque.status !=='pending' && row.cheques_entity_state === 'validate'){
+                                        actions += `<a href="/panel/services/cheque/reinitialiser/ligne/cotation/${row.cheques_entity_uuid}/${Entity_uuid}" 
+                                        data-uuid="${row.cheques_entity_uuid}" 
+                                        caption="<h3>VOUS ÊTES SUR LE POINT DE REINITIALISER CE VÉHICULE. CONTINUER ?</h3>" 
+                                        title="Réinitialiser le véhicule" 
+                                        class="btn btn-sm btn-outline-warning sendDeleteLink"> 
+                                        reinitialiser </a>`;                                     
+                                    }
                                 }
 
                                 if(cheque.status ==='validate' && permissions.imprimer_la_carte){
