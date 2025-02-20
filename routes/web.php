@@ -18,8 +18,7 @@ use App\Http\Controllers\Customer\UsersController;
 use \App\Http\Controllers\Customer\LoginController as CustomerLoginController;
 use App\Http\Controllers\Customer\ServicesController;
 use App\Http\Controllers\Admin\ServicesController as AdminServicesController;
-
-
+use App\Http\Controllers\Admin\SupportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,6 +240,13 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
         Route::prefix('customer')->group(function () {
             Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
+  
+        });
+
+        
+        Route::prefix('support')->group(function () {
+            Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
+            Route::get('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
   
         });
 

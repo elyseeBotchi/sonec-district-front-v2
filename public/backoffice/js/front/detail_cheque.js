@@ -134,7 +134,7 @@ $(document).ready(function() {
                 if ($.fn.DataTable.isDataTable(table)) {
                     table.DataTable().destroy();
                 }
-    
+                //console.log(results)
                 // Initialisation de la nouvelle DataTable
                 table.DataTable({
                     data: results,
@@ -151,10 +151,11 @@ $(document).ready(function() {
                             render: function (data, type, row) {
                                 const dateActuelle = new Date().toISOString().split('T')[0];
                                 let actions = '';
-    
+   
                                 if (row.state !== 'validate' && cheque.status ==='init') {
                                     actions += `<a href="#" data-toggle="modal" data-target="#updateElement-modal" 
                                         data-uuid="${row.element_uuid}" 
+                                        data-facturation_uuid="${row.facturation_line_uuid}" 
                                         data-name="${row.numero_dimmatriculation}" 
                                         title="Modifier le véhicule ${row.numero_dimmatriculation}" 
                                         class="btn btn-sm btn-outline-warning updateElement">
@@ -355,7 +356,7 @@ $(document).ready(function() {
     
         // Insertion du formulaire généré dans le conteneur
         document.getElementById('form-container-update').innerHTML = formHtml;
-        console.log(pay_element)
+       // console.log(pay_element)
         findRubriquesUpdate(pay_element['facturation_uuid'])
 
     }
@@ -383,6 +384,7 @@ $(document).ready(function() {
     $('#container').on('click', '.updateElement', function(e) {
         e.preventDefault();
         const uuid = this.getAttribute('data-uuid');
+        const facturation_uuid = this.getAttribute('data-facturation_uuid');
         //const name = this.getAttribute('data-name');
     
        // alert(uuid);
@@ -401,7 +403,7 @@ $(document).ready(function() {
            // console.log(data.data); // Affiche les données reçues
             const entete = data.data.entete;
             const pay_element = data.data.pay_element;
-            //console.log(entete)
+            pay_element.facturation_uuid = facturation_uuid || '';
             generateFormUpdate(entete,pay_element)
         })
         .catch(error => {
@@ -991,9 +993,141 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
     }
     
 
-    
-    
+
     function findRubriquesUpdate(facturation_uuid) {
+
+       // alert(facturation_uuid)
+        fetch(`/landing/services/rubrique/findOneConfig/${Entity_uuid}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Une erreur est survenue');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const results = data.data;
+                const rubriqueSelect = document.getElementById('rubriqueUpdate');
+                let tarif_line = "";
+                rubriqueSelect.innerHTML = '';
+    
+                // Ajouter une option vide
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Type de véhicule';
+                defaultOption.value = facturation_uuid;
+                rubriqueSelect.appendChild(defaultOption);
+    
+                let selectedFound = false; // Vérifier si on a trouvé l'élément à sélectionner
+    
+                if (results.rubrique && results.rubrique.length > 0) {
+                    results.rubrique.forEach(rubrique => {
+                        if (rubrique.rubrique_option.length > 0) {
+                            const optgroup = document.createElement('optgroup');
+                            optgroup.label = rubrique.name;
+                            tarif_line += `<tr><td>${rubrique.name}</td>`;
+    
+                            rubrique.rubrique_option.forEach(option => {
+                                if (option.facturation && option.facturation.length > 0) {
+                                    option.facturation.forEach(facturation => {
+                                        const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                            style: 'currency',
+                                            currency: 'XOF',
+                                        });
+    
+                                        const optionElement = document.createElement('option');
+                                        optionElement.value = facturation.uuid;
+                                        optionElement.textContent = option.option_name;
+                                        optionElement.setAttribute('data-amount', facturation.amount);
+                                        optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                        optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+    
+                                        // Sélection automatique
+                                        if (facturation.uuid === facturation_uuid) {
+                                           
+                                            optionElement.selected = true;
+                                            selectedFound = true;
+                                        }
+    
+                                        tarif_line += `<td>${formattedAmount}</td>`;
+                                        optgroup.appendChild(optionElement);
+                                    });
+                                } else {
+                                    const optionElement = document.createElement('option');
+                                    optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
+                                    optionElement.disabled = true;
+                                    tarif_line += `<td></td>`;
+                                    optgroup.appendChild(optionElement);
+                                }
+                            });
+    
+                            tarif_line += "</tr>";
+                            rubriqueSelect.appendChild(optgroup);
+                        } else {
+                            rubrique.facturation.forEach(facturation => {
+                                const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'XOF',
+                                });
+    
+                                const facturationOption = document.createElement('option');
+                                facturationOption.value = facturation.uuid;
+                                facturationOption.textContent = rubrique.name;
+                                facturationOption.setAttribute('data-amount', facturation.amount);
+                                facturationOption.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                facturationOption.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+    
+                                // Sélection automatique
+                                if (facturation.uuid === facturation_uuid) {
+                                    facturationOption.selected = true;
+                                    selectedFound = true;
+                                }
+    
+                                tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
+                                rubriqueSelect.appendChild(facturationOption);
+                            });
+                        }
+                    });
+                } else {
+                    const noRubriqueOption = document.createElement('option');
+                    noRubriqueOption.textContent = 'Aucune rubrique disponible';
+                    noRubriqueOption.disabled = true;
+                    rubriqueSelect.appendChild(noRubriqueOption);
+                }
+    
+                document.getElementById('submitBtnUpdate').style.display = 'block';
+    
+                // Définir automatiquement les montants si une sélection a été trouvée
+                if (selectedFound) {
+                    updateMontant();
+                }
+    
+                // Gestionnaire d'événement pour la mise à jour du montant
+                rubriqueSelect.addEventListener('change', updateMontant);
+    
+                function updateMontant() {
+                    const selectedOption = rubriqueSelect.options[rubriqueSelect.selectedIndex];
+                    const selectedAmount = selectedOption?.getAttribute('data-amount') || '';
+                    const formattedAmount = selectedAmount
+                        ? parseFloat(selectedAmount).toLocaleString('fr-FR', {
+                              style: 'currency',
+                              currency: 'XOF',
+                          })
+                        : '';
+                    document.getElementById('montant_payUpdate').value = formattedAmount;
+    
+                    const selectedLieuRDV = selectedOption?.getAttribute('data-lieu_rendez_vous') || '';
+                    const selectedLieuRdvuuid = selectedOption?.getAttribute('data-lieu_rendez_vous_uuid') || '';
+                    document.getElementById('lieu_rdvUpdate').value = selectedLieuRDV;
+                    document.getElementById('list_rdvUpdate').value = selectedLieuRdvuuid;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+    }
+    
+    
+    
+    function findRubriquesUpdate__old(facturation_uuid) {
         fetch(`/landing/services/rubrique/findOneConfig/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {

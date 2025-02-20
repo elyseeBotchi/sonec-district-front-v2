@@ -28,20 +28,26 @@ $(document).ready(function() {
     
                     // Gestion des statuts avec badge
                     let statusBadge = '';
-                    switch (result.status) {
+                    switch (result.status){
                         case 'init':
                             statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
                             break;
                         case 'enable':
                             statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
                             break;
+    
+                        case 'cotation':
+                            statusBadge = `<span class="badge badge-pill badge-warning">En attente de paiement</span>`;
+                            break;
                             
                         case 'pending':
                             statusBadge = `<span class="badge badge-pill badge-warning">En cours d'encaissement </span>`;
                             break;
+    
                         case 'validate':
                             statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
                             break;
+    
                         case 'disable':
                             statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
                             break;

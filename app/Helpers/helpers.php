@@ -690,9 +690,14 @@ if(!function_exists('getStatusBadge')){
             case 'enable':
                 $statusBadge = '<span class="badge badge-pill badge-warning">En attente de cotation</span>';
                 break;
+
+            case 'cotation':
+                    $statusBadge = '<span class="badge badge-pill badge-warning">En attente de paiement</span>';
+                    break;
             case 'validate':
                 $statusBadge = '<span class="badge badge-pill badge-success">Validé</span>';
                 break;
+
             case 'disable':
                 $statusBadge = '<span class="badge rounded-pill badge-warning">Suspendu</span>';
                 break;
@@ -703,6 +708,7 @@ if(!function_exists('getStatusBadge')){
             case 'pending':
                 $statusBadge = '<span class="badge rounded-pill badge-primary">Annulé</span>';
                 break;
+                
             default:
                 $statusBadge = '<span class="badge badge-pill badge-light">Inconnu</span>';
                 break;
@@ -712,3 +718,75 @@ if(!function_exists('getStatusBadge')){
     }
 }
 
+
+if(!function_exists('money_format')) {
+    function money_format($data){
+        $data = str_replace(',', '.', $data);
+
+        $data = (double)str_replace(' ', '', $data);
+        $data = round($data);
+        $data = convertIntFormat($data);
+        $dataResponse = number_format($data, 0, '.', ' ');
+     
+        return $dataResponse.' CFA';
+    }
+}
+
+
+function convertIntFormat($string)
+{
+    switch (true) {
+        case str_contains($string, ',') :
+            $amountArr = explode(',', trim($string));
+            if (count($amountArr) < 2) {
+                $amount = $amountArr[0];
+            } else {
+                list($amount, $decimal) = $amountArr;
+                $amount = convertIntFormatAction($amount);
+                $amount = $amount . '.' . $decimal;
+            }
+            break;
+
+        case str_contains($string, '.') :
+            $amountArr = explode('.', trim($string));
+            if (count($amountArr) < 2) {
+                $amount = $amountArr[0];
+            } else {
+                list($amount, $decimal) = $amountArr;
+                $amount = convertIntFormatAction($amount);
+                $amount = $amount . '.' . $decimal;
+            }
+            break;
+
+        default :
+            $amount = convertIntFormatAction(trim($string));
+    }
+
+    return (double)$amount;
+}
+
+
+
+if(!function_exists('convertIntFormatAction')) {
+    function convertIntFormatAction($v1){
+        // Étape 1: Supprimer tous les espaces de la chaîne
+        $data = str_replace(' ', '', $v1);
+
+        // Étape 2: Supprimer tout ce qui n'est pas un nombre ou un point décimal
+        // Notez que nous utilisons une expression régulière pour cela (caractère \D signifie "non un chiffre")
+        $number = preg_replace('/[^\d.]/', '', $data);
+
+        // Étape 3: Convertir en nombre à virgule flottante (double)
+        // Notez que vous pouvez également utiliser (float) à la place de (double)
+        $number = (double)$number;
+
+        // Étape 4: Gérer le cas où $number est vide ou non numérique
+        // Si $number est vide ou non numérique, nous renvoyons 0
+        if (is_numeric($number)) {
+            return $number;
+        } else {
+            return 0;
+        }
+    }
+
+}

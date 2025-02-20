@@ -346,7 +346,7 @@
                         <td>{{ $pay['numero_de_la_carte_grise'] ?? '' }}</td>
                         <td> {{ $pay['numero_dimmatriculation'] ?? '' }} </td>
                         <td> {{ $pay['rubrique_name'] ?? '' }} </td>
-                        <td> {{ $pay['amount'] ?? '' }} </td>
+                        <td> {{ money_format($pay['amount'] ?? '') }} </td>
                         @php $totalAmount += $pay['amount'] ?? 0; @endphp
                     </tr>
                 @empty
@@ -357,7 +357,7 @@
         <tfoot>
             <tr>
                 <th colspan="3" style="text-align:left">Total :</th>
-                <th id="totalAmount">{{ $totalAmount }}</th>
+                <th id="totalAmount">{{ money_format($totalAmount) }}</th>
             </tr>
         </tfoot>
     </table>
