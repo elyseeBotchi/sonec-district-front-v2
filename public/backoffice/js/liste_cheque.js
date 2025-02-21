@@ -48,7 +48,7 @@ $(document).ready(function() {
                     console.log(AuthConnect)
                     let actions = `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`;
 
-                    if (AuthConnect.email === "admin@sonec.com" || AuthConnect.email === "beinespoir1@gmail.com") {
+                    if (AuthConnect.email === "admin@sonec.com" || AuthConnect.email === "beniespoir1@gmail.com") {
                         actions += `  <a href="/panel/services/cheque/autogenerate/${result.uuid}" 
                                         data-uuid="${result.uuid}" 
                                         caption="VOUS ÊTES SUR LE POINT DE GENERER LA LISTE DES VÉHICULES. CONTINUER ?" 
