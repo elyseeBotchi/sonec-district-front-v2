@@ -234,6 +234,7 @@ $(document).ready(function() {
                                 if (row.cheques_entity_state !== 'validate' && cheque.status === 'enable' && permissions.imprimer_la_carte ) {
                                     actions += `<a href="#" data-toggle="modal" data-target="#updateElement-modal" 
                                         data-uuid="${row.element_uuid}" 
+                                        data-facturation_uuid="${row.facturation_line_uuid}" 
                                         data-name="${row.numero_dimmatriculation}" 
                                         title="Modifier le véhicule ${row.numero_dimmatriculation}" 
                                         class="btn btn-sm btn-outline-warning updateElement">
@@ -415,7 +416,7 @@ $(document).ready(function() {
                 `;
             }
     
-            if(field.type_input !== 'email' && field.type_input !== 'tel'  && slugify(field.name) !== 'nom_du_proprietaire'){
+            if(field.type_input !== 'email' && field.type_input !== 'tel'){  //&& slugify(field.name) !== 'nom_du_proprietaire'
                 if(required ===""){
                 
                     formHtml += `
@@ -455,7 +456,10 @@ $(document).ready(function() {
     
         // Insertion du formulaire généré dans le conteneur
         document.getElementById('form-container-update').innerHTML = formHtml;
-        console.log(pay_element)
+        
+           // console.log(data.data); // Affiche les données reçues
+           
+        //console.log(pay_element)
         findRubriquesUpdate(pay_element['facturation_uuid'])
 
     }
@@ -483,9 +487,11 @@ $(document).ready(function() {
     $('#container').on('click', '.updateElement', function(e) {
         e.preventDefault();
         const uuid = this.getAttribute('data-uuid');
+        const facturation_uuid = this.getAttribute('data-facturation_uuid');
+
         //const name = this.getAttribute('data-name');
     
-       // alert(uuid);
+        //alert(facturation_uuid);
         document.getElementById('update-uuid').value = uuid;
     
         // Faire une requête fetch
@@ -501,7 +507,8 @@ $(document).ready(function() {
            // console.log(data.data); // Affiche les données reçues
             const entete = data.data.entete;
             const pay_element = data.data.pay_element;
-            //console.log(entete)
+           pay_element.facturation_uuid = facturation_uuid || '';
+            //console.log(pay_element)
             generateFormUpdate(entete,pay_element)
         })
         .catch(error => {
@@ -1123,29 +1130,29 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                     throw new Error('Une erreur est survenue');
                 }
                 return response.json();
-            })
+            }) 
             .then(data => {
                 document.getElementById('montant_payUpdate').value = '';
                 const results = data.data;
                 const rubriqueSelect = document.getElementById('rubriqueUpdate');
-                let tarif_line = ""; // Initialiser correctement la variable
-                rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+                let tarif_line = "";
+                rubriqueSelect.innerHTML = '';
     
-                // Ajouter l'option vide "Type de véhicule"
+                // Ajouter une option vide
                 const defaultOption = document.createElement('option');
                 defaultOption.textContent = 'Type de véhicule';
+                defaultOption.value = facturation_uuid;
                 rubriqueSelect.appendChild(defaultOption);
     
-                // Vérification des rubriques
+                let selectedFound = false; // Vérifier si on a trouvé l'élément à sélectionner
+    
                 if (results.rubrique && results.rubrique.length > 0) {
                     results.rubrique.forEach(rubrique => {
                         if (rubrique.rubrique_option.length > 0) {
-                            // Créer un groupe d'options pour chaque rubrique ayant des options
                             const optgroup = document.createElement('optgroup');
                             optgroup.label = rubrique.name;
                             tarif_line += `<tr><td>${rubrique.name}</td>`;
     
-                            // Ajouter les options sous chaque rubrique
                             rubrique.rubrique_option.forEach(option => {
                                 if (option.facturation && option.facturation.length > 0) {
                                     option.facturation.forEach(facturation => {
@@ -1153,12 +1160,20 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                                             style: 'currency',
                                             currency: 'XOF',
                                         });
+    
                                         const optionElement = document.createElement('option');
                                         optionElement.value = facturation.uuid;
                                         optionElement.textContent = option.option_name;
                                         optionElement.setAttribute('data-amount', facturation.amount);
                                         optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
                                         optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+    
+                                        // Sélection automatique
+                                        if (facturation.uuid === facturation_uuid) {
+                                           
+                                            optionElement.selected = true;
+                                            selectedFound = true;
+                                        }
     
                                         tarif_line += `<td>${formattedAmount}</td>`;
                                         optgroup.appendChild(optionElement);
@@ -1167,7 +1182,6 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                                     const optionElement = document.createElement('option');
                                     optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
                                     optionElement.disabled = true;
-    
                                     tarif_line += `<td></td>`;
                                     optgroup.appendChild(optionElement);
                                 }
@@ -1176,47 +1190,48 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                             tarif_line += "</tr>";
                             rubriqueSelect.appendChild(optgroup);
                         } else {
-                            const optionElement = document.createElement('option');
-                            optionElement.value = rubrique.uuid;
-    
-                            if (rubrique.facturation && rubrique.facturation.length > 0) {
-                                rubrique.facturation.forEach(facturation => {
-                                    const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
-                                        style: 'currency',
-                                        currency: 'XOF',
-                                    });
-                                    const facturationOption = document.createElement('option');
-                                    facturationOption.value = facturation.uuid;
-                                    facturationOption.textContent = rubrique.name;
-                                    facturationOption.setAttribute('data-amount', facturation.amount);
-                                    facturationOption.setAttribute('data-lieu_rendez_vous', facturation.libelle);
-                                    facturationOption.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
-
-                                    tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
-                                    rubriqueSelect.appendChild(facturationOption);
+                            rubrique.facturation.forEach(facturation => {
+                                const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'XOF',
                                 });
-                            } else {
-                                optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
-                                optionElement.disabled = true;
     
-                                tarif_line += `<tr><td>${rubrique.name}</td><td></td></tr>`;
-                                rubriqueSelect.appendChild(optionElement);
-                            }
+                                const facturationOption = document.createElement('option');
+                                facturationOption.value = facturation.uuid;
+                                facturationOption.textContent = rubrique.name;
+                                facturationOption.setAttribute('data-amount', facturation.amount);
+                                facturationOption.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                                facturationOption.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+    
+                                // Sélection automatique
+                                if (facturation.uuid === facturation_uuid) {
+                                    facturationOption.selected = true;
+                                    selectedFound = true;
+                                }
+    
+                                tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
+                                rubriqueSelect.appendChild(facturationOption);
+                            });
                         }
                     });
                 } else {
-                    const defaultOption = document.createElement('option');
-                    defaultOption.textContent = 'Aucune rubrique disponible';
-                    defaultOption.disabled = true;
-                    rubriqueSelect.appendChild(defaultOption);
+                    const noRubriqueOption = document.createElement('option');
+                    noRubriqueOption.textContent = 'Aucune rubrique disponible';
+                    noRubriqueOption.disabled = true;
+                    rubriqueSelect.appendChild(noRubriqueOption);
                 }
     
-                // Mise à jour des éléments HTML
                 document.getElementById('submitBtnUpdate').style.display = 'block';
-                //document.getElementById('tarif_line').innerHTML = tarif_line;
     
-                // Gestionnaire d'événements pour la mise à jour du montant
-                rubriqueSelect.addEventListener('change', () => {
+                // Définir automatiquement les montants si une sélection a été trouvée
+                if (selectedFound) {
+                    updateMontant();
+                }
+    
+                // Gestionnaire d'événement pour la mise à jour du montant
+                rubriqueSelect.addEventListener('change', updateMontant);
+    
+                function updateMontant() {
                     const selectedOption = rubriqueSelect.options[rubriqueSelect.selectedIndex];
                     const selectedAmount = selectedOption?.getAttribute('data-amount') || '';
                     const formattedAmount = selectedAmount
@@ -1226,14 +1241,12 @@ $('#container').on('click', '.sendDeleteLink', function(e) {
                           })
                         : '';
                     document.getElementById('montant_payUpdate').value = formattedAmount;
-                    
+    
                     const selectedLieuRDV = selectedOption?.getAttribute('data-lieu_rendez_vous') || '';
                     const selectedLieuRdvuuid = selectedOption?.getAttribute('data-lieu_rendez_vous_uuid') || '';
                     document.getElementById('lieu_rdvUpdate').value = selectedLieuRDV;
                     document.getElementById('list_rdvUpdate').value = selectedLieuRdvuuid;
-
-
-                });
+                }
             })
             .catch(error => {
                 console.error('Erreur :', error);
