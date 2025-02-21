@@ -132,7 +132,7 @@
     border: 1px solid black;
     padding: 1px;
     text-align: left;
-    size: 10px !important;
+    size: 8px !important;
 }
 
 .table thead {
@@ -238,7 +238,7 @@
         </table> 
         
       
-        <br>
+        <br><br>
         {{-- A REVOIR POUR LE SCRIPT D'ASSIGNATION --}}
         <table class="bg-white" style="width: 100%;font-size: meduim">
             <thead>
@@ -292,6 +292,17 @@
                     </td>
                 </tr>
 
+                
+
+                <tr>
+                    <td class="cell-padding"  style="width: 250px !important">
+                        Nombre de voiture enregistré
+                    </td>
+                    <td>
+                        : <strong> {{ $vehicule_enregistre ?? '' }} </strong>
+                    </td>
+                </tr>
+
                 <tr>
                     <td class="cell-padding"  style="width: 250px !important">
                         Contact téléphonique
@@ -320,11 +331,27 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
-    @php $totalAmount = 0; @endphp
-           <br> <br> {{-- <br> <br> <br><br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br> --}}
-    <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
+    @php $totalAmountRecap = 0; @endphp
+    @isset($payElement)
+        @forelse($payElement as $pay)
+            @php $totalAmountRecap += $pay['amount'] ?? 0; @endphp
+        @empty
+        @endforelse
+    @endisset
+ <br>
+<p> <b>Arrêté la présente facture à la somme de : ({{ money_format($totalAmountRecap) }})  {{ enlettre($totalAmountRecap ?? '') }} Francs CFA </b>.</p>
+<p style="font-size: small">Règlement à l'ordre de la <b>PAIERIE DU DISTRICT D'ABIDJAN</b>.  </p>
+
+
+            <br> <br><br> <br> <br> <br><br> <br> <br>
+           <div style="text-align: right">
+           <u>Signature du Directeur.</u> 
+           </div>
+           <br> <br> <br><br> <br> <br> <br> 
+    
+           @php $totalAmount = 0; @endphp
+           <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
         <thead>
             <tr>
                 <th  class="cell-padding" colspan="4" style="background-color: silver;text-align:center;">
@@ -361,8 +388,8 @@
             </tr>
         </tfoot>
     </table>
-    <p> <b>Arrêté la présente facture à la somme de : {{ enlettre($totalAmount ?? '') }} Francs CFA </b></p>
-    <p style="font-size: small">A l'ordre de la : Paierie du District d'Abidjan pour le  chèque</p>
+    {{-- <p> <b>Arrêté la présente facture à la somme de : {{ enlettre($totalAmount ?? '') }} Francs CFA </b></p>
+    <p style="font-size: small">A l'ordre de la : Paierie du District d'Abidjan pour le  chèque</p> --}}
 @endisset
 
 <div class="bottom-content">

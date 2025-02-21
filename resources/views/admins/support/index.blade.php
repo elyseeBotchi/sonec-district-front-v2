@@ -26,7 +26,7 @@
                                             <div class="form-group col-md-3">
                                                 <label class="form-label">Rechercher par : </label>
                                                 <select class="form-control" name="status">
-                                                    <option value="transaction">ID de transaction</option>
+                                                    <option value="transaction_id">ID de transaction</option>
                                                     <option value="immatriculation">Numero d'immatriculation</option>
                                                     <option value="nom_du_proprietaire">Nom du propriétaire</option>
                                                     <option value="telephone">Numéro de paiement</option>
@@ -36,14 +36,14 @@
 
                                             <div class="form-group col-md-8">
                                                 <label class="form-label"> &nbsp; &nbsp; &nbsp; </label>
-                                                <input type="text" class="form-control" id="dateBegin" name="dateBegin" required />
+                                                <input type="text" class="form-control" id="target" name="target" required />
                                             </div>
                                            
 
                                             
                                         
                                             <div class="form-group col-md-1">
-                                                <label class="form-label">&nbsp; &nbsp; &nbsp; </label>
+                                                <label class="form-label">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                                 <button type="submit" id="submitBtn" class="btn btn-icon waves-effect waves-light material-shadow-none btn-outline-primary" title="Rechercher" >
                                                     <i class="fa fa-search"></i>
                                                 </button>
@@ -55,8 +55,11 @@
                             </div>
                         </div>
                         
-
+                        <div class="col-md-12" id="resultContainer"></div>
                     </div>
+
+                    
+
                     
                 </div>
             </div>
@@ -70,6 +73,32 @@
 @isset($Entity_uuid)
     <script>
         var Entity_uuid = @Json($Entity_uuid ?? '');
+        document.addEventListener("DOMContentLoaded", function () {
+            let searchInput = document.getElementById("target");
+            let searchForm = document.querySelector(".searchData");
+            let resultContainer = document.getElementById("resultContainer");
+
+            searchInput.addEventListener("input", function () {
+                let formData = new FormData(searchForm);
+
+                fetch(searchForm.action, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                    },
+                    body: formData,
+                })
+                .then(response => response.text())
+                .then(html => {
+                    console.log(html)
+                    resultContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("Erreur :", error);
+                });
+            });
+        });
+
     </script>
 @endisset
 {{--

@@ -19,10 +19,24 @@ class SupportsController extends Controller
     
     public function search(Request $request)
     {
-       // return dd($entity_uuid);
-        return view('admins.support.index', [
-                'Entity_uuid'=>$entity_uuid ?? '',
+        $request->validate([
+            'status' => 'required|string',
+            'target' => 'required|string',
+            'entity_uuid' => 'required|uuid'
         ]);
+
+        $url_path = "/autorisations/admin/supports/search";
+
+        $data = [
+            'status' => $request->status,
+            'target' => $request->target,
+            'entity_uuid' => $request->entity_uuid
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      // return dd($responses);
+
+        return response()->json($responses);
       
     }
 

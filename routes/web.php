@@ -246,7 +246,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         
         Route::prefix('support')->group(function () {
             Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
-            Route::get('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
+            Route::post('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
   
         });
 

@@ -165,7 +165,7 @@
         @endisset
     
 
-    @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
+    @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
 
         @isset($type_stat)
             @if($type_stat =="periode")

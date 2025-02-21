@@ -7,9 +7,9 @@ $(document).ready(function() {
    // setInterval(findStatistique, 20000);
     //setInterval(findStatus('today','all'), 25000);
 
-   // const intervalId = setInterval(findStatistique, 60000);
-    //intervalId
-   // setInterval(() => findStatistique(), 20000)
+    const intervalId = setInterval(findStatistique, 20000);
+    intervalId
+   setInterval(() => findStatistique(), 20000)
 
     function findStatus(status,paymode) {
        var libelle_status = ""
