@@ -218,6 +218,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
            
             Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
             Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
+            Route::get('/cheque/autogenerate/{uuid}', [AdminServicesController::class, 'autogenerate_cheque'])->name('panel.autorisations.services.taxes.cheque.autogenerate.line');
 
 
            // customer/services/cheque/findAll

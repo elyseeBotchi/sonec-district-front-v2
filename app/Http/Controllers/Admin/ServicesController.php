@@ -950,4 +950,19 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+
+      
+    public function autogenerate_cheque($uuid){
+        $url_path = "/autorisations/entite/taxes/cheque/autogenerate";
+
+        $data = [
+            'uuid' => $uuid,
+        ];
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
+
+    
 }

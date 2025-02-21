@@ -45,6 +45,18 @@ $(document).ready(function() {
                     default:
                         statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
                 }
+                    console.log(AuthConnect)
+                    let actions = `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`;
+
+                    if (AuthConnect.email === "admin@sonec.com") {
+                        actions += `  <a href="/panel/services/cheque/autogenerate/${result.uuid}" 
+                                        data-uuid="${result.uuid}" 
+                                        caption="VOUS ÊTES SUR LE POINT DE GENERER LA LISTE DES VÉHICULES. CONTINUER ?" 
+                                        title="Générer la liste des véhicules" 
+                                        class="btn btn-sm btn-outline-warning sendDeleteLink"> 
+                                        Auto générer 
+                                    </a>`;
+                    }
 
                 tableData.push([
                     result.nom_du_proprietaire || '',
@@ -54,7 +66,7 @@ $(document).ready(function() {
                     Math.ceil(result.nombre_vehicule) || '',
                     result.nombre_vehicule_enregistre || 0,
                     statusBadge,
-                    `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`
+                    actions
                 ]);
             });
 
