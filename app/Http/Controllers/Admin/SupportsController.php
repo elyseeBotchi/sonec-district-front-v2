@@ -21,9 +21,20 @@ class SupportsController extends Controller
     {
         $request->validate([
             'status' => 'required|string',
-            'target' => 'required|string',
+           // 'target' => 'required|string',
             'entity_uuid' => 'required|uuid'
         ]);
+
+        if($request->target ==""){
+            return response()->json([
+                'type' => 'error',
+                'message' => "Un élément retrouvé",
+                'code' => 200,
+                'urlback'=> '',
+                'data' => ''
+            ]);
+        }
+
 
         $url_path = "/autorisations/admin/supports/search";
 
@@ -38,6 +49,21 @@ class SupportsController extends Controller
 
         return response()->json($responses);
       
+    }
+
+
+    public function annulerPaiement($uuid){
+        $url_path = "/autorisations/admin/supports/annuler/paiement";
+
+        $data = [
+            'uuid' => $uuid,
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      // return dd($responses);
+
+        return response()->json($responses);
+
     }
 
 }

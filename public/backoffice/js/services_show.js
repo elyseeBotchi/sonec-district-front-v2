@@ -16,6 +16,7 @@ $(document).ready(function() {
                 var permissions = {
                     historique_paiement: canPermission('entites_voir_lhistorique_des_paiements_dune_entite'),
                     recu_de_paiement: canPermission('entites_telecharger_le_recu_de_paiement'),
+                    annuler_paiement: canPermission('entites_telecharger_annuler_un_paiement'),
                     telecharger_la_carte: canPermission('entites_telecharger_la_carte'),
                 };
 
@@ -213,6 +214,18 @@ $(document).ready(function() {
                             if (permissions && permissions.recu_de_paiement) {
                                 receiptLink = (facture.state === "success") 
                                     ? `<a href="/landing/services/facturation/taxe/data/generate/file/${facture.uuid}" class="btn btn-link">Télécharger le reçu</a>` 
+                                    : '';
+                            }
+
+                            if (permissions && permissions.annuler_paiement) {
+                                receiptLink = (facture.state === "success") 
+                                    ? ` <a href="/panel/services/cheque/autogenerate/${facture.uuid}" 
+                                        data-uuid="${facture.uuid}" 
+                                        caption="VOUS ÊTES SUR LE POINT D'ANNULER LE PAIEMENT. CONTINUER ?" 
+                                        title="Annuler le paiement" 
+                                        class="btn btn-sm btn-outline-warning sendDeleteLink"> 
+                                       Annuler 
+                                    </a>` 
                                     : '';
                             }
                     
