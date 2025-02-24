@@ -674,7 +674,10 @@ if(!function_exists('liste_banques')){
             ["nom" => "SOCIÉTÉ IVOIRIENNE DE BANQUE", "sigle" => "SIB","status" => true],
             ["nom" => "STANDARD CHARTERED BANK CÔTE D'IVOIRE", "sigle" => "SCB","status" => true],
             ["nom" => "UNITED BANK FOR AFRICA CÔTE D'IVOIRE", "sigle" => "UBA","status" => true],
-            ["nom" => "VERSUS BANK", "sigle" => "VERSUS","status" => true]
+            ["nom" => "VERSUS BANK", "sigle" => "VERSUS","status" => true],
+            ["nom" => "BANQUE MALIENNE DE SOLIDARITÉ CÔTE D'IVOIRE", "sigle" => "BMS CI","status" => true],
+
+             
         ];
         return $banques;
         

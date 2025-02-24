@@ -248,7 +248,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         Route::prefix('support')->group(function () {
             Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
             Route::post('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
-  
+            Route::get('taxes/annuler/paiement/{uuid}', [SupportsController::class, 'annulerPaiement'])->name('panel.autorisations.services.taxes.annuler.paiement');
+
         });
 
 
