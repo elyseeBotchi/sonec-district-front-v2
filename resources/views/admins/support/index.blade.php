@@ -219,7 +219,7 @@
                     }
                 },
                 {
-                    data: 'uuid',
+                    data: 'pay_uuid',
                     render: function(data, type, row) {
                         let permissions = {
                             show: true,
