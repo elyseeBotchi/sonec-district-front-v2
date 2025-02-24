@@ -520,7 +520,7 @@
 
 
                 @isset($lock)@endisset
-                @if(CanPermission('configurations_voir_le_bloc_des_configurations'))
+                @if(CanPermission('support_voir_le_module_support'))
                     <li class="sidebar-item" > 
                         <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.entities.support.index',['entity_uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
                             {{-- <i data-feather="earphone" class="feather-icon"></i> --}}
