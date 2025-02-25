@@ -429,6 +429,42 @@ $(document).ready(function() {
             return slug.replace(/-/g, '_');
         }
         
+             // delete
+             $('#container').on('click', '.sendDeleteLink', function(e){
+                e.preventDefault();
+        
+                var action = $(this).attr('href');
+                var caption = $(this).attr('caption');
+        
+                Swal.fire({
+                    icon : 'warning',
+                    title: 'Attention !',
+                    text: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: `OUI, CONTINUER`,
+                    denyButtonText: `NON, FERMER`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+        
+                        loader();
+        
+                        $.get(action, function(data){
+                            loader('hide');
+        
+                            if(data.type === 'success'){
+                                sendSuccess(data.message);
+                                findAll();
+                            }else{
+                                SendError(data.message);
+                            }
+                        });
+                    }
+                });
+            });
+
+            
     });
 
     function sendForm(action, formData, callback) {
@@ -548,39 +584,6 @@ $(document).ready(function() {
         }
     }
 
-        // delete
-        $('#container').on('click', '.sendDeleteLink', function(e){
-            e.preventDefault();
-    
-            var action = $(this).attr('href');
-            var caption = $(this).attr('caption');
-    
-            Swal.fire({
-                icon : 'warning',
-                title: 'Attention !',
-                text: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: `OUI, CONTINUER`,
-                denyButtonText: `NON, FERMER`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-    
-                    loader();
-    
-                    $.get(action, function(data){
-                        loader('hide');
-    
-                        if(data.type === 'success'){
-                            sendSuccess(data.message);
-                            findAll();
-                        }else{
-                            SendError(data.message);
-                        }
-                    });
-                }
-            });
-        });
+   
 
 
