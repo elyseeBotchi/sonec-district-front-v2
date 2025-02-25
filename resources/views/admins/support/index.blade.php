@@ -44,12 +44,12 @@
 
                                             
                                         
-                                            <div class="form-group col-md-1">
+                                            {{-- <div class="form-group col-md-1">
                                                 <label class="form-label">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                                 <button type="submit" id="submitBtn" class="btn btn-icon waves-effect waves-light material-shadow-none btn-outline-primary" title="Rechercher" >
                                                     <i class="fa fa-search"></i>
                                                 </button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </form>
