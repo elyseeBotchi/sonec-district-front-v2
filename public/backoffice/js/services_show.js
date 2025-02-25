@@ -219,7 +219,7 @@ $(document).ready(function() {
 
                             if (permissions && permissions.annuler_paiement) {
                                 receiptLink = (facture.state === "success") 
-                                    ? ` <a href="/panel/services/cheque/autogenerate/${facture.uuid}" 
+                                    ? ` <a href="/panel/support/taxes/annuler/paiement/${facture.uuid}" 
                                         data-uuid="${facture.uuid}" 
                                         caption="VOUS ÊTES SUR LE POINT D'ANNULER LE PAIEMENT. CONTINUER ?" 
                                         title="Annuler le paiement" 
@@ -547,5 +547,40 @@ $(document).ready(function() {
                 return state; // Si la périodicité n'est pas reconnue, on renvoie la valeur telle quelle
         }
     }
+
+        // delete
+        $('#container').on('click', '.sendDeleteLink', function(e){
+            e.preventDefault();
+    
+            var action = $(this).attr('href');
+            var caption = $(this).attr('caption');
+    
+            Swal.fire({
+                icon : 'warning',
+                title: 'Attention !',
+                text: caption ? caption : 'Vous êtes sur le point d\'effectuer un changement',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `OUI, CONTINUER`,
+                denyButtonText: `NON, FERMER`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+    
+                    loader();
+    
+                    $.get(action, function(data){
+                        loader('hide');
+    
+                        if(data.type === 'success'){
+                            sendSuccess(data.message);
+                            findAll();
+                        }else{
+                            SendError(data.message);
+                        }
+                    });
+                }
+            });
+        });
 
 
