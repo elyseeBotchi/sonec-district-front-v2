@@ -93,6 +93,69 @@
                 </div>
             </div>
 
+
+            
+            <div class="modal fade" id="up-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <form class="modal-content sendForm" action="{{ route('customer.entities.taxe.cheque.update') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+            
+                        <div class="modal-header">
+                            <h5 class="mb-0 text-uppercase">Modifier une demande de cotation</h5>
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                                <i class="ti ti-x f-20"></i>
+                            </a>
+                        </div>
+                        <center id="form-container-up-loader"> <i class="fa fa-spinner fa-spin"></i> </center>
+                        <div class="modal-body" id="form-container-up" style="display: none">
+                            <div class="row">
+                                <input type="hidden" id="update-uuid" name="uuid" required />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="libelle">Libellé de la cotation <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="libelle-up" name="libelle" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">Nom de l'entreprise <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="proprietaire-up" name="nom_du_proprietaire" value="{{ Authconnect()['firstname'] ?? '' }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">N° Compte contribuable <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="contribuable-up" name="contribuable" placeholder="" value="{{ Authconnect()['contribuable'] ?? '' }}" @isset(Authconnect()['contribuable']) readonly @endisset required />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">Nombre de véhicule à déclarer <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="nombre_vehicule-up" name="nombre_vehicule" placeholder="" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="libelle">Contact téléphonique <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="telephone-up" name="telephone" placeholder="" required>
+                                    </div>
+                                </div>
+                           
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             {{-- <div class="modal fade" id="add-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.cheque.reception.store') }}" method="POST">

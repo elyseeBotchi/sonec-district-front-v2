@@ -656,7 +656,7 @@ if(!function_exists('liste_banques')){
             ["nom" => "BANQUE ATLANTIQUE CÔTE D'IVOIRE", "sigle" => "BAC","status" => true],
             ["nom" => "BANQUE D'ABIDJAN", "sigle" => "BDA","status" => true],
             ["nom" => "BANQUE DE L'HABITAT DE CÔTE D'IVOIRE", "sigle" => "BHCI","status" => true],
-            ["nom" => "BANQUE DE L'UNION - CÔTE D'IVOIRE", "sigle" => "BUDI","status" => true],
+            ["nom" => "BANQUE DE L'UNION - CÔTE D'IVOIRE", "sigle" => "BDU-CI","status" => true],
             ["nom" => "BANQUE INTERNATIONALE POUR LE COMMERCE ET L'INDUSTRIE DE LA CÔTE D'IVOIRE", "sigle" => "BICICI"],
             ["nom" => "BANQUE NATIONALE D'INVESTISSEMENT", "sigle" => "BNI","status" => true],
             ["nom" => "BANQUE POPULAIRE DE CÔTE D'IVOIRE", "sigle" => "BPCI","status" => true],
@@ -676,8 +676,9 @@ if(!function_exists('liste_banques')){
             ["nom" => "UNITED BANK FOR AFRICA CÔTE D'IVOIRE", "sigle" => "UBA","status" => true],
             ["nom" => "VERSUS BANK", "sigle" => "VERSUS","status" => true],
             ["nom" => "BANQUE MALIENNE DE SOLIDARITÉ CÔTE D'IVOIRE", "sigle" => "BMS CI","status" => true],
+            ["nom" => "AFRILAND FIRST BANK", "sigle" => "AFRILAND","status" => true],
 
-             
+            
         ];
         return $banques;
         

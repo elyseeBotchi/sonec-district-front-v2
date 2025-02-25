@@ -416,6 +416,65 @@ class ServicesController extends Controller
             return response()->json($dataResponse);
         }
     }
+   
+    
+    public function cheque_update(Request $request){
+        if($request->contribuable ==""){
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Le numéro contribuable est requis',
+                'code' => 400,
+            ], 400);
+        }
+
+        $url_path = "/autorisations/services/taxe/cheque/update";
+
+        $data = [
+            'uuid' => $request->uuid,
+            'entity_uuid' => $request->entity_uuid,
+            'libelle' => $request->libelle,
+            'nom_du_proprietaire' => $request->nom_du_proprietaire,
+            'contribuable' => $request->contribuable,
+            'nombre_vehicule' => $request->nombre_vehicule,
+            'telephone' => $request->telephone,
+        ];
+        
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+       // dd($response);
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=> route('customer.entities.taxe.cheque.detail',[
+                        'uuid' => $response['data']['uuid'],
+                        'entity_uuid' =>$request->entity_uuid
+                    ]),
+                    'message'=>$response['message'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+    }
     
     
     public function chequeDetail($uuid,$entity_uuid){

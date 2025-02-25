@@ -325,6 +325,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             });
 
             Route::post('/cheque/store', [ServicesController::class, 'cheque_store'])->name('customer.entities.taxe.cheque.store');
+            Route::post('/cheque/update', [ServicesController::class, 'cheque_update'])->name('customer.entities.taxe.cheque.update');
             Route::get('/cheque/findAll/{uuid}', [ServicesController::class, 'findCheque'])->name('customer.entities.taxe.cheque.find_all');
             Route::get('/cheque/detail/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeDetail'])->name('customer.entities.taxe.cheque.detail');
            

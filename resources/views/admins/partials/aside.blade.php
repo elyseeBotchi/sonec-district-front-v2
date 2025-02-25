@@ -523,7 +523,7 @@
                 @if(CanPermission('support_voir_le_module_support'))
                     <li class="sidebar-item" > 
                         <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.entities.support.index',['entity_uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                            {{-- <i data-feather="earphone" class="feather-icon"></i> --}}
+                             <i data-feather="alert-triangle" class="feather-icon"></i> 
                             <span class="hide-menu">SUPPORT</span>
                         </a>
                     </li>

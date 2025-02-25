@@ -158,7 +158,7 @@
         /* entete.forEach(col => {
             headerHtml += `<th>${col.name}</th>`;
         }); */
-        headerHtml += " <th>Nom du propriétaire</th> <th>Numéro de carte grise</th> <th>Numéro d'immatriculation</th> <th>Transaction ID</th>  <th>Opérateur</th>  <th>Statut du véhicule</th> <th>Action</th></tr>"; // Ajout des colonnes "Statut" et "Action"
+        headerHtml += " <th>Nom du propriétaire</th> <th>Numéro de carte grise</th> <th>Numéro d'immatriculation</th> <th>Transaction ID</th> <th>Réf paiement ID</th>  <th>Opérateur</th>  <th>Statut du véhicule</th> <th>Action</th></tr>"; // Ajout des colonnes "Statut" et "Action"
         $('#datatable-custom thead').html(headerHtml);
 
         // Vérifier si la DataTable a déjà été initialisée
@@ -199,6 +199,12 @@
                     }
                 }, 
                 {
+                    data: 'reference',
+                    render: function(data, type, row) {
+                        return `${data}`;
+                    }
+                }, 
+                {
                     data: 'paymode',
                     render: function(data, type, row) {
                         return `${data}`;
@@ -212,6 +218,12 @@
                                 return `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
                             case 'validate':
                                 return `<span class="badge badge-pill badge-success">Validé</span>`;
+                            case 'paid':
+                                return `<span class="badge badge-pill badge-success">Payé</span>`;
+                            case 'error':
+                                return `<span class="badge badge-pill badge-danger">Annulé</span>`;
+                            case 'init':
+                                return `<span class="badge badge-pill badge-info">Initialisé</span>`;
                             default:
                                 return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
                             

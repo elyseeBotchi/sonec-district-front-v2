@@ -60,7 +60,11 @@ $(document).ready(function() {
                     }
     
                     table += `<td>${statusBadge}</td>`;
-                    table += `<td><a href="/customer/services/cheque/detail/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"> <i class='fa fa-eye'></i> </a></td>`;
+                    table += `<td>
+                    <a href="/customer/services/cheque/detail/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"> <i class='fa fa-eye'></i> </a> 
+                    <a href="#" data-toggle="modal" data-uuid="${result.uuid}" data-target="#up-modal" class="btn btn-sm btn-warning updateData"> <i class='fa fa-edit'></i> </a> 
+
+                    </td>`;
                     table += `</tr>`;
                 });
     
@@ -73,6 +77,43 @@ $(document).ready(function() {
     }
     
 
+            
+    $('#container').on('click', '.updateData', function(e) {
+        e.preventDefault();
+        document.getElementById('form-container-up-loader').style.display = 'block';
+
+        const uuid = this.getAttribute('data-uuid');
+        //const name = this.getAttribute('data-name');
+    
+       // alert(uuid);
+        document.getElementById('update-uuid').value = uuid;
+    
+        // Faire une requête fetch
+        
+        fetch(`/customer/services/cheque/data/${uuid}/${Entity_uuid}`, {
+            method: 'GET', // Ou 'POST' selon votre besoin
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoutez d'autres en-têtes si nécessaire, comme l'authentification
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            //console.log(data); // Affiche les données reçues
+            const reponse = data.cheque;
+           document.getElementById('libelle-up').value = reponse.libelle;
+           document.getElementById('proprietaire-up').value = reponse.nom_du_proprietaire;
+           document.getElementById('contribuable-up').value = reponse.contribuable;
+           document.getElementById('nombre_vehicule-up').value = reponse.nombre_vehicule;
+           document.getElementById('telephone-up').value = reponse.telephone;
+
+           document.getElementById('form-container-up-loader').style.display = 'none';
+           document.getElementById('form-container-up').style.display = 'block';
+        })
+        .catch(error => {
+           // console.error('Erreur:', error);
+        });
+    });
     
     function generateFormUpdate(entete,pay_element) {
         let formHtml = '';
