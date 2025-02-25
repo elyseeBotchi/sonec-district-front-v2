@@ -16,7 +16,7 @@ $(document).ready(function() {
                 var permissions = {
                     historique_paiement: canPermission('entites_voir_lhistorique_des_paiements_dune_entite'),
                     recu_de_paiement: canPermission('entites_telecharger_le_recu_de_paiement'),
-                    annuler_paiement: canPermission('entites_telecharger_annuler_un_paiement'),
+                    annuler_paiement: canPermission('support_annuler_un_paiement'),
                     telecharger_la_carte: canPermission('entites_telecharger_la_carte'),
                 };
 
