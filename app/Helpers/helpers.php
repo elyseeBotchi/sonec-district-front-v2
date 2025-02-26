@@ -521,7 +521,7 @@ if (!function_exists('enlettre')) {
         if ($nombre >= 1000000000) {
             $milliards = intval($nombre / 1000000000);
             $reste = $nombre % 1000000000;
-            $texte .= ($milliards > 1 ? enlettre($milliards) . " milliards" : "un milliard");
+            $texte .= enlettre($milliards) . " milliard" . ($milliards > 1 ? "s" : "");
             if ($reste > 0) {
                 $texte .= " " . enlettre($reste);
             }
