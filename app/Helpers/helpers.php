@@ -503,7 +503,7 @@ if (!function_exists('enlettre')) {
     function enlettre($nombre) {
         $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
         $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
-        $specials = [11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
+        $specials = [10 => "dix", 11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
 
         // Cas pour zéro
         if ($nombre == 0) {
@@ -579,8 +579,8 @@ if (!function_exists('enlettre')) {
             return $texte;
         }
 
-        // Gestion des nombres entre 11 et 19
-        if ($nombre >= 11 && $nombre <= 19) {
+        // Gestion des nombres entre 10 et 19
+        if ($nombre >= 10 && $nombre <= 19) {
             return $specials[$nombre];
         }
 
