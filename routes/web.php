@@ -19,6 +19,7 @@ use \App\Http\Controllers\Customer\LoginController as CustomerLoginController;
 use App\Http\Controllers\Customer\ServicesController;
 use App\Http\Controllers\Admin\ServicesController as AdminServicesController;
 use App\Http\Controllers\Admin\SupportsController;
+use App\Http\Controllers\Admin\SystemeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,16 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
                 Route::get('/{uuid}/delete', [PermissionController::class, 'delete'])->name('panel.autorisations.permissions.delete');
             });
 
+
+        });
+
+
+        
+        Route::prefix('systemes')->group(function(){
+            Route::get('findAll', [SystemeController::class, 'findAll'])->name('panel.autorisations.systemes.findAll');
+            Route::get('index', [SystemeController::class, 'index'])->name('panel.autorisations.systemes.index');
+            Route::post('store', [SystemeController::class, 'store'])->name('panel.autorisations.systemes.store');
+            Route::get('/{uuid}/edit', [SystemeController::class, 'edit'])->name('panel.autorisations.systemes.edit');
 
         });
 

@@ -516,6 +516,19 @@
                             </a>
                         </li>
                     @endif
+
+                    
+                    @if(CanPermission('module_voir_longlet_module'))
+                        <li class="sidebar-item {{ request()->is('panel/systemes/*') ? 'selected' : '' }}">
+                                <a class="sidebar-link sidebar-link {{ request()->is('panel/systemes/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.systemes.index') }}" aria-expanded="false">
+                                <i class="feather-icon fas fa-cogs"></i>
+                                <span class="hide-menu">
+                                    Système
+                                </span>
+                            </a>
+                        </li>
+                    @endif
+                    
                 @endif 
 
 
