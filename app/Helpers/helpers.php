@@ -517,11 +517,22 @@ if (!function_exists('enlettre')) {
 
         $texte = "";
 
+        // Gestion des milliards
+        if ($nombre >= 1000000000) {
+            $milliards = intval($nombre / 1000000000);
+            $reste = $nombre % 1000000000;
+            $texte .= ($milliards > 1 ? enlettre($milliards) . " milliards" : "un milliard");
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            }
+            return $texte;
+        }
+
         // Gestion des millions
         if ($nombre >= 1000000) {
             $millions = intval($nombre / 1000000);
             $reste = $nombre % 1000000;
-            $texte .= ($millions > 1 ? enlettre($millions) . " millions" : "un million");
+            $texte .= enlettre($millions) . " million" . ($millions > 1 ? "s" : "");
             if ($reste > 0) {
                 $texte .= " " . enlettre($reste);
             }
