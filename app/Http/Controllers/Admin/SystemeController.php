@@ -10,6 +10,11 @@ class SystemeController extends Controller
 {
     public function index(){
 
+        $tauxReduction4 = 0; // Taux de réduction configurable
+        $coeffReduction4 = (100 - $tauxReduction4) / 100; 
+
+       // return dd($coeffReduction4);
+
         return view('admins.configurations.systemes.index');
     }
 
@@ -22,8 +27,11 @@ class SystemeController extends Controller
             'end' => $request->end,
             'rate' => $request->rate,
             'total_cumul' => $request->total_cumul,
+            'facturation_uuid' => $request->facturation_uuid,
+
         ];
 
+       // return dd($data);
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
        // return dd($dataResponse);
         return response()->json($dataResponse);
@@ -38,6 +46,7 @@ class SystemeController extends Controller
 
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
 
+       // return dd($dataResponse);
         return response()->json($dataResponse);
     }
 
@@ -63,9 +72,11 @@ class SystemeController extends Controller
             'end' => $request->end,
             'rate' => $request->rate,
             'total_cumul' => $request->total_cumul,
+            'facturation_uuid' => $request->facturation_uuid,
             'uuid' => $request->uuid
         ];
 
+       
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
         return response()->json($dataResponse);
@@ -80,8 +91,11 @@ class SystemeController extends Controller
             'uuid' => $uuid
         ];
 
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+      
 
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+       
+        //return dd($dataResponse);
         return response()->json($dataResponse);
     }
 }

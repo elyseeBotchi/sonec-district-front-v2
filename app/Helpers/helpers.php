@@ -593,87 +593,88 @@ if (!function_exists('enlettre')) {
     }
 }
 
-/* 
-if (!function_exists('enlettre')) {
-    function enlettre($nombre) {
-        $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
-        $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
-        $specials = [11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
+    /* 
+            if (!function_exists('enlettre')) {
+                function enlettre($nombre) {
+                    $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
+                    $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
+                    $specials = [11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
 
-        // Cas pour zéro
-        if ($nombre == 0) {
-            return "zéro";
-        }
+                    // Cas pour zéro
+                    if ($nombre == 0) {
+                        return "zéro";
+                    }
 
-        // Cas pour les nombres négatifs
-        if ($nombre < 0) {
-            return "moins " . enlettre(-$nombre);
-        }
+                    // Cas pour les nombres négatifs
+                    if ($nombre < 0) {
+                        return "moins " . enlettre(-$nombre);
+                    }
 
-        $texte = "";
+                    $texte = "";
 
-        // Gestion des millions
-        if ($nombre >= 1000000) {
-            $millions = intval($nombre / 1000000);
-            $reste = $nombre % 1000000;
-            $texte .= ($millions > 1 ? enlettre($millions) . " millions" : "un million");
-            if ($reste > 0) {
-                $texte .= " " . enlettre($reste);
+                    // Gestion des millions
+                    if ($nombre >= 1000000) {
+                        $millions = intval($nombre / 1000000);
+                        $reste = $nombre % 1000000;
+                        $texte .= ($millions > 1 ? enlettre($millions) . " millions" : "un million");
+                        if ($reste > 0) {
+                            $texte .= " " . enlettre($reste);
+                        }
+                        return $texte;
+                    }
+
+                    // Gestion des milliers
+                    if ($nombre >= 1000) {
+                        $milliers = intval($nombre / 1000);
+                        $reste = $nombre % 1000;
+                        $texte .= ($milliers > 1 ? enlettre($milliers) . " mille" : "mille");
+                        if ($reste > 0) {
+                            $texte .= " " . enlettre($reste);
+                        }
+                        return $texte;
+                    }
+
+                    // Gestion des centaines
+                    if ($nombre >= 100) {
+                        $centaines = intval($nombre / 100);
+                        $reste = $nombre % 100;
+                        $texte .= ($centaines > 1 ? $unites[$centaines] . " cent" : "cent");
+                        if ($reste > 0) {
+                            $texte .= " " . enlettre($reste);
+                        }
+                        return $texte;
+                    }
+
+                    // Gestion des dizaines
+                    if ($nombre >= 20) {
+                        $dix = intval($nombre / 10);
+                        $reste = $nombre % 10;
+                        $texte .= $dizaines[$dix];
+                        if ($dix == 7 || $dix == 9) { // Cas des soixante-dix et quatre-vingt-dix
+                            $texte .= "-" . enlettre(10 + $reste);
+                        } elseif ($reste > 0) {
+                            $texte .= "-" . $unites[$reste];
+                        }
+                        return $texte;
+                    }
+
+                    // Gestion des nombres entre 11 et 19
+                    if ($nombre >= 11 && $nombre <= 19) {
+                        return $specials[$nombre];
+                    }
+
+                    // Gestion des unités (1 à 9)
+                    return $unites[$nombre];
+                }
+
+                
             }
-            return $texte;
-        }
 
-        // Gestion des milliers
-        if ($nombre >= 1000) {
-            $milliers = intval($nombre / 1000);
-            $reste = $nombre % 1000;
-            $texte .= ($milliers > 1 ? enlettre($milliers) . " mille" : "mille");
-            if ($reste > 0) {
-                $texte .= " " . enlettre($reste);
-            }
-            return $texte;
-        }
-
-        // Gestion des centaines
-        if ($nombre >= 100) {
-            $centaines = intval($nombre / 100);
-            $reste = $nombre % 100;
-            $texte .= ($centaines > 1 ? $unites[$centaines] . " cent" : "cent");
-            if ($reste > 0) {
-                $texte .= " " . enlettre($reste);
-            }
-            return $texte;
-        }
-
-        // Gestion des dizaines
-        if ($nombre >= 20) {
-            $dix = intval($nombre / 10);
-            $reste = $nombre % 10;
-            $texte .= $dizaines[$dix];
-            if ($dix == 7 || $dix == 9) { // Cas des soixante-dix et quatre-vingt-dix
-                $texte .= "-" . enlettre(10 + $reste);
-            } elseif ($reste > 0) {
-                $texte .= "-" . $unites[$reste];
-            }
-            return $texte;
-        }
-
-        // Gestion des nombres entre 11 et 19
-        if ($nombre >= 11 && $nombre <= 19) {
-            return $specials[$nombre];
-        }
-
-        // Gestion des unités (1 à 9)
-        return $unites[$nombre];
-    }
-
-    
-}
-
- */
+    */
 
 
-if(!function_exists('calculateEndDate')) {
+
+ if(!function_exists('calculateEndDate')) {
     function calculateEndDate($startDate, $periodicity) {
         $date = new DateTime($startDate);
         

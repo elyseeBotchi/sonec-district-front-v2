@@ -143,7 +143,7 @@ class ServicesController extends Controller
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-        //return dd($data);
+        //return dd($responses);
 
         if($responses['type'] == 'error'){
             return response()->json($responses);

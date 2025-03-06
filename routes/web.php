@@ -81,14 +81,14 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
 
         });
-
-
         
         Route::prefix('systemes')->group(function(){
             Route::get('findAll', [SystemeController::class, 'findAll'])->name('panel.autorisations.systemes.findAll');
             Route::get('index', [SystemeController::class, 'index'])->name('panel.autorisations.systemes.index');
             Route::post('store', [SystemeController::class, 'store'])->name('panel.autorisations.systemes.store');
+            Route::post('update', [SystemeController::class, 'update'])->name('panel.autorisations.systemes.update');
             Route::get('/{uuid}/edit', [SystemeController::class, 'edit'])->name('panel.autorisations.systemes.edit');
+            Route::get('/{uuid}/delete', [SystemeController::class, 'delete'])->name('panel.autorisations.systemes.delete');
 
         });
 

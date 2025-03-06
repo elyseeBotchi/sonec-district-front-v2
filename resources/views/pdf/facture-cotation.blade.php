@@ -61,7 +61,7 @@
         /* Style pour le conteneur en bas de la page */
         .bottom-content {
             position: absolute;
-            bottom: -10px; /* Ajustez la valeur selon vos besoins */
+            bottom: 45px; /* Ajustez la valeur selon vos besoins */
             width: 100%;
             text-align: center;
             font-size: xx-small;
@@ -88,9 +88,7 @@
         td, th {
             font-size: 15px; /* Taille des cellules de tableau */
         }
-        .bottom-content {
-            font-size: 15px; /* Ajuster le texte en bas de page */
-        }
+      
         code {
             font-size: 14px; /* Augmenter la taille des notes */
         }
@@ -145,8 +143,34 @@
 }
 
 
+
+
     </style>
+        <style>
+            /* Vos styles existants */
     
+            /* Style pour le pied de page */
+            .footer {
+                position: fixed;
+                bottom: -15px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+                padding: 0px;
+                /* background-color: #f1f1f1; */
+                border-top: 1px solid #ccc;
+            }
+    
+            /* Compteur de pages */
+            @page {
+                counter-increment: page;
+            }
+    
+            .page-number::after {
+                content: "Page " counter(page);
+            }
+        </style>
 </head>
 
 <body>
@@ -196,6 +220,12 @@
         {{ $watermark ?? "DIS|TSA- " . date('y') }}
     </div>
 </div>
+<div class="footer">
+    <p>
+        District Autonome d'Abidjan, Boulevard de la république <br> BPV 24 Abidjan, Direction de l'Assiette, Plateau Immeuble Roume 3ème étage Tel:01 03 10 96 39
+        {{-- <i class="page-number" style="float: right !important"></i> --}}
+    </p>
+</div>
 @isset($open)
     <div class="col-md-11">
 
@@ -208,14 +238,14 @@
         <div class="title">
             <h4>District Autonome d´Abidjan</h4> 
             <h4 style="position :relative;top:-30px !important;">Direction Générale des services financiers</h4>
-             <h4  style="position :relative;top:-57px !important;">Direction du recouvrement</h4> 
+             <h4  style="position :relative;top:-57px !important;">Direction de l'Assiette</h4> 
         </div>
 
-
+        
 
         <div style="background-color: #0a9e2a;color: white;padding: 0.5px">
             <h4 class="text-center m-4 text-white uppercase" style="font-size: 15px; text-align:center; text-transform: uppercase !important; ">
-                 FACTURE 
+                 FACTURE N° : {{ $user['reference'] ?? '' }}
             </h4>
         </div>
         <br>
@@ -339,19 +369,21 @@
         @empty
         @endforelse
     @endisset
- <br>
-<p> <b>Arrêté la présente facture à la somme de : ({{ money_format($totalAmountRecap) }})  {{ enlettre($totalAmountRecap ?? '') }} Francs CFA </b>.</p>
-<p style="font-size: small">Règlement à l'ordre de la <b>PAIERIE DU DISTRICT D'ABIDJAN</b>.  </p>
+    <br>
+    <p> <b>Arrêté la présente facture à la somme de : ({{ money_format($totalAmountRecap) }})  {{ enlettre($totalAmountRecap ?? '') }} Francs CFA </b>.</p>
+    <p style="font-size: small">Règlement à l'ordre de la <b>PAIERIE DU DISTRICT D'ABIDJAN</b>.  </p>
 
 
-            <br> <br><br> <br> <br> <br><br> <br> <br>
+            <br> <br><br> <br>
            <div style="text-align: right">
+            Le Directeur <br> <br> <br> <br> <br>
+            M. N'BI THIERRY <br> <br>
            <u>Signature du Directeur.</u> 
            </div>
            <br> <br> <br><br> <br> <br> <br> 
     
            @php $totalAmount = 0; @endphp
-           <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
+    <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
         <thead>
             <tr>
                 <th  class="cell-padding" colspan="4" style="background-color: silver;text-align:center;">
@@ -388,12 +420,11 @@
             </tr>
         </tfoot>
     </table>
-    {{-- <p> <b>Arrêté la présente facture à la somme de : {{ enlettre($totalAmount ?? '') }} Francs CFA </b></p>
-    <p style="font-size: small">A l'ordre de la : Paierie du District d'Abidjan pour le  chèque</p> --}}
+   
 @endisset
 
 <div class="bottom-content">
-    <span> Généré le {{ date('d-m-Y') }} à {{ date('H:i:s') }} </span>
+   <span> Généré le {{ date('d-m-Y') }} à {{ date('H:i:s') }} </span>
     <br>
     <footer style="position:relative;bottom:0px;">
             <center>
@@ -403,7 +434,9 @@
             </center>
         Copyright © {{ date('Y') }} | {{ env('APP_NAME') }}. Tous Droits Réservés
     </footer>
-</div>
+</div> 
+
+
 <!-- JAVASCRIPT -->
 @stack('footer-script')
 

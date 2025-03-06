@@ -23,7 +23,7 @@
                     </div>
 
                     <div id="createModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary">
                                     <h5 class="modal-title text-uppercase text-white" id="createModalLabel">Ajouter une règle</h5>
@@ -31,26 +31,37 @@
                                 </div>
                                 <form action="{{ route('panel.autorisations.systemes.store') }}" method="POST" class="sendModuleForm">
                                     @csrf
-                                    <div class="modal-body">
-                                        <div class="form-group">
+                                    <div class="modal-body row">
+                                        <div class="form-group col-md-6">
                                             <label for="name" class="form-label">Date de début</label>
                                             <input type="date" name="start"value="{{ date('Y-m-d') }}" class="form-control" autofocus>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label for="name" class="form-label">Date de fin</label>
                                             <input type="date" name="end" class="form-control" />
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label for="name" class="form-label">Ratio (%)</label>
                                             <input type="number" name="rate" class="form-control" max="100" required />
                                         </div>
                                         
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label for="name" class="form-label">Nombre</label>
                                             <input type="number" name="total_cumul" class="form-control" required />
+                                        </div>  
+
+                                        <div class="form-group col-md-6">
+                                            <label for="name" class="form-label">Type de véhicule</label>
+                                            <select name="facturation_uuid" class="form-control" id="rubrique"></select>
                                         </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="name" class="form-label">Montant</label>
+                                            <input type="text" name="montant_pay" id="montant_pay" class="form-control" readonly />
+                                        </div>  
+
                                     </div>
 
 
@@ -64,17 +75,17 @@
                     </div>
 
                     <div id="updateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary">
                                     <h5 class="modal-title text-uppercase text-white" id="updateModalLabel">Modifier une règle</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="" method="POST" class="sendModuleUpdateForm">
                                     @csrf
                                     <div class="modal-body updateModalBody"></div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary btn-shadow" data-bs-dismiss="modal">Fermer</button>
+                                        <button type="button" class="btn btn-secondary btn-shadow" data-dismiss="modal">Fermer</button>
                                         <button type="submit" class="btn btn-primary  btn-shadow">Sauvegarder</button>
                                     </div>
                                 </form>
@@ -90,6 +101,8 @@
                                 <td class="text-white">Date de fin</td>
                                 <td class="text-white">ratio</td>
                                 <td class="text-white">Nombre cumul</td>
+                                <td class="text-white">Type de véhicule</td>
+                                <td class="text-white">Statut</td>
                                 <td  class="text-white" style="width: 25% !important"></td>
                             </tr>
                             </thead>
@@ -106,9 +119,12 @@
 
 @endsection
 
-@if(CanPermission('module_voir_longlet_module'))
+@if(CanPermission('module_voir_longlet_module'))@endif
     @push('footer-script')
+        <script>
+            var Entity_uuid = @Json(Entities()[0]['uuid'] ?? '');
+        </script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-        <script src="{{ asset('backoffice/js/systemes.js') }}"></script>
+        <script src="{{ asset('backoffice/js/systeme.js') }}"></script>
     @endpush
-@endif
+
