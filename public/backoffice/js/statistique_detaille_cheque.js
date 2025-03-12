@@ -303,7 +303,7 @@ $(document).ready(function() {
                     });
 
                     document.getElementById('cumul_paiements').innerHTML = cumul_paiement_chequeF || '';
-                    document.getElementById('cumul_carte_valide').innerHTML = (stat_mobile.nombre_lignes_global || 0) + nb_total_cheque;
+                    document.getElementById('cumul_carte_valide').innerHTML = (stat_mobile.nombre_lignes_global || 0) + total_carte_valide;
                     
                 } 
 
