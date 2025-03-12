@@ -310,7 +310,7 @@ $(document).ready(function() {
                 /* ######################################################### */
               
                 if(permissions.statistique_partenaires_voir_le_montant_total){
-                    const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
+                    const total_paiement = parseFloat(stat_mobile.montant_global).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
