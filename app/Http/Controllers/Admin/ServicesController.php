@@ -1068,7 +1068,7 @@ class ServicesController extends Controller
     {
 
         if($type_stat =="rubrique"){
-            return view('admins.services.statistique-rubrique', [
+            return view('admins.services.cheques.statistique-rubrique', [
                 'Entity_uuid'=>$uuid ?? '',
                 'type_stat' => $type_stat ?? '',
                 'type_sous_stat' => $type_sous_stat ?? ''
