@@ -316,7 +316,7 @@ $(document).ready(function() {
                     });
 
                     document.getElementById('total_paiement').innerHTML = total_paiement || '';
-                    document.getElementById('nb_total').innerHTML = stat.nombre_lignes_global || '';
+                    document.getElementById('nb_total').innerHTML = stat_mobile.nombre_lignes_global || '';
                 }  
                 
                 if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel){

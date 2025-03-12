@@ -965,6 +965,10 @@ class ServicesController extends Controller
     }
 
     
+
+
+
+    
     public function stat_cheque_dashboard($uuid,$type_stat)
     {
        // return dd($entity_uuid);
