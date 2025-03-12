@@ -200,7 +200,7 @@ $(document).ready(function() {
 
     
     function findStatistique() {
-        fetch(`/panel/statistique/cheque/data/count/${Entity_uuid}`, {
+        fetch(`/panel/statistique/data/count/${Entity_uuid}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -215,27 +215,14 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                const stat = results.stats;
-                //console.log("Résultats reçus :", results);
-               // console.log(stat.total_cheque_journalier);
-               const chartMensuel = results.chart || [];  
-               const rendezVous = results.rdv;
-               // console.log("Résultats reçus :", results.rdv);
-
-               const ligne_facturations_global = results.ligne_facturations_global || [];
-                let par_facturation = ""; // Utilisez let pour permettre la concaténation
-                let par_facturation_global = ""; // Utilisez let pour permettre la concaténation
-
-                let total_cheque_journalier = stat.total_cheque_journalier || 0;
-                //alert(total_cheque_journalier)
-                let total_paiement_cheque_journalier = stat.total_paiement_cheque_journalier || 0;
-                let nb_total_cheque_j = stat.nb_total_cheque_j || 0;
-                let total_carte_valide_journalier = stat.total_carte_valide_journalier || 0;
-               
+                const stat = results.cheque_stats;
+                const stat_mobile = results.stats;
+     
+      
                 let total_paiement_cheque = stat.total_paiement_cheque || 0;
                 let nb_total_cheque = stat.total_cheque || 0;
                 let total_carte_valide = stat.total_carte_valide || 0;
-                let cumul_paiements = total_paiement_cheque + (stat.montant_global || 0);
+                let cumul_paiements = total_paiement_cheque + (stat_mobile.montant_global || 0);
 
                var permissions = {
                 //montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
@@ -271,14 +258,14 @@ $(document).ready(function() {
                 if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
                     const today = new Date().toISOString().split('T')[0];
 
-                    const montant_total_jour = parseFloat((stat.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
+                    const montant_total_jour = parseFloat((stat_mobile.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
                     
 
                     document.getElementById('montant_total_jour').innerHTML = montant_total_jour || '';
-                    document.getElementById('nb_total_jour').innerHTML = stat.par_jour?.[today]?.nombre_lignes || 0;
+                    document.getElementById('nb_total_jour').innerHTML = stat_mobile.par_jour?.[today]?.nombre_lignes || 0;
                 }
 
                 /* ######################################################### */
@@ -347,7 +334,7 @@ $(document).ready(function() {
                         const canvas = document.getElementById('chartPaiementMois');
                     
                         if (!canvas) {
-                            console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
+                           // console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
                             return;
                         }
                     
