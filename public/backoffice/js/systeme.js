@@ -58,7 +58,7 @@ $(document).ready(function() {
                             render: function(data, type, row) {
                                 if(data ===1){
                                     let buttonAction = `
-                                        <a href="/panel/systemes/${data}/edit" title="Modification de l'élement ${row.name}" class="btn btn-outline-warning btn-icon waves-effect waves-light material-shadow-none sendEditModuleLink">
+                                        <a href="/panel/systemes/${row.uuid}/edit" title="Modification de l'élement ${row.name}" class="btn btn-outline-warning btn-icon waves-effect waves-light material-shadow-none sendEditModuleLink">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                     `;
@@ -240,7 +240,7 @@ $(document).ready(function() {
 
             var row = '<div class="row">';
             const result = data.data;
-
+            console.log(url)
             row += `<div class="form-group col-md-6">
                         <label for="name" class="form-label">Date de début</label>
                         <input type="date" name="start" value="${result.start}" class="form-control" autofocus>

@@ -230,16 +230,32 @@ $(document).ready(function() {
                             }
                     
                             // Générer le contenu pour chaque facture
-                            history_render += `
-                            <tr>
-                                <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
-                                <td>${entity.name || 'N/A'}</td>
-                                <td>${facture.reference || 'N/A'}</td>
-                                <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
-                                <td>${facture.operateur_uuid || 'N/A ****'}</td>
-                                <td>${translateStatus(facture.state) || 'N/A'}</td>
-                                <td>${receiptLink}</td>
-                            </tr>`;
+                            if (permissions && permissions.annuler_paiement){
+                                history_render += `
+                                <tr>
+                                    <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
+                                    <td>${entity.name || 'N/A'}</td>
+                                    <td>${facture.reference || 'N/A'}</td>
+                                    <td>${facture.transaction_id || 'N/A'}</td>
+                                    <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
+                                    <td>${facture.operateur_uuid || 'N/A ****'}</td>
+                                    <td>${translateStatus(facture.state) || 'N/A'}</td>
+                                    <td>${receiptLink}</td>
+                                </tr>`;
+                            }
+                            else{
+                                history_render += `
+                                <tr>
+                                    <td>${facture.updated_at ? new Date(facture.updated_at).toLocaleString() : 'N/A'}</td>
+                                    <td>${entity.name || 'N/A'}</td>
+                                    <td>${facture.reference || 'N/A'}</td>
+                                    <td>${facture.amount ? `${facture.amount} FCFA` : 'N/A'}</td>
+                                    <td>${facture.operateur_uuid || 'N/A ****'}</td>
+                                    <td>${translateStatus(facture.state) || 'N/A'}</td>
+                                    <td>${receiptLink}</td>
+                                </tr>`;
+                            }
+                          
                         });
                     }
                     
@@ -571,10 +587,12 @@ $(document).ready(function() {
                 return '<span class="badge badge-success">Réussi </span>';
             case 'enable':
                 return '<span class="badge badge-success">Actif</span>';
-                case 'desable':
-                    return '<span class="badge badge-danger">Inactif </span>';
+            case 'desable':
+                return '<span class="badge badge-danger">Inactif </span>';
             case 'fail':
                 return '<span class="badge badge-danger">Rejeté </span>';
+            case 'error':
+                return '<span class="badge badge-danger">Annulé </span>';
             case '1':
                 return '<span class="badge badge-success">Actif </span>';
             case '0':

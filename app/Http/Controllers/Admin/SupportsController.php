@@ -51,6 +51,30 @@ class SupportsController extends Controller
       
     }
 
+    public function show($search,$entity_uuid){
+        $url_path = "/autorisations/entite/taxes/rdv/search";
+
+                $type = "immatriculation";
+                $ref = $search;
+        
+        $data = [
+            'entity_uuid' => $entity_uuid ?? '',
+            'search' => $ref ?? '',
+            'type' => $type ?? ''
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //return dd($responses);
+
+        if($responses['type'] == 'error'){
+            return redirect()->back();
+        }else{
+            return redirect()->route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]);
+        } 
+
+       // return response()->json($responses);  
+    }
+
 
     public function annulerPaiement($uuid){
         $url_path = "/autorisations/admin/supports/annuler/paiement";

@@ -158,6 +158,11 @@
                                         <td>
                                             <strong>référence du paiement</strong>
                                         </td>
+                                        @if(CanPermission('support_annuler_un_paiement'))
+                                            <td>
+                                                <strong>Transaction Id</strong>
+                                            </td>
+                                        @endif
                                         <td>
                                             <strong>Montant payé</strong>
                                         </td>

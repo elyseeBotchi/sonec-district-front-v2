@@ -148,7 +148,7 @@ $(document).ready(function() {
                                 document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                         }
 
-                        if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail" && permissions.proceder_au_paiement){
+                        if((cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail") && permissions.proceder_au_paiement){
                             let buttonPay = ` &nbsp;  &nbsp;  &nbsp; &nbsp;<a href="#" data-toggle="modal" data-target="#payElement-modal" 
                                             data-uuid="${cheque.uuid}" 
                                             data-name="${cheque.libelle}" 

@@ -196,13 +196,17 @@
                                     return `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
                                 case 'validate':
                                     return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                case 'paid':
+                                    return `<span class="badge badge-pill badge-success">Payé</span>`;
+                                case 'error':
+                                    return `<span class="badge badge-pill badge-danger">Annulé</span>`;
                                 default:
-                                    return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
+                                    return ``;
                             }
                         }
                     },
                     {
-                        data: 'pay_uuid',
+                        data: 'numero_dimmatriculation',
                         render: function(data, type, row) {
                             let permissions = {
                                 show: true,
@@ -213,7 +217,7 @@
                             let actions = '';
 
                             if (permissions.show) {
-                                actions += `<a href="/panel/services/taxes/detail/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                                actions += `<a href="/panel/support/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                             }
 
                             return actions;

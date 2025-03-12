@@ -10,11 +10,6 @@ class SystemeController extends Controller
 {
     public function index(){
 
-        $tauxReduction4 = 0; // Taux de réduction configurable
-        $coeffReduction4 = (100 - $tauxReduction4) / 100; 
-
-       // return dd($coeffReduction4);
-
         return view('admins.configurations.systemes.index');
     }
 

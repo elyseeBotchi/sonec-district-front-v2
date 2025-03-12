@@ -354,103 +354,105 @@
     </div>
 
 
-    
-    <div class="modal fade" id="payElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.cheque.reception.update') }}" method="POST">
-                @csrf
-                <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
-                <input type="hidden" name="cheque_uuid" value="{{ $cheque_uuid ?? '' }}" required />
-    
-                <div class="modal-header">
-                    <h5 class="mb-0 text-uppercase">PROCEDER AU PAIEMENT PAR CHEQUE</h5>
-                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
-                        <i class="ti ti-x f-20"></i>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="form-container">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="check_number">Numéro du chèque <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="numero_cheque" name="numero_cheque" placeholder="Entrez le numéro du chèque" required>
+    @if(canPermission('cheques_proceder_au_paiement_par_cheque'))
+        <div class="modal fade" id="payElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.cheque.reception.update') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                    <input type="hidden" name="cheque_uuid" value="{{ $cheque_uuid ?? '' }}" required />
+        
+                    <div class="modal-header">
+                        <h5 class="mb-0 text-uppercase">PROCEDER AU PAIEMENT PAR CHEQUE</h5>
+                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                            <i class="ti ti-x f-20"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" id="form-container">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="check_number">Numéro du chèque <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="numero_cheque" name="numero_cheque" placeholder="Entrez le numéro du chèque" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="bank_name w-100">Banque émettrice <span class="text-danger">*</span></label>
-                                <select class="form-control bg-light border-0 js-example-basic-single" name="banque_emettrice" style="height: 50px !important;width: 100%;padding: 0.375rem 0.75rem;" required>
-                                    <option value="" disabled selected>Sélectionnez une banque</option>
-                                    @forelse(liste_banques() as $bank)
-                                        <option value="{{ $bank['sigle'] ?? "" }}">
-                                            {{ $bank['sigle'] ?? '' }} | {{ $bank['nom'] ?? '' }}
-                                        </option>
-                                        @empty
-                                        <option value="" disabled>Aucune banque disponible</option>
-                                    @endforelse
-                                </select>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bank_name w-100">Banque émettrice <span class="text-danger">*</span></label>
+                                    <select class="form-control bg-light border-0 js-example-basic-single" name="banque_emettrice" style="height: 50px !important;width: 100%;padding: 0.375rem 0.75rem;" required>
+                                        <option value="" disabled selected>Sélectionnez une banque</option>
+                                        @forelse(liste_banques() as $bank)
+                                            <option value="{{ $bank['sigle'] ?? "" }}">
+                                                {{ $bank['sigle'] ?? '' }} | {{ $bank['nom'] ?? '' }}
+                                            </option>
+                                            @empty
+                                            <option value="" disabled>Aucune banque disponible</option>
+                                        @endforelse
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="date_emission">Date d'émission <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="date_emission" name="date_emission" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date_emission">Date d'émission <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="date_emission" name="date_emission" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="montant_cheque">Montant du chèque <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="montant_cheque" name="montant_cheque" placeholder="Entrez le montant" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="montant_cheque">Montant du chèque <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="montant_cheque" name="montant_cheque" placeholder="Entrez le montant" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="titulaire_compte">Titulaire du compte <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="titulaire_compte" name="titulaire_compte" placeholder="Nom du titulaire du compte" required>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="titulaire_compte">Titulaire du compte <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="titulaire_compte" name="titulaire_compte" placeholder="Nom du titulaire du compte" required>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-shadow closePayModal" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-shadow closePayModal" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
 
-
-     
-    <div class="modal fade" id="confirmElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.taxes.cheque.valider.cheque') }}" method="POST">
-                @csrf
-                <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
-                <input type="hidden" name="uuid"  value="{{ $cheque_uuid ?? '' }}" required />
-                <input type="hidden" value="{{ $cheque_uuid ?? '' }}" name="cheque_uuid" required />
-               
-                <div class="modal-header">
-                    <h5 class="mb-0 text-uppercase">VALIDER LE PAIEMENT DU CHEQUE </h5>
-                    <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
-                        <i class="ti ti-x f-20"></i>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label class="form-label">Date d'encaissement <code>*</code></label>
-                            <input type="date" class="form-control" placeholder="Date d'encaissement" id="dateEncaissementUpdate" name="date_encaissement" required style="height: 40px;">
+     @if(canPermission('cheques_valider_un_cheque'))
+        <div class="modal fade" id="confirmElement-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <form class="modal-content sendEntiteForm" action="{{ route('panel.autorisations.services.taxes.cheque.valider.cheque') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                    <input type="hidden" name="uuid"  value="{{ $cheque_uuid ?? '' }}" required />
+                    <input type="hidden" value="{{ $cheque_uuid ?? '' }}" name="cheque_uuid" required />
+                
+                    <div class="modal-header">
+                        <h5 class="mb-0 text-uppercase">VALIDER LE PAIEMENT DU CHEQUE </h5>
+                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                            <i class="ti ti-x f-20"></i>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">Date d'encaissement <code>*</code></label>
+                                <input type="date" class="form-control" placeholder="Date d'encaissement" id="dateEncaissementUpdate" name="date_encaissement" required style="height: 40px;">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-shadow closeConfirmModal" data-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary btn-shadow" id="submitdateEncaissementUpdate">Sauvegarder</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-shadow closeConfirmModal" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary btn-shadow" id="submitdateEncaissementUpdate">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    @endif
+
 </div>
 @endsection
 

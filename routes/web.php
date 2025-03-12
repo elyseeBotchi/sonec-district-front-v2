@@ -249,6 +249,22 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
         });
 
+                /*############## CHEQUES #################*/        
+        Route::prefix('statistique/cheque')->group(function(){
+            Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.show.data');
+            Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_cheque_data'])->name('panel.autorisations.statistique.cheque.data');
+            Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_cheque_rdv'])->name('panel.autorisations.statistique.cheque.data');
+            Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_cheque_find_data'])->name('panel.autorisations.statistique.cheque.find.data');
+            Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_cheque_validationJ'])->name('panel.autorisations.statistique.cheque.data.validateur');
+            Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_cheque_validateur'])->name('panel.autorisations.statistique.cheque.data.validateur');
+            
+
+            Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.detail');
+
+        });
+
+        /*######################## FIN CHEQUES #####################*/
+
 
         Route::prefix('customer')->group(function () {
             Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
@@ -259,6 +275,7 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
         Route::prefix('support')->group(function () {
             Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
             Route::post('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
+            Route::get('/show/{search}/{entity_uuid}', [SupportsController::class, 'show'])->name('panel.autorisations.entities.support.show');
             Route::get('taxes/annuler/paiement/{uuid}', [SupportsController::class, 'annulerPaiement'])->name('panel.autorisations.services.taxes.annuler.paiement');
 
         });
