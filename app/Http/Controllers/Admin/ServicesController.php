@@ -967,102 +967,6 @@ class ServicesController extends Controller
     
 
 
-
-    
-    public function stat_cheque_dashboard($uuid,$type_stat)
-    {
-       // return dd($entity_uuid);
-        return view('admins.services.statistique', [
-                'Entity_uuid'=>$uuid ?? '',
-                'type_stat' => $type_stat ?? ''
-        ]);
-      
-    }
-
-
-    public function stat_cheque_data($entity)
-    {
-
-        $url_path = "/autorisations/statistiques/cheque/findAll";
-
-        $data = [
-            'admin_uuid' => AuthConnect()['uuid'],
-            'entity_uuid' => $entity ?? ''
-
-        ];
-
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
-
-       // dd($dataResponse);
-        return response()->json($dataResponse);
-    }    
-
-
-    public function data_cheque_rdv($entity,$rdv)
-    {
-
-        $url_path = "/autorisations/statistiques/rendez-vous/data";
-
-        $data = [
-            'admin_uuid' => AuthConnect()['uuid'],
-            'entity_uuid' => $entity ?? '',
-            'rdv' => $rdv ?? '',
-        ];
-
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
-
-       // dd($dataResponse);
-        return response()->json($dataResponse);
-    }
-
-    
-    
-    public function stat_cheque_find_data($status,$paymode,$entity){
-        $url_path = "/autorisations/statistiques/find_data";
-        $list = array("MTN"=>'mtn_ci',"ORANGE" => 'orange_ci',"WAVE" => 'wave_ci',"MOOV" => 'moov_ci',"TRESOR" => 'tresor_ci',"ALL" => 'all');
-        $data = [
-            'admin_uuid' => AuthConnect()['uuid'],
-            'status' => $status ?? 'today',
-            'paymode' => $list[$paymode] ?? "all",
-            'entity_uuid' => $entity ?? ''
-        ];
-
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
-
-       // dd($dataResponse);
-        return response()->json($dataResponse);
-    }
-
-    
-    public function data_cheque_validationJ($entity,$day='all'){
-        $url_path = "/autorisations/statistiques/validationJ/find_data";
-        $data = [
-            'admin_uuid' => AuthConnect()['uuid'],
-            'status' => $status ?? 'today',
-            'day' => $day ?? "all",
-            'entity_uuid' => $entity ?? ''
-        ];
-
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
-
-        //dd($dataResponse);
-        return response()->json($dataResponse);
-    } 
-    
-        
-    public function data_cheque_validateur($entity){
-        $url_path = "/autorisations/statistiques/validateur/find_data";
-        $data = [
-            'admin_uuid' => AuthConnect()['uuid'],
-            'entity_uuid' => $entity ?? ''
-        ];
-
-        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
-
-       // dd($dataResponse);
-        return response()->json($dataResponse);
-    }
-
         
     public function statistique_cheque_dashboard($uuid,$type_stat,$type_sous_stat =null)
     {
@@ -1074,6 +978,16 @@ class ServicesController extends Controller
                 'type_sous_stat' => $type_sous_stat ?? ''
             ]); 
         }
+
+        if($type_stat =="recap"){
+            return view('admins.services.cheques.statistique-recap', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
+            ]); 
+        }
+
+
        // return dd($entity_uuid);
         return view('admins.services.cheques.statistique-dashboard', [
                 'Entity_uuid'=>$uuid ?? '',
@@ -1083,5 +997,16 @@ class ServicesController extends Controller
       
     }
 
+        
+    public function statistique_cheque_recap($uuid)
+    {
+
+        return view('admins.services.cheques.statistique-recap', [
+            'Entity_uuid'=>$uuid ?? '',
+            'Status' => 'validate',
+            
+        ]); 
+      
+    }
 
 }

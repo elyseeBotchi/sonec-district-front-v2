@@ -377,11 +377,22 @@
                                             </li>
                                         @endif
 
+                                                
                                         @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
                                             <li class="sidebar-item">
                                                 <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
                                                     <span class="hide-menu">
-                                                    RECAP CHEQUE
+                                                    PAR PERIODE
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endif
+
+                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
+                                            <li class="sidebar-item">
+                                                <a href="{{ route('panel.autorisations.statistique.cheque.recap',['uuid' =>$entitesNav[0]['uuid']]) }}" class="sidebar-link">
+                                                    <span class="hide-menu">
+                                                        RECAP CHEQUE
                                                     </span>
                                                 </a>
                                             </li>
