@@ -41,7 +41,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p>COTATIONS PREVISIONNELS</p>
+                                <p>COTATIONS PRÉVISIONNELLES</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                     <span id="cheque_previsionnel">
                                         <i class="fa fa-spinner fa-spin"></i>
