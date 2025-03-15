@@ -70,7 +70,7 @@
 
                 {{-- ######################################################################## --}}
 
-                <div class="col-md-5" style="display: none">
+                <div class="col-md-5">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -106,7 +106,7 @@
                 </div> <!-- end col--> 
 
                 {{-- ############################################################### --}}
-                <div class="col-md-5" style="display: none">
+                <div class="col-md-5">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
