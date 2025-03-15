@@ -7,7 +7,7 @@
         @if($type_stat =="paiement")
             @if(canPermission('statistique_partenaires_voir_le_montant_total_par_jour'))
                 <div class="col-md-4" >
-                    <div data-status="today" data-pay="all"  class="card card-animate highlight" >
+                    <div data-status="today" data-pay="all"  class="card card-animate" >
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
