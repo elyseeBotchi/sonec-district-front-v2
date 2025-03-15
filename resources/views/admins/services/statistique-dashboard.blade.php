@@ -11,7 +11,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
+                                    <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR MOBILE MONEY</p>
                                     <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                         <span id="montant_total_jour">
                                             <i class="fa fa-spinner fa-spin"></i>
@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
+                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS MOBILE MONEY</p>
                                     <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                         <span id="total_paiement">
                                             <i class="fa fa-spinner fa-spin"></i>
@@ -70,7 +70,7 @@
 
                 {{-- ######################################################################## --}}
 
-                <div class="col-md-5" >
+                <div class="col-md-5" style="display: none">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -106,7 +106,7 @@
                 </div> <!-- end col--> 
 
                 {{-- ############################################################### --}}
-                <div class="col-md-5" >
+                <div class="col-md-5" style="display: none">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">

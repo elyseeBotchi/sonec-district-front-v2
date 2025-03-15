@@ -1,9 +1,25 @@
 $(document).ready(function() {
-   // findAll();
 
+   findAll('pending');
+   recap();
 
- function findAll() {
-    fetch(`/panel/services/cheque/liste/findAll/${Status}/${Entity_uuid}`)
+ function findAll(statut) {
+
+    var libelle_status = "";
+    if (statut === "validate") {
+        libelle_status = "ENCAISSES";
+    } else if (statut === "fail") {
+        libelle_status = "REJETES";
+    } else if (statut === "pending") {
+        libelle_status = "EN COURS D'ENCAISSEMENT";
+    } else if (statut === "cotation") {
+        libelle_status = "PREVISIONNELS";
+    }
+
+    document.getElementById('titre_liste').innerHTML = 
+        "<i class='fa fa-spinner fa-spin'></i> LISTE DES CHEQUES " + libelle_status + " EN COURS DE CHARGEMENT ...";
+    
+    fetch(`/panel/services/cheque/liste/findAll/${statut}/${Entity_uuid}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Une erreur est survenue lors de la récupération des données');
@@ -48,23 +64,28 @@ $(document).ready(function() {
                     console.log(AuthConnect)
                     let actions = `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`;
 
-                    if (AuthConnect.email === "admin@sonec.com" || AuthConnect.email === "beniespoir1@gmail.com") {
-                        /* actions += `  <a href="/panel/services/cheque/autogenerate/${result.uuid}" 
-                                        data-uuid="${result.uuid}" 
-                                        caption="VOUS ÊTES SUR LE POINT DE GENERER LA LISTE DES VÉHICULES. CONTINUER ?" 
-                                        title="Générer la liste des véhicules" 
-                                        class="btn btn-sm btn-outline-warning sendDeleteLink"> 
-                                        Auto générer 
-                                    </a>`; */
-                    }
+                    let montant_cheque = 0;
+                  if(statut ==="cotation"){
+                     montant_cheque = parseFloat((result.montant_du ?? 0)).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+                  }else{
+                         montant_cheque = parseFloat((result.montant_cheque ?? 0)).toLocaleString('fr-FR', {
+                            style: 'currency',
+                            currency: 'XOF',
+                        });
+                  }
+
 
                 tableData.push([
                     result.nom_du_proprietaire || '',
-                    result.libelle || '',
+                    result.numero_cheque || '',
                     result.reference || '',
-                    result.contribuable || '',
-                    Math.ceil(result.nombre_vehicule) || '',
-                    result.nombre_vehicule_enregistre || 0,
+                    result.banque_emettrice || '',
+                    result.date_emission || '',
+                    result.date_encaissement || '',
+                    montant_cheque || '',
                     statusBadge,
                     actions
                 ]);
@@ -75,16 +96,19 @@ $(document).ready(function() {
                 $("#dataTable").DataTable().destroy();
             }
 
+            document.getElementById('titre_liste').innerHTML = "LISTE DES CHEQUES " + libelle_status;
+        
             // Injecte les nouvelles données dans la table
             $('#dataTable').DataTable({
                 data: tableData,
                 columns: [
-                    { title: "Nom du propriétaire" },
-                    { title: "Libellé" },
-                    { title: "Référence" },
-                    { title: "Contribuable" },
-                    { title: "Nombre de véhicules à déclaré" },
-                    { title: "Nombre de véhicules enregistré" },
+                    { title: "Entreprise" },
+                    { title: "Numéro du chèque" },
+                    { title: "Réference de la cotation" },
+                    { title: "Banque émettrice" },
+                    { title: "Date d'émission" },
+                    { title: "Date d'encaissement" },
+                    { title: "Montant" },
                     { title: "Statut" },
                     { title: "Action" }
                 ],
@@ -101,6 +125,80 @@ $(document).ready(function() {
         });
 }
 
+
+function recap() {
+    fetch(`/panel/services/cheque/recap/${Entity_uuid}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Une erreur est survenue lors de la récupération des données');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            if (!data || !data.data) {
+                throw new Error('Données manquantes ou incorrectes dans la réponse');
+            }
+
+            const results = data.data;
+            let cheque_encaisse_nbre = results.cheque_encaisse_nbre;
+            let cheque_depose_nbre = results.cheque_depose_nbre;
+            let cheque_annule_nbre = results.cheque_annule_nbre;
+            let cheque_previsionnel_nbre = results.cheque_previsionnel_nbre || 0;
+
+            
+            const cheque_encaisse = parseFloat((results?.cheque_encaisse ?? 0)).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+            });
+            document.getElementById('cheque_encaisse').innerHTML = cheque_encaisse;
+            document.getElementById('cheque_encaisse_nbre').innerHTML = cheque_encaisse_nbre;
+
+            
+            const cheque_depose = parseFloat((results?.cheque_depose ?? 0)).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+            });            
+            document.getElementById('cheque_depose').innerHTML = cheque_depose;
+            document.getElementById('cheque_depose_nbre').innerHTML = cheque_depose_nbre;
+            
+            const cheque_annule = parseFloat((results?.cheque_annule ?? 0)).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+            }); 
+            document.getElementById('cheque_annule').innerHTML = cheque_annule;
+            document.getElementById('cheque_annule_nbre').innerHTML = cheque_annule_nbre;
+
+            
+            const cheque_previsionnel = parseFloat((results?.cheque_previsionnel ?? 0)).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'XOF',
+            }); 
+            document.getElementById('cheque_previsionnel').innerHTML = cheque_previsionnel;
+            document.getElementById('cheque_previsionnel_nbre').innerHTML = cheque_previsionnel_nbre;
+            
+
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            $('#render-html').html('<tr><td colspan="7">Aucune donnée disponible</td></tr>');
+        });
+}
+
+
+document.querySelectorAll('.Load_cheque').forEach(item => {
+    item.addEventListener('click', event => {
+        // Enlever la classe highlight de tous les éléments
+        document.querySelectorAll('.Load_cheque').forEach(element => {
+            element.classList.remove('highlight');
+        });
+
+        item.classList.add('highlight');
+
+        const status = item.getAttribute('data-status');
+        findAll(status);
+    });
+});
 
 });
 

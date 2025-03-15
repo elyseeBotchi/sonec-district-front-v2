@@ -314,8 +314,9 @@
 
                 {{-- ####################################################### --}}
                 @isset(AuthConnect()['role']['name'])
-                    @if(AuthConnect()['role']['name'] =="Administrateur")
-                        @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                    @if(AuthConnect()['role']['name'] =="Administrateur")@endif
+                @endisset
+                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_cheque'))
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" title="STATISTIQUE CHEQUE" href="javascript:void(0)" aria-expanded="false">
                                     <i data-feather="box" class="feather-icon"></i>
@@ -388,7 +389,7 @@
                                             </li>
                                         @endif
 
-                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
+                                        @if(CanPermission('statistique_partenaires_voir_le_recap_des_statistiques'))
                                             <li class="sidebar-item">
                                                 <a href="{{ route('panel.autorisations.statistique.cheque.recap',['uuid' =>$entitesNav[0]['uuid']]) }}" class="sidebar-link">
                                                     <span class="hide-menu">
@@ -402,8 +403,7 @@
                             </li>
                         @endif
                  
-                    @endif
-                @endisset
+                    
 
 
 

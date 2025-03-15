@@ -32,6 +32,17 @@
             border: 1px solid black;
         }
     </style>--}}
+    <style>
+        .highlight {
+            background-color: #8caeca; /* Couleur de surbrillance, ajustez selon vos besoins */
+            color: black;
+            cursor: pointer;
+        }
+
+        .Load_cheque{
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 

@@ -1,23 +1,24 @@
 @extends('layout.adminApp')
 
 @section('content')
+
     <div class="row col-md-12" id="container">
         <div class="row col-md-12">
         
 
             <div class="col-md-4" >
-                <div data-status="today" data-pay="all"  class="card card-animate highlight" >
+                <div data-status="fail" class="card card-animate Load_cheque" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="fw-medium text-muted mb-0">CHEQUES ANNULES</p>
+                                <p>CHEQUES ANNULES</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour">
+                                    <span id="cheque_annule">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour" style="display: block;color:black;">
+                                    <span class="" id="cheque_annule_nbre" style="display: block;color:black;">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </p>
@@ -36,18 +37,18 @@
 
 
             <div class="col-md-4" >
-                <div data-status="today" data-pay="all"  class="card card-animate highlight" >
+                <div data-status="cotation" class="card card-animate Load_cheque" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="fw-medium text-muted mb-0">COTATIONS PREVISIONNELS</p>
+                                <p>COTATIONS PREVISIONNELS</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour">
+                                    <span id="cheque_previsionnel">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour" style="display: block;color:black;">
+                                    <span class="" id="cheque_previsionnel_nbre" style="display: block;color:black;">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </p>
@@ -66,18 +67,18 @@
 
                 
             <div class="col-md-4" >
-                <div data-status="today" data-pay="all"  class="card card-animate highlight" >
+                <div data-status="pending" class="card card-animate highlight Load_cheque" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="fw-medium text-muted mb-0">CHEQUES DEPOSES</p>
+                                <p>CHEQUES DEPOSES</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour">
+                                    <span id="cheque_depose">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour" style="display: block;color:black;">
+                                    <span class="" id="cheque_depose_nbre" style="display: block;color:black;">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </p>
@@ -95,18 +96,18 @@
             </div>
 
             <div class="col-md-4" >
-                <div data-status="today" data-pay="all"  class="card card-animate highlight" >
+                <div data-status="validate"class="card card-animate Load_cheque" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="fw-medium text-muted mb-0">CHEQUES ENCAISSES</p>
+                                <p>CHEQUES ENCAISSES</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour">
+                                    <span id="cheque_encaisse">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </h2>
                                 <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour" style="display: block;color:black;">
+                                    <span class="" id="cheque_encaisse_nbre" style="display: block;color:black;">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                 </p>
@@ -128,34 +129,14 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">HISTORIQUE DES COTATIONS</h4>
+                        <h4 class="card-title mb-0" id="titre_liste"></h4>
                 
                     </div> 
                     
                     <div class="ml-auto">
                     
-                        <div class="pt-5 ">
-                            <table class="table table-striped table-bordered" id="dataTable">
-                                <thead>
-                                <tr>
-                                    <th>Entreprise</th>
-                                    <th>Numéro du chèque</th>
-                                    <th>Réference de la cotation</th>
-                                    <th>Banque émettrice </th>
-                                    <th>Date d'émission </th>
-                                    <th>Date d'encaissement </th>
-                                    <th>Montant chèque</th>
-                                    <th>Titulaire du compte</th>
-                                    <th>Statut</th>
-                                    <th style="width:150px !important;">Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="render-html">
-                                    <tr>
-                                        <td colspan="10"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="pt-5 table-responsive">
+                            <table class="table table-striped table-bordered" id="dataTable"></table>
                         </div>
 
                     </div>

@@ -732,6 +732,19 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
+    public function chequeRecap($entity_uuid){
+        $url_path = "/autorisations/entite/taxes/cheque/recap";
+
+        $data = [
+            'entity_uuid' => $entity_uuid,
+        ];
+        
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        //return dd($responses);
+        return response()->json($responses);
+    }
+
 
     public function chequeData($cheque_uuid,$entity_uuid){
         $url_path = "/autorisations/entite/taxes/cheque/data";
