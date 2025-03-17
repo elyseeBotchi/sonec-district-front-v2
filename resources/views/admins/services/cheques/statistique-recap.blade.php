@@ -41,7 +41,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p>COTATIONS PRÉVISIONNELLES</p>
+                                <p>
+                                    FACTURE PROFORMA EN COURS
+                                </p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                     <span id="cheque_previsionnel">
                                         <i class="fa fa-spinner fa-spin"></i>
@@ -71,7 +73,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p>CHEQUES DEPOSES</p>
+                                <p>CHEQUES DEPOSES & NON ENCAISSES</p>
                                 <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
                                     <span id="cheque_depose">
                                         <i class="fa fa-spinner fa-spin"></i>

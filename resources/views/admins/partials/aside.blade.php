@@ -324,15 +324,17 @@
                                 </a>
                                 <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                     @isset($entitesNav[0])
-                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
+                                        
+                                        @if(CanPermission('statistique_partenaires_voir_le_recap_des_statistiques'))
                                             <li class="sidebar-item">
-                                                <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                                <a href="{{ route('panel.autorisations.statistique.cheque.recap',['uuid' =>$entitesNav[0]['uuid']]) }}" class="sidebar-link">
                                                     <span class="hide-menu">
-                                                        PAR PAIEMENT  
+                                                        RECAP CHEQUE
                                                     </span>
                                                 </a>
                                             </li>
-                                        @endif 
+                                        @endif
+
 
                                         @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
                                             <li class="sidebar-item"> 
@@ -342,16 +344,19 @@
                                                 </a>
                                                 
                                                 <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                                    @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
-                                                        <li class="sidebar-item">
-                                                            <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
-                                                                <span
-                                                                    class="hide-menu">
-                                                                    Par jour
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                    @endif
+                                                    @isset($lock)
+                                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
+                                                            <li class="sidebar-item">
+                                                                <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
+                                                                    <span
+                                                                        class="hide-menu">
+                                                                        Par jour
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endisset
+
 
                                                     @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
                                                         <li class="sidebar-item">
@@ -389,18 +394,20 @@
                                             </li>
                                         @endif
 
-                                        @if(CanPermission('statistique_partenaires_voir_le_recap_des_statistiques'))
-                                            <li class="sidebar-item">
-                                                <a href="{{ route('panel.autorisations.statistique.cheque.recap',['uuid' =>$entitesNav[0]['uuid']]) }}" class="sidebar-link">
-                                                    <span class="hide-menu">
-                                                        RECAP CHEQUE
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        @endif
                                     @endisset
                                 </ul>
                             </li>
+
+                            
+                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                        <span class="hide-menu">
+                                            RECAP GLOBAL  
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif 
                         @endif
                  
                     

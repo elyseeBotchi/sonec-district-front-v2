@@ -217,7 +217,7 @@ $(document).ready(function() {
                 const results = data.data;
                 const stat = results.cheque_stats;
                 const stat_mobile = results.stats;
-     
+     //)
       
                 let total_paiement_cheque = stat.total_paiement_cheque || 0;
                 let nb_total_cheque = stat.total_cheque || 0;
@@ -253,10 +253,10 @@ $(document).ready(function() {
                 statistique_partenaires_voir_le_montant_total:canPermission('statistique_partenaires_voir_le_montant_total')
 
             };
-            
+            const today = new Date().toISOString().split('T')[0];
             if(type_stat === "paiement"){
                 if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
-                    const today = new Date().toISOString().split('T')[0];
+                    
 
                     const montant_total_jour = parseFloat((stat_mobile.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
                         style: 'currency',
@@ -269,18 +269,29 @@ $(document).ready(function() {
                 }
 
                 /* ######################################################### */
-                /* if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
+                if(permissions.statistique_partenaires_voir_le_montant_total_par_jour){
 
-                    const total_paiement_cheque_j = parseFloat((total_paiement_cheque_journalier ?? 0)).toLocaleString('fr-FR', {
+                    const total_paiement_cheque_j = parseFloat((stat.total_paiement_cheque_journalier ?? 0)).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
                     
 
                     document.getElementById('total_paiement_cheque_j').innerHTML = total_paiement_cheque_j || '';
-                    document.getElementById('nb_total_cheque_j').innerHTML = nb_total_cheque_j || 0;
-                    document.getElementById('nb_total_carte_j').innerHTML = total_carte_valide_journalier || 0;
-                } */
+                    //document.getElementById('nb_total_cheque_j').innerHTML = nb_total_cheque_j || 0;
+                    document.getElementById('nb_total_carte_j').innerHTML = stat.total_carte_valide_journalier || 0;
+
+                    const today = new Date().toISOString().split('T')[0];                    
+                    const cumul_paiements_jour = parseFloat((stat.total_paiement_cheque_journalier ?? 0)+(stat_mobile.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById('cumul_paiements_jour').innerHTML = cumul_paiements_jour || 0;
+                    document.getElementById('cumul_nbre_paiements_jour').innerHTML = (stat.total_carte_valide_journalier || 0)+stat_mobile.par_jour?.[today]?.nombre_lignes || 0;
+
+                    
+                } 
 
                               
                 if(permissions.statistique_partenaires_voir_le_montant_total){
@@ -322,9 +333,79 @@ $(document).ready(function() {
                 if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel){
                     /* ######################################################################### */
                     /* ######################################################################### */
+
+                    const labels_mois = Object.keys(stat.par_mois); // Liste des mois
+
+                    const amounts_mois_cheque = labels_mois.map(mois => parseFloat(stat.par_mois[mois].montant_total));
+                    const amounts_mois_mobile = labels_mois.map(mois => 
+                        stat_mobile.par_mois[mois] ? parseFloat(stat_mobile.par_mois[mois].montant_total) : 0
+                    );
+                    const amounts_mois_total = labels_mois.map((mois, index) => amounts_mois_cheque[index] + amounts_mois_mobile[index]);
+                    
+                    // 📌 Vérification des données récupérées
+                    console.log("Mois:", labels_mois);
+                    console.log("Montants Chèques:", amounts_mois_cheque);
+                    console.log("Montants Mobile:", amounts_mois_mobile);
+                    console.log("Montants Cumulés:", amounts_mois_total);
+                    
+                    const canvas = document.getElementById('chartPaiementMois');
+                    
+                    if (!canvas) {
+                        console.error("Erreur : L'élément canvas avec l'ID 'chartPaiementMois' n'existe pas.");
+                        return;
+                    }
+                    
+                    const ctx = canvas.getContext('2d');
+                    
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels_mois,
+                            datasets: [
+                                {
+                                    label: 'Paiements par Chèque',
+                                    data: amounts_mois_cheque,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)', // Bleu
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Paiements Mobiles',
+                                    data: amounts_mois_mobile,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)', // Rouge
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Cumul des Paiements',
+                                    data: amounts_mois_total,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.6)', // Vert
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                    
+
+
+
+
+
                         // 📌 Récupérer dynamiquement les données par mois
-                        const labels_mois = Object.keys(stat.par_mois); // Liste des mois
+                        /* const labels_mois = Object.keys(stat.par_mois); // Liste des mois
                         const amounts_mois = labels_mois.map(mois => parseFloat(stat.par_mois[mois].montant_total));
+                        
+                        const labels_mois_mobile = Object.keys(stat_mobile.par_mois); // Liste des mois
+                        const amounts_mois_mobile = labels_mois_mobile.map(mois => parseFloat(stat_mobile.par_mois[mois].montant_total));
 
                         // 📌 Vérification des données récupérées
                        // console.log("Mois:", labels_mois);
@@ -360,7 +441,7 @@ $(document).ready(function() {
                                     }
                                 }
                             }
-                        });
+                        }); */
                 }  
                     
 

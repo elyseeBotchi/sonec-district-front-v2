@@ -377,7 +377,7 @@
             <br> <br><br> <br>
            <div style="text-align: right">
             Le Directeur <br> <br> <br> <br> <br>
-            M. N'BI THIERRY <br> <br>
+            M. N'ZI THIERRY <br> <br>
            <u>Signature du Directeur.</u> 
            </div>
            <br> <br> <br><br> <br> <br> <br> 

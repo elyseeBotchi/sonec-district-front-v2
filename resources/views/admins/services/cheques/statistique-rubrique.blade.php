@@ -216,7 +216,7 @@
                             <div class="row align-items-start">
                                 <div class="card col-md-12">
                                     <div class="card-header" id="rubrique-facturation-titre">
-                                        REPARTITION PAR RUBRIQUE DE FACTURATION JOURNALIER
+                                        CHEQUE ENCAISSE | REPARTITION PAR JOUR
                                     </div>
                                             <!-- Tableau -->
                                     <div class="table-responsive">
@@ -254,7 +254,7 @@
                     @if($type_stat =="rubrique" && $type_sous_stat =="tous")
                         <div class="card">
                             <div class="card-header" id="rubrique-facturation-titre-global">
-                                REPARTITION PAR RUBRIQUE DE FACTURATION GLOBAL
+                               CHEQUE ENCAISSE | REPARTITION PAR RUBRIQUE
                             </div>
                                     <!-- Tableau -->
                                 <table class="table table-bordered" id="datatable-rubrique-facturation-global" style="width: 100%">
@@ -286,7 +286,7 @@
                     @if($type_stat =="rubrique" && $type_sous_stat =="mois")
                         <div class="row card">
                             <div class="card-header" id="titre_liste">
-                                Historique des paiements par mois
+                                CHEQUE ENCAISSE | REPARTITION PAR MOIS
                             </div>
             
                             <div class="pt-5 table-responsive">
