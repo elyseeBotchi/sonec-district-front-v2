@@ -877,7 +877,22 @@ class ServicesController extends Controller
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->loadView('pdf.facture-cotation', ['payElement' => $payElement,'user' => $datas ?? '','target' => $target ?? '','service' => $service ?? '','entity' => $entity ?? '','entete' => $entete ?? '','open'=>true,"pdf" => true,"svgFilePath" => $qrSvg_ ?? "",'quick_reference' => $quick_reference,'vehicule_enregistre' => count($payElement)]);
+        $pdf->loadView('pdf.facture-cotation', 
+        [
+            'payElement' => $payElement,
+            'user' => $datas ?? '',
+            'target' => $target ?? '',
+            'service' => $service ?? '',
+            'entity' => $entity ?? '',
+            'entete' => $entete ?? '',
+            'open'=>true,
+            "pdf" => true,
+            "svgFilePath" => $qrSvg_ ?? "",
+            'quick_reference' => $quick_reference,
+            'vehicule_enregistre' => count($payElement),
+            "recap" => $responses['recap'] ?? '',
+            "rubrique_facture" => isset($responses['recap']['global_par_rubrique']) ? $responses['recap']['global_par_rubrique'] :'',
+        ]);
         return $pdf->download($filename.'.pdf');
        
     }

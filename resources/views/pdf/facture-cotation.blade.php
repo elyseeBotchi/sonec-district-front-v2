@@ -374,53 +374,153 @@
     <p style="font-size: small">Règlement à l'ordre de la <b>PAIERIE DU DISTRICT D'ABIDJAN</b>.  </p>
 
 
-            <br> <br><br> <br>
+            <br> <br>
            <div style="text-align: right">
-            Le Directeur <br> <br> <br> <br> <br>
-            M. N'ZI THIERRY <br> <br>
-           <u>Signature du Directeur.</u> 
+            Le Directeur <br> <br> <br> <br> <br><br> <br><br> <br><br> <br>
+            M. N'ZI THIERRY 
+           
            </div>
-           <br> <br> <br><br> <br> <br> <br> 
+            <br><br> <br> <br> <br> 
     
            @php $totalAmount = 0; @endphp
-    <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
-        <thead>
-            <tr>
-                <th  class="cell-padding" colspan="4" style="background-color: silver;text-align:center;">
-                    LISTE DES VEHICULES
-                </th>
-            </tr>
-              
-            <tr>
-                <th>NUMERO DE LA CARTE GRISE</th>
-                <th>NUMERO D'IMMATRICULATION</th>
-                <th>TYPE DE VEHICULE</th>
-                <th>MONTANT</th>
-            </tr>
-        </thead>
-        <tbody id="render-html">
-            @isset($payElement)
-                @forelse($payElement as $pay)
-                    <tr>
-                        <td>{{ $pay['numero_de_la_carte_grise'] ?? '' }}</td>
-                        <td> {{ $pay['numero_dimmatriculation'] ?? '' }} </td>
-                        <td> {{ $pay['rubrique_name'] ?? '' }} </td>
-                        <td> {{ money_format($pay['amount'] ?? '') }} </td>
-                        @php $totalAmount += $pay['amount'] ?? 0; @endphp
-                    </tr>
-                @empty
-                @endforelse
-            @endisset
-        </tbody>
+        
+            
+            <div style="padding: 0.5px">
+                <h4 class="text-center m-4 text-white uppercase" style="font-size: 15px; text-align:center; text-transform: uppercase !important; ">
+                    FACTURE N° : {{ $user['reference'] ?? '' }}
+                </h4>
+            </div>
 
-        <tfoot>
-            <tr>
-                <th colspan="3" style="text-align:left">Total :</th>
-                <th id="totalAmount">{{ money_format($totalAmount) }}</th>
-            </tr>
-        </tfoot>
-    </table>
-   
+            <table style="width: 100%;font-size: meduim;border:none;">
+                <tbody>
+                    <tr>
+                        <td class="cell-padding"  style="width: 250px !important">
+                            SOCIETE
+                        </td>
+                        <td>
+                            : <strong> {{ $user['nom_du_proprietaire'] ?? '' }} </strong>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="cell-padding"  style="width: 250px !important">
+                            Contact téléphonique
+                        </td>
+                        <td>
+                            : <strong> {{ $user['telephone'] ?? '' }} </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+           <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>TYPE D'ENGIN</th>
+                        <th>QUANTITE</th>
+                        <th>PRIX UNITAIRE</th>
+                        <th>MONTANT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recap['rubriques'] as $pay)
+                        <tr>    
+                            <td>{{ $pay['name'] ?? '' }}</td>
+                            <td> 
+                                <center>
+                                    @isset($rubrique_facture[$pay['name']])
+                                        {{ $rubrique_facture[$pay['name']]['total_lignes'] ?? '' }}
+                                        @else
+                                        0
+                                    @endisset
+                                </center> 
+                            </td>
+                            <td style="text-align: center">
+                                @isset($pay['facturation'][0]['amount'])
+                                    {{ money_format($pay['facturation'][0]['amount'] ?? '') }}
+                                @else
+                                    0 CFA
+                                @endisset
+                            </td>
+                            <td style="text-align: right">
+                                @isset($rubrique_facture[$pay['name']])
+                                    {{ money_format($rubrique_facture[$pay['name']]['total_montant'] ?? '') }}
+                                    @else
+                                    0 CFA
+                                @endisset
+                            </td>
+                        </tr>
+                        @empty
+                    @endforelse
+                </tbody>
+                <tfoot> 
+                    <tr>
+                        <td>TOTAL</td>
+                        <td style="text-align: center">
+                            @isset($recap['nombre_lignes_global'])
+                            {{ $recap['nombre_lignes_global'] ?? '' }}
+                            @else
+                            0
+                        @endisset
+                        </td>
+                        <td></td>
+                        <td style="text-align: right">{{ money_format($recap['montant_global'] ?? 0) }}</td>
+                    </tr>
+                </tfoot>
+           </table>
+
+            <p> 
+                <b>Arrêté la présente facture à la somme de : ({{ money_format($totalAmountRecap) }})  {{ enlettre($totalAmountRecap ?? '') }} Francs CFA </b>.
+            </p>
+            <p style="font-size: small">
+                Règlement à l'ordre de la <b>PAIERIE DU DISTRICT D'ABIDJAN</b>.  
+            </p>
+
+           <div style="text-align: right">
+            Le Directeur <br> <br><br> <br><br> <br><br> <br>
+            M. N'ZI THIERRY 
+           
+           </div>
+           {{-- TABLEAU RECAPITULATIF DE LA FACTURE --}}
+            @isset($lock)
+                <table class="table table-striped table-bordered" id="datatable-custom"  style="width: 100%;font-size: small">
+                    <thead>
+                        <tr>
+                            <th  class="cell-padding" colspan="4" style="background-color: silver;text-align:center;">
+                                LISTE DES VEHICULES
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th>NUMERO DE LA CARTE GRISE</th>
+                            <th>NUMERO D'IMMATRICULATION</th>
+                            <th>TYPE DE VEHICULE</th>
+                            <th>MONTANT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="render-html">
+                        @isset($payElement)
+                            @forelse($payElement as $pay)
+                                <tr>
+                                    <td>{{ $pay['numero_de_la_carte_grise'] ?? '' }}</td>
+                                    <td> {{ $pay['numero_dimmatriculation'] ?? '' }} </td>
+                                    <td> {{ $pay['rubrique_name'] ?? '' }} </td>
+                                    <td> {{ money_format($pay['amount'] ?? '') }} </td>
+                                    @php $totalAmount += $pay['amount'] ?? 0; @endphp
+                                </tr>
+                            @empty
+                            @endforelse
+                        @endisset
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan="3" style="text-align:left">Total :</th>
+                            <th id="totalAmount">{{ money_format($totalAmount) }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            @endisset
 @endisset
 
 <div class="bottom-content">

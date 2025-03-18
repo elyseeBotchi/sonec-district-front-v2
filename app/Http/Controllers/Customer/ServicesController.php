@@ -591,7 +591,7 @@ class ServicesController extends Controller
        // return dd($uuid);
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-       // return dd($responses);
+        //return dd($responses);
         //return response()->json($responses);
 
 

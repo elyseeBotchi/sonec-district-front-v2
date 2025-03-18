@@ -122,8 +122,8 @@ $(document).ready(function() {
                         title="Télécharger la facture" 
                         class="btn btn-success"> 
                         Télécharger la facture </a>`;
-                        document.getElementById('submit-cotation').innerHTML = buttonDownoald;
-                }
+                        document.getElementById('submit-cotation').innerHTML = '';//buttonDownoald;
+                    }
                 }
 
                 // Génération du formulaire
