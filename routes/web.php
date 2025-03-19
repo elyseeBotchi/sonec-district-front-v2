@@ -228,6 +228,8 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
             Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'facture_cotation'])->name('panel.autorisations.services.taxes.cheque.facture.cotation');
            
             Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
+            Route::get('/cheque/reinitialiser/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.cotation');
+
             Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
             Route::get('/cheque/autogenerate/{uuid}', [AdminServicesController::class, 'autogenerate_cheque'])->name('panel.autorisations.services.taxes.cheque.autogenerate.line');
 

@@ -70,6 +70,8 @@ $(document).ready(function() {
                     telecharger_la_facture: canPermission('cheques_telecharger_la_facture'),
                     imprimer_la_carte: canPermission('entites_telecharger_la_carte'), 
                     voir_les_infos_du_cheque: canPermission('cheques_voir_les_informations_du_cheque'), 
+                    reinitialiser_la_demande: canPermission('cheques_renitialiser_la_demande_de_cotation'), 
+
                 };
 
 
@@ -138,14 +140,34 @@ $(document).ready(function() {
                         title="Valider la demande de cotation" 
                         class="btn btn-success sendDeleteLink"> 
                         Valider la cotation </a> `;
+
+                        if(permissions.reinitialiser_la_demande){
+                            buttonDownoald += `&nbsp; &nbsp; &nbsp; &nbsp; <a href="/panel/services/cheque/reinitialiser/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                            caption = "<h3>VOUS ÊTES SUR LE POINT DE RETOURNER LA DEMANDE EN BROUILLON . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                            title="Retourner la demande en brouillon" 
+                            class="btn btn-danger sendDeleteLink"> 
+                            Retourner en brouillon </a> `;          
+                        }
+
+
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                     }else{
                         if(cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail" && permissions.telecharger_la_facture){
-                                let buttonDownoald = `<a href="/panel/services/cheque/facture/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
-                                title="Télécharger la facture" 
-                                class="btn btn-success"> 
-                                Télécharger la facture </a>`;
-                                document.getElementById('submit-cotation').innerHTML = buttonDownoald;
+                            let buttonDownoald = `<a href="/panel/services/cheque/facture/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                            title="Télécharger la facture" 
+                            class="btn btn-success"> 
+                            Télécharger la facture </a>`;
+
+                                
+                            if(permissions.reinitialiser_la_demande){
+                                buttonDownoald += `&nbsp; &nbsp; &nbsp; &nbsp; <a href="/panel/services/cheque/reinitialiser/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                                caption = "<h3>VOUS ÊTES SUR LE POINT DE RETOURNER LA DEMANDE EN BROUILLON . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                                title="Retourner la demande en brouillon" 
+                                class="btn btn-danger sendDeleteLink"> 
+                                Retourner en brouillon </a> `;          
+                            }
+
+                            document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                         }
 
                         if((cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail") && permissions.proceder_au_paiement){
