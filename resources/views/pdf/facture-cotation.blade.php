@@ -428,8 +428,8 @@
                             <td>{{ $pay['name'] ?? '' }}</td>
                             <td> 
                                 <center>
-                                    @isset($rubrique_facture[$pay['name']])
-                                        {{ $rubrique_facture[$pay['name']]['total_lignes'] ?? '' }}
+                                    @isset($rubrique_facture[$pay['facturation'][0]['uuid']])
+                                        {{ $rubrique_facture[$pay['facturation'][0]['uuid']]['total_lignes'] ?? '' }}
                                         @else
                                         0
                                     @endisset
@@ -443,8 +443,8 @@
                                 @endisset
                             </td>
                             <td style="text-align: right">
-                                @isset($rubrique_facture[$pay['name']])
-                                    {{ money_format($rubrique_facture[$pay['name']]['total_montant'] ?? '') }}
+                                @isset($rubrique_facture[$pay['facturation'][0]['uuid']])
+                                    {{ money_format($rubrique_facture[$pay['facturation'][0]['uuid']]['total_montant'] ?? '') }}
                                     @else
                                     0 CFA
                                 @endisset
