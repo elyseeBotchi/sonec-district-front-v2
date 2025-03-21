@@ -127,6 +127,20 @@ $(document).ready(function() {
                     /* document.getElementById('add-cotation').innerHTML = ""; */
                     document.getElementById('submit-cotation').innerHTML = "";
                     document.getElementById('alert-message').innerHTML = '';    
+
+                    
+                    if((cheque.status =="enable" || cheque.status =="cotation" || cheque.status =="pending"  || cheque.status === "fail") && permissions.reinitialiser_la_demande){
+                       let buttonReset = `&nbsp; &nbsp; &nbsp; &nbsp; <a href="/panel/services/cheque/reinitialiser/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
+                        caption = "<h3>VOUS ÊTES SUR LE POINT DE RETOURNER LA DEMANDE EN BROUILLON . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                        title="Retourner la demande en brouillon" 
+                        class="btn btn-danger sendDeleteLink"> 
+                        Retourner en brouillon </a> `;   
+                        document.getElementById('reset-cotation').innerHTML = buttonReset;
+     
+                    }
+
+
+
                     if(cheque.status =="enable" &&  permissions.valider_la_cotation){
 
                         let buttonAddCotation = `<a href="#" class="btn btn-rounded btn-outline-primary" data-toggle="modal" data-target="#customer-edit_add-modal">
@@ -140,15 +154,6 @@ $(document).ready(function() {
                         title="Valider la demande de cotation" 
                         class="btn btn-success sendDeleteLink"> 
                         Valider la cotation </a> `;
-
-                        if(permissions.reinitialiser_la_demande){
-                            buttonDownoald += `&nbsp; &nbsp; &nbsp; &nbsp; <a href="/panel/services/cheque/reinitialiser/cotation/${cheque.uuid}/${Entity_uuid}" data-uuid="${cheque.uuid}" 
-                            caption = "<h3>VOUS ÊTES SUR LE POINT DE RETOURNER LA DEMANDE EN BROUILLON . <br> VOULEZ VOUS CONTUNIER ? </h3>"
-                            title="Retourner la demande en brouillon" 
-                            class="btn btn-danger sendDeleteLink"> 
-                            Retourner en brouillon </a> `;          
-                        }
-
 
                         document.getElementById('submit-cotation').innerHTML = buttonDownoald;
                     }else{

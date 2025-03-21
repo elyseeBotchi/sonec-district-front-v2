@@ -262,6 +262,8 @@
 
         <center>
             <span id="submit-cotation"></span>
+            &nbsp; &nbsp; &nbsp;
+            <span id="reset-cotation"></span>
         </center>
     
     <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-hidden="true">
