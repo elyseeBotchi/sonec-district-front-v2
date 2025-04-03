@@ -500,7 +500,7 @@ if (!function_exists('enlettre_')) {
 }
 
 if (!function_exists('enlettre')) {
-    function enlettre($nombre) {
+    function enlettre__($nombre) {
         $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
         $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
         $specials = [10 => "dix", 11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
@@ -591,6 +591,92 @@ if (!function_exists('enlettre')) {
 
         return $texte;
     }
+
+    function enlettre($nombre) {
+        $unites = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
+        $dizaines = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"];
+        $specials = [10 => "dix", 11 => "onze", 12 => "douze", 13 => "treize", 14 => "quatorze", 15 => "quinze", 16 => "seize", 17 => "dix-sept", 18 => "dix-huit", 19 => "dix-neuf"];
+    
+        if ($nombre == 0) {
+            return "zéro";
+        }
+    
+        if ($nombre < 0) {
+            return "moins " . enlettre(-$nombre);
+        }
+    
+        $texte = "";
+    
+        // Gestion des milliards
+        if ($nombre >= 1000000000) {
+            $milliards = intval($nombre / 1000000000);
+            $reste = $nombre % 1000000000;
+            $texte .= enlettre($milliards) . " milliard" . ($milliards > 1 ? "s" : "");
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            }
+            return $texte;
+        }
+    
+        // Gestion des millions
+        if ($nombre >= 1000000) {
+            $millions = intval($nombre / 1000000);
+            $reste = $nombre % 1000000;
+            $texte .= enlettre($millions) . " million" . ($millions > 1 ? "s" : "");
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            }
+            return $texte;
+        }
+    
+        // Gestion des milliers
+        if ($nombre >= 1000) {
+            $milliers = intval($nombre / 1000);
+            $reste = $nombre % 1000;
+            $texte .= ($milliers > 1 ? enlettre($milliers) . " mille" : "mille");
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            }
+            return $texte;
+        }
+    
+        // Gestion des centaines
+        if ($nombre >= 100) {
+            $centaines = intval($nombre / 100);
+            $reste = $nombre % 100;
+            $texte .= ($centaines > 1 ? $unites[$centaines] . " cent" : "cent");
+            if ($reste > 0) {
+                $texte .= " " . enlettre($reste);
+            } else if ($centaines > 1) { // Ajout du "s" à "cents" si pas suivi d'un autre nombre
+                $texte .= "s";
+            }
+            return $texte;
+        }
+    
+        // Gestion des nombres entre 10 et 99
+        if ($nombre >= 10 && $nombre <= 19) {
+            return $specials[$nombre];
+        }
+    
+        if ($nombre >= 20) {
+            $dix = intval($nombre / 10);
+            $reste = $nombre % 10;
+    
+            if ($dix == 7 || $dix == 9) { // Cas particulier des soixante-dix et quatre-vingt-dix
+                $texte .= $dizaines[$dix - 1] . "-" . $specials[10 + $reste];
+            } else {
+                $texte .= $dizaines[$dix];
+                if ($reste > 0) {
+                    $texte .= ($dix == 8 ? "-" : "-") . $unites[$reste];
+                }
+            }
+            return $texte;
+        }
+    
+        // Gestion des unités
+        return $unites[$nombre];
+    }
+    
 }
 
     /* 
