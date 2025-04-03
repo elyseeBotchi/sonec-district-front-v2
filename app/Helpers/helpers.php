@@ -894,7 +894,7 @@ if(!function_exists('getStatusBadge')){
                 break;
                 
             case 'pending':
-                $statusBadge = '<span class="badge rounded-pill badge-primary">Annulé</span>';
+                $statusBadge = "<span class='badge rounded-pill badge-primary'> En attente d'encaissement </span>";
                 break;
                 
             default:
