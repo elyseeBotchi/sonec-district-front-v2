@@ -73,7 +73,7 @@
                            
              </p>
 
-             <div class="col-md-8">
+             <div class="col-md-10">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover text-justify align-middle">
                         <thead class="table-primary">
@@ -81,6 +81,8 @@
                                 {{-- <th class="text-uppercase">#</th> --}}
                                 <th class="text-uppercase">RUBRIQUES BUDGETAIRES</th>
                                 <th class="text-uppercase">Montant</th>
+                                <th class="text-uppercase">Pénalités enlèvement</th>
+                                <th class="text-uppercase">Frais fourrière (par jour)</th>
                             </tr>
                         </thead>
                         <tbody id="tarif_line"></tbody>

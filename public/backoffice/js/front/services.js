@@ -906,6 +906,8 @@ $(document).ready(function() {
                                         const optionElement = createRubriqueOption(option.option_name, facturation);
                                         optgroup.appendChild(optionElement);
                                         tarif_line += `<td>${formatMontant(facturation.amount)}</td>`;
+                                        tarif_line += `<td>${formatMontant(facturation.penalties)}</td>`;
+                                        tarif_line += `<td>${formatMontant(facturation.penalties_pound_amount)} / ${facturation.penalties_pound_periodicity}</td>`;
                                     });
                                 }
                             });
@@ -920,6 +922,8 @@ $(document).ready(function() {
                                 const optionElement = createRubriqueOption(rubrique.name, facturation);
                                 rubriqueSelect.appendChild(optionElement);
                                 tarif_line += `<td>${formatMontant(facturation.amount)}</td>`;
+                                tarif_line += `<td>${formatMontant(facturation.penalties)}</td>`;
+                                tarif_line += `<td>${formatMontant(facturation.penalties_pound_amount)} / ${facturation.penalties_pound_periodicity}</td>`;
                             });
                             tarif_line += "</tr>";
                         }

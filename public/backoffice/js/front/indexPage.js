@@ -303,7 +303,7 @@ $(document).ready(function() {
         }
     }
     
-    function findRubriques() {
+    function findRubriques() { 
         fetch(`/landing/services/rubrique/findOneConfig/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
@@ -339,12 +339,24 @@ $(document).ready(function() {
                                             style: 'currency',
                                             currency: 'XOF',
                                         });
+                                        const formattedPenalite = parseFloat(facturation.penalties).toLocaleString('fr-FR', {
+                                            style: 'currency',
+                                            currency: 'XOF',
+                                        });
+
+                                        const formattedFraisFourriere = parseFloat(facturation.penalties_pound_amount).toLocaleString('fr-FR', {
+                                            style: 'currency',
+                                            currency: 'XOF',
+                                        });
+
                                         const optionElement = document.createElement('option');
                                         optionElement.value = facturation.uuid;
                                         optionElement.textContent = option.option_name;
                                         optionElement.setAttribute('data-amount', facturation.amount);
     
                                         tarif_line += `<td>${formattedAmount}</td>`;
+                                        tarif_line += `<td>${formattedPenalite}</td>`;
+                                        tarif_line += `<td>${formattedFraisFourriere}</td>`;
                                         optgroup.appendChild(optionElement);
                                     });
                                 } else {
@@ -352,6 +364,8 @@ $(document).ready(function() {
                                     optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
                                     optionElement.disabled = true;
     
+                                    tarif_line += `<td></td>`;
+                                    tarif_line += `<td></td>`;
                                     tarif_line += `<td></td>`;
                                     optgroup.appendChild(optionElement);
                                 }
@@ -369,12 +383,24 @@ $(document).ready(function() {
                                         style: 'currency',
                                         currency: 'XOF',
                                     });
+                                    const formattedPenalite = parseFloat(facturation.penalties).toLocaleString('fr-FR', {
+                                        style: 'currency',
+                                        currency: 'XOF',
+                                    });
+                                    const formattedFraisFourriere = parseFloat(facturation.penalties_pound_amount).toLocaleString('fr-FR', {
+                                        style: 'currency',
+                                        currency: 'XOF',
+                                    });
+
                                     const facturationOption = document.createElement('option');
                                     facturationOption.value = facturation.uuid;
                                     facturationOption.textContent = rubrique.name;
                                     facturationOption.setAttribute('data-amount', facturation.amount);
     
-                                    tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td></tr>`;
+                                    tarif_line += `<tr><td>${rubrique.name}</td><td>${formattedAmount}</td>
+                                    <td>${formattedPenalite}</td>
+                                    <td>${formattedFraisFourriere}</td>
+                                    </tr>`;
                                 //    rubriqueSelect.appendChild(facturationOption);
                                 });
                             } else {
