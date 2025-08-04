@@ -7,8 +7,8 @@
             <ul id="sidebarnav">
 
                 @isset(AuthConnect()['role']['name'])
-                    @if(AuthConnect()['role']['name'] !=="Superviseurs" && AuthConnect()['role']['name'] !=="PAILLEUR")
-                        <li class="sidebar-item"  >
+                    @if (AuthConnect()['role']['name'] !== 'Superviseurs' && AuthConnect()['role']['name'] !== 'PAILLEUR')
+                        <li class="sidebar-item">
                             <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
                                 <i data-feather="bar-chart" class="feather-icon"></i>
                                 <span class="hide-menu">Tableau de bord</span>
@@ -22,48 +22,86 @@
                         <span class="hide-menu">Accueil</span>
                     </a>
                 </li> --}}
-               
-                
+
+
                 @isset($entitesNav[0]['uuid'])
-                
-                
-                @if(CanPermission('rendez_vous_voir_le_module_rendez_vous'))
-                    <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}" > 
-                        <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                            <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Réception des Usagers</span>
-                        </a>
-                    </li>
-                @endif 
-                    {{-- <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}" > 
-                        <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="" aria-expanded="false">
-                            <i data-feather="calendar" class="feather-icon"></i>
-                            <span class="hide-menu">Réception des chèques</span>
-                        </a>
-                    </li> --}}
-                 
-                    
-                   
-                    @if(CanPermission('cheques_voir_le_module_cheque'))
+
+
+                    @if (CanPermission('rendez_vous_voir_le_module_rendez_vous'))
+                        <li class="sidebar-item  {{ request()->is('panel/services/taxes/detail/*') ? 'selected' : '' }}">
+                            <a title="Réception des Usagers" class="sidebar-link sidebar-link"
+                                href="{{ route('panel.autorisations.services.rdv', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Réception des Usagers</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (CanPermission('acteurs_tiers_voir_le_module_verification_pour_la_penalite'))
+                        <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}">
+                            <a title="Verification des Partenaires" class="sidebar-link sidebar-link"
+                                href="{{ route('panel.autorisations.services.verification-partenaire', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Verification</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (CanPermission('acteurs_tiers_voir_mes_gains_en_tant_que_acteur_tiers'))
+                        <li class="list-divider"></li>
+
+                        <li
+                            class="sidebar-item {{ request()->is('panel/statistique/penalite/gains/partenaires/*') ? 'selected' : '' }}">
+                            <a title="Verification des Partenaires" class="sidebar-link sidebar-link"
+                                href="{{ route('panel.autorisations.statistique.gains.partenaire', ['entity' => $entitesNav[0]['uuid']]) }}"
+                                aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Mes gains</span>
+                            </a>
+                        </li>   
+                    @endif
+
+                    <li class="list-divider"></li>
+
+                    @if (CanPermission('acteurs_tiers_voir_lhistorique_des_controles_tiers'))
+                        <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}">
+                            <a title="istorique des controles" class="sidebar-link sidebar-link"
+                                href="{{ route('panel.autorisations.services.historique-controles', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                aria-expanded="false">
+                                <i data-feather="calendar" class="feather-icon"></i>
+                                <span class="hide-menu">Historique des controles</span>
+                            </a>
+                        </li>
+                    @endif
+
+
+                    @if (CanPermission('cheques_voir_le_module_cheque'))
                         <li class="sidebar-item {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}">
-                            <a class="sidebar-link has-arrow {{ request()->is('panel/services/cheque/*') ? 'active' : '' }}" href="javascript:void(0)" aria-expanded="false">
+                            <a class="sidebar-link has-arrow {{ request()->is('panel/services/cheque/*') ? 'active' : '' }}"
+                                href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="box" class="feather-icon"></i>
                                 <span class="hide-menu">Chèque </span>
                             </a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line {{ request()->is('panel/services/cheque/*') ? 'in' : '' }}">
-                                @if(CanPermission('cheques_receptionner_un_cheque')) 
-                                    <li class="sidebar-item {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
-                                        <a href="{{ route("panel.autorisations.services.cheque.reception") }}" class="sidebar-link {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
+                            <ul aria-expanded="false"
+                                class="collapse  first-level base-level-line {{ request()->is('panel/services/cheque/*') ? 'in' : '' }}">
+                                @if (CanPermission('cheques_receptionner_un_cheque'))
+                                    <li
+                                        class="sidebar-item {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
+                                        <a href="{{ route('panel.autorisations.services.cheque.reception') }}"
+                                            class="sidebar-link {{ request()->is('panel/services/cheque/show/*') ? 'active' : '' }} {{ request()->is('panel/services/cheque/reception') ? 'active' : '' }}">
                                             <span class="hide-menu">
-                                                Receptionner   
+                                                Receptionner
                                             </span>
                                         </a>
                                     </li>
-                                @endif 
+                                @endif
 
-                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                @if (CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'init']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'init']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 En cours d'édition
                                             </span>
@@ -71,41 +109,45 @@
                                     </li>
                                 @endif
 
-                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                @if (CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'enable']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'enable']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 En attente de cotation
                                             </span>
                                         </a>
                                     </li>
-                                @endif 
-                            
-                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+                                @endif
+
+                                @if (CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'cotation']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'cotation']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 En attente de paiement
                                             </span>
                                         </a>
                                     </li>
-                                @endif 
+                                @endif
 
-                                
-                                
-                                @if(CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
+
+
+                                @if (CanPermission('cheques_voir_les_cheques_en_attente_de_validation'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'pending']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'pending']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 En cours de paiement
                                             </span>
                                         </a>
                                     </li>
-                                @endif 
+                                @endif
 
-                                @if(CanPermission('cheques_voir_les_cheques_valide'))
+                                @if (CanPermission('cheques_voir_les_cheques_valide'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'validate']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'validate']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 Payé
                                             </span>
@@ -113,9 +155,10 @@
                                     </li>
                                 @endif
 
-                                @if(CanPermission('cheques_voir_les_cheques_rejetes'))
+                                @if (CanPermission('cheques_voir_les_cheques_rejetes'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'fail']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'fail']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
                                                 Rejeté
                                             </span>
@@ -123,11 +166,12 @@
                                     </li>
                                 @endif
 
-                                @if(CanPermission('cheques_voir_la_liste_de_tous_les_cheques'))
+                                @if (CanPermission('cheques_voir_la_liste_de_tous_les_cheques'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.services.cheque.list',['status' => 'all']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.services.cheque.list', ['status' => 'all']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
-                                            Tous
+                                                Tous
                                             </span>
                                         </a>
                                     </li>
@@ -135,160 +179,176 @@
                             </ul>
                         </li>
                     @endif
-                  
-                
 
-                @if(CanPermission('activite_du_jour_voir_le_module_activite_du_jour'))
-                    <li class="sidebar-item {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}">
-                        <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                            <i data-feather="box" class="feather-icon"></i>
-                            <span class="hide-menu">Activité du jour </span>
-                        </a>
-                        <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        
 
-                            @if($entitesNav != "")
-                                @forelse($entitesNav as $val)
-                                    @if(CanPermission('activite_du_jour_detail_de_lactivite_du_jour'))
-                                        <li class="sidebar-item {{ request()->is('panel/services/activite/jour/*') ? 'selected' : '' }}">
-                                            <a  title="Détail de l’activité du jour" href="{{ route('panel.autorisations.services.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
-                                                <span class="hide-menu">
-                                                    Activités  
-                                                </span>
-                                            </a>
-                                        </li>
-                                    @endif
-                                    @isset($lock)
-                                        @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
-                                            <li class="sidebar-item {{ request()->is('panel/services/activite/historique/*') ? 'selected' : '' }}">
-                                                <a  title="Resultat des traitements" href="{{ route('panel.autorisations.services.historique.activite',['uuid' => $entitesNav[0]['uuid']]) }}" class="sidebar-link">
+
+                    @if (CanPermission('activite_du_jour_voir_le_module_activite_du_jour'))
+                        <li class="sidebar-item {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <i data-feather="box" class="feather-icon"></i>
+                                <span class="hide-menu">Activité du jour </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+
+
+                                @if ($entitesNav != '')
+                                    @forelse($entitesNav as $val)
+                                        @if (CanPermission('activite_du_jour_detail_de_lactivite_du_jour'))
+                                            <li
+                                                class="sidebar-item {{ request()->is('panel/services/activite/jour/*') ? 'selected' : '' }}">
+                                                <a title="Détail de l’activité du jour"
+                                                    href="{{ route('panel.autorisations.services.activite', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                                    class="sidebar-link">
                                                     <span class="hide-menu">
-                                                        Resultat des traitements
+                                                        Activités
                                                     </span>
                                                 </a>
                                             </li>
                                         @endif
-                                    @endisset
-                                        
-                                    @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
-                                        <li class="sidebar-item {{ request()->is('panel/services/liste/rdv') ? 'selected' : '' }}">
-                                            <a title="Usagers reçus" href="{{ route('panel.autorisations.services.liste.rdv',['uuid' => $entitesNav[0]['uuid']]) }}"  class="sidebar-link">
-                                                <span class="hide-menu">
-                                                    Usagers  reçus
-                                                </span>
-                                            </a>
-                                        </li>
-                                    @endif
+                                        @isset($lock)
+                                            @if (CanPermission('rendez_vous_rechercher_un_vehicule'))
+                                                <li
+                                                    class="sidebar-item {{ request()->is('panel/services/activite/historique/*') ? 'selected' : '' }}">
+                                                    <a title="Resultat des traitements"
+                                                        href="{{ route('panel.autorisations.services.historique.activite', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
+                                                            Resultat des traitements
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endisset
 
-                                @empty
-                                @endforelse
-                            @endif
-                        
-                        </ul>
-                    </li>
-                @endif
+                                        @if (CanPermission('rendez_vous_rechercher_un_vehicule'))
+                                            <li
+                                                class="sidebar-item {{ request()->is('panel/services/liste/rdv') ? 'selected' : '' }}">
+                                                <a title="Usagers reçus"
+                                                    href="{{ route('panel.autorisations.services.liste.rdv', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                                    class="sidebar-link">
+                                                    <span class="hide-menu">
+                                                        Usagers reçus
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        @endif
 
+                                    @empty
+                                    @endforelse
+                                @endif
 
-                @isset($lock)
-                    @if(CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
-                        <li class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}" > 
-                            <a title="Historiques des Traitements" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.services.historique.rdv',['uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                                <i data-feather="calendar" class="feather-icon"></i>
-                                <span class="hide-menu">Historiques des Traitements</span>
-                            </a>
+                            </ul>
                         </li>
                     @endif
+
+
+                    @isset($lock)
+                        @if (CanPermission('usagers_recus_voir_la_liste_des_usagers_recus'))
+                            <li
+                                class="sidebar-item  {{ request()->is('panel/services/historique/rdv/*') ? 'selected' : '' }}">
+                                <a title="Historiques des Traitements" class="sidebar-link sidebar-link"
+                                    href="{{ route('panel.autorisations.services.historique.rdv', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                    aria-expanded="false">
+                                    <i data-feather="calendar" class="feather-icon"></i>
+                                    <span class="hide-menu">Historiques des Traitements</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endisset
+
+
                 @endisset
 
 
-            @endisset 
 
 
-        
-                
-                @if(CanPermission('activites_voir_les_activites'))
-                
+                @if (CanPermission('activites_voir_les_activites'))
                     <li class="sidebar-item  {{ request()->is('panel/activity/agents/*') ? 'selected' : '' }}">
-                        <a class="sidebar-link" href="{{ route('panel.autorisations.activity.agents.index') }}" aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('panel.autorisations.activity.agents.index') }}"
+                            aria-expanded="false">
                             <i data-feather="activity" class="feather-icon"></i>
                             <span class="hide-menu">
                                 Activités
                             </span>
                         </a>
                     </li>
-               @endif
+                @endif
 
-                @if(CanPermission('entites_voir_les_donnees_de_lentite'))
-                    @if($entitesNav != "")
+                @if (CanPermission('entites_voir_les_donnees_de_lentite'))
+                    @if ($entitesNav != '')
                         @forelse($entitesNav as $val)
                             <li class="sidebar-item">
-                                <a href="{{ route('panel.autorisations.services.show.data',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                <a href="{{ route('panel.autorisations.services.show.data', ['uuid' => $val['uuid']]) }}"
+                                    class="sidebar-link">
                                     <span class="hide-menu">
-                                    {{  $val['name'] ?? '' }}
+                                        {{ $val['name'] ?? '' }}
                                     </span>
                                 </a>
                             </li>
                         @empty
                         @endforelse
                     @endif
-                @endif 
+                @endif
 
 
                 {{-- ####################################################### --}}
-                @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                    
+                @if (CanPermission('statistique_partenaires_voir_le_module_statistique'))
+
+                    <li class="list-divider"></li>
+                    <li class="nav-small-cap"><span class="hide-menu">STATISTIQUE PARTENAIRE</span></li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link has-arrow" title="STATISTIQUE MOBILE MONEY" href="javascript:void(0)" aria-expanded="false">
+                        <a class="sidebar-link has-arrow" title="STATISTIQUE MOBILE MONEY" href="javascript:void(0)"
+                            aria-expanded="false">
                             <i data-feather="box" class="feather-icon"></i>
                             <span class="hide-menu">STATISTIQUE MOBILE </span>
                         </a>
                         <ul aria-expanded="false" class="collapse  first-level base-level-line">
                             @isset($entitesNav[0])
-                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
-
+                                @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.statistique.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
-                                                PAR PAIEMENT  
+                                                PAR PAIEMENT
                                             </span>
                                         </a>
                                     </li>
-                                @endif 
+                                @endif
 
-                                @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                                    <li class="sidebar-item"> 
+                                @if (CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                                    <li class="sidebar-item">
                                         <a class="has-arrow sidebar-link" href="javascript:void(0)"
                                             aria-expanded="false">
                                             <span class="hide-menu">PAR RUBRIQUE</span>
                                         </a>
                                         <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
                                                 <li class="sidebar-item">
-                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
-                                                        <span
-                                                            class="hide-menu">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour']) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
                                                             Par jour
                                                         </span>
                                                     </a>
                                                 </li>
                                             @endif
 
-                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
                                                 <li class="sidebar-item">
-                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois',]) }}" class="sidebar-link">
-                                                        <span
-                                                            class="hide-menu">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois']) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
                                                             Par mois
                                                         </span>
                                                     </a>
                                                 </li>
                                             @endif
 
-                                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
                                                 <li class="sidebar-item">
-                                                    <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous',]) }}" class="sidebar-link">
-                                                        <span
-                                                            class="hide-menu">
+                                                    <a href="{{ route('panel.autorisations.statistique.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous']) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
                                                             Tous
                                                         </span>
                                                     </a>
@@ -298,11 +358,12 @@
                                     </li>
                                 @endif
 
-                                @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
+                                @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
                                     <li class="sidebar-item">
-                                        <a href="{{ route('panel.autorisations.statistique.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                        <a href="{{ route('panel.autorisations.statistique.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}"
+                                            class="sidebar-link">
                                             <span class="hide-menu">
-                                            PAR PERIODE
+                                                PAR PERIODE
                                             </span>
                                         </a>
                                     </li>
@@ -313,170 +374,253 @@
                 @endif
 
                 {{-- ####################################################### --}}
-                @isset(AuthConnect()['role']['name'])
-                    @if(AuthConnect()['role']['name'] =="Administrateur")@endif
-                @endisset
-                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_cheque'))
-                            <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow" title="STATISTIQUE CHEQUE" href="javascript:void(0)" aria-expanded="false">
-                                    <i data-feather="box" class="feather-icon"></i>
-                                    <span class="hide-menu">STATISTIQUE CHEQUE </span>
-                                </a>
-                                <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                    @isset($entitesNav[0])
-                                        
-                                        @if(CanPermission('statistique_partenaires_voir_le_recap_des_statistiques'))
+
+                @if (CanPermission('statistique_partenaires_voir_les_statistiques_cheque'))
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow" title="STATISTIQUE CHEQUE" href="javascript:void(0)"
+                            aria-expanded="false">
+                            <i data-feather="box" class="feather-icon"></i>
+                            <span class="hide-menu">STATISTIQUE CHEQUE </span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                            @isset($entitesNav[0])
+
+                                @if (CanPermission('statistique_partenaires_voir_le_recap_des_statistiques'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.cheque.recap', ['uuid' => $entitesNav[0]['uuid']]) }}"
+                                            class="sidebar-link">
+                                            <span class="hide-menu">
+                                                RECAP CHEQUE
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+
+                                @if (CanPermission('statistique_partenaires_voir_le_module_statistique'))
+                                    <li class="sidebar-item">
+                                        <a class="has-arrow sidebar-link" href="javascript:void(0)"
+                                            aria-expanded="false">
+                                            <span class="hide-menu">PAR RUBRIQUE</span>
+                                        </a>
+
+                                        <ul aria-expanded="false" class="collapse second-level base-level-line">
+                                            @isset($lock)
+                                                @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
+                                                    <li class="sidebar-item">
+                                                        <a href="{{ route('panel.autorisations.statistique.cheque.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour']) }}"
+                                                            class="sidebar-link">
+                                                            <span class="hide-menu">
+                                                                Par jour
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endisset
+
+
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
+                                                <li class="sidebar-item">
+                                                    <a href="{{ route('panel.autorisations.statistique.cheque.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois']) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
+                                                            Par mois
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
+                                                <li class="sidebar-item">
+                                                    <a href="{{ route('panel.autorisations.statistique.cheque.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous']) }}"
+                                                        class="sidebar-link">
+                                                        <span class="hide-menu">
+                                                            Tous
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                @endif
+
+
+                                @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.cheque.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}"
+                                            class="sidebar-link">
+                                            <span class="hide-menu">
+                                                PAR PERIODE
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            @endisset
+                        </ul>
+                    </li>
+
+
+                    @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
+                        <li class="sidebar-item">
+                            <a href="{{ route('panel.autorisations.statistique.cheque.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}"
+                                class="sidebar-link">
+                                <span class="hide-menu">
+                                    RECAP GLOBAL
+                                </span>
+                            </a>
+                        </li>
+                    @endif
+                @endif
+
+
+                @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_de_penalites'))
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow" title="STATISTIQUE PENALITE" href="javascript:void(0)"
+                            aria-expanded="false">
+                            <i data-feather="box" class="feather-icon"></i>
+                            <span class="hide-menu">STATISTIQUE PENALITE </span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                            @isset($entitesNav[0])
+
+
+                                @if (CanPermission('statistiques_de_penalites_voir_les_gains_des_acteurs_tiers'))
+                                
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}"
+                                            class="sidebar-link">
+                                            <span class="hide-menu">
+                                                GAINS PARTENAIRES
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_par_rubrique'))
+                                
+                                    <li class="sidebar-item">
+                                        <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                                            <span class="hide-menu">PAR RUBRIQUE</span>
+                                        </a>
+
+                                        <ul aria-expanded="false" class="collapse second-level base-level-line">
+                                            
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
+                                            @endif
                                             <li class="sidebar-item">
-                                                <a href="{{ route('panel.autorisations.statistique.cheque.recap',['uuid' =>$entitesNav[0]['uuid']]) }}" class="sidebar-link">
+                                                <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois']) }}"
+                                                    class="sidebar-link">
                                                     <span class="hide-menu">
-                                                        RECAP CHEQUE
+                                                        Par mois
                                                     </span>
                                                 </a>
                                             </li>
-                                        @endif
 
 
-                                        @if(CanPermission('statistique_partenaires_voir_le_module_statistique'))
-                                            <li class="sidebar-item"> 
-                                                <a class="has-arrow sidebar-link" href="javascript:void(0)"
-                                                    aria-expanded="false">
-                                                    <span class="hide-menu">PAR RUBRIQUE</span>
-                                                </a>
-                                                
-                                                <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                                    @isset($lock)
-                                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
-                                                            <li class="sidebar-item">
-                                                                <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'jour',]) }}" class="sidebar-link">
-                                                                    <span
-                                                                        class="hide-menu">
-                                                                        Par jour
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    @endisset
-
-
-                                                    @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
-                                                        <li class="sidebar-item">
-                                                            <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'mois',]) }}" class="sidebar-link">
-                                                                <span
-                                                                    class="hide-menu">
-                                                                    Par mois
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-
-                                                    @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
-                                                        <li class="sidebar-item">
-                                                            <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous',]) }}" class="sidebar-link">
-                                                                <span
-                                                                    class="hide-menu">
-                                                                    Tous
-                                                                </span>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                </ul>
-                                            </li>
-                                        @endif
-
-                                                
-                                        @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
+                                            @if (CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
+                                            @endif
                                             <li class="sidebar-item">
-                                                <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                                <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'rubrique', 'type_sous_stat' => 'tous']) }}"
+                                                    class="sidebar-link">
                                                     <span class="hide-menu">
-                                                    PAR PERIODE
+                                                        Tous
                                                     </span>
                                                 </a>
                                             </li>
-                                        @endif
 
-                                    @endisset
-                                </ul>
-                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
 
-                            
-                            @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_paiement'))
+                                @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_par_periode'))
+                                
+                                    <li class="sidebar-item">
+                                        <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}"
+                                            class="sidebar-link">
+                                            <span class="hide-menu">
+                                                PAR PERIODE
+                                            </span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            @endisset
+                        </ul>
+                    </li>
+                @endif
+
+
+
+
+                @if (CanPermission('statistique_voir_le_module_statistique'))
+                    <li class="list-divider"></li>
+                    <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
+
+                    @if ($entitesNav != '')
+                        @forelse($entitesNav as $val)
+                            @if (CanPermission('statistique_voir_les_statistiques_par_paiement'))
                                 <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.cheque.detail',['uuid' =>$entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}" class="sidebar-link">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'paiement']) }}"
+                                        class="sidebar-link">
                                         <span class="hide-menu">
-                                            RECAP GLOBAL  
-                                        </span>
-                                    </a>
-                                </li>
-                            @endif 
-                        @endif
-                 
-                    
-
-
-
-                    @if(CanPermission('statistique_voir_le_module_statistique'))
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Statistique</span></li> {{-- --}}
-                    
-                        @if($entitesNav != "")
-                            @forelse($entitesNav as $val)
-                            @if(CanPermission('statistique_voir_les_statistiques_par_paiement'))
-                                <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'paiement']) }}" class="sidebar-link">
-                                        <span class="hide-menu">
-                                        PAR PAIEMENT
-                                        </span>
-                                    </a>
-                                </li>
-                            @endif 
-                            
-                            @if(CanPermission('statistique_voir_les_statistiques_par_operateur'))
-                                <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'operateur']) }}" class="sidebar-link">
-                                        <span class="hide-menu">
-                                        PAR OPERATEUR
+                                            PAR PAIEMENT
                                         </span>
                                     </a>
                                 </li>
                             @endif
 
-                            @if(CanPermission('statistique_voir_les_statistiques_par_rubrique'))
+                            @if (CanPermission('statistique_voir_les_statistiques_par_operateur'))
                                 <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rubrique']) }}" class="sidebar-link">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'operateur']) }}"
+                                        class="sidebar-link">
                                         <span class="hide-menu">
-                                        PAR RUBRIQUE
-                                        </span>
-                                    </a>
-                                </li>
-
-                            @endif
-
-                            @if(CanPermission('statistique_voir_les_statistiques_par_periode'))
-                                <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'periode']) }}" class="sidebar-link">
-                                        <span class="hide-menu">
-                                        PAR PERIODE
+                                            PAR OPERATEUR
                                         </span>
                                     </a>
                                 </li>
                             @endif
 
-                            
-                        
-                                <li class="list-divider">OPERATIONS</li>
-                            @if(CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+                            @if (CanPermission('statistique_voir_les_statistiques_par_rubrique'))
                                 <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'rdv']) }}" class="sidebar-link">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'rubrique']) }}"
+                                        class="sidebar-link">
                                         <span class="hide-menu">
-                                        PAR RENDEZ-VOUS
+                                            PAR RUBRIQUE
                                         </span>
                                     </a>
                                 </li>
                             @endif
 
-                            @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
+                            @if (CanPermission('statistique_voir_les_statistiques_par_periode'))
                                 <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'agent_validateur']) }}" class="sidebar-link">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'periode']) }}"
+                                        class="sidebar-link">
+                                        <span class="hide-menu">
+                                            PAR PERIODE
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+
+
+                            <li class="list-divider">OPERATIONS</li>
+                            @if (CanPermission('statistique_voir_les_statistiques_par_rendez_vous'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'rdv']) }}"
+                                        class="sidebar-link">
+                                        <span class="hide-menu">
+                                            PAR RENDEZ-VOUS
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
+                                <li class="sidebar-item">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'agent_validateur']) }}"
+                                        class="sidebar-link">
                                         <span class="hide-menu">
                                             PAR VALIDATEUR
                                         </span>
@@ -484,9 +628,10 @@
                                 </li>
                             @endif
 
-                            @if(CanPermission('statistique_voir_les_statistiques_par_validations_par_jour'))
+                            @if (CanPermission('statistique_voir_les_statistiques_par_validations_par_jour'))
                                 <li class="sidebar-item">
-                                    <a href="{{ route('panel.autorisations.statistique.show.data',['uuid' =>$val['uuid'], 'type_stat' => 'validation_jour']) }}" class="sidebar-link">
+                                    <a href="{{ route('panel.autorisations.statistique.show.data', ['uuid' => $val['uuid'], 'type_stat' => 'validation_jour']) }}"
+                                        class="sidebar-link">
                                         <span class="hide-menu">
                                             VALIDATION PAR JOUR
                                         </span>
@@ -494,20 +639,20 @@
                                 </li>
                             @endif
 
-                            @empty
-                            @endforelse
-                        @endif
-
+                        @empty
+                        @endforelse
                     @endif
-              
 
-                
+                @endif
 
-                
-                @if(CanPermission('configurations_voir_le_bloc_des_configurations'))
+
+
+
+
+                @if (CanPermission('configurations_voir_le_bloc_des_configurations'))
                     <li class="list-divider"></li>
                     <li class="nav-small-cap"><span class="hide-menu">Configurations</span></li>
-                    @if(CanPermission('entites_configurer_une_entite'))
+                    @if (CanPermission('entites_configurer_une_entite'))
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="box" class="feather-icon"></i>
@@ -517,17 +662,18 @@
                                 <li class="sidebar-item">
                                     <a href="{{ route('panel.autorisations.entite.index') }}" class="sidebar-link">
                                         <span class="hide-menu">
-                                            Liste  
+                                            Liste
                                         </span>
                                     </a>
                                 </li>
 
-                                @if($entitesNav != "")
+                                @if ($entitesNav != '')
                                     @forelse($entitesNav as $val)
                                         <li class="sidebar-item">
-                                            <a href="{{ route('panel.autorisations.entite.show',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                            <a href="{{ route('panel.autorisations.entite.show', ['uuid' => $val['uuid']]) }}"
+                                                class="sidebar-link">
                                                 <span class="hide-menu">
-                                                {{  $val['name'] ?? '' }}
+                                                    {{ $val['name'] ?? '' }}
                                                 </span>
                                             </a>
                                         </li>
@@ -535,66 +681,95 @@
                                     @endforelse
 
                                 @endif
-                            
+
                             </ul>
                         </li>
                     @endif
 
                     @isset($lock)
-                        @if(CanPermission('gabaris_voir_longlet_gabaris'))
+                        @if (CanPermission('gabaris_voir_longlet_gabaris'))
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                     <i class="feather-icon fas fa-book"></i>
                                     <span class="hide-menu">Gabaris </span>
                                 </a>
                                 <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                    @if($entitesNav != "")
+                                    @if ($entitesNav != '')
                                         @forelse($entitesNav as $val)
                                             <li class="sidebar-item">
-                                                <a href="{{ route('panel.autorisations.entite.gabari',['uuid' =>$val['uuid']]) }}" class="sidebar-link">
+                                                <a href="{{ route('panel.autorisations.entite.gabari', ['uuid' => $val['uuid']]) }}"
+                                                    class="sidebar-link">
                                                     <span class="hide-menu">
-                                                    {{  $val['name'] ?? '' }}
+                                                        {{ $val['name'] ?? '' }}
                                                     </span>
                                                 </a>
                                             </li>
                                         @empty
                                         @endforelse
-
                                     @endif
                                 </ul>
                             </li>
-                        @endif 
-                    @endisset 
+                        @endif
+                    @endisset
 
-                    @if(CanPermission('collaborateurs_voir_longlet_collaborateur'))
+                    @if (CanPermission('collaborateurs_voir_longlet_collaborateur'))
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li>
-                        
+
                         <li class="sidebar-item {{ request()->is('panel/collaborateurs/*') ? 'selected' : '' }}">
-                            <a class="sidebar-link sidebar-link {{ request()->is('panel/collaborateurs/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.collaborateurs.index') }}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/collaborateurs/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.collaborateurs.index') }}" aria-expanded="false">
                                 <i class="feather-icon fas fa-users"></i>
-                                <span  class="hide-menu">
+                                <span class="hide-menu">
                                     Collaborateurs
                                 </span>
                             </a>
                         </li>
                     @endif
 
-                    @if(CanPermission('agents_voir_longlet_agent'))
+                    @if (CanPermission('agents_voir_longlet_agent'))
                         <li class="sidebar-item {{ request()->is('panel/agents/*') ? 'selected' : '' }}">
-                            <a class="sidebar-link sidebar-link {{ request()->is('panel/agents/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.agents.index') }}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/agents/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.agents.index') }}" aria-expanded="false">
                                 <i class="feather-icon fas fa-user-secret"></i>
-                                <span  class="hide-menu">
+                                <span class="hide-menu">
                                     Agent
                                 </span>
                             </a>
                         </li>
                     @endif
 
-                    @if(CanPermission('roles_voir_le_module_role'))
+
+                    @if (CanPermission('agents_voir_longlet_agent'))
+                        <li class="sidebar-item {{ request()->is('panel/partenaires-agents/*') ? 'selected' : '' }}">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/partenaires-agents/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.partenaires-agents.index') }}"
+                                aria-expanded="false">
+                                <i class="feather-icon fas fa-user-secret"></i>
+                                <span class="hide-menu">
+                                    Agent partenaires
+                                </span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (CanPermission('agents_voir_longlet_agent'))
+                        <li class="sidebar-item {{ request()->is('panel/partenaires/*') ? 'selected' : '' }}">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/partenaires/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.partenaires.index') }}" aria-expanded="false">
+                                <i class="feather-icon fas fa-user-secret"></i>
+                                <span class="hide-menu">
+                                    Partenaires
+                                </span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (CanPermission('roles_voir_le_module_role'))
                         <li class="sidebar-item {{ request()->is('panel/roles/*') ? 'selected' : '' }}">
-                            <a class="sidebar-link sidebar-link {{ request()->is('panel/roles/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.roles.index') }}" aria-expanded="false">
-                                <i  class="feather-icon fas fa-tasks"></i>
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/roles/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.roles.index') }}" aria-expanded="false">
+                                <i class="feather-icon fas fa-tasks"></i>
                                 <span class="hide-menu">
                                     Roles
                                 </span>
@@ -603,9 +778,10 @@
                     @endif
 
 
-                    @if(CanPermission('module_voir_longlet_module'))
+                    @if (CanPermission('module_voir_longlet_module'))
                         <li class="sidebar-item {{ request()->is('panel/modules/*') ? 'selected' : '' }}">
-                                <a class="sidebar-link sidebar-link {{ request()->is('panel/autorisations/modules/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.modules.index') }}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/autorisations/modules/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.modules.index') }}" aria-expanded="false">
                                 <i class="feather-icon fas fa-cogs"></i>
                                 <span class="hide-menu">
                                     Modules
@@ -614,10 +790,11 @@
                         </li>
                     @endif
 
-                    
-                    @if(CanPermission('module_voir_longlet_module'))
+
+                    @if (CanPermission('module_voir_longlet_module'))
                         <li class="sidebar-item {{ request()->is('panel/systemes/*') ? 'selected' : '' }}">
-                                <a class="sidebar-link sidebar-link {{ request()->is('panel/systemes/*') ? 'active' : '' }}" href="{{ route('panel.autorisations.systemes.index') }}" aria-expanded="false">
+                            <a class="sidebar-link sidebar-link {{ request()->is('panel/systemes/*') ? 'active' : '' }}"
+                                href="{{ route('panel.autorisations.systemes.index') }}" aria-expanded="false">
                                 <i class="feather-icon fas fa-cogs"></i>
                                 <span class="hide-menu">
                                     Système
@@ -625,22 +802,26 @@
                             </a>
                         </li>
                     @endif
-                    
-                @endif 
+
+                @endif
 
 
-                @isset($lock)@endisset
-                @if(CanPermission('support_voir_le_module_support'))
-                    <li class="sidebar-item" > 
-                        <a title="Réception des Usagers" class="sidebar-link sidebar-link" href="{{ route('panel.autorisations.entities.support.index',['entity_uuid' => $entitesNav[0]['uuid']]) }}" aria-expanded="false">
-                             <i data-feather="alert-triangle" class="feather-icon"></i> 
+                @isset($lock)
+                @endisset
+                @if (CanPermission('support_voir_le_module_support'))
+                    <li class="sidebar-item">
+                        <a title="Réception des Usagers" class="sidebar-link sidebar-link"
+                            href="{{ route('panel.autorisations.entities.support.index', ['entity_uuid' => $entitesNav[0]['uuid']]) }}"
+                            aria-expanded="false">
+                            <i data-feather="alert-triangle" class="feather-icon"></i>
                             <span class="hide-menu">SUPPORT</span>
                         </a>
                     </li>
-                @endif 
-                
+                @endif
+
                 <li class="sidebar-item {{ request()->is('panel/securite/*') ? 'selected' : '' }}">
-                    <a class="sidebar-link sidebar-link {{ request()->is('panel/securite/*') ? 'active' : '' }}" href="{{ route('panel.securite.compte') }}" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link {{ request()->is('panel/securite/*') ? 'active' : '' }}"
+                        href="{{ route('panel.securite.compte') }}" aria-expanded="false">
                         <i data-feather="edit-3" class="feather-icon"></i>
                         <span class="hide-menu">
                             Mon compte
@@ -648,7 +829,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link sidebar-link"  href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link" href="javascript:void(0)"
+                        onclick="event.preventDefault(); document.getElementById('logout-form2').submit();"
+                        aria-expanded="false">
                         <i data-feather="log-out" class="feather-icon"></i>
                         <span class="hide-menu">
                             Déconnexion

@@ -67,6 +67,12 @@
 @isset($Entity_uuid)
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 <script>
+    let searchForm = document.querySelector(".searchData");
+    // Empêcher la soumission native du formulaire (important)
+    searchForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+    });
+
     var Entity_uuid = @Json($Entity_uuid ?? '');
     document.addEventListener("DOMContentLoaded", function () {
         let searchInput = document.getElementById("target");
@@ -137,6 +143,8 @@
 
         // Fonction pour afficher les données dans le tableau
         function searchData(data) {
+
+                console.log(data.data);
             if (!data || !data.entete || !data.data) {
                 return; // Si les données sont manquantes, on ne fait rien
             }
@@ -217,7 +225,7 @@
                             let actions = '';
 
                             if (permissions.show) {
-                                actions += `<a href="/panel/support/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                                actions += `<a href="/panel/support/show/uuid-pay/${row.pay_uuid}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                             }
 
                             return actions;

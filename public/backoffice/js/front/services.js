@@ -749,7 +749,7 @@ $(document).ready(function() {
         toastr.error(messageError, 'Erreur');
     } //fin de la focntion SendError
 
-    function findRubriques() {
+    function findRubriques_for_delete() {
         fetch(`/customer/services/rubrique/findOneConfig/${Entity_uuid}`)
             .then(response => {
                 if (!response.ok) {
@@ -841,7 +841,7 @@ $(document).ready(function() {
             });
     }
     
-    function createOptionElement(value, text, amount = '', disabled = false) {
+    function createOptionElement_for_delete(value, text, amount = '', disabled = false) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = text;
@@ -869,3 +869,168 @@ $(document).ready(function() {
         }
     }
 
+
+    function findRubriques() {
+        const rubriqueSelect = document.getElementById('rubrique');
+        const loader = document.getElementById('rubrique_loader');
+        const immatriculation = document.getElementById('numero_dimmatriculation')?.value || '';
+        document.getElementById('montant_penalite').value = "";
+        document.getElementById('montant_pay').value = "";
+        if (loader) loader.style.display = 'inline-block';
+    
+        fetch(`/landing/services/rubrique/findOneConfig/${Entity_uuid}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Erreur lors du chargement des rubriques');
+                return response.json();
+            })
+            .then(async data => {
+                const results = data.data;
+                let tarif_line = "";
+                rubriqueSelect.innerHTML = '';
+    
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Type de véhicule';
+                rubriqueSelect.appendChild(defaultOption);
+    
+                if (results.rubrique?.length > 0) {
+                    results.rubrique.forEach(rubrique => {
+                        // Cas avec rubrique_option
+                        if (rubrique.rubrique_option?.length > 0) {
+                            const optgroup = document.createElement('optgroup');
+                            optgroup.label = rubrique.name;
+                            tarif_line += `<tr><td>${rubrique.name}</td>`;
+    
+                            rubrique.rubrique_option.forEach(option => {
+                                if (option.facturation?.length > 0) {
+                                    option.facturation.forEach(facturation => {
+                                        const optionElement = createRubriqueOption(option.option_name, facturation);
+                                        optgroup.appendChild(optionElement);
+                                        tarif_line += `<td>${formatMontant(facturation.amount)}</td>`;
+                                    });
+                                }
+                            });
+    
+                            tarif_line += "</tr>";
+                            rubriqueSelect.appendChild(optgroup);
+                        }
+                        // Cas sans rubrique_option mais avec facturation directe
+                        else if (rubrique.facturation?.length > 0) {
+                            tarif_line += `<tr><td>${rubrique.name}</td>`;
+                            rubrique.facturation.forEach(facturation => {
+                                const optionElement = createRubriqueOption(rubrique.name, facturation);
+                                rubriqueSelect.appendChild(optionElement);
+                                tarif_line += `<td>${formatMontant(facturation.amount)}</td>`;
+                            });
+                            tarif_line += "</tr>";
+                        }
+                    });
+                } else {
+                    const emptyOption = document.createElement('option');
+                    emptyOption.textContent = 'Aucune rubrique disponible';
+                    emptyOption.disabled = true;
+                    rubriqueSelect.appendChild(emptyOption);
+                }
+    
+                document.getElementById('submitBtn').style.display = 'block';
+                document.getElementById('tarif_line').innerHTML = tarif_line;
+    
+                // Gestion du onchange
+                rubriqueSelect.onchange = async () => {
+                    const selectedOption = rubriqueSelect.options[rubriqueSelect.selectedIndex];
+                    const immatriculation = document.getElementById('numero_dimmatriculation').value;
+
+                    if (!immatriculation) {
+                        SendError("Veuillez saisir l'immatriculation");
+                        findRubriques();
+                        return;
+                    }
+    
+                    // Récupération de la pénalité
+                    let penalty_date_begin = null;
+                    try {
+                        const response = await fetch(`/landing/penalty/check/${encodeURIComponent(immatriculation)}`);
+                        if (!response.ok) throw new Error('Erreur lors de la récupération de la pénalité');
+                        const dataPenalty = await response.json();
+                        penalty_date_begin = dataPenalty?.data?.penalty_date_begin || null;
+                    } catch (error) {
+                        console.error("Erreur fetch pénalité :", error);
+                        SendError("Impossible de récupérer les données de pénalité");
+                    }
+    
+                    // Mise à jour des champs
+                    document.getElementById('montant_pay').value = formatMontant(selectedOption?.getAttribute('data-amount'));
+                    document.getElementById('lieu_rdv').value = selectedOption?.getAttribute('data-lieu_rendez_vous') || '';
+                    document.getElementById('list_rdv').value = selectedOption?.getAttribute('data-lieu_rendez_vous_uuid') || '';
+    
+                    const selectedAmountPenalties = Number(selectedOption?.getAttribute('data-penalties')) || 0;
+                    const selectedAmountPenaltiesPoundAmount = Number(selectedOption?.getAttribute('data-penalties_pound_amount')) || 0;
+    
+                    let penalty_calculate = 0;
+    
+                    if (penalty_date_begin) {
+                        const penalty_qte_date = nombreJoursEcoules(penalty_date_begin);
+                        penalty_calculate = selectedAmountPenalties + (selectedAmountPenaltiesPoundAmount * penalty_qte_date);
+                    }
+    
+                    document.getElementById('montant_penalite').value = formatMontant(penalty_calculate);
+                };
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+                SendError("Une erreur est survenue lors du chargement");
+            })
+            .finally(() => {
+                if (loader) loader.style.display = 'none';
+            });
+    }
+    
+    // Helpers
+    function createRubriqueOption(label, facturation) {
+        const opt = document.createElement('option');
+        opt.value = facturation.uuid;
+        opt.textContent = label;
+        opt.setAttribute('data-amount', facturation.amount);
+        opt.setAttribute('data-penalties', facturation.penalties);
+        opt.setAttribute('data-penalties_pound_amount', facturation.penalties_pound_amount);
+        opt.setAttribute('data-penalties_pound_periodicity', facturation.penalties_pound_periodicity);
+        opt.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+        opt.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+        return opt;
+    }
+    
+    function formatMontant(montant) {
+        const montantFloat = parseFloat(montant || 0);
+        return montantFloat.toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' });
+    }
+    
+    const observer = new MutationObserver(() => {
+        const immatInput = document.getElementById('numero_dimmatriculation');
+        if (immatInput) {
+            immatInput.addEventListener('input', () => {
+                findRubriques();
+            });
+            observer.disconnect(); // Arrêter une fois trouvé
+        }
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+
+    function nombreJoursEcoules(dateCible) {
+        if (!dateCible) return null;
+    
+        const dateRef = new Date(dateCible);
+        const maintenant = new Date();
+    
+        // Normalisation des dates à minuit (pour ignorer l'heure)
+        dateRef.setHours(0, 0, 0, 0);
+        maintenant.setHours(0, 0, 0, 0);
+    
+        // Calcul de la différence en jours
+        const diffMs = maintenant - dateRef;
+        const diffJours = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+        // Ajout de 1 pour inclure le jour courant dans le décompte
+        return diffJours + 1;
+    }
+    

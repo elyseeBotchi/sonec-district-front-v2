@@ -148,6 +148,7 @@ function loader(state = "show") {
 function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi de formulaire
     if (urlback !== '') {
         if(urlback === 'back'){
+            toastr.options.positionClass = "toast-top-right";
             toastr.success(message, 'Succès');
             //Si url de retour exist
             setTimeout(() => {
@@ -155,6 +156,7 @@ function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi d
             }, 2000);
         }else {
             //Si url de retour exist
+            toastr.options.positionClass = "toast-top-right";
             toastr.success(message, 'Succès');
             setTimeout(() => {
                 window.location.href = urlback;
@@ -163,11 +165,13 @@ function sendSuccess(message, urlback=''){ // retour en cas de success d'envoi d
     }
     else {
         //Si url de retour exist pas dans le retour du formulaire
+        toastr.options.positionClass = "toast-top-right";
         toastr.success(message, 'Succès');
     }
 }
 
 function SendError(messageError){ //fonction pour envoi de formulaire chargement loading
+    toastr.options.positionClass = "toast-top-right";
     toastr.error(messageError, 'Erreur');
 } //fin de la focntion SendError
 

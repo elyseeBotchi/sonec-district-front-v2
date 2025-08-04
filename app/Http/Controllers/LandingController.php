@@ -847,4 +847,16 @@ class LandingController extends Controller
             return view('erreur_paiement');
         }
     }
+
+    public function penaltyCheck($immatriculation){
+        //dd($immatriculation);
+        $url_path = "/landing/services/penalty/check";
+        $data = [
+            'numero_dimmatriculation' => $immatriculation,
+        ];
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        return response()->json($response);
+    }
 }

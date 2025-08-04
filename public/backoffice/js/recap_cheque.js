@@ -61,7 +61,7 @@ $(document).ready(function() {
                     default:
                         statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
                 }
-                    console.log(AuthConnect)
+                   // console.log(AuthConnect)
                     let actions = `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`;
 
                     let montant_cheque = 0;
@@ -135,7 +135,7 @@ function recap() {
             return response.json();
         })
         .then(data => {
-            console.log(data)
+            //console.log(data)
             if (!data || !data.data) {
                 throw new Error('Données manquantes ou incorrectes dans la réponse');
             }

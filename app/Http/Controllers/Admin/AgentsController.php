@@ -14,6 +14,7 @@ class AgentsController extends Controller
     public function index(Request $request)
     {
 
+        //dd(enlettre(672000));
         $titre="Liste des agents ";
 
         return view('admins.configurations.agents.index', [

@@ -7,9 +7,9 @@ $(document).ready(function() {
    // setInterval(findStatistique, 20000);
     //setInterval(findStatus('today','all'), 25000);
 
-    const intervalId = setInterval(findStatistique, 20000);
-    intervalId
-    setInterval(() => findStatistique(), 20000)
+    //const intervalId = setInterval(findStatistique, 20000);
+    //intervalId
+    //setInterval(() => findStatistique(), 20000)
 
     function findStatus(status,paymode) {
        var libelle_status = ""
@@ -217,12 +217,13 @@ $(document).ready(function() {
                 const results = data.data;
                 const stat = results.cheque_stats;
                 const stat_mobile = results.stats;
-     //)
+                const stat_penalty = results.penalty_stats;
+     
       
                 let total_paiement_cheque = stat.total_paiement_cheque || 0;
                 let nb_total_cheque = stat.total_cheque || 0;
-                let total_carte_valide = stat.total_carte_valide || 0;
-                let cumul_paiements = total_paiement_cheque + (stat_mobile.montant_global || 0);
+                let total_carte_valide = (stat.total_carte_valide || 0) + (stat_penalty.nbre_global_penalite || 0);
+                let cumul_paiements = total_paiement_cheque + (stat_mobile.montant_global || 0) + (stat_penalty.montant_cartes_total || 0);
 
                var permissions = {
                 //montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
@@ -282,14 +283,19 @@ $(document).ready(function() {
                     document.getElementById('nb_total_carte_j').innerHTML = stat.total_carte_valide_journalier || 0;
 
                     const today = new Date().toISOString().split('T')[0];                    
-                    const cumul_paiements_jour = parseFloat((stat.total_paiement_cheque_journalier ?? 0)+(stat_mobile.par_jour?.[today]?.montant_total ?? 0)).toLocaleString('fr-FR', {
+                    const cumul_paiements_jour = parseFloat((stat.total_paiement_cheque_journalier ?? 0)+(stat_mobile.par_jour?.[today]?.montant_total ?? 0)+stat_penalty.recap_par_jour?.[today]?.district_share_total || 0).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
 
                     document.getElementById('cumul_paiements_jour').innerHTML = cumul_paiements_jour || 0;
-                    document.getElementById('cumul_nbre_paiements_jour').innerHTML = (stat.total_carte_valide_journalier || 0)+stat_mobile.par_jour?.[today]?.nombre_lignes || 0;
+                    document.getElementById('cumul_nbre_paiements_jour').innerHTML = (stat.total_carte_valide_journalier || 0)+(stat_mobile.par_jour?.[today]?.nombre_lignes || 0) + (stat_penalty.recap_par_jour?.[today]?.total_cartes || 0);
 
+                    const total_penalite_j = stat_penalty.recap_par_jour?.[today]?.district_share_total || 0;
+                    const nb_total_penalite_j = stat_penalty.recap_par_jour?.[today]?.total_cartes || 0;
+                    
+                    document.getElementById('nb_total_penalite_j').innerHTML = nb_total_penalite_j || 0;
+                    document.getElementById('total_penalite_j').innerHTML = total_penalite_j || 0;
                     
                 } 
 
@@ -299,8 +305,6 @@ $(document).ready(function() {
                         style: 'currency',
                         currency: 'XOF',
                     });
-
-                    //alert(total_paiement_cheque)
 
                     document.getElementById('total_paiement_cheque').innerHTML = total_paiement_chequeF || '';
                     document.getElementById('nb_total_cheque').innerHTML = nb_total_cheque || '';
@@ -321,14 +325,25 @@ $(document).ready(function() {
                 /* ######################################################### */
               
                 if(permissions.statistique_partenaires_voir_le_montant_total){
-                    const total_paiement = parseFloat(stat_mobile.montant_global).toLocaleString('fr-FR', {
+                    const total_paiement = parseFloat((stat_mobile.montant_global || 0) + (stat_penalty.montant_cartes_total || 0)).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
 
                     document.getElementById('total_paiement').innerHTML = total_paiement || '';
-                    document.getElementById('nb_total').innerHTML = stat_mobile.nombre_lignes_global || '';
-                }  
+                    document.getElementById('nb_total').innerHTML = (stat_mobile.nombre_lignes_global || 0) + (stat_penalty.nbre_global_penalite || 0);
+                }
+                
+                     
+                if(permissions.statistique_partenaires_voir_le_montant_total){
+                    const total_paiement_penalite = parseFloat(stat_penalty.district_share_total || 0).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById('total_paiement_penalite').innerHTML = total_paiement_penalite || '';
+                    document.getElementById('total_nbre_penalite').innerHTML = stat_penalty.nbre_global_penalite || 0;
+                }
                 
                 if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel){
                     /* ######################################################################### */
@@ -343,10 +358,10 @@ $(document).ready(function() {
                     const amounts_mois_total = labels_mois.map((mois, index) => amounts_mois_cheque[index] + amounts_mois_mobile[index]);
                     
                     // 📌 Vérification des données récupérées
-                    console.log("Mois:", labels_mois);
-                    console.log("Montants Chèques:", amounts_mois_cheque);
-                    console.log("Montants Mobile:", amounts_mois_mobile);
-                    console.log("Montants Cumulés:", amounts_mois_total);
+                    //console.log("Mois:", labels_mois);
+                    //console.log("Montants Chèques:", amounts_mois_cheque);
+                    //console.log("Montants Mobile:", amounts_mois_mobile);
+                    //console.log("Montants Cumulés:", amounts_mois_total);
                     
                     const canvas = document.getElementById('chartPaiementMois');
                     

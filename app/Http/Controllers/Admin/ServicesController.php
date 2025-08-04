@@ -13,6 +13,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Cache;
 
 class ServicesController extends Controller
 {
@@ -33,6 +34,70 @@ class ServicesController extends Controller
         return view('admins.services.rendez-vous',['Entity_uuid' => $Entity['uuid'] ?? '']);
     }
 
+    public function verification_partenaire($uuid){
+        $Entity = Entities()[0] ?? '';
+        $service = null;
+         // Récupérer les services
+         $services = Entities_Customer();
+         if ($service == null) {
+             $service = $services[0]['uuid'] ?? '';
+         }
+         //dd($service);
+ 
+         $url_path = "/landing/services/operateurs";
+         $cache_key = "quick_pay_{$service}"; // Clé de cache unique pour chaque service
+ 
+         // Récupérer ou mettre en cache la réponse
+         $responses = Cache::remember($cache_key, 1440, function () use ($url_path, $service) {
+             $data = [
+                 'entity_uuid' => $service
+             ];
+             return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+         });
+ 
+        
+         // Vérifier si les données sont valides
+         $isSuccess = isset($responses['type']) && $responses['type'] === 'success';
+ 
+         // Déterminer les données à transmettre à la vue
+         $viewData = [
+             'operateurs' => $responses['data'] ?? '',
+             'service_uuid' => $service,
+             'service_name' => $name ?? '',
+             'dateValideRdv' => $responses['dateValideRdv'] ?? '',
+             'lieuRdv' => $responses['lieuRdv'] ?? '',
+             'limit' => $isSuccess ? ($responses['limit'] ?? 5) : 1
+         ];
+ 
+         // Log des données récupérées
+         if (Cache::has($cache_key)) {
+           // Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
+         } else {
+           // Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
+         }
+ 
+        //dd($viewData);
+        return view('admins.services.verification-partenaire',
+        [
+            'Entity_uuid' => $Entity['uuid'] ?? '',
+            'viewData'=>$viewData
+        ]);
+    }
+    
+    public function historique_controles($uuid){
+
+        $Entity = Entities()[0] ?? '';
+
+        $url_path = "/landing/services/operateurs";
+            $data = [
+                 'entity_uuid' => $Entity['uuid'] ?? ''
+            ];
+
+            $reponse = (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+        
+            
+        return view('admins.services.historique-controles',['Entity_uuid' => $uuid ?? '','partners' => $reponse['data'] ?? null]);
+    }
     
     public function liste_rdv(){
 
@@ -116,23 +181,20 @@ class ServicesController extends Controller
 
        // $type = checkRef($request->search);
        $search = explode('DIS|TSA-',$request->search);
-       if(isset($search[1])){
+        if(isset($search[1])){
             $type = "reference";
             $ref = $request->search;
-            
-       }else{
-      //  dd(is_int($request->search));
-        if ((int)$request->search == $request->search) {
-            $type = "barre";
-            $ref = (int)$request->search;
-        }
-        else {
+        }else{
+        //  dd(is_int($request->search));
+            if ((int)$request->search == $request->search) {
+                $type = "barre";
+                $ref = (int)$request->search;
+            }
+            else {
                 $type = "immatriculation";
                 $ref = $request->search;
+            }
         }
-
-
-       }
        
      //  dd($search);
 
@@ -158,6 +220,51 @@ class ServicesController extends Controller
         } 
 
        // return response()->json($responses);  
+    }
+
+    public function verification_partenaire_check(Request $request){
+        $url_path = "/autorisations/entite/taxes/rdv/search";
+
+       // $type = checkRef($request->search);
+       $search = explode('DIS|TSA-',$request->search);
+        if(isset($search[1])){
+            $type = "reference";
+            $ref = $request->search;
+        }else{
+        //  dd(is_int($request->search));
+            if ((int)$request->search == $request->search) {
+                $type = "barre";
+                $ref = (int)$request->search;
+            }
+            else {
+                $type = "immatriculation";
+                $ref = $request->search;
+            }
+        }
+       
+        //dd($type);
+
+        $data = [
+            'entity_uuid' => $request->entity_uuid ?? '',
+            'search' => $ref ?? '',
+            'type' => $type ?? ''
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //return dd($responses);
+
+        if($responses['type'] == 'error'){
+            return response()->json($responses);
+        }else{
+            return response()->json([
+                'type' => 'success',
+                'message' => $responses['message'] ?? "Un élément retrouvé",
+                'code' => 200,
+                //'urlback'=> route('panel.autorisations.services.taxes.show',['uuid'=>$responses['data']['pay_uuid'],'entity_uuid'=>$responses['data']['entity_uuid']]),
+                'data' => $responses ?? ''
+            ]);
+        } 
+
     }
 
     public function findAll($uuid){
@@ -262,6 +369,20 @@ class ServicesController extends Controller
     }
 
     
+    public function find_service_with_types_vehicules($uuid,$entity_uuid){
+        $url_path = "/autorisations/admin/services/show/taxe/with_types_vehicules";
+
+        $data = [
+            'uuid' => $uuid,
+            'entity_uuid' => $entity_uuid,
+        ];
+        
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        //dd($responses);
+        return response()->json($responses);
+    }
+
+    
     public function validation($uuid,$entity_uuid,$status,$motif=''){
 
         $url_path = "/autorisations/admin/services/show/validate/taxe/info";
@@ -329,6 +450,43 @@ class ServicesController extends Controller
         return response()->json($dataResponse);
     }    
 
+    public function stat_partenaire($entity)
+    {
+
+        $url_path = "/autorisations/statistiques/partenaire";
+
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'entity_uuid' => $entity ?? ''
+
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+       // dd($dataResponse);
+        return response()->json($dataResponse);
+    } 
+
+    public function stat_gains_partenaire($entity){
+        return view('admins.services.penalite.gains-partenaire',['Entity_uuid' => $entity]);
+    }
+
+    
+    public function stat_gains_partenaire_data($entity)
+    {
+
+        $url_path = "/autorisations/statistiques/partenaire/findOne";
+
+        $data = [
+            'admin_uuid' => AuthConnect()['uuid'],
+            'entity_uuid' => $entity ?? ''
+
+        ];
+
+        $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'GET');
+
+        return response()->json($dataResponse['data'] ?? []);
+    }
 
     public function data_rdv($entity,$rdv)
     {
@@ -527,6 +685,57 @@ class ServicesController extends Controller
         }
 
     }
+
+
+    public function service_update_type_vehicule(Request $request)
+    {
+        $url_path = "/autorisations/entite/taxes/update_type_vehicule";
+
+        $data = [
+            'uuid'=> $request->entity_uuid ?? '',
+            'element_uuid' => $request->uuid,
+            'rubrique_facturation_uuid'=> $request->rubrique_facturation_uuid,
+        ];
+
+       // return response()->json($data);
+
+        $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        
+       // return dd($response);
+        //return response()->json($response);
+
+
+        if(isset($response['type'])){
+            if($response['type'] =='success'){
+                $dataResponse =[
+                    'type'=>'success',
+                    'urlback'=>'back',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>200,
+                ];
+                return response()->json($dataResponse);
+            }
+            else{
+                $dataResponse =[
+                    'type'=>'error',
+                    'urlback'=>'',
+                    'message'=>$response['message'] ?? '',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }else{
+            $dataResponse =[
+                'type'=>'error',
+                'urlback'=>'',
+                'message'=>$response['message'] ?? '',
+                'code'=>500,
+            ];
+            return response()->json($dataResponse);
+        }
+
+    }
+
 
 
     public function service_store(Request $request)
@@ -1050,5 +1259,36 @@ class ServicesController extends Controller
         ]); 
       
     }
+
+
+    public function statistique_penalite_dashboard($uuid,$type_stat,$type_sous_stat =null)
+    {
+
+        if($type_stat =="rubrique"){
+            return view('admins.services.penalite.statistique-rubrique', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
+            ]); 
+        }
+
+        if($type_stat =="recap"){
+            return view('admins.services.penalite.statistique-recap', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
+            ]); 
+        }
+
+
+       // return dd($entity_uuid);
+        return view('admins.services.penalite.statistique-dashboard', [
+                'Entity_uuid'=>$uuid ?? '',
+                'type_stat' => $type_stat ?? '',
+                'type_sous_stat' => $type_sous_stat ?? ''
+        ]);
+    }
+
+    
 
 }

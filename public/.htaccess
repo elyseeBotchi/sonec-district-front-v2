@@ -4,66 +4,22 @@
     </IfModule>
 
     RewriteEngine On
-    # Suit les liens symboliques et empêche l'exécution de scripts CGI
-    #Options +FollowSymLinks -ExecCGI
-    # Gère l'en-tête d'autorisation (utile pour les API)
+
+    # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    # Redirige les barres obliques de fin si ce n'est pas un dossier
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
-    # Envoie les requêtes au contrôleur frontal (index.php)
+
+    # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    #Bloque l'accès aux fichiers sensibles
-    RewriteRule ^(\.env|\.htaccess|\.git) - [F,L]
-
-    #Empêche l'exécution directe de scripts
-    <FilesMatch "\.(cgi|pl|py|sh|exe|bat)$">
-        Order allow,deny
-        Deny from all
-    </FilesMatch>
-
-# Bloque l'accès aux répertoires critiques|storage
-    RedirectMatch 403 ^/(resources|vendor)/
-  # En-têtes de sécurité
-    # Empêche l'intégration du site dans des iframes (Clickjacking)
-    Header always append X-Frame-Options DENY
-    # Protection contre le Cross-Site Scripting (XSS)
-    Header set X-XSS-Protection "1; mode=block"
-    # Empêche le MIME sniffing
-    Header set X-Content-Type-Options nosniff
-    # Force l'utilisation de HTTPS
-    #Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    # Contrôle les domaines autorisés à accéder aux ressources (CORS)
-
- # Limite les méthodes HTTP autorisées
-    <LimitExcept GET POST PATCH HEAD>
-        Order allow,deny
-        Deny from all
-    </LimitExcept>
-
-    # Masque les informations sur le serveur
-    ServerSignature Off
-    #ServerTokens Prod
-
-    # Protection basique contre les attaques DDoS
-    #<IfModule mod_reqtimeout.c>
-    #   RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
-    #</IfModule>
-
-
-    # Handle Authorization Header
-   # RewriteCond %{HTTP:Authorization} .
-    #RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Bloquer l'accès direct aux fichiers non autorisés
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|png|webp|gif|pdf|js|css|ttf|woff|woff2)$ [NC]
-    RewriteCond %{REQUEST_FILENAME} !index\.php$ [NC]
-    RewriteRule ^ - [F,L]
-
 </IfModule>

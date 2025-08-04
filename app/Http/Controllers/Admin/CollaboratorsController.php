@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class CollaboratorsController extends Controller
 {
@@ -420,4 +421,91 @@ class CollaboratorsController extends Controller
 
     }
 
+    public function FaceRegister(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'inputEmbedding' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['error'] = true;
+            $data['message'] = "Connexion échouée, Veuillez vérifier vos paramètres de connexion";
+
+            $dataResponse =[
+                'type'=> 'error',
+                'urlback'=> '',
+                'message'=> $data['message'] ?? '',
+                'code'=> 500,
+                'step'=> 'Param connexion'
+            ];
+            return response()->json($dataResponse);
+        }
+        else {
+            $inputEmbedding = $request->inputEmbedding;
+
+           // Log::info('Received embedding:', ['embedding' => $inputEmbedding]);
+
+            if (!is_array($inputEmbedding)) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit être un tableau',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+            if (count($inputEmbedding) !== 128) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit contenir 128 valeurs',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+
+            //dd('****');
+            $url_path = "/autorisations/admins/face/register";
+            $data = [
+                'inputEmbedding' => $request->inputEmbedding,
+            ];
+
+
+            $clientLogin = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+            //return dd($clientLogin);
+
+            if(isset($clientLogin["type"])){
+                if ($clientLogin["type"] == "success") {
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=>'',// route('panel.securite.compte'),
+                        'message'=>$clientLogin['message'] ?? '',
+                        'code'=>200,
+                        'distance' => $clientLogin['distance'] ?? "",
+                    ];
+
+                    return response()->json($dataResponse);
+                }
+                else {
+                    $dataResponse = [
+                        'type'=> 'error',
+                        'urlback'=> '',
+                        'message'=> $check['message'] ?? 'Connexion echouée ',
+                        'code'=>500,
+                        'errors' =>$clientLogin['message'] ?? [],
+                        'distance' => $clientLogin['distance'] ?? ""
+                    ];
+                    return response()->json($dataResponse);
+                }
+            }else{
+                $dataResponse = [
+                    'type'=> 'error',
+                    'urlback'=> '',
+                    'message'=> $check['message'] ?? 'Connexion echouée ',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }
+        //return $data;
+    }
 }

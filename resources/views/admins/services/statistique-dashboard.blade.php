@@ -6,7 +6,7 @@
         @isset($type_stat)
         @if($type_stat =="paiement")
             @if(canPermission('statistique_partenaires_voir_le_montant_total_par_jour'))
-                <div class="col-md-5" >
+                <div class="col-md-6" >
                     <div data-status="today" data-pay="all"  class="card card-animate" >
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -37,7 +37,7 @@
             @endif
 
             @if(canPermission('statistique_partenaires_voir_le_montant_total'))
-                <div class="col-md-5" >
+                <div class="col-md-6" >
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -66,11 +66,9 @@
                     </div> <!-- end card-->
                 </div> <!-- end col--> 
 
-
-
                 {{-- ######################################################################## --}}
 
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -106,7 +104,7 @@
                 </div> <!-- end col--> 
 
                 {{-- ############################################################### --}}
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div data-status="all" data-pay="all"  class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
@@ -141,6 +139,37 @@
                     </div> <!-- end card-->
                 </div> <!-- end col--> 
             @endif
+
+                          <div class="col-md-6" >
+                    <div data-status="all" data-pay="all"  class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p class="fw-medium text-muted mb-0">TOTAL PENALITE</p>
+                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
+                                        <span id="total_penalite">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </h2>
+                                    <p class="mb-0 text-muted text-truncate">
+                                        <span class="" id="nb_total_penalite" style="display: block;color:black;">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div> <!-- end card-->
+                </div> <!-- end col--> 
+
+            
         @endif
         @endisset 
 
@@ -236,35 +265,35 @@
 
 
 @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
-@isset($type_stat)
-    @if($type_stat =="agent_validateur")
-        <div class="row col-md-12">
-            <div id="chartvalidateur" style="width: 100% !important"></div>
-        </div>
-
-
-        <div class="row col-md-12">
-            <div id="chartCamembert" style="width: 100% !important"></div>
-        </div>
-
-        <div class="row card">
-            <div class="card-header" id="titre_validateur">
-                HISTIORIQUE DES VALIDATIONS PAR AGENTS
+    @isset($type_stat)
+        @if($type_stat =="agent_validateur")
+            <div class="row col-md-12">
+                <div id="chartvalidateur" style="width: 100% !important"></div>
             </div>
-            <div class="pt-5 table-responsive">
-                <table class="table" id="datatable-validateur">
-                    <thead>
-                        <tr>
-                            <th>Agent</th>
-                            <th>Nombre</th>
-                        </tr>
-                        </thead>
-                        <tbody ></tbody>
-                </table>
+
+
+            <div class="row col-md-12">
+                <div id="chartCamembert" style="width: 100% !important"></div>
             </div>
-        </div>
-    @endif
-@endisset
+
+            <div class="row card">
+                <div class="card-header" id="titre_validateur">
+                    HISTIORIQUE DES VALIDATIONS PAR AGENTS
+                </div>
+                <div class="pt-5 table-responsive">
+                    <table class="table" id="datatable-validateur">
+                        <thead>
+                            <tr>
+                                <th>Agent</th>
+                                <th>Nombre</th>
+                            </tr>
+                            </thead>
+                            <tbody ></tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+    @endisset
 @endif 
 
 @push('footer-script')

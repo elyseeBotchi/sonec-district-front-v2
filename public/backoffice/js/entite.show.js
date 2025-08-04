@@ -106,7 +106,7 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                //console.log(results);
+                console.log(results);
 
                 const rubriqueContainer = document.getElementById('rubrique_container');
                 rubriqueContainer.innerHTML = ''; // Vider le contenu actuel
@@ -132,21 +132,28 @@ $(document).ready(function() {
                                  <a href="#"  data-uuid="${option.uuid}" data-urlback="findRubriques" data-name="${option.option_name}" data-token="${_token}"  data-url="/panel/entite/rubrique/option/delete" data-param="${option_status}" data-message="Vous êtes sur le point de supprimer cette sous rubrique. Etes vous sûr de vouloir poursuivre ?" data-title="Supression de  ${option.option_name}" title="Suppression de ${option.option_name}"  class="deleteConfirmation">
                                     <i class="fas fa-trash text-danger"></i>
                                 </a> &nbsp;
+                                
                                 <a href="#" data-toggle="modal" data-target="#addFacturation-modal" data-rubrique_uuid="${rubrique.uuid}" data-rubrique_option_uuid="${option.uuid}" data-target_rule="rubrique_options" data-name="${option.option_name}"  title="Ajouter une tarification à ${option.option_name}" class="addFacturation">
                                     <i class="fas fa-hand-holding-usd"></i>
                                 </a>
+                                
+                                <a href="#" data-toggle="modal" data-target="#addPenalty-modal" data-facturation_uuid ="${option.facturation[0].uuid || ""}" data-rubrique_uuid="${rubrique.uuid}" data-rubrique_option_uuid="${option.uuid}" data-target_rule="rubrique_options" data-name="${option.option_name}"  title="Ajouter une pénalité à ${option.option_name}" class="addPenalty">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                </a>
 
-                                <span class="badge badge-pill badge-success ml-2">${option.option_name}</span>
+                                <span class="col-md-12">${option.option_name}</span>
                             </span>`;
 
                             if(option.facturation){
-                                optionsHTML += `<span class="col-md-6 mb-2">`;
+                                optionsHTML += `<span class="col-md-8 mb-2">`;
                                 option.facturation.forEach(rubrique_option_facturation => {
                                     optionsHTML += `
                                         <a href="#" data-id="${rubrique_option_facturation.uuid}" title="Retrait de la tarification ${rubrique_option_facturation.amount} Fr CFA / ${rubrique_option_facturation.periodicity}" data-urlback="findRubriques"  data-token="${_token}" data-url="/panel/entite/rubrique/facturation/delete" data-param="0" data-message="Vous êtes sur le point de supprimer cette tarification. Etes vous sûr de vouloir poursuivre ?" data-title="Retrait de la tarification ${rubrique_option_facturation.amount} Fr CFA / ${rubrique_option_facturation.periodicity}"  class="badge badge-pill badge-info deleteConfirmation">
                                             ${rubrique_option_facturation.amount} Fr CFA / ${translatePeriodicity(rubrique_option_facturation.periodicity)}
                                             <i class="fa fa-trash text-danger"></i>
-                                        </a>`;
+                                        </a>
+                                        &nbsp;`;
+
                                 });
 
                                 optionsHTML += `</span>`;
@@ -164,11 +171,12 @@ $(document).ready(function() {
                     }
                     // Générer le HTML pour chaque rubrique
                     let rubriqueHTML = `<tr class="border-top-1">`;
-
+                    //console.log(rubrique.facturation)
                     rubrique_facturable += `
                     <a href="#" data-toggle="modal" data-target="#updateElement-modal"  data-rubrique_uuid="${rubrique.uuid}" data-rubrique_option_uuid="" data-target_rule="rubriques" data-name="${rubrique.name}" title="Modification de ${rubrique.name}" class="addFacturation">
                         <i class="fas fa-edit text-warning"></i>
                     </a> &nbsp;
+
                      <a href="#" data-id="${rubrique.uuid}" data-urlback="findRubriques" data-name="${rubrique.name}" data-token="${_token}"  data-url="/panel/entite/rubrique/delete" data-param="${rubrique_status}" data-message="Vous êtes sur le point de supprimer cette rubrique. Etes vous sûr de vouloir poursuivre ?" data-title="Supression de  ${rubrique.name}" title="Supression de  ${rubrique.name}"  class="deleteConfirmation">
                         <i class="fas fa-trash text-danger"></i>
                     </a> &nbsp; `;
@@ -177,16 +185,25 @@ $(document).ready(function() {
                         rubrique_facturable += `
                         <a href="#" data-toggle="modal" data-target="#addFacturation-modal"  data-rubrique_uuid="${rubrique.uuid}" data-rubrique_option_uuid="" data-target_rule="rubriques" data-name="${rubrique.name}" title="Ajouter une tarification à ${rubrique.name}" class="addFacturation">
                             <i class="fas fa-hand-holding-usd"></i>
+                        </a> &nbsp;
+
+                        <a href="#" data-toggle="modal" data-target="#addPenalty-modal"  data-facturation_uuid ="${rubrique.facturation[0].uuid || ""}" data-rubrique_uuid="${rubrique.uuid}" data-rubrique_option_uuid="" data-target_rule="rubriques" data-name="${rubrique.name}" title="Ajouter une pénalité à ${rubrique.name}" class="addPenalty">
+                            <i class="fas fa-exclamation-triangle text-warning"></i>
                         </a> &nbsp;`;
 
                         if(rubrique.facturation){
-                            rubrique_facturation += `<span class="col-md-4 mb-2">`;
+                            rubrique_facturation += `<span class="col-md-8 mb-2">`;
                             rubrique.facturation.forEach(facturation => {
                                 rubrique_facturation += `
                                     <a href="#" data-id="${facturation.uuid}" title="Retrait de la tarification ${facturation.amount} Fr CFA / ${facturation.periodicity}"  data-id="${facturation.uuid}" data-urlback="findRubriques"  data-token="${_token}" data-url="/panel/entite/rubrique/facturation/delete" data-param="0" data-message="Vous êtes sur le point de supprimer cette tarification. Etes vous sûr de vouloir poursuivre ?" data-title="Retrait de la tarification ${facturation.amount} Fr CFA / ${facturation.periodicity}"  class="badge badge-pill badge-info deleteConfirmation">
                                         ${facturation.amount} Fr CFA / ${translatePeriodicity(facturation.periodicity)}
                                         <i class="fa fa-trash text-danger"></i>
                                     </a> &nbsp;`;
+                                    
+                                rubrique_facturation += `
+                                <a href="#" title="Pénalité ${facturation.penalties} Fr CFA + ( ${facturation.penalties_pound_amount} Fr CFA / ${translatePeriodicity(facturation.penalties_pound_periodicity)} )" data-title="${facturation.penalties} Fr CFA + ( ${facturation.penalties_pound_amount} Fr CFA / ${translatePeriodicity(facturation.penalties_pound_periodicity)} )"  class="badge badge-pill badge-info">
+                                    ${facturation.penalties} Fr CFA + ( ${facturation.penalties_pound_amount} Fr CFA / ${translatePeriodicity(facturation.penalties_pound_periodicity)} )
+                                </a> &nbsp;`;
                             });
 
                             rubrique_facturation += `</span>`;
@@ -196,9 +213,9 @@ $(document).ready(function() {
                     rubriqueHTML += `
                         <td>
                             <div class="row d-flex align-items-center">
-                                <span class="d-flex align-items-center">
+                                <span class="col-md-12 d-flex align-items-center">
                                     ${rubrique_facturable}
-                                    <span >
+                                    <span class="col-md-4">
                                         ${rubrique.name}
                                     </span>
                                     ${rubrique_facturation}
@@ -299,6 +316,25 @@ $(document).ready(function() {
             document.getElementById('amount').value = '';
             document.getElementById('quantity').value = 1;
 
+    
+        });
+
+
+        $('#container').on('click', '.addPenalty', function(e){
+            e.preventDefault();
+            const facturation_uuid = this.getAttribute('data-facturation_uuid');
+            const rubrique_uuid = this.getAttribute('data-rubrique_uuid');
+            const rubrique_option_uuid = this.getAttribute('data-rubrique_option_uuid');
+            const name = this.getAttribute('data-name');
+            const target = this.getAttribute('data-target_rule');
+
+            //alert(uuid)
+            document.getElementById('tarification_target_penalty').innerHTML = name;
+            document.getElementById('rubrique_target_penalty').value = rubrique_uuid;
+            document.getElementById('rubrique_option_target_penalty').value = rubrique_option_uuid;
+            document.getElementById('target_rule_penalty').value = target;
+            document.getElementById('facturation_uuid_penalty').value = facturation_uuid;
+            document.getElementById('amount_penalty').value = '';
     
         });
 

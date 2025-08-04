@@ -25,8 +25,8 @@ class GlobalSendService
         $data['shell'] = json_encode(getUserIP()); */
         try {
             $response = ApiRequest::send($url_path, $data, $method);
-            //Log::info($method);
-            //Log::info($response);
+            Log::info($method);
+            Log::info($response);
             return $response->json();
            
         } catch (\Exception $e) {

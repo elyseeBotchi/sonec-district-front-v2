@@ -182,7 +182,7 @@ class ControlesController extends Controller
             'type' => $type ?? ''
         ];
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-       // return dd($dataResponse);
+        //return dd($dataResponse);
         return response()->json($dataResponse);
         
         if($dataResponse['type'] == 'error'){
@@ -234,10 +234,11 @@ class ControlesController extends Controller
             'type' => $type ?? ''
         ];
 
-        Log::info(json_encode($data));
+       // Log::info(json_encode($data));
 
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-        //return dd($data);
+        //return dd($dataResponse);
+
         Log::info(json_encode($dataResponse));
         return response()->json($dataResponse);
 

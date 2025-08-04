@@ -216,8 +216,9 @@ $(document).ready(function() {
             .then(data => {
                 const results = data.data;
                 const stat = results.stats;
-                //console.log("Résultats reçus :", results);
-                console.log(stat.total_cheque_journalier);
+                const penalite = results.penalty_stats;
+                console.log("Résultats reçus :", results.penalty_stats);
+                //console.log(stat.total_cheque_journalier);
                const chartMensuel = results.chart || [];  
                const rendezVous = results.rdv;
                // console.log("Résultats reçus :", results.rdv);
@@ -313,14 +314,25 @@ $(document).ready(function() {
                 /* ######################################################### */
               
                 if(permissions.statistique_partenaires_voir_le_montant_total){
-                    const total_paiement = parseFloat(stat.montant_global).toLocaleString('fr-FR', {
+                    const total_paiement = parseFloat(stat.montant_global + penalite.montant_cartes_total).toLocaleString('fr-FR', {
                         style: 'currency',
                         currency: 'XOF',
                     });
 
                     document.getElementById('total_paiement').innerHTML = total_paiement || '';
-                    document.getElementById('nb_total').innerHTML = stat.nombre_lignes_global || '';
-                }  
+                    document.getElementById('nb_total').innerHTML = (stat.nombre_lignes_global || 0) + (penalite.nbre_global_penalite || 0) ;
+                } 
+                
+                              
+                if(permissions.statistique_partenaires_voir_le_montant_total){
+                    const district_share_total = parseFloat(penalite.district_share_total).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    });
+
+                    document.getElementById('total_penalite').innerHTML = district_share_total || '';
+                    document.getElementById('nb_total_penalite').innerHTML =penalite.nbre_global_penalite || 0 ;
+                } 
                 
                 if(permissions.statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel){
                     /* ######################################################################### */

@@ -9,6 +9,7 @@
     <meta content="" name="description">
     <meta name="author" content="BENI Messan">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
 
@@ -31,6 +32,28 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('template/start/css/style.css') }}" rel="stylesheet">
+    
+    <style>
+        .video-wrapper-custom {
+            width: 100%;
+            max-width: 520px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .video-custom {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay-custom {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+    </style>
 </head>
 
 <body>

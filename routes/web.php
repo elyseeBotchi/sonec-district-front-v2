@@ -10,6 +10,8 @@ use \App\Http\Controllers\Admin\ModuleController;
 use \App\Http\Controllers\Admin\PermissionController;
 use \App\Http\Controllers\Admin\RolesController;
 use \App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\PartenaireAgentsController;
+use App\Http\Controllers\Admin\PartenairesController;
 use App\Http\Controllers\Admin\RubriquesController;
 use App\Http\Controllers\ControlesController;
 use App\Http\Controllers\Customer\CustomerFacturationsController;
@@ -31,6 +33,15 @@ use App\Http\Controllers\Admin\SystemeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/visio', function () {
+    //abort(503);
+    //return response()->json([]);
+    return view('welcome');
+});
+
+
 Route::get('/paiement/standby/{uuid}', [LandingController::class, 'standby_return'])->name('paiement.standby');
 Route::get('/paiement/succes/{uuid}', [LandingController::class, 'success_return'])->name('paiement.success');
 Route::get('/paiement/erreur/{uuid}', [LandingController::class, 'success_return'])->name('paiement.error');
@@ -41,372 +52,415 @@ Route::get('/', [LandingController::class, 'index2'])->name('welcome.index');
 
 /* ########################## FIN ROUTE ADMIN ################################## */
 
-    Route::post('panel/logout', [LoginController::class, 'logout'])->name('panel.logout');
-    Route::post('controle/logout', [LoginController::class, 'controle_logout'])->name('controle.logout');
-    Route::get('panel/login', [LoginController::class, 'login'])->name('panel.login');
-    Route::post('panel/connexion', [LoginController::class, 'Connexion'])->name('panel.connexion');
+Route::post('panel/logout', [LoginController::class, 'logout'])->name('panel.logout');
+Route::post('controle/logout', [LoginController::class, 'controle_logout'])->name('controle.logout');
+Route::get('panel/login', [LoginController::class, 'login'])->name('panel.login');
+Route::post('panel/connexion', [LoginController::class, 'Connexion'])->name('panel.connexion');
 
-    Route::get('panel/otp/resend', [LoginController::class, 'resend_otp'])->name('panel.otp.resend');
+Route::get('panel/otp/resend', [LoginController::class, 'resend_otp'])->name('panel.otp.resend');
 
-    Route::get('panel/mot/de/passe/oublie', [LoginController::class, 'password_forget'])->name('panel.forget.password');
-    Route::post('panel/password/email', [LoginController::class, 'send_password_forget_email'])->name('panel.password.email');
-    Route::get('panel/reset/password/{token}', [LoginController::class, 'password_reset'])->name('panel.reset.password');
-    Route::post('panel/password/confirm', [LoginController::class, 'password_confirm'])->name('panel.password.confirm');
+Route::get('panel/mot/de/passe/oublie', [LoginController::class, 'password_forget'])->name('panel.forget.password');
+Route::post('panel/password/email', [LoginController::class, 'send_password_forget_email'])->name('panel.password.email');
+Route::get('panel/reset/password/{token}', [LoginController::class, 'password_reset'])->name('panel.reset.password');
+Route::post('panel/password/confirm', [LoginController::class, 'password_confirm'])->name('panel.password.confirm');
 
-    Route::get('panel/otp', [LoginController::class, 'otp'])->name('panel.otp');
-    Route::post('panel/otp/connexion', [LoginController::class, 'Otp_Connexion'])->name('panel.otp.submit');
-
-    Route::prefix('panel')->middleware(['IsConnect'])->group(function () {
-
-        Route::get('home', [LoginController::class, 'index'])->name('panel.home');
-        Route::get('dashboard', [LoginController::class, 'index'])->name('panel.dashboard');
+Route::get('panel/otp', [LoginController::class, 'otp'])->name('panel.otp');
+Route::post('panel/otp/connexion', [LoginController::class, 'Otp_Connexion'])->name('panel.otp.submit');
 
 
-        Route::prefix('modules')->group(function(){
-            Route::get('findAll', [ModuleController::class, 'findAll'])->name('panel.autorisations.modules.findAll');
-            Route::get('index', [ModuleController::class, 'index'])->name('panel.autorisations.modules.index');
-            Route::post('store', [ModuleController::class, 'store'])->name('panel.autorisations.modules.store');
-            Route::get('/{uuid}/edit', [ModuleController::class, 'edit'])->name('panel.autorisations.modules.edit');
-            Route::post('/{uuid}/update', [ModuleController::class, 'update'])->name('panel.autorisations.modules.update');
-            Route::get('/{uuid}/delete', [ModuleController::class, 'delete'])->name('panel.autorisations.modules.delete');
 
-            Route::prefix('permissions')->group(function(){
-                Route::get('{module_uuid}/findAll', [PermissionController::class, 'findAll'])->name('panel.autorisations.permissions.findAll');
-                Route::get('{module_uuid}/index', [PermissionController::class, 'index'])->name('panel.autorisations.permissions.index');
-                Route::post('{module_uuid}/store', [PermissionController::class, 'store'])->name('panel.autorisations.permissions.store');
-                Route::get('/{uuid}/edit', [PermissionController::class, 'edit'])->name('panel.autorisations.permissions.edit');
-                Route::post('/{uuid}/update', [PermissionController::class, 'update'])->name('panel.autorisations.permissions.update');
-                Route::get('/{uuid}/delete', [PermissionController::class, 'delete'])->name('panel.autorisations.permissions.delete');
+/* #################################################################### */
+/* #################################################################### */
+
+Route::get('panel/face/login', [LoginController::class, 'faceLogin'])->name('panel.face.login');
+Route::post('panel/face-auth/verify', [LoginController::class, 'faceSubmit'])->name('panel.face.login.connexion');
+
+Route::get('panel/face/otp', [LoginController::class, 'faceOtp'])->name('panel.face.otp');
+Route::post('panel/face-auth/verify/otp', [LoginController::class, 'FaceOtpSubmit'])->name('panel.face.otp.connexion');
+Route::post('/panel/face-auth/identify', [LoginController::class, 'FaceData'])->name('panel.face.data');
+
+
+
+/* #################################################################### */
+/* #################################################################### */
+Route::prefix('panel')->middleware(['IsConnect'])->group(function () {
+
+    Route::get('home', [LoginController::class, 'index'])->name('panel.home');
+    Route::get('dashboard', [LoginController::class, 'index'])->name('panel.dashboard');
+
+
+    Route::prefix('modules')->group(function () {
+        Route::get('findAll', [ModuleController::class, 'findAll'])->name('panel.autorisations.modules.findAll');
+        Route::get('index', [ModuleController::class, 'index'])->name('panel.autorisations.modules.index');
+        Route::post('store', [ModuleController::class, 'store'])->name('panel.autorisations.modules.store');
+        Route::get('/{uuid}/edit', [ModuleController::class, 'edit'])->name('panel.autorisations.modules.edit');
+        Route::post('/{uuid}/update', [ModuleController::class, 'update'])->name('panel.autorisations.modules.update');
+        Route::get('/{uuid}/delete', [ModuleController::class, 'delete'])->name('panel.autorisations.modules.delete');
+
+        Route::prefix('permissions')->group(function () {
+            Route::get('{module_uuid}/findAll', [PermissionController::class, 'findAll'])->name('panel.autorisations.permissions.findAll');
+            Route::get('{module_uuid}/index', [PermissionController::class, 'index'])->name('panel.autorisations.permissions.index');
+            Route::post('{module_uuid}/store', [PermissionController::class, 'store'])->name('panel.autorisations.permissions.store');
+            Route::get('/{uuid}/edit', [PermissionController::class, 'edit'])->name('panel.autorisations.permissions.edit');
+            Route::post('/{uuid}/update', [PermissionController::class, 'update'])->name('panel.autorisations.permissions.update');
+            Route::get('/{uuid}/delete', [PermissionController::class, 'delete'])->name('panel.autorisations.permissions.delete');
+        });
+    });
+
+    Route::prefix('systemes')->group(function () {
+        Route::get('findAll', [SystemeController::class, 'findAll'])->name('panel.autorisations.systemes.findAll');
+        Route::get('index', [SystemeController::class, 'index'])->name('panel.autorisations.systemes.index');
+        Route::post('store', [SystemeController::class, 'store'])->name('panel.autorisations.systemes.store');
+        Route::post('update', [SystemeController::class, 'update'])->name('panel.autorisations.systemes.update');
+        Route::get('/{uuid}/edit', [SystemeController::class, 'edit'])->name('panel.autorisations.systemes.edit');
+        Route::get('/{uuid}/delete', [SystemeController::class, 'delete'])->name('panel.autorisations.systemes.delete');
+    });
+
+    Route::prefix('roles')->group(function () {
+        Route::get('/findAll', [\App\Http\Controllers\Admin\RolesController::class, 'findAll'])->name('panel.autorisations.roles.findAll');
+        Route::get('index', [RolesController::class, 'index'])->name('panel.autorisations.roles.index');
+        Route::post('store', [RolesController::class, 'store'])->name('panel.autorisations.roles.store');
+        Route::get('/{uuid}/edit', [RolesController::class, 'edit'])->name('panel.autorisations.roles.edit');
+        Route::post('/{uuid}/update', [RolesController::class, 'update'])->name('panel.autorisations.roles.update');
+        Route::get('/{uuid}/delete', [RolesController::class, 'delete'])->name('panel.autorisations.roles.delete');
+        Route::get('/{uuid}/permissions', [RolesController::class, 'permissionIndex'])->name('panel.autorisations.roles.permissions.index');
+        Route::get('/{uuid}/permissions/update', [RolesController::class, 'permissionUpdate'])->name('panel.autorisations.roles.permissions.update');
+    });
+
+    Route::prefix('collaborateurs')->group(function () {
+        Route::get('index', [CollaboratorsController::class, 'index'])->name('panel.autorisations.collaborateurs.index');
+        Route::post('store', [CollaboratorsController::class, 'store'])->name('panel.autorisations.collaborateurs.store');
+        Route::get('/{uuid}/show', [CollaboratorsController::class, 'show'])->name('panel.autorisations.collaborateurs.show');
+        Route::get('/{uuid}/edit', [CollaboratorsController::class, 'edit'])->name('panel.autorisations.collaborateurs.edit');
+        Route::post('/{uuid}/update', [CollaboratorsController::class, 'update'])->name('panel.autorisations.collaborateurs.update');
+        Route::post('/{uuid}/add-role', [CollaboratorsController::class, 'storeRole'])->name('panel.autorisations.collaborateurs.add_role');
+        Route::get('/{uuid}/change', [CollaboratorsController::class, 'change'])->name('panel.autorisations.collaborateurs.change');
+        Route::get('/{uuid}/officeChangeStatus', [CollaboratorsController::class, 'officeChangeStatus']);
+        Route::get('{uuid}/findAllOffice', [CollaboratorsController::class, 'findAllOffice'])->name('panel.autorisation.collaborateurs.find_all_office');
+
+        Route::get('/autorisations/findAll', [CollaboratorsController::class, 'findAll'])->name('panel.autorisations.collaborateurs.findAll');
+        Route::get('/autorisations/{uuid}/findAllOffice', [CollaboratorsController::class, 'findAllOffice'])->name('panel.autorisations.collaborateurs.findAllOffice');
+    });
+
+
+    Route::prefix('partenaires')->group(function () {
+        Route::get('index', [PartenairesController::class, 'index'])->name('panel.autorisations.partenaires.index');
+        Route::post('store', [PartenairesController::class, 'store'])->name('panel.autorisations.partenaires.store');
+        Route::get('/{uuid}/show', [PartenairesController::class, 'show'])->name('panel.autorisations.partenaires.show');
+        Route::get('/{uuid}/edit', [PartenairesController::class, 'edit'])->name('panel.autorisations.partenaires.edit');
+        Route::post('/{uuid}/update', [PartenairesController::class, 'update'])->name('panel.autorisations.partenaires.update');
+        Route::get('/{uuid}/delete', [PartenairesController::class, 'delete'])->name('panel.autorisations.partenaires.delete');
+
+        Route::get('findAll', [PartenairesController::class, 'findAll'])->name('panel.autorisations.partenaires.findAll');
+    });
+
+
+    Route::prefix('partenaires-agents')->group(function () {
+        Route::get('index', [PartenaireAgentsController::class, 'index'])->name('panel.autorisations.partenaires-agents.index');
+        Route::post('store', [PartenaireAgentsController::class, 'store'])->name('panel.autorisations.partenaires-agents.store');
+        Route::get('/findAll', [PartenaireAgentsController::class, 'findAll'])->name('panel.autorisations.partenaires-agents.findAll');
+
+        Route::get('/{uuid}/show', [PartenaireAgentsController::class, 'show'])->name('panel.autorisations.partenaires-agents.show');
+        Route::get('/{uuid}/edit', [PartenaireAgentsController::class, 'edit'])->name('panel.autorisations.partenaires-agents.edit');
+        Route::post('/{uuid}/update', [PartenaireAgentsController::class, 'update'])->name('panel.autorisations.partenaires-agents.update');
+    });
+
+    Route::prefix('agents')->group(function () {
+        Route::get('index', [AgentsController::class, 'index'])->name('panel.autorisations.agents.index');
+        Route::post('store', [AgentsController::class, 'store'])->name('panel.autorisations.agents.store');
+        Route::get('/{uuid}/show', [AgentsController::class, 'show'])->name('panel.autorisations.agents.show');
+        Route::get('/{uuid}/edit', [AgentsController::class, 'edit'])->name('panel.autorisations.agents.edit');
+        Route::post('/{uuid}/update', [AgentsController::class, 'update'])->name('panel.autorisations.agents.update');
+        Route::get('/{uuid}/change', [AgentsController::class, 'change'])->name('panel.autorisations.agents.change');
+
+        Route::get('/autorisations/findAll', [AgentsController::class, 'findAll'])->name('panel.autorisations.agents.findAll');
+    });
+
+
+    Route::prefix('activity/agents')->group(function () {
+        Route::get('index', [AgentsController::class, 'activity_dashboard'])->name('panel.autorisations.activity.agents.index');
+        Route::get('/load/all/activities', [AgentsController::class, 'activity_load'])->name('panel.autorisations.activity.agents.findAll');
+        Route::post('/load/search/activities', [AgentsController::class, 'activity_find'])->name('panel.autorisations.activity.agents.search');
+    });
+
+    Route::get('/load/all/activities/statistique', [AgentsController::class, 'activity_statistique'])->name('panel.autorisations.activity.findAll.statistique');
+
+
+    Route::prefix('securite')->group(function () {
+        Route::get('compte', [CollaboratorsController::class, 'securite'])->name('panel.securite.compte');
+        Route::post('compte/update/data', [CollaboratorsController::class, 'updateAccount'])->name('panel.securite.compte.update.data');
+        Route::post('compte/update/password', [CollaboratorsController::class, 'updatePassword'])->name('panel.securite.compte.update.password');
+        Route::post('compte/update/avatar', [CollaboratorsController::class, 'uploadAvatar'])->name('panel.securite.compte.update.avatar');
+        Route::post('compte/face-auth/register/save', [CollaboratorsController::class, 'FaceRegister'])->name('panel.face.register');
+    });
+
+    Route::prefix('entite')->group(function () {
+        Route::get('liste', [EntitesController::class, 'index'])->name('panel.autorisations.entite.index');
+        Route::get('findAll', [EntitesController::class, 'findAll'])->name('panel.autorisations.entite.findAll');
+        Route::get('findOneConfig/{uuid}', [EntitesController::class, 'findOneConfig'])->name('panel.autorisations.entite.findOneConfig');
+        Route::get('findOne/{uuid}', [EntitesController::class, 'findOne'])->name('panel.autorisations.entite.findOne');
+
+        Route::post('gabari/store', [EntitesController::class, 'gabariStore'])->name('panel.autorisations.entite.gabari.store');
+
+        Route::post('store', [EntitesController::class, 'store'])->name('panel.autorisations.entite.store');
+        Route::get('show/{uuid}', [EntitesController::class, 'show'])->name('panel.autorisations.entite.show');
+        Route::post('update', [EntitesController::class, 'update'])->name('panel.autorisations.entite.update');
+        Route::post('delete', [EntitesController::class, 'delete'])->name('panel.autorisations.entite.delete');
+        Route::get('gabari/findAll/{uuid}', [EntitesController::class, 'gabariFindAll'])->name('panel.autorisations.entite.gabari.find_all');
+        Route::get('gabari/validate/{uuid}/{status}', [EntitesController::class, 'validateFile'])->name('panel.autorisations.entite.gabari.find_all');
+
+        Route::get('gabari/model/{uuid}', [EntitesController::class, 'gabari_model'])->name('panel.autorisations.entite.gabari.model');
+        Route::get('gabari/{uuid}', [EntitesController::class, 'gabari'])->name('panel.autorisations.entite.gabari');
+
+        Route::prefix('rubrique')->group(function () {
+            Route::post('store', [RubriquesController::class, 'store'])->name('panel.autorisations.entite.rubrique.store');
+            Route::post('update', [RubriquesController::class, 'update'])->name('panel.autorisations.entite.rubrique.update');
+            Route::post('delete', [RubriquesController::class, 'lock'])->name('panel.autorisations.entite.rubrique.delete');
+            Route::get('findOneConfig/{uuid}', [RubriquesController::class, 'findOneConfig'])->name('panel.autorisations.entite.rubrique.findOneConfig');
+            Route::prefix('facturation')->group(function () {
+                Route::post('store', [FacturationsController::class, 'store'])->name('panel.autorisations.entite.rubrique.facturation.store');
+                Route::post('delete', [FacturationsController::class, 'lock'])->name('panel.autorisations.entite.rubrique.facturation.delete');
+                Route::post('penalty/delete', [FacturationsController::class, 'lockPenalty'])->name('panel.autorisations.entite.rubrique.facturation.penalty.delete');
+                Route::post('penalty/store', [FacturationsController::class, 'storePenalty'])->name('panel.autorisations.entite.rubrique.facturation.penalty.store');
             });
 
-
+            Route::post('option/delete', [RubriquesController::class, 'lock'])->name('panel.autorisations.entite.rubrique.option.delete');
         });
+    });
+
+
+    Route::prefix('services')->group(function () {
+        Route::get('show/{uuid}', [AdminServicesController::class, 'index'])->name('panel.autorisations.services.show.data');
+        Route::get('taxes/findAll/{uuid}', [AdminServicesController::class, 'findAll'])->name('panel.autorisations.services.taxes.find_all');
+        Route::get('taxes/detail/{uuid}/{entity_uuid}', [AdminServicesController::class, 'show'])->name('panel.autorisations.services.taxes.show');
+        Route::get('taxes/validation/{uuid}/{entity_uuid}/{status}/{motif?}', [AdminServicesController::class, 'validation'])->name('panel.autorisations.services.taxes.validation');
+        Route::get('taxes/statistique/{uuid}', [AdminServicesController::class, 'statistique'])->name('panel.autorisations.services.taxes.statistique');
+        Route::post('taxes/search/findAll', [AdminServicesController::class, 'search'])->name('panel.autorisations.services.taxes.search');
+
+
+        Route::get('rdv/{uuid}', [AdminServicesController::class, 'rendez_vous'])->name('panel.autorisations.services.rdv');
+        Route::get('liste/rdv/{uuid}', [AdminServicesController::class, 'liste_rdv'])->name('panel.autorisations.services.liste.rdv');
+        Route::get('taxes/rdv/statistique/{uuid}', [AdminServicesController::class, 'stat_rdv'])->name('panel.autorisations.services.taxes.rdv.statistique');
+        Route::get('taxes/rdv/findAll/{uuid}', [AdminServicesController::class, 'rdv_findAll'])->name('panel.autorisations.services.taxes.rdv.find_all');
+
+        Route::get('verification-partenaire/{uuid}', [AdminServicesController::class, 'verification_partenaire'])->name('panel.autorisations.services.verification-partenaire');
+        Route::post('verification-partenaire/check', [AdminServicesController::class, 'verification_partenaire_check'])->name('panel.autorisations.services.verification-partenaire.check');
+
+        Route::get('historique-controles/{uuid}', [AdminServicesController::class, 'historique_controles'])->name('panel.autorisations.services.historique-controles');
+
+        Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
+        Route::get('activite/{uuid}', [AdminServicesController::class, 'rdv_activite'])->name('panel.autorisations.services.activite');
+        Route::get('taxes/rdv/today/activite/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.today.activite');
+        Route::get('taxes/historique/rdv/{uuid}', [AdminServicesController::class, 'rdv_historique_activites'])->name('panel.autorisations.services.historique.rdv');
+        Route::get('taxes/historique/today/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_historique_activite'])->name('panel.autorisations.services.historique.activite');
+        Route::get('taxes/rdv/historique/activite/data/{uuid}', [AdminServicesController::class, 'rdv_historique_activites_data'])->name('panel.autorisations.services.historique.activite.data');
+
+        Route::get('taxes/caisse/{entity_uuid}', [AdminServicesController::class, 'caisse'])->name('panel.autorisations.services.taxes.caisse');
+        Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
+
+        Route::post('taxes/element/update', [AdminServicesController::class, 'service_update'])->name('panel.autorisations.services.taxes.element.update');
+        Route::post('taxes/element/update/type_vehicule', [AdminServicesController::class, 'service_update_type_vehicule'])->name('panel.autorisations.services.taxes.element.update_type_vehicule');
+        Route::post('/taxes/element/store', [AdminServicesController::class, 'service_store'])->name('panel.autorisations.services.taxes.store'); //customer.entities.taxe.store
+
+
+        Route::get('cheque/reception', [AdminServicesController::class, 'cheque'])->name('panel.autorisations.services.cheque.reception');
+        Route::post('cheque/reception/store', [AdminServicesController::class, 'cheque_store'])->name('panel.autorisations.services.cheque.reception.store');
+        Route::post('cheque/reception/update', [AdminServicesController::class, 'cheque_update'])->name('panel.autorisations.services.cheque.reception.update');
+        Route::get('cheque/liste/{status}', [AdminServicesController::class, 'cheque_liste'])->name('panel.autorisations.services.cheque.list');
+        Route::post('cheque/search', [AdminServicesController::class, 'cheque_search'])->name('panel.autorisations.services.taxes.cheque.search');
+        Route::get('cheque/show/{cheque_uuid}/{entity_uuid}', [AdminServicesController::class, 'cheque_show'])->name('panel.autorisations.services.taxes.cheque.show');
+
+        Route::get('/cheque/liste/findAll/{status}/{entity_uuid}', [AdminServicesController::class, 'chequefindAll'])->name('panel.autorisations.services.taxes.cheque.find_all');
+        Route::get('/cheque/data/{uuid}/{entity_uuid}', [AdminServicesController::class, 'chequeData'])->name('panel.autorisations.services.taxes.cheque.data');
+        Route::get('/cheque/submit/cotation/{uuid}', [AdminServicesController::class, 'cheque_cotation'])->name('panel.autorisations.services.taxes.cheque.submit.cotation');
+        Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'fiche_cotation'])->name('panel.autorisations.services.taxes.cheque.fiche.cotation');
+        Route::get('/cheque/valider/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
+        Route::get('/cheque/reinitialiser/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
+        Route::get('/cheque/valider/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
+        Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'facture_cotation'])->name('panel.autorisations.services.taxes.cheque.facture.cotation');
+
+        Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
+        Route::get('/cheque/reinitialiser/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.cotation');
+
+        Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
+        Route::get('/cheque/autogenerate/{uuid}', [AdminServicesController::class, 'autogenerate_cheque'])->name('panel.autorisations.services.taxes.cheque.autogenerate.line');
+
+        Route::get('/cheque/recap/{entity_uuid}', [AdminServicesController::class, 'chequeRecap'])->name('panel.autorisations.services.taxes.cheque.recap');
+
+        // customer/services/cheque/findAll
+    });
+
+
+    Route::prefix('statistique')->group(function () {
+        Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_dashboard'])->name('panel.autorisations.statistique.show.data');
+        Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_data'])->name('panel.autorisations.statistique.data');
+        Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_rdv'])->name('panel.autorisations.statistique.data');
+        Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_find_data'])->name('panel.autorisations.statistique.find.data');
+        Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_validationJ'])->name('panel.autorisations.statistique.data.validateur');
+        Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_validateur'])->name('panel.autorisations.statistique.data.validateur');
+
+
+        Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_dashboard'])->name('panel.autorisations.statistique.detail');
+    });
+
+    /*############## CHEQUES #################*/
+    Route::prefix('statistique/cheque')->group(function () {
+        //Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.show.data');
+        //Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_cheque_data'])->name('panel.autorisations.statistique.cheque.data');
+        //Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_cheque_rdv'])->name('panel.autorisations.statistique.cheque.data');
+        //Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_cheque_find_data'])->name('panel.autorisations.statistique.cheque.find.data');
+        //Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_cheque_validationJ'])->name('panel.autorisations.statistique.cheque.data.validateur');
+        //Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_cheque_validateur'])->name('panel.autorisations.statistique.cheque.data.validateur');
+
+
+        Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.detail');
+        Route::get('recap/{uuid}', [AdminServicesController::class, 'statistique_cheque_recap'])->name('panel.autorisations.statistique.cheque.recap');
+    });
+
+    /*######################## FIN CHEQUES #####################*/
+
+    /*######################## STATISTIQUE PENALITE #####################*/
+
+    Route::prefix('statistique/penalite')->group(function () {
+        Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_penalite_dashboard'])->name('panel.autorisations.statistique.penalite.detail');
+        Route::get('recap/{uuid}', [AdminServicesController::class, 'statistique_penalite_recap'])->name('panel.autorisations.statistique.penalite.recap');
+        Route::get('partenaire/{entity}', [AdminServicesController::class, 'stat_partenaire'])->name('panel.autorisations.statistique.partenaire');
         
-        Route::prefix('systemes')->group(function(){
-            Route::get('findAll', [SystemeController::class, 'findAll'])->name('panel.autorisations.systemes.findAll');
-            Route::get('index', [SystemeController::class, 'index'])->name('panel.autorisations.systemes.index');
-            Route::post('store', [SystemeController::class, 'store'])->name('panel.autorisations.systemes.store');
-            Route::post('update', [SystemeController::class, 'update'])->name('panel.autorisations.systemes.update');
-            Route::get('/{uuid}/edit', [SystemeController::class, 'edit'])->name('panel.autorisations.systemes.edit');
-            Route::get('/{uuid}/delete', [SystemeController::class, 'delete'])->name('panel.autorisations.systemes.delete');
-
-        });
-
-        Route::prefix('roles')->group(function(){
-            Route::get('/findAll', [\App\Http\Controllers\Admin\RolesController::class, 'findAll'])->name('panel.autorisations.roles.findAll');
-            Route::get('index', [RolesController::class, 'index'])->name('panel.autorisations.roles.index');
-            Route::post('store', [RolesController::class, 'store'])->name('panel.autorisations.roles.store');
-            Route::get('/{uuid}/edit', [RolesController::class, 'edit'])->name('panel.autorisations.roles.edit');
-            Route::post('/{uuid}/update', [RolesController::class, 'update'])->name('panel.autorisations.roles.update');
-            Route::get('/{uuid}/delete', [RolesController::class, 'delete'])->name('panel.autorisations.roles.delete');
-            Route::get('/{uuid}/permissions', [RolesController::class, 'permissionIndex'])->name('panel.autorisations.roles.permissions.index');
-            Route::get('/{uuid}/permissions/update', [RolesController::class, 'permissionUpdate'])->name('panel.autorisations.roles.permissions.update');
-        });
-
-        Route::prefix('collaborateurs')->group(function(){
-            Route::get('index', [CollaboratorsController::class, 'index'])->name('panel.autorisations.collaborateurs.index');
-            Route::post('store', [CollaboratorsController::class, 'store'])->name('panel.autorisations.collaborateurs.store');
-            Route::get('/{uuid}/show', [CollaboratorsController::class, 'show'])->name('panel.autorisations.collaborateurs.show');
-            Route::get('/{uuid}/edit', [CollaboratorsController::class, 'edit'])->name('panel.autorisations.collaborateurs.edit');
-            Route::post('/{uuid}/update', [CollaboratorsController::class, 'update'])->name('panel.autorisations.collaborateurs.update');
-            Route::post('/{uuid}/add-role', [CollaboratorsController::class, 'storeRole'])->name('panel.autorisations.collaborateurs.add_role');
-            Route::get('/{uuid}/change', [CollaboratorsController::class, 'change'])->name('panel.autorisations.collaborateurs.change');
-            Route::get('/{uuid}/officeChangeStatus', [CollaboratorsController::class, 'officeChangeStatus']);
-            Route::get('{uuid}/findAllOffice', [CollaboratorsController::class, 'findAllOffice'])->name('panel.autorisation.collaborateurs.find_all_office');
-
-            Route::get('/autorisations/findAll', [CollaboratorsController::class, 'findAll'])->name('panel.autorisations.collaborateurs.findAll');
-            Route::get('/autorisations/{uuid}/findAllOffice', [CollaboratorsController::class, 'findAllOffice'])->name('panel.autorisations.collaborateurs.findAllOffice');
-
-        });
-
-        Route::prefix('agents')->group(function(){
-            Route::get('index', [AgentsController::class, 'index'])->name('panel.autorisations.agents.index');
-            Route::post('store', [AgentsController::class, 'store'])->name('panel.autorisations.agents.store');
-            Route::get('/{uuid}/show', [AgentsController::class, 'show'])->name('panel.autorisations.agents.show');
-            Route::get('/{uuid}/edit', [AgentsController::class, 'edit'])->name('panel.autorisations.agents.edit');
-            Route::post('/{uuid}/update', [AgentsController::class, 'update'])->name('panel.autorisations.agents.update');
-            Route::get('/{uuid}/change', [AgentsController::class, 'change'])->name('panel.autorisations.agents.change');
-
-            Route::get('/autorisations/findAll', [AgentsController::class, 'findAll'])->name('panel.autorisations.agents.findAll');
-  
-        });
-
-        
-        Route::prefix('activity/agents')->group(function(){
-            Route::get('index', [AgentsController::class, 'activity_dashboard'])->name('panel.autorisations.activity.agents.index');
-            Route::get('/load/all/activities', [AgentsController::class, 'activity_load'])->name('panel.autorisations.activity.agents.findAll');
-            Route::post('/load/search/activities', [AgentsController::class, 'activity_find'])->name('panel.autorisations.activity.agents.search');
-        });
-
-        Route::get('/load/all/activities/statistique', [AgentsController::class, 'activity_statistique'])->name('panel.autorisations.activity.findAll.statistique');
-
-
-        Route::prefix('securite')->group(function(){
-            Route::get('compte', [CollaboratorsController::class, 'securite'])->name('panel.securite.compte');
-            Route::post('compte/update/data', [CollaboratorsController::class, 'updateAccount'])->name('panel.securite.compte.update.data');
-            Route::post('compte/update/password', [CollaboratorsController::class, 'updatePassword'])->name('panel.securite.compte.update.password');
-            Route::post('compte/update/avatar', [CollaboratorsController::class, 'uploadAvatar'])->name('panel.securite.compte.update.avatar');
-        });
-
-        Route::prefix('entite')->group(function(){
-            Route::get('liste', [EntitesController::class, 'index'])->name('panel.autorisations.entite.index');
-            Route::get('findAll', [EntitesController::class, 'findAll'])->name('panel.autorisations.entite.findAll');
-            Route::get('findOneConfig/{uuid}', [EntitesController::class, 'findOneConfig'])->name('panel.autorisations.entite.findOneConfig');
-            Route::get('findOne/{uuid}', [EntitesController::class, 'findOne'])->name('panel.autorisations.entite.findOne');
-      
-            Route::post('gabari/store', [EntitesController::class, 'gabariStore'])->name('panel.autorisations.entite.gabari.store');
-
-            Route::post('store', [EntitesController::class, 'store'])->name('panel.autorisations.entite.store');
-            Route::get('show/{uuid}', [EntitesController::class, 'show'])->name('panel.autorisations.entite.show');
-            Route::post('update', [EntitesController::class, 'update'])->name('panel.autorisations.entite.update');
-            Route::post('delete', [EntitesController::class, 'delete'])->name('panel.autorisations.entite.delete');
-            Route::get('gabari/findAll/{uuid}', [EntitesController::class, 'gabariFindAll'])->name('panel.autorisations.entite.gabari.find_all');
-            Route::get('gabari/validate/{uuid}/{status}', [EntitesController::class, 'validateFile'])->name('panel.autorisations.entite.gabari.find_all');
-
-            Route::get('gabari/model/{uuid}', [EntitesController::class, 'gabari_model'])->name('panel.autorisations.entite.gabari.model');
-            Route::get('gabari/{uuid}', [EntitesController::class, 'gabari'])->name('panel.autorisations.entite.gabari');
-
-            Route::prefix('rubrique')->group(function(){
-                Route::post('store', [RubriquesController::class, 'store'])->name('panel.autorisations.entite.rubrique.store');
-                Route::post('update', [RubriquesController::class, 'update'])->name('panel.autorisations.entite.rubrique.update');
-                Route::post('delete', [RubriquesController::class, 'lock'])->name('panel.autorisations.entite.rubrique.delete');
-                Route::get('findOneConfig/{uuid}', [RubriquesController::class, 'findOneConfig'])->name('panel.autorisations.entite.rubrique.findOneConfig');
-                Route::prefix('facturation')->group(function(){
-                    Route::post('store', [FacturationsController::class, 'store'])->name('panel.autorisations.entite.rubrique.facturation.store');
-                    Route::post('delete', [FacturationsController::class, 'lock'])->name('panel.autorisations.entite.rubrique.facturation.delete');
-                });
-
-                Route::post('option/delete', [RubriquesController::class, 'lock'])->name('panel.autorisations.entite.rubrique.option.delete');
-
-            });
-
-        });
-
-        
-        Route::prefix('services')->group(function(){
-            Route::get('show/{uuid}', [AdminServicesController::class, 'index'])->name('panel.autorisations.services.show.data');
-            Route::get('taxes/findAll/{uuid}', [AdminServicesController::class, 'findAll'])->name('panel.autorisations.services.taxes.find_all');
-            Route::get('taxes/detail/{uuid}/{entity_uuid}', [AdminServicesController::class, 'show'])->name('panel.autorisations.services.taxes.show');
-            Route::get('taxes/validation/{uuid}/{entity_uuid}/{status}/{motif?}', [AdminServicesController::class, 'validation'])->name('panel.autorisations.services.taxes.validation');
-            Route::get('taxes/statistique/{uuid}', [AdminServicesController::class, 'statistique'])->name('panel.autorisations.services.taxes.statistique');
-            Route::post('taxes/search/findAll', [AdminServicesController::class, 'search'])->name('panel.autorisations.services.taxes.search');
-
-
-            Route::get('rdv/{uuid}', [AdminServicesController::class, 'rendez_vous'])->name('panel.autorisations.services.rdv');
-            Route::get('liste/rdv/{uuid}', [AdminServicesController::class, 'liste_rdv'])->name('panel.autorisations.services.liste.rdv');
-            Route::get('taxes/rdv/statistique/{uuid}', [AdminServicesController::class, 'stat_rdv'])->name('panel.autorisations.services.taxes.rdv.statistique');
-            Route::get('taxes/rdv/findAll/{uuid}', [AdminServicesController::class, 'rdv_findAll'])->name('panel.autorisations.services.taxes.rdv.find_all');
-
-            Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
-            Route::get('activite/{uuid}', [AdminServicesController::class, 'rdv_activite'])->name('panel.autorisations.services.activite');
-            Route::get('taxes/rdv/today/activite/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.today.activite');
-            Route::get('taxes/historique/rdv/{uuid}', [AdminServicesController::class, 'rdv_historique_activites'])->name('panel.autorisations.services.historique.rdv');
-            Route::get('taxes/historique/today/rdv/{uuid}', [AdminServicesController::class, 'rdv_today_historique_activite'])->name('panel.autorisations.services.historique.activite');
-            Route::get('taxes/rdv/historique/activite/data/{uuid}', [AdminServicesController::class, 'rdv_historique_activites_data'])->name('panel.autorisations.services.historique.activite.data');
-
-            Route::get('taxes/caisse/{entity_uuid}', [AdminServicesController::class, 'caisse'])->name('panel.autorisations.services.taxes.caisse');
-            Route::post('taxes/caisse/store', [AdminServicesController::class, 'caisse_store'])->name('panel.autorisations.services.taxes.caisse.store');
-
-            Route::post('taxes/element/update', [AdminServicesController::class, 'service_update'])->name('panel.autorisations.services.taxes.element.update');
-            Route::post('/taxes/element/store', [AdminServicesController::class, 'service_store'])->name('panel.autorisations.services.taxes.store');//customer.entities.taxe.store
- 
-           
-            Route::get('cheque/reception', [AdminServicesController::class, 'cheque'])->name('panel.autorisations.services.cheque.reception');
-            Route::post('cheque/reception/store', [AdminServicesController::class, 'cheque_store'])->name('panel.autorisations.services.cheque.reception.store');
-            Route::post('cheque/reception/update', [AdminServicesController::class, 'cheque_update'])->name('panel.autorisations.services.cheque.reception.update');
-            Route::get('cheque/liste/{status}', [AdminServicesController::class, 'cheque_liste'])->name('panel.autorisations.services.cheque.list');
-            Route::post('cheque/search', [AdminServicesController::class, 'cheque_search'])->name('panel.autorisations.services.taxes.cheque.search');
-            Route::get('cheque/show/{cheque_uuid}/{entity_uuid}', [AdminServicesController::class, 'cheque_show'])->name('panel.autorisations.services.taxes.cheque.show');
-
-            Route::get('/cheque/liste/findAll/{status}/{entity_uuid}', [AdminServicesController::class, 'chequefindAll'])->name('panel.autorisations.services.taxes.cheque.find_all');
-            Route::get('/cheque/data/{uuid}/{entity_uuid}', [AdminServicesController::class, 'chequeData'])->name('panel.autorisations.services.taxes.cheque.data');
-            Route::get('/cheque/submit/cotation/{uuid}', [AdminServicesController::class, 'cheque_cotation'])->name('panel.autorisations.services.taxes.cheque.submit.cotation');
-            Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'fiche_cotation'])->name('panel.autorisations.services.taxes.cheque.fiche.cotation');
-            Route::get('/cheque/valider/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
-            Route::get('/cheque/reinitialiser/ligne/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_ligne_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
-            Route::get('/cheque/valider/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'valider_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.ligne.cotation');
-            Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'facture_cotation'])->name('panel.autorisations.services.taxes.cheque.facture.cotation');
-           
-            Route::post('/cheque/valider/cheque', [AdminServicesController::class, 'valider_cheque'])->name('panel.autorisations.services.taxes.cheque.valider.cheque');
-            Route::get('/cheque/reinitialiser/cotation/{uuid}/{entity_uuid}', [AdminServicesController::class, 'reinitialiser_cotation'])->name('panel.autorisations.services.taxes.cheque.valider.cotation');
-
-            Route::get('/cheque/annuler/cheque/{uuid}/{entity_uuid}', [AdminServicesController::class, 'annuler_cheque'])->name('panel.autorisations.services.taxes.cheque.annuler.cheque');
-            Route::get('/cheque/autogenerate/{uuid}', [AdminServicesController::class, 'autogenerate_cheque'])->name('panel.autorisations.services.taxes.cheque.autogenerate.line');
-
-            Route::get('/cheque/recap/{entity_uuid}', [AdminServicesController::class, 'chequeRecap'])->name('panel.autorisations.services.taxes.cheque.recap');
-
-           // customer/services/cheque/findAll
-        });
-
-                
-        Route::prefix('statistique')->group(function(){
-            Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_dashboard'])->name('panel.autorisations.statistique.show.data');
-            Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_data'])->name('panel.autorisations.statistique.data');
-            Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_rdv'])->name('panel.autorisations.statistique.data');
-            Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_find_data'])->name('panel.autorisations.statistique.find.data');
-            Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_validationJ'])->name('panel.autorisations.statistique.data.validateur');
-            Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_validateur'])->name('panel.autorisations.statistique.data.validateur');
-            
-
-            Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_dashboard'])->name('panel.autorisations.statistique.detail');
-
-        });
-
-                /*############## CHEQUES #################*/        
-        Route::prefix('statistique/cheque')->group(function(){
-            //Route::get('show/{uuid}/{type_stat}', [AdminServicesController::class, 'stat_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.show.data');
-            //Route::get('data/count/{entity}', [AdminServicesController::class, 'stat_cheque_data'])->name('panel.autorisations.statistique.cheque.data');
-            //Route::get('data/rendezvous/{entity}/{rdv}', [AdminServicesController::class, 'data_cheque_rdv'])->name('panel.autorisations.statistique.cheque.data');
-            //Route::get('/findStatus/data/{status}/{paymode}/{entity}', [AdminServicesController::class, 'stat_cheque_find_data'])->name('panel.autorisations.statistique.cheque.find.data');
-            //Route::get('data/validation_j/{entity}/{day}', [AdminServicesController::class, 'data_cheque_validationJ'])->name('panel.autorisations.statistique.cheque.data.validateur');
-            //Route::get('data/validateur/{entity}', [AdminServicesController::class, 'data_cheque_validateur'])->name('panel.autorisations.statistique.cheque.data.validateur');
-            
-
-            Route::get('detail/{uuid}/{type_stat}/{type_sous_stat}', [AdminServicesController::class, 'statistique_cheque_dashboard'])->name('panel.autorisations.statistique.cheque.detail');
-            Route::get('recap/{uuid}', [AdminServicesController::class, 'statistique_cheque_recap'])->name('panel.autorisations.statistique.cheque.recap');
-
-        });
-
-        /*######################## FIN CHEQUES #####################*/
-
-
-        Route::prefix('customer')->group(function () {
-            Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
-  
-        });
-
-        
-        Route::prefix('support')->group(function () {
-            Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
-            Route::post('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
-            Route::get('/show/{search}/{entity_uuid}', [SupportsController::class, 'show'])->name('panel.autorisations.entities.support.show');
-            Route::get('taxes/annuler/paiement/{uuid}', [SupportsController::class, 'annulerPaiement'])->name('panel.autorisations.services.taxes.annuler.paiement');
-
-        });
-
+        Route::get('gains/partenaires/{entity}', [AdminServicesController::class, 'stat_gains_partenaire'])->name('panel.autorisations.statistique.gains.partenaire');
+        Route::get('gains/partenaire/data/{entity}', [AdminServicesController::class, 'stat_gains_partenaire_data'])->name('panel.autorisations.statistique.gains.partenaire.data');
 
     });
+
+    /*######################## FIN STATISTIQUE PENALITE #####################*/
+
+
+    Route::prefix('customer')->group(function () {
+        Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
+        Route::get('/service/taxe/find_one/with_same_type/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service_with_types_vehicules'])->name('panel.customer.entities.taxe.find_service.with_same_type');
+    });
+
+
+    Route::prefix('support')->group(function () {
+        Route::get('/index/{entity_uuid}', [SupportsController::class, 'index'])->name('panel.autorisations.entities.support.index');
+        Route::post('/search', [SupportsController::class, 'search'])->name('panel.autorisations.entities.support.search');
+        Route::get('/show/{search}/{entity_uuid}', [SupportsController::class, 'show'])->name('panel.autorisations.entities.support.show');
+        Route::get('/show/uuid-pay/{search}/{entity_uuid}', [SupportsController::class, 'showTransaction'])->name('panel.autorisations.entities.support.show.uuid-transaction');
+        Route::get('taxes/annuler/paiement/{uuid}', [SupportsController::class, 'annulerPaiement'])->name('panel.autorisations.services.taxes.annuler.paiement');
+    });
+});
 
 /* ########################## FIN ROUTE ADMIN ################################## */
 
 
-    Route::prefix('customer')->group(function(){
-        Route::post('connexion', [CustomerLoginController::class, 'Connexion'])->name('customer.connexion');
+Route::prefix('customer')->group(function () {
+    Route::post('connexion', [CustomerLoginController::class, 'Connexion'])->name('customer.connexion');
 
-        Route::get('otp/resend', [CustomerLoginController::class, 'resend_otp'])->name('customer.otp.resend');
-    
-        Route::get('mot/de/passe/oublie', [CustomerLoginController::class, 'password_forget'])->name('customer.forget.password');
-        Route::post('password/email', [CustomerLoginController::class, 'send_password_forget_email'])->name('customer.password.email');
-        Route::get('reset/password/{token}', [CustomerLoginController::class, 'password_reset'])->name('customer.reset.password');
-        Route::post('password/confirm', [CustomerLoginController::class, 'password_confirm'])->name('customer.password.confirm');
-    
-        Route::get('otp', [CustomerLoginController::class, 'otp'])->name('customer.otp');
-        Route::post('otp/connexion', [CustomerLoginController::class, 'Otp_Connexion'])->name('customer.otp.submit');
-    
+    Route::get('otp/resend', [CustomerLoginController::class, 'resend_otp'])->name('customer.otp.resend');
 
-        Route::get('/entite/findAll', [ServicesController::class, 'findAllEntite'])->name('customer.entities.findAll');
-        Route::get('/services/findOne/{uuid}', [ServicesController::class, 'findOneEntite'])->name('customer.entities.findOne');
-        Route::get('/services/taxe/entetes/{uuid}', [ServicesController::class, 'entete'])->name('customer.entities.taxe.entete');
-    
-        
-    });
+    Route::get('mot/de/passe/oublie', [CustomerLoginController::class, 'password_forget'])->name('customer.forget.password');
+    Route::post('password/email', [CustomerLoginController::class, 'send_password_forget_email'])->name('customer.password.email');
+    Route::get('reset/password/{token}', [CustomerLoginController::class, 'password_reset'])->name('customer.reset.password');
+    Route::post('password/confirm', [CustomerLoginController::class, 'password_confirm'])->name('customer.password.confirm');
 
-    Route::prefix('landing')->group(function(){
-        Route::get('/services/rubrique/findOneConfig/{uuid}', [LandingController::class, 'findOneConfig'])->name('landing.entities.rubrique.findOneConfig');
-
-        Route::get('/services/taxe/findAll/{uuid}', [LandingController::class, 'findAllService'])->name('landing.entities.taxe.find_all');
-        Route::post('/services/taxe/payment', [LandingController::class, 'payment'])->name('landing.entities.taxe.payment');
-        Route::get('/services/facturation/taxe/info_paiement/{uuid}', [LandingController::class, 'info_paiement'])->name('landing.entities.taxe.info_paiement');
-        Route::get('/services/facturation/taxe/data/info_paiement/{uuid}', [LandingController::class, 'paiement_data'])->name('landing.entities.taxe.data.info_paiement');
-        Route::get('/services/facturation/taxe/data/generate/file/{uuid}', [LandingController::class, 'generateFile'])->name('landing.entities.taxe.data.generate.file');
-        Route::get('/services/facturation/taxe/data/generate/rdv/{uuid}', [LandingController::class, 'generateRdv'])->name('landing.entities.taxe.data.generate.rdv');
-        Route::get('/services/facturation/taxe/data/generate/carte/{uuid}', [LandingController::class, 'generateCarte'])->name('landing.entities.taxe.data.generate.carte');
-        
-        Route::get('/services/facturation/verification-paiement/{ref}', [LandingController::class, 'verificationPaiement'])->name('landing.entities.taxe.facturation.verification.paiement');
-
-    });
+    Route::get('otp', [CustomerLoginController::class, 'otp'])->name('customer.otp');
+    Route::post('otp/connexion', [CustomerLoginController::class, 'Otp_Connexion'])->name('customer.otp.submit');
 
 
-    Route::prefix('customer')->middleware(['UserAccess'])->group(function () {
-        Route::get('home', [CustomerLoginController::class, 'index'])->name('customer.home');
-        Route::get('dashboard', [CustomerLoginController::class, 'index'])->name('customer.dashboard');
-       // Route::get('/entite/findAll', [ServicesController::class, 'findAllEntite'])->name('customer.entities.findAll');
+    Route::get('/entite/findAll', [ServicesController::class, 'findAllEntite'])->name('customer.entities.findAll');
+    Route::get('/services/findOne/{uuid}', [ServicesController::class, 'findOneEntite'])->name('customer.entities.findOne');
+    Route::get('/services/taxe/entetes/{uuid}', [ServicesController::class, 'entete'])->name('customer.entities.taxe.entete');
+});
 
-        Route::prefix('/services')->group(function(){
-            Route::post('/taxe/store', [ServicesController::class, 'store'])->name('customer.entities.taxe.store');
-            Route::post('/taxe/update', [ServicesController::class, 'update'])->name('customer.entities.taxe.update');
-            Route::get('/taxe/show/{uuid}/{entity_uuid}', [ServicesController::class, 'show'])->name('customer.entities.taxe.show');
-            Route::get('/taxe/delete/{uuid}/{entity_uuid}', [ServicesController::class, 'delete'])->name('customer.entities.taxe.delete');
-            Route::get('/taxe/find_one/{uuid}/{entity_uuid}', [ServicesController::class, 'find_service'])->name('customer.entities.taxe.find_service');
-            
-            
-            Route::get('/taxe/findAll/{uuid}', [ServicesController::class, 'findAll'])->name('customer.entities.taxe.find_all');
-            Route::get('/taxe/{slug}/{target}', [ServicesController::class, 'index'])->name('customer.entities.taxe');
+Route::prefix('landing')->group(function () {
+    Route::get('/services/rubrique/findOneConfig/{uuid}', [LandingController::class, 'findOneConfig'])->name('landing.entities.rubrique.findOneConfig');
 
-            Route::get('/rubrique/findOneConfig/{uuid}', [ServicesController::class, 'findOneConfig'])->name('customer.entities.rubrique.findOneConfig');
+    Route::get('/services/taxe/findAll/{uuid}', [LandingController::class, 'findAllService'])->name('landing.entities.taxe.find_all');
+    Route::post('/services/taxe/payment', [LandingController::class, 'payment'])->name('landing.entities.taxe.payment');
+    Route::get('/services/facturation/taxe/info_paiement/{uuid}', [LandingController::class, 'info_paiement'])->name('landing.entities.taxe.info_paiement');
+    Route::get('/services/facturation/taxe/data/info_paiement/{uuid}', [LandingController::class, 'paiement_data'])->name('landing.entities.taxe.data.info_paiement');
+    Route::get('/services/facturation/taxe/data/generate/file/{uuid}', [LandingController::class, 'generateFile'])->name('landing.entities.taxe.data.generate.file');
+    Route::get('/services/facturation/taxe/data/generate/rdv/{uuid}', [LandingController::class, 'generateRdv'])->name('landing.entities.taxe.data.generate.rdv');
+    Route::get('/services/facturation/taxe/data/generate/carte/{uuid}', [LandingController::class, 'generateCarte'])->name('landing.entities.taxe.data.generate.carte');
 
-            Route::prefix('facturation')->group(function(){
-                Route::post('store', [CustomerFacturationsController::class, 'Paystore'])->name('customer.entities.taxe.facturation.store');
-                Route::get('verification-paiement/{ref}', [CustomerFacturationsController::class, 'verificationPaiement'])->name('customer.entities.taxe.facturation.verification.paiement');
-                Route::get('verification-validite/{uuid}', [CustomerFacturationsController::class, 'verify_validity'])->name('customer.entities.taxe.verify.validity');
+    Route::get('/services/facturation/verification-paiement/{ref}', [LandingController::class, 'verificationPaiement'])->name('landing.entities.taxe.facturation.verification.paiement');
 
-                Route::get('/taxe/info_paiement/{uuid}', [CustomerFacturationsController::class, 'info_paiement'])->name('customer.entities.taxe.info_paiement');
-                Route::get('/taxe/data/info_paiement/{uuid}', [CustomerFacturationsController::class, 'paiement_data'])->name('customer.entities.taxe.data.info_paiement');
-                Route::get('/taxe/generateFile/{uuid}', [CustomerFacturationsController::class, 'generateFile'])->name('customer.entities.taxe.generate.file');
+    Route::get('/penalty/check/{immatriculation}', [LandingController::class, 'penaltyCheck'])->name('landing.entities.taxe.penalty.check');
+});
 
-            });
 
-            Route::post('/cheque/store', [ServicesController::class, 'cheque_store'])->name('customer.entities.taxe.cheque.store');
-            Route::post('/cheque/update', [ServicesController::class, 'cheque_update'])->name('customer.entities.taxe.cheque.update');
-            Route::get('/cheque/findAll/{uuid}', [ServicesController::class, 'findCheque'])->name('customer.entities.taxe.cheque.find_all');
-            Route::get('/cheque/detail/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeDetail'])->name('customer.entities.taxe.cheque.detail');
-           
-            Route::get('/cheque/data/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeData'])->name('customer.entities.taxe.cheque.data');
-            Route::get('/cheque/submit/cotation/{uuid}', [ServicesController::class, 'cheque_cotation'])->name('customer.entities.taxe.cheque.submit.cotation');
-            Route::get('/cheque/remove/cotation/{uuid}/{element_uuid}', [ServicesController::class, 'cheque_remove_cotation'])->name('customer.entities.taxe.cheque.remove.cotation');
-            Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'fiche_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
-            Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'facture_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
+Route::prefix('customer')->middleware(['UserAccess'])->group(function () {
+    Route::get('home', [CustomerLoginController::class, 'index'])->name('customer.home');
+    Route::get('dashboard', [CustomerLoginController::class, 'index'])->name('customer.dashboard');
+    // Route::get('/entite/findAll', [ServicesController::class, 'findAllEntite'])->name('customer.entities.findAll');
 
-            Route::get('/cheque/{target}', [ServicesController::class, 'cheque'])->name('customer.entities.taxe.cheque');
+    Route::prefix('/services')->group(function () {
+        Route::post('/taxe/store', [ServicesController::class, 'store'])->name('customer.entities.taxe.store');
+        Route::post('/taxe/update', [ServicesController::class, 'update'])->name('customer.entities.taxe.update');
+        Route::get('/taxe/show/{uuid}/{entity_uuid}', [ServicesController::class, 'show'])->name('customer.entities.taxe.show');
+        Route::get('/taxe/delete/{uuid}/{entity_uuid}', [ServicesController::class, 'delete'])->name('customer.entities.taxe.delete');
+        Route::get('/taxe/find_one/{uuid}/{entity_uuid}', [ServicesController::class, 'find_service'])->name('customer.entities.taxe.find_service');
 
+
+        Route::get('/taxe/findAll/{uuid}', [ServicesController::class, 'findAll'])->name('customer.entities.taxe.find_all');
+        Route::get('/taxe/{slug}/{target}', [ServicesController::class, 'index'])->name('customer.entities.taxe');
+
+        Route::get('/rubrique/findOneConfig/{uuid}', [ServicesController::class, 'findOneConfig'])->name('customer.entities.rubrique.findOneConfig');
+
+        Route::prefix('facturation')->group(function () {
+            Route::post('store', [CustomerFacturationsController::class, 'Paystore'])->name('customer.entities.taxe.facturation.store');
+            Route::get('verification-paiement/{ref}', [CustomerFacturationsController::class, 'verificationPaiement'])->name('customer.entities.taxe.facturation.verification.paiement');
+            Route::get('verification-validite/{uuid}', [CustomerFacturationsController::class, 'verify_validity'])->name('customer.entities.taxe.verify.validity');
+
+            Route::get('/taxe/info_paiement/{uuid}', [CustomerFacturationsController::class, 'info_paiement'])->name('customer.entities.taxe.info_paiement');
+            Route::get('/taxe/data/info_paiement/{uuid}', [CustomerFacturationsController::class, 'paiement_data'])->name('customer.entities.taxe.data.info_paiement');
+            Route::get('/taxe/generateFile/{uuid}', [CustomerFacturationsController::class, 'generateFile'])->name('customer.entities.taxe.generate.file');
         });
 
+        Route::post('/cheque/store', [ServicesController::class, 'cheque_store'])->name('customer.entities.taxe.cheque.store');
+        Route::post('/cheque/update', [ServicesController::class, 'cheque_update'])->name('customer.entities.taxe.cheque.update');
+        Route::get('/cheque/findAll/{uuid}', [ServicesController::class, 'findCheque'])->name('customer.entities.taxe.cheque.find_all');
+        Route::get('/cheque/detail/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeDetail'])->name('customer.entities.taxe.cheque.detail');
 
-        
-        Route::prefix('securite')->group(function(){
-            Route::get('compte', [UsersController::class, 'securite'])->name('customer.securite.compte');
-            Route::post('compte/update/data', [UsersController::class, 'updateAccount'])->name('customer.securite.compte.update.data');
-            Route::post('compte/update/password', [UsersController::class, 'updatePassword'])->name('customer.securite.compte.update.password');
-            Route::post('compte/update/avatar', [UsersController::class, 'uploadAvatar'])->name('customer.securite.compte.update.avatar');
-        });
+        Route::get('/cheque/data/{uuid}/{entity_uuid}', [ServicesController::class, 'chequeData'])->name('customer.entities.taxe.cheque.data');
+        Route::get('/cheque/submit/cotation/{uuid}', [ServicesController::class, 'cheque_cotation'])->name('customer.entities.taxe.cheque.submit.cotation');
+        Route::get('/cheque/remove/cotation/{uuid}/{element_uuid}', [ServicesController::class, 'cheque_remove_cotation'])->name('customer.entities.taxe.cheque.remove.cotation');
+        Route::get('/cheque/fiche/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'fiche_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
+        Route::get('/cheque/facture/cotation/{uuid}/{entity_uuid}', [ServicesController::class, 'facture_cotation'])->name('customer.entities.taxe.cheque.fiche.cotation');
 
-        Route::get('service/comment/payer', [UsersController::class, 'comment_payer'])->name('customer.service.comment.payer');
-
-
-        
+        Route::get('/cheque/{target}', [ServicesController::class, 'cheque'])->name('customer.entities.taxe.cheque');
     });
 
 
-    
-    Route::get('controle/login', [ControlesController::class, 'login'])->name('controle.login');
-    Route::post('controle/login/submit', [ControlesController::class, 'connexion'])->name('controle.connexion');
 
-    Route::prefix('controle')->middleware(['ControlConnect'])->group(function(){
-        Route::get('home', [ControlesController::class, 'index'])->name('controle.home');
-        Route::get('verify/{decodedText}', [ControlesController::class, 'verify'])->name('controle.verify');
-        Route::get('manual/verify/{decodedText}', [ControlesController::class, 'verify_manual'])->name('controle.verify.manual');
-
+    Route::prefix('securite')->group(function () {
+        Route::get('compte', [UsersController::class, 'securite'])->name('customer.securite.compte');
+        Route::post('compte/update/data', [UsersController::class, 'updateAccount'])->name('customer.securite.compte.update.data');
+        Route::post('compte/update/password', [UsersController::class, 'updatePassword'])->name('customer.securite.compte.update.password');
+        Route::post('compte/update/avatar', [UsersController::class, 'uploadAvatar'])->name('customer.securite.compte.update.avatar');
     });
 
-    Route::get('login', [CustomerLoginController::class, 'login'])->name('login');
-    Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
-    
-    Route::post('customer/register/submit', [CustomerLoginController::class, 'register_submit'])->name('customer.register.submit');
-    Route::get('register/{service?}', [CustomerLoginController::class, 'register'])->name('register');
-    Route::get('/quick/payment/{name?}/{service?}', [LandingController::class, 'quick_pay'])->name('quick.payment');
-    Route::get('/quick/proforma/{service?}', [CustomerLoginController::class, 'proforma'])->name('quick.proforma');
-    Route::get('/quick/liste/{name?}/{service?}', [LandingController::class, 'quick_liste'])->name('quick.liste');
-    Route::get('/quick/acquitter/{name?}/{service?}', [LandingController::class, 'quick_acquitter'])->name('quick.acquitter');
-    Route::get('/nous/contacter/{name?}/{service?}', [LandingController::class, 'about'])->name('about');
-    Route::post('/send/nous/contacter', [LandingController::class, 'about_send'])->name('about.send');
+    Route::get('service/comment/payer', [UsersController::class, 'comment_payer'])->name('customer.service.comment.payer');
+});
 
+
+
+Route::get('controle/login', [ControlesController::class, 'login'])->name('controle.login');
+Route::post('controle/login/submit', [ControlesController::class, 'connexion'])->name('controle.connexion');
+
+Route::prefix('controle')->middleware(['ControlConnect'])->group(function () {
+    Route::get('home', [ControlesController::class, 'index'])->name('controle.home');
+    Route::get('verify/{decodedText}', [ControlesController::class, 'verify'])->name('controle.verify');
+    Route::get('manual/verify/{decodedText}', [ControlesController::class, 'verify_manual'])->name('controle.verify.manual');
+});
+
+Route::get('login', [CustomerLoginController::class, 'login'])->name('login');
+Route::post('logout', [CustomerLoginController::class, 'logout'])->name('logout');
+
+Route::post('customer/register/submit', [CustomerLoginController::class, 'register_submit'])->name('customer.register.submit');
+Route::get('register/{service?}', [CustomerLoginController::class, 'register'])->name('register');
+Route::get('/quick/payment/{name?}/{service?}', [LandingController::class, 'quick_pay'])->name('quick.payment');
+Route::get('/quick/proforma/{service?}', [CustomerLoginController::class, 'proforma'])->name('quick.proforma');
+Route::get('/quick/liste/{name?}/{service?}', [LandingController::class, 'quick_liste'])->name('quick.liste');
+Route::get('/quick/acquitter/{name?}/{service?}', [LandingController::class, 'quick_acquitter'])->name('quick.acquitter');
+Route::get('/nous/contacter/{name?}/{service?}', [LandingController::class, 'about'])->name('about');
+Route::post('/send/nous/contacter', [LandingController::class, 'about_send'])->name('about.send');

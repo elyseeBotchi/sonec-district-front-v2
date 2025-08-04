@@ -117,6 +117,10 @@
                                     </div>
                                     <br>
 
+                                    <div id="loader_rubrique" style="display: none; font-weight: bold; color: #555;">
+                                        Chargement des rubriques...
+                                    </div>
+                                    
                                     @csrf
                                     <input type="hidden"  name="entity_uuid" id="SelectEntity" value="{{ $service_uuid ?? '' }}" required />
                                         <div class="row g-3">
@@ -166,6 +170,11 @@
                                             <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 40px;">
                                         </div>
 
+                                        
+                                        <div class="col-12">
+                                            <label class="form-label">Montant pénalité</label>
+                                            <input type="text" class="form-control bg-light border-0" placeholder="Montant de la pénalité" name="montant_penalite" id="montant_penalite" readonly disabled  style="height: 40px;">
+                                        </div>
                                         
 
                                             
@@ -251,10 +260,12 @@
 @isset($services[0]['uuid'])
     <script>
         var Entity_uuid = @Json($services[0]['uuid'] ?? '0d7bd150-655a-11ef-8a7c-53d21c84c368');
+        let penalty_date_begin = null;
     </script>
     @else
     <script>
         var Entity_uuid = '0d7bd150-655a-11ef-8a7c-53d21c84c368';
+        let penalty_date_begin = null;
     </script>
 @endisset
 

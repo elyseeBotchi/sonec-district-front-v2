@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\FilesController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Stevebauman\Location\Facades\Location;
 
 if(!function_exists('AuthConnect')) {
     function AuthConnect(){
@@ -137,7 +138,7 @@ if(!function_exists('getUserIP')) {
         try {
             $publicIP = file_get_contents('http://ipinfo.io');
             if ($publicIP !== false) {
-                $data_location = \Location::get($publicIP);
+                $data_location = Location::get($publicIP);
                 if (is_object($data_location)) {
                     $data_location->ip_prive = $ip ?? '';
                 }

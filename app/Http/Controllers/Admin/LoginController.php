@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\GlobalSendService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -85,8 +86,9 @@ class LoginController extends Controller
 
             if(isset($clientLogin["type"])){
                 if ($clientLogin["type"] == "success") {
-                    // Stocker les données dans la session 'admin'
+                    // Stocker les données dans la session 'admin' embeddings
                     unset($clientLogin["data"]["user"]["password"]);
+                    unset($clientLogin["data"]["user"]["embeddings"]);
 
                     Session::put('admin', $clientLogin["data"]["user"]);
 
@@ -130,6 +132,94 @@ class LoginController extends Controller
         //return $data;
     }
 
+    public function faceLogin(){
+        return view('admins/auth/face-login');
+       // return view('admins/auth/face-login_');
+    }
+
+    
+    public function faceSubmit(Request $request)
+    {
+       
+        $validator = Validator::make($request->all(), [
+            'embedding' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['error'] = true;
+            $data['message'] = "Connexion échouée, Veuillez vérifier vos paramètres de connexion";
+
+            $dataResponse =[
+                'type'=> 'error',
+                'urlback'=> '',
+                'message'=> $data['message'] ?? '',
+                'code'=> 500,
+                'step'=> 'Param connexion'
+            ];
+            return response()->json($dataResponse);
+        }
+        else {
+
+            $url_path = "/authentification/login/face/verify";
+            $data = [
+                'email' => $request->email ?? '',
+                'inputEmbedding' => $request->embedding,
+            ];
+
+            //return ($data);
+            $clientLogin = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+           //return dd($clientLogin);
+
+            if(isset($clientLogin["type"])){
+                if ($clientLogin["type"] == "success") {
+                    // Stocker les données dans la session 'admin'
+                    unset($clientLogin["data"]["user"]["password"]);
+
+                    Session::put('admin', $clientLogin["data"]["user"]);
+
+                    // Récupérer les données de la session 'admin' et les assigner à des clés spécifiques dans un tableau
+                    $adminData = Session::get('admin');
+                    $adminData['role'] = $clientLogin["data"]["role"] ?? [];
+                    $adminData['offices'] = $clientLogin["data"]["offices"] ?? [];
+                    $adminData['permissions'] = $clientLogin["data"]["permissions"] ?? [];
+                    $adminData['AccessToken'] = $clientLogin["data"]["token"] ?? [];
+
+                    // Remettre le tableau modifié dans la session 'admin'
+                    Session::put('admin', $adminData);
+
+                    $dataResponse =[
+                        'type'=>'success',
+                     'urlback'=> route('panel.home'),
+                        'message'=>$clientLogin['message'] ?? '',
+                        'code'=>200,
+                        'data' => AuthConnect(),
+                    ];
+                    return response()->json($dataResponse);
+                }
+                else {
+                    $dataResponse = [
+                        'type'=> 'error',
+                        'urlback'=> '',
+                        'message'=> $check['message'] ?? 'Connexion echouée ',
+                        'code'=>500,
+                        'errors' =>$clientLogin['message'] ?? [],
+                    ];
+                    return response()->json($dataResponse);
+                }
+            }else{
+                $dataResponse = [
+                    'type'=> 'error',
+                    'urlback'=> '',
+                    'message'=> $check['message'] ?? 'Connexion echouée ',
+                    'code'=>500,
+                    "error" => $clientLogin
+                ];
+                return response()->json($dataResponse);
+            }
+        }
+    }
+
+
     public function otp()
     {
         if(AuthConnect() != null){
@@ -143,6 +233,192 @@ class LoginController extends Controller
         }
     }
 
+    public function faceOtp()
+    {
+        if(AuthConnect() != null){
+            if(AuthConnect()['otp_actif'] !== true){
+               return redirect()->route('panel.login');
+            }
+            return view('admins.auth.face_otp');
+        }
+        else{
+            return redirect()->route('panel.login');
+        }
+    }
+
+
+    
+
+    public function FaceOtpSubmit(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'embedding' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['error'] = true;
+            $data['message'] = "Connexion échouée, Veuillez vérifier vos paramètres de connexion";
+
+            $dataResponse =[
+                'type'=> 'error',
+                'urlback'=> '',
+                'message'=> $data['message'] ?? '',
+                'code'=> 500,
+                'step'=> 'Param connexion'
+            ];
+            return response()->json($dataResponse);
+        }
+        else {
+
+            $inputEmbedding = $request->embedding;
+
+            Log::info('Received embedding:', ['embedding' => $inputEmbedding]);
+
+            if (!is_array($inputEmbedding)) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit être un tableau',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+            if (count($inputEmbedding) !== 128) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit contenir 128 valeurs',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+
+            //dd('****');
+            $url_path = "/authentification/face/otp/login";
+            $data = [
+                'inputEmbedding' => $request->embedding,
+            ];
+
+
+            $clientLogin = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+             //return dd($clientLogin);
+
+            if(isset($clientLogin["type"])){
+                if ($clientLogin["type"] == "success") {
+                    
+                    // Stocker les données dans la session 'admin'
+                    unset($clientLogin["data"]["user"]["password"]);
+                    unset($clientLogin["data"]["user"]["embeddings"]);
+
+                    $clientLogin["data"]["user"]['otp_actif'] = true;
+
+                    // Récupérer les données de la session 'admin' et les assigner à des clés spécifiques dans un tableau
+                    $adminData = Session::get('admin');
+                    $adminData['role'] = $clientLogin["data"]["role"] ?? [];
+                    $adminData['offices'] = $clientLogin["data"]["offices"] ?? [];
+                    $adminData['permissions'] = $clientLogin["data"]["permissions"] ?? [];
+                    $adminData['AccessToken'] = $clientLogin["data"]["token"] ?? [];
+
+                    // Remettre le tableau modifié dans la session 'admin'
+                    Session::put('admin', $adminData);
+                    $user =AuthConnect();
+                    $user['otp_actif'] = false;
+                    Session::put('admin',  $user);
+
+                    Log::info(AuthConnect());
+
+                    $dataResponse =[
+                        'type'=>'success',
+                        'urlback'=> route('panel.home'),
+                        'message'=>$clientLogin['message'] ?? '',
+                        'code'=>200,
+                        'distance' => $clientLogin['distance'],
+                        "data" => AuthConnect()
+                    ];
+
+                    return response()->json($dataResponse);
+                }
+                else {
+                    $dataResponse = [
+                        'type'=> 'error',
+                        'urlback'=> '',
+                        'message'=> $check['message'] ?? 'Connexion echouée ',
+                        'code'=>500,
+                        'errors' =>$clientLogin['message'] ?? [],
+                        'distance' => $clientLogin['distance']
+                    ];
+                    return response()->json($dataResponse);
+                }
+            }else{
+                $dataResponse = [
+                    'type'=> 'error',
+                    'urlback'=> '',
+                    'message'=> $check['message'] ?? 'Connexion echouée ',
+                    'code'=>500,
+                ];
+                return response()->json($dataResponse);
+            }
+        }
+        //return $data;
+    }
+
+    public function faceData(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'embedding' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $data['error'] = true;
+            $data['message'] = "Connexion échouée, Veuillez vérifier vos paramètres de connexion";
+
+            $dataResponse =[
+                'type'=> 'error',
+                'urlback'=> '',
+                'message'=> $data['message'] ?? '',
+                'code'=> 500,
+                'step'=> 'Param connexion'
+            ];
+            return response()->json($dataResponse);
+        }
+        else {
+
+            $inputEmbedding = $request->embedding;
+
+            Log::info('Received embedding:', ['embedding' => $inputEmbedding]);
+
+            if (!is_array($inputEmbedding)) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit être un tableau',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+            if (count($inputEmbedding) !== 128) {
+                return response()->json([
+                    'type' => 'error',
+                    'message' => 'Embedding doit contenir 128 valeurs',
+                    'error' => $inputEmbedding,
+                ], 400);
+            }
+
+
+            //dd('****');
+            $url_path = "/face/verify/data";
+            $data = [
+                'inputEmbedding' => $request->embedding,
+            ];
+
+
+            $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+          //  dd($dataResponse);
+                return response()->json($dataResponse);
+            
+        }
+        //return $data;
+    }
     public function Otp_Connexion(Request $request)
     {
 

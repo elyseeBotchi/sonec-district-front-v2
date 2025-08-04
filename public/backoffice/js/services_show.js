@@ -360,6 +360,69 @@ $(document).ready(function() {
         document.getElementById('form-container-update').innerHTML = formHtml;
     }
 
+    function generateFormUpdateTypeVehicule(entete,pay_element) {
+        let formHtml = '';
+        let required = "required";
+        let disabled = "disabled";
+        entete.forEach(field => {
+            let validationAttributes = '';
+            const slugifiedName = slugify(field.name);
+            const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
+        
+            // Ajout de règles spécifiques pour chaque type de champ
+            if (field.type_input === 'text') {
+                //
+                if(slugify(field.name)==="numero_dimmatriculation" || slugify(field.name)==="numro_dimmatriculation"){
+                    //validationAttributes = ' pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$"';
+                    // validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})$"';
+                    //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]{1}[0-9]{4,5})|(P[0-9]{6,8})$"';
+                    //validationAttributes = 'pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]{1}[0-9]{4,5})|(P[0-9]{6,8})|(CHP[0-9]{7})|(R[0-9]{7})|(2024\\|[0-9]{8}[A-Z]{2}CI[0-9]{2})|(CH[0-9]{4})|([A-Z0-9]{15,17})$"';
+                    // pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})|([0-9]{5}[A-Z]{2}CI[0-9]{2})|([0-9]{2,10}[A-Z]{2}CI[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2}-[0-9]{2})|([A-Z]{2}-[0-9]{1,4}-[A-Z]{2})|(CH[A-Z]?[0-9]{4,10})|(P[0-9]{6,8})|(CHP[0-9]{7})|(R[0-9]{7})|([0-9]{4}\|[0-9]{8}[A-Z]{2}CI[0-9]{2})|(CH[0-9]{4,10})|([A-Z0-9]{15,20})$"
+                    validationAttributes += ' onkeydown="return !(event.key === \' \')"';
+
+                   // validationAttributes += ' title="Le numéro d\'immatriculation doit être sous le format 1234AB01, 12345WWCI01 ou AB1234CD"';
+                }                
+                else if(slugify(field.name)==="numero_de_la_carte_grise" || slugify(field.name)==="numro_de_la_carte_grise"){
+                    //  validationAttributes = ' pattern="^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+                    // validationAttributes = ' pattern="^[A-Z]{2}(?[0-9]{6,8})$|^(?[0-9]{6,8}[A-Z]{2}$)|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"';
+
+                   // validationAttributes += ' title="Le numéro de la carte grise doit être sous le format AB123456, 123456AB, ou encore AB-1234-CD"';
+                    required = ""
+                    validationAttributes += ' onkeydown="return !(event.key === \' \')"';
+
+                }
+                else{
+                    validationAttributes = ' minlength="3" maxlength="50"';
+                }
+                     // Forcer la saisie en majuscules
+                     validationAttributes += ' style="text-transform:uppercase;" oninput="this.value = this.value.toUpperCase();"';
+                
+            } else if (field.type_input === 'email') {
+                //validationAttributes = 'pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"';
+            } else if (field.type_input === 'tel') {
+                // Regex pour les numéros de téléphone en Côte d'Ivoire (format 10 chiffres, commence par 01, 05, 07, etc.)
+                validationAttributes = ' pattern="^(0[1-9]|25)[0-9]{8}$" maxlength="10" title="Le numéro de téléphone doit commencer par 01, 02, 03, ..., ou 25 et contenir exactement 10 chiffres."';
+                validationAttributes += ' title="Le numéro de téléphone doit contenir exactement 10 chiffres."';
+            }
+    
+            if(field.type_input !== 'email' && field.type_input !== 'tel'){
+                formHtml += `
+                <div class="col-md-12">
+                   <div class="form-group">
+                       <label class="form-label">${field.name} </label>
+                       <input type="${field.type_input}" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}" ${disabled}  ${required} ${validationAttributes} />
+                   </div>
+               </div>`;
+            }else{
+                formHtml += `
+                    <input type="hidden" class="form-control" value="${payElementValue}" placeholder="${field.name}" name="${ slugify(field.name)}" ${disabled} ${required} ${validationAttributes} />`;
+            }
+       
+        });
+    
+        // Insérer le formulaire généré dans un conteneur existant
+        document.getElementById('form-container-update-type').innerHTML = formHtml;
+    }
 
            
     $('#container').on('click', '.updateElement', function(e) {
@@ -390,7 +453,171 @@ $(document).ready(function() {
            // console.error('Erreur:', error);
         });
     });
+           
+    $('#container').on('click', '.updateElementType', function(e) {
+        e.preventDefault();
+        const uuid = this.getAttribute('data-uuid');
+        //const name = this.getAttribute('data-name');
     
+        //alert(uuid);
+        document.getElementById('update-type-uuid').value = uuid;
+    
+        // Faire une requête fetch
+        fetch(`/panel/customer/service/taxe/find_one/with_same_type/${Element_uuid}/${Entity_uuid}`, {
+            method: 'GET', // Ou 'POST' selon votre besoin
+            headers: {
+                'Content-Type': 'application/json',
+                // Ajoutez d'autres en-têtes si nécessaire, comme l'authentification
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+           // console.log(data.data); // Affiche les données reçues
+            const entete = data.data.entete;
+            const pay_element = data.data.pay_element;
+            const types_vehicules = data.data.types_vehicules;
+           // console.log(entete)
+            generateFormUpdateTypeVehicule(entete,pay_element)
+
+            console.log(pay_element)
+            generateTypeList(types_vehicules,pay_element)
+
+        })
+        .catch(error => {
+           // console.error('Erreur:', error);
+        });
+    });
+    
+    function generateTypeList(types_vehicules,pay_element){
+        const results = types_vehicules;
+        const rubriqueSelect = document.getElementById('rubrique');
+        rubriqueSelect.innerHTML = ''; // Vider le contenu actuel du select
+
+        //console.log("***")
+        // Ajouter l'option vide "Type de véhicule"
+        let default_libelle = "Type de véhicule";
+
+        if(pay_element.rubrique_option_name === null){
+            default_libelle = pay_element.rubrique_name
+        }else{
+            default_libelle = pay_element.rubrique_option_name
+        }
+
+        console.log(default_libelle)
+
+
+        const defaultOption = document.createElement('option');
+        defaultOption.textContent = default_libelle ;
+        defaultOption.value = pay_element.facturation_uuid;
+        
+        rubriqueSelect.appendChild(defaultOption);
+       
+        const defaultAmount = pay_element.amount
+            ? parseFloat(pay_element.amount).toLocaleString('fr-FR', {
+                    style: 'currency',
+                    currency: 'XOF',
+                })
+            : '';
+        document.getElementById('montant_pay').value = defaultAmount;
+        // Vérification des rubriques
+       // console.log(results.rubrique.length)
+
+        if (results.rubrique && results.rubrique.length > 0) {
+            results.rubrique.forEach(rubrique => {
+                if (rubrique.rubrique_option.length > 0) {
+                    // Créer un groupe d'options pour chaque rubrique ayant des options
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = rubrique.name;
+
+                    // Ajouter les options sous chaque rubrique
+                    rubrique.rubrique_option.forEach(option => {
+
+                        if (option.facturation && option.facturation.length > 0) {
+                            option.facturation.forEach(facturation => {
+                                const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'XOF',
+                                });
+                                const optionElement = document.createElement('option');
+                                optionElement.value = facturation.uuid;
+                                optionElement.textContent = option.option_name;
+                                optionElement.setAttribute('data-amount', facturation.amount);
+                                //optionElement.setAttribute('data-lieu_rendez_vous', facturation.libelle);
+                               // optionElement.setAttribute('data-lieu_rendez_vous_uuid', facturation.lieu_rendez_vous_uuid);
+
+                                optgroup.appendChild(optionElement);
+                            });
+                        } else {
+                            const optionElement = document.createElement('option');
+                            optionElement.textContent = `${option.option_name} (Pas de facturation disponible)`;
+                            optionElement.disabled = true;
+
+                            optgroup.appendChild(optionElement);
+                        }
+                    });
+
+                    rubriqueSelect.appendChild(optgroup);
+                } 
+                else {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = rubrique.uuid;
+
+                    if (rubrique.facturation && rubrique.facturation.length > 0) {
+                        rubrique.facturation.forEach(facturation => {
+                            console.log(rubrique.facturation.length)
+                            const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
+                                style: 'currency',
+                                currency: 'XOF',
+                            });
+
+                            
+                            //console.log(rubrique.facturation)
+                            const facturationOption = document.createElement('option');
+                            facturationOption.value = facturation.uuid;
+                            facturationOption.textContent = rubrique.name;
+                            facturationOption.setAttribute('data-amount', facturation.amount);
+                           
+                            rubriqueSelect.appendChild(facturationOption);
+                        });
+                    } else {
+                        optionElement.textContent = `${rubrique.name} (Pas de facturation disponible)`;
+                        optionElement.disabled = true;
+
+                       // rubriqueSelect.appendChild(optionElement);
+                    }
+                }
+            });
+        } else {
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = 'Aucune rubrique disponible';
+            defaultOption.disabled = true;
+            rubriqueSelect.appendChild(defaultOption);
+        }
+
+        // Mise à jour des éléments HTML
+        // document.getElementById('submitBtn').style.display = 'block';
+
+        // Gestionnaire d'événements pour la mise à jour du montant
+        rubriqueSelect.addEventListener('change', () => {
+            const selectedOption = rubriqueSelect.options[rubriqueSelect.selectedIndex];
+            const selectedAmount = selectedOption?.getAttribute('data-amount') || '';
+            const formattedAmount = selectedAmount
+                ? parseFloat(selectedAmount).toLocaleString('fr-FR', {
+                        style: 'currency',
+                        currency: 'XOF',
+                    })
+                : '';
+            document.getElementById('montant_pay').value = formattedAmount;
+            
+            // const selectedLieuRDV = selectedOption?.getAttribute('data-lieu_rendez_vous') || '';
+            // const selectedLieuRdvuuid = selectedOption?.getAttribute('data-lieu_rendez_vous_uuid') || '';
+            // document.getElementById('lieu_rdv').value = selectedLieuRDV;
+            //  document.getElementById('list_rdv').value = selectedLieuRdvuuid;
+
+
+        });
+    }
+
 
         $('.validate-info').on('click', function(e){
             e.preventDefault();

@@ -123,7 +123,11 @@
                                     <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 55px;">
                                 </div>
 
-                                
+                                                                        
+                                <div class="col-12">
+                                    <label class="form-label">Montant pénalité</label>
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Montant de la pénalité" name="montant_penalite" id="montant_penalite" readonly disabled  style="height: 40px;">
+                                </div>
                                 
                                 <div class="col-12">
                                     <label class="form-label">Date de la dernière visite <code>*</code></label>

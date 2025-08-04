@@ -30,6 +30,12 @@
                             <button data-toggle="modal" data-target="#updateElement-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-warning col-sm-3 updateElement" style="position:relative;margin-top:-125px !important;">
                                 Modifier les informations validées
                             </button>
+                        @endif  
+
+                       @if(CanPermission('rendez_vous_modifier_les_informations_validees')) 
+                           &nbsp; <button data-toggle="modal" data-target="#updateElementType-modal" data-uuid="{{ $element_uuid ?? ''}}" data-name="" data-description="" title="Modifier le véhicule" style="justify-content: center" class="btn btn-rounded btn-secondary col-sm-3 updateElementType" style="position:relative;margin-top:-125px !important;">
+                                Modifier le type de véhicule
+                            </button>
                         @endif
 
                             <table class="table">
@@ -137,6 +143,40 @@
                 </div>
             </div>
 
+
+                                    
+            <div class="modal fade" id="updateElementType-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <form class="modal-content sendForm" action="{{ route('panel.autorisations.services.taxes.element.update_type_vehicule') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="entity_uuid" value="{{ $entity_uuid ?? '' }}" required />
+                        <input type="hidden" name="uuid" id="update-type-uuid" required />
+                        
+                        <div class="modal-header">
+                            <h5 class="mb-0 text-uppercase">Modifier le type de véhicule  </h5>
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                                <i class="ti ti-x f-20"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" id="form-container-update-type"></div>
+                
+                            
+                                <label class="form-label">Type de véhicule <code>*</code></label> <br>
+                                <select class="form-control border-0  FindLieuRDV" name="rubrique_facturation_uuid" id="rubrique" style="height: 40px;"></select>
+                            
+                                <br>
+                                <label class="form-label">Montant à payer</label> <br>
+                                <input type="text" class="form-control bg-light border-0" placeholder="Montant à payer"  id="montant_pay" readonly disabled  style="height: 40px;">
+                           
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             @if(CanPermission('entites_voir_lhistorique_des_paiements_dune_entite'))  
             <div class="col-xl-12">

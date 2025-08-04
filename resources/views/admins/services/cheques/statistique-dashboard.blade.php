@@ -75,6 +75,34 @@
                     </td>
                 </tr>
                 
+                
+                <tr>
+                    <td>Pénalité</td>
+                    <td>
+                        <span id="total_penalite_j">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span id="nb_total_penalite_j">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span id="total_paiement_penalite">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span id="total_nbre_penalite">
+                           <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                        <span style="display: none">
+                            <b id="nb_total_penalite">  <i class="fa fa-spinner fa-spin" ></i></b>
+                        </span>
+                    </td>
+                </tr>
+
                 <tr class="table-active">
                     <td> <b>Cumul</b> </td>
                     <td>

@@ -35,6 +35,28 @@ class FacturationsController extends Controller
 
   }
    
+  public function storePenalty(Request $request){
+
+    $url_path = "/autorisations/entite/rubrique/facturation/penalty/store";
+
+    $data = [
+        //'admin_uuid' => AuthConnect()['uuid'],
+        'entity_uuid' => $request->entity_uuid,
+        'rubrique' =>$request->rubrique_uuid,
+        'rubrique_options' =>$request->rubrique_option_uuid,
+        'target' =>$request->target,
+        'billings' =>$request->billings,
+        'facturation_uuid' => $request->facturation_uuid,
+         
+    ];
+    
+    //return dd($data);
+
+      $response = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      //return dd($response);
+      return response()->json($response);
+
+  }
 
 public function lock(Request $request){
 
