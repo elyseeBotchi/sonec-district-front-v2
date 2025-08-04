@@ -64,6 +64,7 @@
                                         <th>Date</th>
                                         <th>Nombre de paiement</th>
                                         <th>Montant pénalité</th>
+                                        <th>Montant cartes</th>
                                         <th>Montant total (PENALITE + TAXE) </th>
                                     </tr>
                                 </thead>
@@ -71,6 +72,8 @@
                                 <tfoot>
                                     <tr style="display: none">
                                         <th>Total</th>
+                                        <th></th>
+                                        <th></th>
                                         <th></th>
                                         <th id="montant_total_periode"></th>
                                     </tr>
