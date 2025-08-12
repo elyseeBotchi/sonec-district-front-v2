@@ -322,7 +322,7 @@
             const descriptor = Array.from(detection.descriptor);
             embeddings.push(descriptor);
 
-            console.log(`Embedding ${embeddings.length}/${MAX_EMBEDDINGS} capturé`);
+            //console.log(`Embedding ${embeddings.length}/${MAX_EMBEDDINGS} capturé`);
 
             if (embeddings.length >= MAX_EMBEDDINGS) {
                 clearInterval(intervalId);
@@ -359,7 +359,7 @@
                     });
 
                     const data = await res.json();
-                    console.log(`Réponse backend embedding ${i}:`, data);
+                    //console.log(`Réponse backend embedding ${i}:`, data);
 
                     if (data.type === 'success') {
                         successCount++;

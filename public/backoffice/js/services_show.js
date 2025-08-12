@@ -32,7 +32,7 @@ $(document).ready(function() {
                 const factures = results.factures || {};
                 const entity = results.entity || {};
             
-                console.log(penalty)
+                //console.log(penalty)
                // console.log(results)
                 // Vérification des données avant de les insérer dans le DOM
                 if (!entity.name || !entity.front_name) {
@@ -497,7 +497,7 @@ $(document).ready(function() {
            // console.log(entete)
             generateFormUpdateTypeVehicule(entete,pay_element)
 
-            console.log(pay_element)
+            //console.log(pay_element)
             generateTypeList(types_vehicules,pay_element)
 
         })
@@ -521,7 +521,7 @@ $(document).ready(function() {
             default_libelle = pay_element.rubrique_option_name
         }
 
-        console.log(default_libelle)
+        //console.log(default_libelle)
 
 
         const defaultOption = document.createElement('option');
@@ -582,7 +582,7 @@ $(document).ready(function() {
 
                     if (rubrique.facturation && rubrique.facturation.length > 0) {
                         rubrique.facturation.forEach(facturation => {
-                            console.log(rubrique.facturation.length)
+                            //console.log(rubrique.facturation.length)
                             const formattedAmount = parseFloat(facturation.amount).toLocaleString('fr-FR', {
                                 style: 'currency',
                                 currency: 'XOF',

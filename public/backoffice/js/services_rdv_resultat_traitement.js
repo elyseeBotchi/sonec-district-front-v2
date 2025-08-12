@@ -14,7 +14,7 @@ $(document).ready(function() {
                 searchData(data.historique)
             })
             .catch(error => {
-                console.error('Erreur:', error);
+               // console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
                 alert('Une erreur est survenue lors de la récupération des données.');
             });
@@ -27,7 +27,7 @@ $(document).ready(function() {
             return;
         }
     
-        console.log("Données reçues :", data);
+        //console.log("Données reçues :", data);
     
         // Sélectionner le corps du tableau
         const tableBody = document.querySelector('#datatable-traitement tbody');

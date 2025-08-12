@@ -69,7 +69,7 @@ $(document).ready(function() {
                 // Ajouter un événement pour le bouton Détail
                 $('#datatable-custom').on('click', '.btn-detail', function() {
                     const uuid = $(this).data('uuid');
-                    console.log(uuid)
+                   // console.log(uuid)
                     fetchCandidatDetail(uuid);
                 });
             });
@@ -151,7 +151,7 @@ $(document).ready(function() {
                 // Ajouter un événement pour le bouton Détail
                 $('#datatable-custom').on('click', '.btn-detail', function() {
                     const uuid = $(this).data('uuid');
-                    console.log(uuid)
+                    //console.log(uuid)
                     fetchCandidatDetail(uuid);
                 });
             });

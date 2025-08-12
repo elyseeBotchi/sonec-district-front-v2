@@ -240,7 +240,7 @@ $(document).ready(function() {
 
             var row = '<div class="row">';
             const result = data.data;
-            console.log(url)
+            //console.log(url)
             row += `<div class="form-group col-md-6">
                         <label for="name" class="form-label">Date de début</label>
                         <input type="date" name="start" value="${result.start}" class="form-control" autofocus>

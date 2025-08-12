@@ -9,14 +9,14 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => { 
-                console.log(data)
+                //console.log(data)
                 if (!data || !data.entete || !data.entity) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }
     
                 const entete = data.entete;
                 const entity = data.entity;
-                console.log(entete)
+                //console.log(entete)
                 // Générer le formulaire dynamiquement à partir des en-têtes
                 generateForm(entete);
     
@@ -30,7 +30,7 @@ $(document).ready(function() {
                
             })
             .catch(error => {
-                console.error('Erreur:', error);
+                //console.error('Erreur:', error);
                 // Vous pouvez afficher un message utilisateur ici, comme un toast ou une alerte
                 alert('Une erreur est survenue lors de la récupération des données.');
             });

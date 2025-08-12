@@ -20,7 +20,7 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                console.log("Résultats reçus :", results);
+                //console.log("Résultats reçus :", results);
 
                var permissions = {
                 validation_pending: canPermission('tableau_de_bord_voir_les_validations_en_attentes'),

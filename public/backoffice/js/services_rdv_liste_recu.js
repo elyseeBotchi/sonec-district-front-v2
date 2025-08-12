@@ -11,7 +11,7 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => { 
-                console.log(data)
+                //console.log(data)
                 if(data.entete){
                     searchData(data)
                 }
@@ -32,7 +32,7 @@ $(document).ready(function() {
           }
           
           const results = data.data;
-          console.log(results)
+          //console.log(results)
 
           // Vérifier si la DataTable a déjà été initialisée
           if ($.fn.DataTable.isDataTable('#datatable-custom')) {

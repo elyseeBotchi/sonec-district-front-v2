@@ -106,7 +106,7 @@ $(document).ready(function() {
             })
             .then(data => {
                 const results = data.data;
-                console.log(results);
+                //console.log(results);
 
                 const rubriqueContainer = document.getElementById('rubrique_container');
                 rubriqueContainer.innerHTML = ''; // Vider le contenu actuel

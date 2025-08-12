@@ -12,7 +12,7 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => {  
-                console.log(data.data);
+                //console.log(data.data);
                 if (!data.data) {
                     throw new Error('Données manquantes ou incorrectes dans la réponse');
                 }

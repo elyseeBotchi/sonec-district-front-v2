@@ -267,8 +267,8 @@
                     }
                 }
 
-                console.log('antiSpoofEmbedding');
-                console.log(antiSpoofEmbedding);
+                //console.log('antiSpoofEmbedding');
+                //console.log(antiSpoofEmbedding);
 
                 const resized = faceapi.resizeResults(detection, displaySize);
                 faceapi.draw.drawDetections(canvas, resized);
@@ -355,9 +355,9 @@
                 const challenges = [
                     runBlinkChallenge,
                     runFacialExpressionSmileChallenge,
-                    runFacialExpressionAngryChallenge,
-                    runFacialExpressionSurprisedChallenge,
-                    runFacialExpressionDisgustedChallenge,
+                   // runFacialExpressionAngryChallenge,
+                    //runFacialExpressionSurprisedChallenge,
+                   // runFacialExpressionDisgustedChallenge,
                     runTurnRightChallenge,
                     runTurnLeftChallenge,
                     runLookUpChallenge,

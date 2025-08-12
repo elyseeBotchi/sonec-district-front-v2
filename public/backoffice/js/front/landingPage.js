@@ -568,7 +568,7 @@ $(document).ready(function() {
                     document.body.appendChild(messageDiv);
 
 
-                console.log(reference);
+                //console.log(reference);
     
                 // Vérifier le statut du paiement toutes les 30 secondes
                 paymentCheckInterval = setInterval(() => checkPaymentStatus(reference), 20000);
@@ -600,7 +600,7 @@ $(document).ready(function() {
     
 
     async function checkPaymentStatus(reference) {
-        console.log('Vérification du statut du paiement...');
+        //console.log('Vérification du statut du paiement...');
         try {
             const response = await fetch(`/landing/services/facturation/verification-paiement/${reference}`, {
                 method: 'GET',
@@ -614,15 +614,15 @@ $(document).ready(function() {
             }
     
             const result = await response.json();
-            console.log(result)
+            //console.log(result)
             const paymentStatus = result.paymentStatus;
     
             if (paymentStatus === 'success') {
-                console.log('Paiement approuvé.');
+                //console.log('Paiement approuvé.');
                 QuickloaderMessage("hide");
                 sendSuccess('Le paiement a été approuvé !', result.urlback);
             } else if (paymentStatus === 'fail') {
-                console.log('Paiement échoué.');
+                //console.log('Paiement échoué.');
                 QuickloaderMessage("hide");
                 toastr.error('Le paiement a échoué !', 'Erreur');
             } else {

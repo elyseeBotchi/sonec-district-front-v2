@@ -77,7 +77,7 @@ $(document).ready(function() {
                         const totalPayeParMois = {};
 
 
-                        console.log(stat_penalite);
+                        //console.log(stat_penalite);
                         // En-têtes
                         dates.forEach(date => {
                             const th = document.createElement("th");

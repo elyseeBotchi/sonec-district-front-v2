@@ -12,7 +12,7 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => { 
-                console.log(data)
+                //console.log(data)
                 if(data.entete){
                     searchData(data)
                 }
@@ -35,7 +35,7 @@ $(document).ready(function() {
           const entete = data.entete;
           const results = data.data;
           const entity = data.entity;
-          console.log(results)
+          //console.log(results)
 
           // Construire dynamiquement les en-têtes du tableau
           let headerHtml = '<tr>';

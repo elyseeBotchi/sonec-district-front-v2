@@ -11,7 +11,7 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(data => { 
-                console.log(data)
+                //console.log(data)
 
                 const sans_rdv_rejete = document.getElementById('sans_rdv_rejete');
                 sans_rdv_rejete.innerHTML = data.sans_rdv_rejete || 0 ;
@@ -49,7 +49,7 @@ $(document).ready(function() {
     function searchData__(data){
 
           const results = data;
-          console.log(data)
+          //console.log(data)
 
           // Vérifier si la DataTable a déjà été initialisée
           if ($.fn.DataTable.isDataTable('#datatable-custom')) {
@@ -97,7 +97,7 @@ $(document).ready(function() {
             return;
         }
     
-        console.log("Données reçues :", data);
+        //console.log("Données reçues :", data);
     
         // Sélectionner le corps du tableau
         const tableBody = document.querySelector('#datatable-custom tbody');

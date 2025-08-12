@@ -144,7 +144,7 @@
         // Fonction pour afficher les données dans le tableau
         function searchData(data) {
 
-                console.log(data.data);
+                //console.log(data.data);
             if (!data || !data.entete || !data.data) {
                 return; // Si les données sont manquantes, on ne fait rien
             }

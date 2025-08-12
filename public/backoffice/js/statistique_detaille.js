@@ -217,7 +217,7 @@ $(document).ready(function() {
                 const results = data.data;
                 const stat = results.stats;
                 const penalite = results.penalty_stats;
-                console.log("Résultats reçus :", results.penalty_stats);
+               // console.log("Résultats reçus :", results.penalty_stats);
                 //console.log(stat.total_cheque_journalier);
                const chartMensuel = results.chart || [];  
                const rendezVous = results.rdv;

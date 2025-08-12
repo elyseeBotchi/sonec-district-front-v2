@@ -34,7 +34,7 @@ $(document).ready(function() {
           const entete = data.entete;
           const results = data.data;
           const entity = data.entity;
-          console.log(results)
+          //console.log(results)
 
           // Construire dynamiquement les en-têtes du tableau
           let headerHtml = '<tr>';
@@ -315,7 +315,7 @@ $(document).ready(function() {
                 loader('hide');
                 if (data.type === "success") {
                     sendSuccess(data.message, data.urlback);
-                    console.log(data.data)
+                   // console.log(data.data)
                     searchData(data);
                 }
                 else {

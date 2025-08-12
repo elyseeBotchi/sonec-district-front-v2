@@ -764,7 +764,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Réponse du serveur:', data);
+            //console.log('Réponse du serveur:', data);
                 //alert(data.message)
                 
                 document.getElementById('reader').style.display = "none";
