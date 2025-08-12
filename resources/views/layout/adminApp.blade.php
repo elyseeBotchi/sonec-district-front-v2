@@ -185,9 +185,19 @@
         $(".preloader ").fadeOut();
     </script>
 
+    @if(env('APP_ENV') == 'local')
+        <script>
+           const actionMode = 'alert';
+        </script>
+    @else
+        <script>
+           const actionMode = 'blank';
+        </script>
+    @endif
+
     <script>
         (function () {
-        const actionMode = 'alert'; // options : 'redirect' | 'blank' | 'hide' | 'alert'
+       // const actionMode = 'alert'; // options : 'redirect' | 'blank' | 'hide' | 'alert'
         
         function handleDevToolsOpen() {
             console.warn("Détection de DevTools");
