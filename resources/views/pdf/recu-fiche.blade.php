@@ -261,7 +261,7 @@
             <thead>
                 <tr>
                     <th style="border: 1px solid black;">
-                        TYPE DE VEHICULE
+                        LIBELLE {{-- TYPE DE VEHICULE --}}
                     </th>
                     <th style="border: 1px solid black;">
                         QUANTITE
@@ -283,20 +283,44 @@
                         {{ $user['amount'] ?? '' }}
                     </td>             
                 </tr>
+                @if(isset($user['delay']) && $user['delay'] != 0)
+                    <tr>
+                        <td style="border: 1px solid black;">
+                            Frais d'enlèvement
+                        </td>
+                        <td style="border: 1px solid black; text-align: center;">
+                            1
+                        </td>
+                        <td style="border: 1px solid black; text-align: center;">
+                            {{ $user['penalty_amount'] ?? '' }}
+                        </td>             
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black;">
+                            Frais de fourrière
+                        </td>
+                        <td style="border: 1px solid black; text-align: center;">
+                            {{ $user['delay'] ?? '' }}
+                        </td>
+                        <td style="border: 1px solid black; text-align: center;">
+                            {{ $user['penalty_pound_amount_total'] ?? '' }}
+                        </td>             
+                    </tr>
+                @endif
+
                 <tr>
                     <td style="border: 1px solid black;">
                         MONTANT TOTAL PAYÉ
                     </td>
+                    <td style="border: 1px solid black; text-align: center;"></td>
                     <td style="border: 1px solid black; text-align: center;">
-                        1
-                    </td>
-                    <td style="border: 1px solid black; text-align: center;">
-                        {{ $user['amount'] ?? '' }} F CFA
+                        {{ (($user['amount'] ?? 0) + ($user['penalty_amount'] ?? 0) + ($user['penalty_pound_amount_total'] ?? 0)) }} F CFA
                     </td>             
                 </tr>
                 <tr>
                     <td colspan="4">
-                        Arrêté le présent reçu  à la somme de : {{ enlettre($user['amount'] ?? '') }} Francs CFA
+                        Arrêté le présent reçu  à la somme de : {{ enlettre((($user['amount'] ?? 0) + ($user['penalty_amount'] ?? 0) + ($user['penalty_pound_amount_total'] ?? 0))) }} Francs CFA
                     </td>
                 </tr>
             </tbody>
@@ -361,7 +385,7 @@
                         Montant payé
                     </td>
                     <td>
-                        : <strong> {{ $user['amount'] ?? '' }} </strong>
+                        : <strong> {{ (($user['amount'] ?? 0) + ($user['penalty_amount'] ?? 0) + ($user['penalty_pound_amount_total'] ?? 0)) }} </strong>
                     </td>
                 </tr>
 

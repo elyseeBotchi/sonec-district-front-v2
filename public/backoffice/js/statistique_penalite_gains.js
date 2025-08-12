@@ -9,194 +9,6 @@ $(document).ready(function() {
     //intervalId
     //setInterval(() => findStatistique(), 20000)
 
-    function findStatus(status,paymode) {
-       var libelle_status = ""
-       var libelle_paymode =""
-
-        if (status === "today") {
-            libelle_status = "DU JOUR"
-        }
-        else if(status === "all"){
-            libelle_status = ""
-        }
-
-        if (paymode === "all") {
-            libelle_paymode = ""
-        }
-        else{
-            libelle_paymode = paymode
-        }
-
-      
-        var permissions = {
-            montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
-            total_paiement: canPermission('statistique_voir_le_total_des_paiements'),
-            par_paiement: canPermission('statistique_voir_les_statistiques_par_paiement'),
-            par_paiement_detaille: canPermission('statistique_voir_les_statistiques_par_paiement_detaille'),
-            par_operateur: canPermission('statistique_voir_les_statistiques_par_operateur'),
-            par_rubrique: canPermission('statistique_voir_les_statistiques_par_rubrique'),
-            par_periode: canPermission('statistique_voir_les_statistiques_par_periode'),
-            par_rdv: canPermission('statistique_voir_les_statistiques_par_rendez_vous'),
-        };
-        
-        if(permissions.par_paiement && permissions.par_paiement_detaille){
-            if (type_stat === "paiement") {
-                // Met à jour le titre avec un indicateur de chargement
-                document.getElementById('titre_liste').innerHTML = `
-                    <i class='fa fa-spinner fa-spin'></i> LISTE DES PAIEMENTS ${libelle_status} ${libelle_paymode} EN COURS DE CHARGEMENT ...
-                `;
-            
-                // Effectue une requête pour récupérer les données de paiement
-                fetch(`/panel/statistique/findStatus/data/${status}/${paymode}/${Entity_uuid}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Une erreur est survenue');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const results = data.data;
-                    
-                   // renderPaiementParMois(globalParMois)
-                    const categories = Object.keys(data.chartsData);
-                    const values = Object.values(data.chartsData);
-            
-                    // Configuration du graphe
-                    const options = {
-                        series: [{
-                            name: "Nombre de paiement",
-                            data: values,
-                        }],
-                        annotations: {
-                            points: [{
-                                x: 'Dates',
-                                seriesIndex: 0,
-                                label: {
-                                    borderColor: '#775DD0',
-                                    offsetY: 0,
-                                    style: {
-                                        color: '#fff',
-                                        background: '#775DD0',
-                                    },
-                                    text: 'Évolution des paiements',
-                                },
-                            }]
-                        },
-                        chart: {
-                            height: 350,
-                            type: 'bar',
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 10,
-                                columnWidth: '50%',
-                            }
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        stroke: {
-                            width: 0
-                        },
-                        grid: {
-                            row: {
-                                colors: ['#fff', '#f2f2f2']
-                            }
-                        },
-                        xaxis: {
-                            labels: {
-                                rotate: -45
-                            },
-                            categories: categories,
-                            tickPlacement: 'on',
-                        },
-                        yaxis: {
-                            title: {
-                                text: "Nombre de paiement",
-                            },
-                        },
-                        fill: {
-                            colors: ['#008FFB'],
-                        }
-                    };
-            
-                    // Détruit le graphe existant pour éviter les doublons
-                    const chartContainer = document.querySelector("#chartPaiement");
-                    if (chartContainer._chartInstance) {
-                        chartContainer._chartInstance.destroy();
-                    }
-                    const chart = new ApexCharts(chartContainer, options);
-                    chartContainer._chartInstance = chart;
-                    chart.render();
-
-
-            
-                    // Met à jour le titre
-                    document.getElementById('titre_liste').innerHTML = `
-                        LISTE DES PAIEMENTS ${libelle_status} ${libelle_paymode}
-                    `;
-            
-                    // Réinitialise le tableau si déjà initialisé
-                    if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-custom')) {
-                        $('#datatable-custom').DataTable().destroy();
-                    }
-            
-                    // Initialise le tableau avec les nouvelles données
-                    $('#datatable-custom').DataTable({
-                        language: {
-                            url: '//cdn.datatables.net/plug-ins/2.0.2/i18n/fr-FR.json',
-                        },
-                        data: results,
-                        columns: [
-                            { data: 'nom_du_proprietaire' },
-                            { data: 'numero_de_la_carte_grise' },
-                            { data: 'numero_dimmatriculation' },
-                            { data: 'telephone' },
-                            //{ data: 'amount' },
-                            { data: 'reference' },
-                            { data: 'operateur_uuid' },
-                            { data: 'transaction_id' },
-                            {
-                                data: 'paiement_state',
-                                render: (data) => {
-                                    const statusClasses = {
-                                        paid: "badge bg-success-subtle text-success",
-                                        fail: "badge bg-danger-subtle text-danger",
-                                        default: "badge bg-warning-subtle text-warning"
-                                    };
-                                    return `
-                                        <span class="${statusClasses[data] || statusClasses.default}">
-                                            ${data === "paid" ? "Payé" : data === "fail" ? "Rejeté" : data}
-                                        </span>
-                                    `;
-                                }
-                            },
-                            { data: 'created_at' }
-                        ]
-                    });
-            
-                    // Gère le clic sur les boutons détail
-                    $('#datatable-custom').on('click', '.btn-detail', function() {
-                        const uuid = $(this).data('uuid');
-                        fetchCandidatDetail(uuid);
-                    });
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des données :', error);
-                });
-            }
-            
-        
-        }
-
-    }
-
     function findStatistique() {
         fetch(`/panel/statistique/penalite/partenaire/${Entity_uuid}`, {
             method: 'GET',
@@ -245,15 +57,15 @@ $(document).ready(function() {
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr>
                         <td>${partner.partner_name}</td>
-                        <td>${percent} %</td>
+                        <td>${cartes}</td>
+                        <td>${montant_cartes.toLocaleString('fr-FR')} F</td>
                         <td>${pen.toLocaleString('fr-FR')} F</td>
+                        <td>${percent} %</td>
                         <td>${gainPartenaire.toLocaleString('fr-FR')} F</td>
                         <td>${gainDistrict.toLocaleString('fr-FR')} F</td>
-                        <td>${montant_cartes.toLocaleString('fr-FR')} F</td>
-                        <td>${paiement.toLocaleString('fr-FR')} F</td>
-                        <td>${cartes}</td>
+                        
                     </tr>
-                `);
+                `); //<td>${paiement.toLocaleString('fr-FR')} F</td>
 
                 // Graphe par mois
                 const moisData = partner.global_par_mois || {};
@@ -281,19 +93,19 @@ $(document).ready(function() {
             tbody.insertAdjacentHTML('beforeend', `
                 <tr class="table-active">
                     <td><strong>Cumul</strong></td>
-                    <td>-</td>
+                    <td><strong>${cumul_cartes}</strong></td>
+                    <td><strong>${cumul_montant_cartes.toLocaleString('fr-FR')} F</strong></td>
                     <td><strong>${cumul_penalite.toLocaleString('fr-FR')} F</strong></td>
+                    <td>-</td>
                     <td><strong>${cumul_gain_partenaire.toLocaleString('fr-FR')} F</strong></td>
                     <td><strong>${cumul_gain_district.toLocaleString('fr-FR')} F</strong></td>
-                    <td><strong>${cumul_montant_cartes.toLocaleString('fr-FR')} F</strong></td>
-                    <td><strong>${cumul_paiement.toLocaleString('fr-FR')} F</strong></td>
-                    <td><strong>${cumul_cartes}</strong></td>
+                    
                 </tr>
-            `);
+            `); //<td><strong>${cumul_paiement.toLocaleString('fr-FR')} F</strong></td>
 
             // ==== CHART vertical par partenaire & mois ====
             const moisLabels = Array.from(moisSet).sort();
-            const colors = ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#795548', '#f44336', '#607d8b'];
+            const colors = [ '#2196f3', '#4caf50','#ff9800', '#9c27b0', '#00bcd4', '#795548', '#f44336', '#607d8b'];
             let colorIndex = 0;
 
             const datasets = [];
@@ -313,7 +125,7 @@ $(document).ready(function() {
             datasets.push({
                 label: 'District',
                 data: moisLabels.map(mois => districtMap[mois] || 0),
-                backgroundColor: '#000000',
+                backgroundColor: '#da7216',
                 borderWidth: 1
             });
 
@@ -342,7 +154,7 @@ $(document).ready(function() {
                         },
                         title: {
                             display: true,
-                            text: 'Gains par partenaire et District - par mois'
+                            text: 'Parts partenaire et District - par mois'
                         },
                         legend: {
                             position: 'top'

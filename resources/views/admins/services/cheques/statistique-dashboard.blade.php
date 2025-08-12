@@ -49,7 +49,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Chèque</td>
+                    <td>Chèque </td>
                     <td>
                         <span id="total_paiement_cheque_j">
                             <i class="fa fa-spinner fa-spin"></i>
@@ -76,7 +76,7 @@
                 </tr>
                 
                 
-                <tr>
+                <tr style="display: none">
                     <td>Pénalité</td>
                     <td>
                         <span id="total_penalite_j">

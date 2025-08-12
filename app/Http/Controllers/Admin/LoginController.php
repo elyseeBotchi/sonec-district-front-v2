@@ -38,6 +38,10 @@ class LoginController extends Controller
         if(AuthConnect()['role']['name'] =="Superviseurs"){
             return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'validation_jour']);
         }
+        
+        if(AuthConnect()['role']['name'] =="PARTENAIRE TIERS" || AuthConnect()['role']['name'] =='AGENT TIERS' ||  AuthConnect()['role']['name'] =='DEVELOPPEUR'){
+            return redirect()->route('panel.autorisations.services.verification-partenaire',['uuid' =>$Entities[0]['uuid']]);
+        }
 
        // if(AuthConnect()['role'])
         return view('admins.index');
@@ -273,7 +277,7 @@ class LoginController extends Controller
 
             $inputEmbedding = $request->embedding;
 
-            Log::info('Received embedding:', ['embedding' => $inputEmbedding]);
+           // Log::info('Received embedding:', ['embedding' => $inputEmbedding]);
 
             if (!is_array($inputEmbedding)) {
                 return response()->json([
@@ -324,7 +328,7 @@ class LoginController extends Controller
                     $user['otp_actif'] = false;
                     Session::put('admin',  $user);
 
-                    Log::info(AuthConnect());
+                   // Log::info(AuthConnect());
 
                     $dataResponse =[
                         'type'=>'success',

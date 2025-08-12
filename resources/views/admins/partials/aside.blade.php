@@ -7,7 +7,7 @@
             <ul id="sidebarnav">
 
                 @isset(AuthConnect()['role']['name'])
-                    @if (AuthConnect()['role']['name'] !== 'Superviseurs' && AuthConnect()['role']['name'] !== 'PAILLEUR')
+                    @if (AuthConnect()['role']['name'] !== 'Superviseurs' && AuthConnect()['role']['name'] !== 'PAILLEUR' && AuthConnect()['role']['name'] !== 'PARTENAIRE TIERS' && AuthConnect()['role']['name'] !== 'AGENT TIERS')
                         <li class="sidebar-item">
                             <a class="sidebar-link sidebar-link" href="{{ route('panel.home') }}" aria-expanded="false">
                                 <i data-feather="bar-chart" class="feather-icon"></i>
@@ -58,12 +58,12 @@
                                 href="{{ route('panel.autorisations.statistique.gains.partenaire', ['entity' => $entitesNav[0]['uuid']]) }}"
                                 aria-expanded="false">
                                 <i data-feather="calendar" class="feather-icon"></i>
-                                <span class="hide-menu">Mes gains</span>
+                                <span class="hide-menu">Pénalités</span>
                             </a>
                         </li>   
                     @endif
 
-                    <li class="list-divider"></li>
+                    
 
                     @if (CanPermission('acteurs_tiers_voir_lhistorique_des_controles_tiers'))
                         <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}">
@@ -75,7 +75,8 @@
                             </a>
                         </li>
                     @endif
-
+                    
+                    <li class="list-divider"></li>
 
                     @if (CanPermission('cheques_voir_le_module_cheque'))
                         <li class="sidebar-item {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}">
@@ -491,7 +492,7 @@
                                         <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}"
                                             class="sidebar-link">
                                             <span class="hide-menu">
-                                                GAINS PARTENAIRES
+                                                POINTS PARTENAIRES
                                             </span>
                                         </a>
                                     </li>
@@ -686,7 +687,7 @@
                         </li>
                     @endif
 
-                    @isset($lock)
+                    @isset($lock)@endisset
                         @if (CanPermission('gabaris_voir_longlet_gabaris'))
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
@@ -710,7 +711,7 @@
                                 </ul>
                             </li>
                         @endif
-                    @endisset
+                    
 
                     @if (CanPermission('collaborateurs_voir_longlet_collaborateur'))
                         <li class="list-divider"></li>

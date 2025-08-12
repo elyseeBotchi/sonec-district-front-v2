@@ -222,8 +222,8 @@ $(document).ready(function() {
       
                 let total_paiement_cheque = stat.total_paiement_cheque || 0;
                 let nb_total_cheque = stat.total_cheque || 0;
-                let total_carte_valide = (stat.total_carte_valide || 0) + (stat_penalty.nbre_global_penalite || 0);
-                let cumul_paiements = total_paiement_cheque + (stat_mobile.montant_global || 0) + (stat_penalty.montant_cartes_total || 0);
+                let total_carte_valide = (stat.total_carte_valide || 0);
+                let cumul_paiements = total_paiement_cheque + (stat_mobile.montant_global || 0) + (stat_penalty.montant_cartes_total || 0); // + stat_penalty.district_share_total || 0
 
                var permissions = {
                 //montant_total_jour: canPermission('statistique_voir_le_montant_total_par_jour'),
@@ -318,7 +318,7 @@ $(document).ready(function() {
                     });
 
                     document.getElementById('cumul_paiements').innerHTML = cumul_paiement_chequeF || '';
-                    document.getElementById('cumul_carte_valide').innerHTML = (stat_mobile.nombre_lignes_global || 0) + total_carte_valide;
+                    document.getElementById('cumul_carte_valide').innerHTML = (stat_mobile.nombre_lignes_global || 0) + total_carte_valide + (stat_penalty.nbre_global_penalite || 0);
                     
                 } 
 

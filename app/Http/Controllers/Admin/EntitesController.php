@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-
+use Illuminate\Support\Facades\File;
 class EntitesController extends Controller
 {
 
@@ -224,7 +224,7 @@ class EntitesController extends Controller
         return response()->json($entityElement);
     }
 
-    public function gabariStore(Request $request){  
+    public function gabariStore__(Request $request){  
         
         $validatedData = $request->validate([
             'entity_uuid' => 'required|string',
@@ -232,15 +232,17 @@ class EntitesController extends Controller
             //'description' => 'nullable|string|max:500',
         ]);
 
+       // dd($request->hasFile('gabari'));
       
         if ($request->hasFile('gabari')) {
             $file = $request->file('gabari');
             
             $newFileName = uniqid() . '_' . $file->getClientOriginalName();  // Ou $file->getClientOriginalExtension() si vous voulez juste garder l'extension
             
-            $filePath = $file->storeAs('gabarits', $newFileName, 'public');
+            $filePath = $file->move('gabarits', $newFileName, 'public');
         }
        
+        //dd($filePath);
         if ($request->hasFile('gabari')) {
             // Récupérer le fichier
             $file = $request->file('gabari');
@@ -249,7 +251,7 @@ class EntitesController extends Controller
             $newFileName = uniqid() . '_' . $file->getClientOriginalName();
             
             // Sauvegarder le fichier dans le dossier "gabarits" sous 'public'
-            $filePath = $file->storeAs('gabarits', $newFileName, 'public');
+            $filePath = $file->move('gabarits', $newFileName, 'public');
             
             // Charger le fichier Excel avec PhpSpreadsheet
             $path = storage_path('app/public/' . $filePath);
@@ -258,11 +260,11 @@ class EntitesController extends Controller
             // Vérifier si la feuille "gabarie" existe
             $sheetNames = $spreadsheet->getSheetNames();
             
-            if (!in_array('gabarie', $sheetNames)) {
+            if (!in_array('TAXIS', $sheetNames)) {
                 $dataResponse =[
                     'type'=>'error',
                     'urlback'=>'',
-                    'message'=> "La feuille gabarie n'a pas été trouvée dans le fichier Excel.",
+                    'message'=> "La feuille Taxis n'a pas été trouvée dans le fichier Excel.",
                     'code'=>500,
                 ];
 
@@ -271,7 +273,7 @@ class EntitesController extends Controller
             }
         
             // Sélectionner la feuille "gabarie"
-            $worksheet = $spreadsheet->getSheetByName('gabarie');
+            $worksheet = $spreadsheet->getSheetByName('TAXIS');
             
             // Boucle pour lire toutes les lignes et colonnes
             $dataSheet = [];
@@ -305,13 +307,101 @@ class EntitesController extends Controller
             'filename' => $newFileName ?? '',
             'data_sheet' => $dataSheet ?? [],
         ];
-        
+        return dd($data);
         // Utiliser cURL ou une bibliothèque d'API qui gère multipart/form-data
         $data_response = (new GlobalSendService())->CallApi($url_path, $data, 'POST');  // Ajoutez un paramètre supplémentaire pour indiquer multipart/form-data si nécessaire
         
         //return dd($data_response);
         return response()->json($data_response);
     }
+
+    
+    public function gabariStore(Request $request)
+    {  
+        $validatedData = $request->validate([
+            'entity_uuid' => 'required|string',
+            'gabari' => 'required|file|mimes:xls,xlsx|max:20048',
+        ]);
+    
+        if (!$request->hasFile('gabari')) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Aucun fichier gabari fourni.',
+                'code' => 400,
+            ]);
+        }
+    
+        $file = $request->file('gabari');
+        $newFileName = uniqid() . '_' . $file->getClientOriginalName();
+    
+        // Assure que le dossier de destination existe
+        $destinationPath = storage_path('app/public/gabarits');
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
+        }
+    
+        // Déplacement du fichier vers storage/app/public/gabarits
+        $file->move($destinationPath, $newFileName);
+    
+        // Création du chemin complet du fichier
+        $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $newFileName;
+    
+        if (!file_exists($fullPath)) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Fichier introuvable après le déplacement.',
+                'code' => 500,
+            ]);
+        }
+    
+        // Chargement du fichier Excel
+        $spreadsheet = IOFactory::load($fullPath);
+        $sheetNames = $spreadsheet->getSheetNames();
+    
+        if (!in_array('TAXIS', $sheetNames)) {
+            return response()->json([
+                'type' => 'error',
+                'message' => "La feuille 'TAXIS' est introuvable dans le fichier Excel.",
+                'code' => 500,
+            ]);
+        }
+    
+        $worksheet = $spreadsheet->getSheetByName('TAXIS');
+    
+        // Lecture des données
+        $dataSheet = [];
+        foreach ($worksheet->getRowIterator() as $row) {
+            $rowIndex = $row->getRowIndex();
+            $rowData = [];
+    
+            
+            foreach ($worksheet->getColumnIterator() as $key => $column) { //dd($key);
+                if(in_array($key, ["A","B","C","D","E","F","G"])) {
+                    $colIndex = $column->getColumnIndex();
+                    $cellValue = $worksheet->getCell($colIndex . $rowIndex)->getValue();
+                    $rowData[$colIndex] = $cellValue;
+                }
+            }
+            
+            $dataSheet[] = $rowData;
+        }
+    
+        //dd($dataSheet);
+        // Construction des données à envoyer
+        $data = [
+            'entity_uuid' => $request->entity_uuid,
+            'description' => $request->description ?? '',
+            'filename' => $newFileName,
+            'data_sheet' => $dataSheet,
+        ];
+    
+       // dd($data);
+        $url_path = "/autorisations/entite/gabari/store";
+        $data_response = (new GlobalSendService())->CallApi($url_path, $data, 'POST');
+    
+        return response()->json($data_response);
+    }
+    
 
     
     public function validateFile($uuid,$status)

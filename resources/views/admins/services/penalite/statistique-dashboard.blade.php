@@ -10,14 +10,13 @@
                     <table class="table table-reponsive table-striped table-bordered">
                         <thead>
                             <tr class="table-success">
-                                <th>#</th>
-                                <th>% partenaire</th>
-                                <th>Pénalité</th>
-                                <th>Gains partenaire</th>
-                                <th>Gains District</th>
-                                <th>Montant cartes</th>
-                                <th>Paiement total</th>
+                                <th>Partenaires techniques</th>
                                 <th>Nombre total de carte</th>
+                                <th>Montant cartes</th>
+                                <th>Pénalité</th>
+                                <th>% partenaire</th>
+                                <th>Part partenaire</th>
+                                <th>Part District</th>
                             </tr>
                         </thead>
 

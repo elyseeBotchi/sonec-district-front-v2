@@ -117,7 +117,7 @@ Route::prefix('panel')->middleware(['IsConnect'])->group(function () {
     });
 
     Route::prefix('roles')->group(function () {
-        Route::get('/findAll', [\App\Http\Controllers\Admin\RolesController::class, 'findAll'])->name('panel.autorisations.roles.findAll');
+        Route::get('/findAll', [RolesController::class, 'findAll'])->name('panel.autorisations.roles.findAll');
         Route::get('index', [RolesController::class, 'index'])->name('panel.autorisations.roles.index');
         Route::post('store', [RolesController::class, 'store'])->name('panel.autorisations.roles.store');
         Route::get('/{uuid}/edit', [RolesController::class, 'edit'])->name('panel.autorisations.roles.edit');
@@ -246,8 +246,10 @@ Route::prefix('panel')->middleware(['IsConnect'])->group(function () {
         Route::get('verification-partenaire/{uuid}', [AdminServicesController::class, 'verification_partenaire'])->name('panel.autorisations.services.verification-partenaire');
         Route::post('verification-partenaire/check', [AdminServicesController::class, 'verification_partenaire_check'])->name('panel.autorisations.services.verification-partenaire.check');
 
+        Route::get('historique-controle/penalite/{uuid}/{from}/{to}', [AdminServicesController::class, 'historique_controles_data'])->name('panel.autorisations.services.historique-controles.data');
         Route::get('historique-controles/{uuid}', [AdminServicesController::class, 'historique_controles'])->name('panel.autorisations.services.historique-controles');
 
+        
         Route::post('taxes/rdv/search', [AdminServicesController::class, 'rdv_search'])->name('panel.autorisations.services.taxes.rdv.search');
         Route::get('activite/{uuid}', [AdminServicesController::class, 'rdv_activite'])->name('panel.autorisations.services.activite');
         Route::get('taxes/rdv/today/activite/{uuid}', [AdminServicesController::class, 'rdv_today_activite'])->name('panel.autorisations.services.today.activite');

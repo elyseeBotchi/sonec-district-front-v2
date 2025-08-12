@@ -186,9 +186,9 @@ if (!function_exists('Entities_Customer')) {
     
         // Vérifier si la réponse provient du cache ou de l'API
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour Entities_Customer.");
+           // Log::info("Données récupérées depuis le cache pour Entities_Customer.");
         } else {
-            Log::info("Données récupérées depuis l'API pour Entities_Customer.");
+           // Log::info("Données récupérées depuis l'API pour Entities_Customer.");
         }
     
         // Vérification si les données sont valides
@@ -293,9 +293,9 @@ if(!function_exists('Entity_Customer')) {
         });
 
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour Entity_Customer");
+           // Log::info("Données récupérées depuis le cache pour Entity_Customer");
         } else {
-            Log::info("Données récupérées depuis l'API pour Entity_Customer");
+           // Log::info("Données récupérées depuis l'API pour Entity_Customer");
         }
         
         // Si les données en cache sont valides, on les retourne
@@ -387,9 +387,9 @@ if(!function_exists('Entities')) {
         });
     
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour Entities");
+            //Log::info("Données récupérées depuis le cache pour Entities");
         } else {
-            Log::info("Données récupérées depuis l'API pour Entities");
+           // Log::info("Données récupérées depuis l'API pour Entities");
         }
         // Si les données en cache sont valides, on les retourne
         if (isset($entitiesList['type']) && $entitiesList['type'] == "success") {

@@ -281,6 +281,24 @@ class ServicesController extends Controller
     }
 
 
+    public function historique_controles_data($uuid,$from,$to){
+        $url_path = "/autorisations/statistiques/historique/controle/penalite";
+
+        $Entity = Entities()[0] ?? '';
+        $data = [
+            'uuid' => $uuid,
+            'from' => $from,
+            'to' => $to,
+            'entity_uuid' => $Entity['uuid'],
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+      //  return dd($responses);
+
+        return response()->json($responses);  
+    }
+
+
     public function show($uuid,$entity_uuid)
     {
       //  return dd($entity_uuid);
@@ -397,7 +415,7 @@ class ServicesController extends Controller
        // return dd($data);
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
        // return dd($responses);
-        Log::info(json_encode($responses));
+        //Log::info(json_encode($responses));
         return response()->json($responses);
     }
 

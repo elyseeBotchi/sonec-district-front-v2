@@ -36,7 +36,7 @@ $(document).ready(function() {
                         if(!data.penalty.NotShow){
                             document.getElementById('penaltyGate').style.display = "block";
                             document.getElementById('penalite_structure').innerHTML = data.penalty.partner_nom || '';
-                            document.getElementById('penalite_date').innerHTML = penalty_date_begin || '';
+                            document.getElementById('penalite_date').innerHTML = formatPenDate(penalty_date_begin || '');
                             document.getElementById('penalite_dimmatriculation').innerHTML = data.penalty.numero_dimmatriculation || '';
                         }else{
                             document.getElementById('penaltyGate').style.display = "none";
@@ -69,6 +69,15 @@ $(document).ready(function() {
     });  
  
  });
+
+ function formatPenDate(value) {
+  const s = String(value || '').trim();
+  if (!s) return '';
+  const d = new Date(s.includes(' ') ? s.replace(' ', 'T') : s);
+  if (isNaN(d)) return '';
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${pad(d.getDate())}-${pad(d.getMonth() + 1)}-${d.getFullYear()} `;
+}
 
  function renderHtml(data){
     

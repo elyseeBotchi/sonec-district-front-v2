@@ -112,9 +112,9 @@ class LandingController extends Controller
 
         // Log des données récupérées
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
+            //Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
         } else {
-            Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
+            //Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
         }
 
         // Retourner la vue avec les données
@@ -203,9 +203,9 @@ class LandingController extends Controller
     
         // Log des données récupérées
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
+           // Log::info("Données récupérées depuis le cache pour quick_pay : service {$service}");
         } else {
-            Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
+           // Log::info("Données récupérées depuis l'API pour quick_pay : service {$service}");
         }
     
         // Retourner la vue avec les données
@@ -364,16 +364,16 @@ class LandingController extends Controller
             ];
     
             // Appel à l'API
-            Log::info("Appel API pour récupérer la rubrique config pour l'entité : {$uuid}");
+            //Log::info("Appel API pour récupérer la rubrique config pour l'entité : {$uuid}");
     
             return (new GlobalSendService())->CallApi($url_path, $data, 'POST');
         });
     
         // Vérifier si la réponse provient du cache ou de l'API
         if (Cache::has($cache_key)) {
-            Log::info("Données récupérées depuis le cache pour findOneConfig : {$uuid}");
+           // Log::info("Données récupérées depuis le cache pour findOneConfig : {$uuid}");
         } else {
-            Log::info("Données récupérées depuis l'API pour findOneConfig : {$uuid}");
+           // Log::info("Données récupérées depuis l'API pour findOneConfig : {$uuid}");
         }
     
         // Si la réponse contient des données valides, la retourner
@@ -387,7 +387,7 @@ class LandingController extends Controller
         // Si le nouvel appel réussit, mettre à jour le cache et retourner les données
         if (isset($newResponse['type']) && $newResponse['type'] == 'success') {
             Cache::put($cache_key, $newResponse, 60); // Met à jour le cache avec les nouvelles données
-            Log::info("Données mises à jour dans le cache pour l'entité : {$uuid}");
+            //Log::info("Données mises à jour dans le cache pour l'entité : {$uuid}");
             return response()->json($newResponse);
         }
     
@@ -657,7 +657,7 @@ class LandingController extends Controller
         $entity = isset($responses['data']['entity']) ? $responses['data']['entity'] : '';
         
 
-        //return dd($responses);
+        //return dd($datas);
 
         $filename = Str::slug('RECU PAIEMENT'.$datas['reference'].date('d-m-Y H:i:s'));
 

@@ -157,7 +157,7 @@ class CustomerFacturationsController extends Controller
         ];
 
         $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-        Log::info("verification");
+        //Log::info("verification");
         //Log::info(json_encode($responses));
 
         //return response()->json($responses);

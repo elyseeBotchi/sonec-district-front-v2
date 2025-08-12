@@ -185,65 +185,65 @@
         $(".preloader ").fadeOut();
     </script>
 
-<script>
-    (function () {
-      const actionMode = 'blank'; // options : 'redirect' | 'blank' | 'hide' | 'alert'
-    
-      function handleDevToolsOpen() {
-        console.warn("Détection de DevTools");
-    
-        switch (actionMode) {
-          case 'redirect':
-            window.location.href = '/login'; // ou une autre page
-            break;
-          case 'blank':
-            window.location.href = 'about:blank';
-            break;
-          case 'hide':
-            document.body.innerHTML = '<h1>Accès refusé</h1>';
-            break;
-          case 'alert':
-          default:
-            alert("Inspection détectée ! Action bloquée.");
+    <script>
+        (function () {
+        const actionMode = 'alert'; // options : 'redirect' | 'blank' | 'hide' | 'alert'
+        
+        function handleDevToolsOpen() {
+            console.warn("Détection de DevTools");
+        
+            switch (actionMode) {
+            case 'redirect':
+                window.location.href = '/login'; // ou une autre page
+                break;
+            case 'blank':
+                window.location.href = 'about:blank';
+                break;
+            case 'hide':
+                document.body.innerHTML = '<h1>Accès refusé</h1>';
+                break;
+            case 'alert':
+            default:
+                alert("Inspection détectée ! Action bloquée.");
+            }
         }
-      }
-    
-      // 1. Empêcher clic droit
-      document.addEventListener('contextmenu', e => e.preventDefault());
-    
-      // 2. Empêcher raccourcis clavier classiques
-      document.addEventListener('keydown', e => {
-        const blockKeys = ['F12', 'I', 'J', 'C', 'U'];
-        if (
-          e.key === 'F12' ||
-          (e.ctrlKey && e.shiftKey && blockKeys.includes(e.key)) ||
-          (e.ctrlKey && e.key === 'u')
-        ) {
-          e.preventDefault();
-        }
-      });
-    
-      // 3. Détection via taille de fenêtre
-      const threshold = 160;
-      let resizeInterval = setInterval(() => {
-        const widthDiff = window.outerWidth - window.innerWidth;
-        const heightDiff = window.outerHeight - window.innerHeight;
-        if (widthDiff > threshold || heightDiff > threshold) {
-          handleDevToolsOpen();
-          clearInterval(resizeInterval);
-        }
-      }, 1000);
-    
-      // 4. Détection via console.log piégé
-      const el = new Image();
-      Object.defineProperty(el, 'id', {
-        get: function () {
-          handleDevToolsOpen();
-        }
-      });
-      console.log(el);
-    
-    })();
+        
+        // 1. Empêcher clic droit
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // 2. Empêcher raccourcis clavier classiques
+        document.addEventListener('keydown', e => {
+            const blockKeys = ['F12', 'I', 'J', 'C', 'U'];
+            if (
+            e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && blockKeys.includes(e.key)) ||
+            (e.ctrlKey && e.key === 'u')
+            ) {
+            e.preventDefault();
+            }
+        });
+        
+        // 3. Détection via taille de fenêtre
+        const threshold = 160;
+        let resizeInterval = setInterval(() => {
+            const widthDiff = window.outerWidth - window.innerWidth;
+            const heightDiff = window.outerHeight - window.innerHeight;
+            if (widthDiff > threshold || heightDiff > threshold) {
+            handleDevToolsOpen();
+            clearInterval(resizeInterval);
+            }
+        }, 1000);
+        
+        // 4. Détection via console.log piégé
+        const el = new Image();
+        Object.defineProperty(el, 'id', {
+            get: function () {
+            handleDevToolsOpen();
+            }
+        });
+        console.log(el);
+        
+        })();
     </script>
     
     

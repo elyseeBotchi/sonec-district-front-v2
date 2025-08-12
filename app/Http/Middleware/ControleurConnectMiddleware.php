@@ -19,8 +19,8 @@ class ControleurConnectMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        Log::info(json_encode(AuthConnect()));
-        Log::info('controleur');
+       // Log::info(json_encode(AuthConnect()));
+       // Log::info('controleur');
         if(isset(AuthConnect()['uuid'])){
             if(AuthConnect()['who_is'] =="agent"){
                  $response = $next($request);

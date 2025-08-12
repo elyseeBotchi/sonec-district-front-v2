@@ -79,7 +79,7 @@ $(document).ready(function() {
                         data: {
                             labels: moisLabels,
                             datasets: [{
-                                label: 'Gains du Partenaire',
+                                label: 'Part du Partenaire',
                                 data: moisData,
                                 backgroundColor: '#2196f3' // bleu
                             }]
@@ -94,7 +94,7 @@ $(document).ready(function() {
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Gains du partenaire par mois'
+                                    text: 'Part du partenaire par mois'
                                 }
                             },
                             scales: {
@@ -133,7 +133,7 @@ $(document).ready(function() {
                         data: {
                             labels: jourLabels,
                             datasets: [{
-                                label: 'Gains journaliers',
+                                label: 'Part journaliere',
                                 data: jourData,
                                 backgroundColor: '#4caf50' // vert
                             }]
@@ -148,7 +148,7 @@ $(document).ready(function() {
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Gains du partenaire par jour'
+                                    text: 'Part du partenaire par jour'
                                 }
                             },
                             scales: {

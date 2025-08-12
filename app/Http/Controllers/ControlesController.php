@@ -117,8 +117,8 @@ class ControlesController extends Controller
        $tabQrtext = explode("|", $decodedText);
        $searchMatricule = $tabQrtext[0];
         // Vérification si la référence a été trouvée
-        Log::info($decodedText);
-        Log::info($matches[1] ?? 'non retrouvé');
+       // Log::info($decodedText);
+        //Log::info($matches[1] ?? 'non retrouvé');
         if (isset($matches[1])) {
             $reference = $matches[1];
         } else {
@@ -239,7 +239,7 @@ class ControlesController extends Controller
         $dataResponse = (new GlobalSendService())->CallApi($url_path,$data,'POST');
         //return dd($dataResponse);
 
-        Log::info(json_encode($dataResponse));
+        //Log::info(json_encode($dataResponse));
         return response()->json($dataResponse);
 
         /*         
