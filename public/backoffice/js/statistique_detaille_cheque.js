@@ -282,8 +282,9 @@ $(document).ready(function() {
                     //document.getElementById('nb_total_cheque_j').innerHTML = nb_total_cheque_j || 0;
                     document.getElementById('nb_total_carte_j').innerHTML = stat.total_carte_valide_journalier || 0;
 
-                    const today = new Date().toISOString().split('T')[0];                    
-                    const cumul_paiements_jour = parseFloat((stat.total_paiement_cheque_journalier ?? 0)+(stat_mobile.par_jour?.[today]?.montant_total ?? 0)+stat_penalty.recap_par_jour?.[today]?.district_share_total || 0).toLocaleString('fr-FR', {
+                    const today = new Date().toISOString().split('T')[0];  
+                    const somme_paiement_jour = (stat.total_paiement_cheque_journalier ?? 0)+(stat_mobile.par_jour?.[today]?.montant_total ?? 0)                 
+                    const cumul_paiements_jour = parseFloat(somme_paiement_jour).toLocaleString('fr-FR', {//+stat_penalty.recap_par_jour?.[today]?.district_share_total || 0
                         style: 'currency',
                         currency: 'XOF',
                     });
