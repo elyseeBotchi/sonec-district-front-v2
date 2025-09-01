@@ -86,7 +86,8 @@ $(document).ready(function() {
     const pay_element = results.pay_element || {};
     //const factures = results.factures || {};
     const entity = results.entity || {};
-  
+    const penalty = results.penaltyApplique || {};
+    //console.log(penalty);
     // Vérification des données avant de les insérer dans le DOM
     if (!entity.name || !entity.front_name) {
         throw new Error("Informations de l'entité manquantes");
@@ -217,6 +218,20 @@ $(document).ready(function() {
           //  document.getElementById('validation-info').style.display = "none";  
         }
         
+        if(pay_element['penalty_pound_amount_total']){
+                html_render += `
+            <tr> 
+                <td> <h3> Montant de la pénalité </h3> </td> 
+                <td> <h3> ${pay_element['penalty_pound_amount_total']  || ''} Francs CFA </h3> </td> 
+            </tr>`;
+
+
+            html_render += `
+            <tr> 
+                <td> <h3> Pénalité appliqué par </h3> </td> 
+                <td> <h3>  [${penalty['partner_name'] || ''}] ${penalty['admin_firstname']  || ''} ${penalty['admin_lastname']  || ''} le ${new Date(penalty['created_at']).toLocaleString()} </h3> </td> 
+            </tr>`;
+        }
 
     } else {
         html_render = "<tr><td colspan='2'>Aucune donnée disponible pour l'entête</td></tr>";

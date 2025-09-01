@@ -38,6 +38,8 @@
                                         <th>Agent</th>
                                         <th>Immatriculation</th>
                                         <th>Type de véhicule</th>
+                                        <th>Pénalité appliqué</th>
+                                        <th>Payé</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

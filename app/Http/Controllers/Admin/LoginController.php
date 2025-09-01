@@ -43,6 +43,10 @@ class LoginController extends Controller
             return redirect()->route('panel.autorisations.services.verification-partenaire',['uuid' =>$Entities[0]['uuid']]);
         }
 
+        if(AuthConnect()['role']['name'] =="MANAGER TIERS"){
+            return redirect()->route('panel.autorisations.statistique.gains.partenaire',['uuid' =>$Entities[0]['uuid']]);
+        }
+
        // if(AuthConnect()['role'])
         return view('admins.index');
     }
@@ -423,6 +427,7 @@ class LoginController extends Controller
         }
         //return $data;
     }
+
     public function Otp_Connexion(Request $request)
     {
 
@@ -457,7 +462,7 @@ class LoginController extends Controller
                 if ($clientLogin["type"] == "success") {
                     $user =AuthConnect();
                     $user['otp_actif'] = false;
-                   Session::put('admin',  $user);
+                    Session::put('admin',  $user);
 
                     $dataResponse =[
                         'type'=>'success',
@@ -477,7 +482,8 @@ class LoginController extends Controller
                     ];
                     return response()->json($dataResponse);
                 }
-            }else{
+            }
+            else{
                 $dataResponse = [
                     'type'=> 'error',
                     'urlback'=> '',

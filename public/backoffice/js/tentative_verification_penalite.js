@@ -173,6 +173,30 @@ $(document).ready(function() {
                     `${r?.rubrique_name ?? ''} ${r?.rubrique_option_name ?? ''}`.trim(),
                     defaultContent: '',
                 },
+                { 
+                    data: 'tentative_status',
+                    render: (data, type, row) => {
+                        if (data === 'success'){
+                            return '<span class="badge badge-success">Non</span>';
+                        }else{
+                            return '<span class="badge badge-danger">Oui</span>';
+                        }
+                    },
+                    defaultContent: '',
+                },
+                { 
+                    data: 'payment_status',
+                    render: (data, type, row) => {
+                        if (data === 'success'){
+                            return '<span class="badge badge-success">oui</span>';
+                        }else{
+                            return '<span class="badge badge-danger">Non</span>';
+                        }
+                    
+                    
+                    },
+                    defaultContent: '',
+                },
                 ],
                 pageLength: 10,
                 lengthMenu: [[5, 10, 20, 50, 100, -1], [5, 10, 20, 50, 100, 'Tous']],

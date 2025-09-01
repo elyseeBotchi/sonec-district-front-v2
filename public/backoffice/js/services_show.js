@@ -108,7 +108,7 @@ $(document).ready(function() {
 
                     const dateDebutFormatted = formatDate(pay_element['date_debut']);
                     const dateFinFormatted = formatDate(pay_element['date_fin']);
-
+                    console.log(pay_element['date_fin']);
                     if (pay_element['date_fin'] > date_actuelle) {
                         html_render += `
                         <tr> 
