@@ -26,7 +26,7 @@ class GlobalSendService
         try {
             $response = ApiRequest::send($url_path, $data, $method);
            // Log::info($method);
-            //Log::info($response);
+            Log::info($response);
             return $response->json();
            
         } catch (\Exception $e) {
