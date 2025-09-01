@@ -192,10 +192,11 @@ if (!function_exists('Entities_Customer')) {
         }
     
         // Vérification si les données sont valides
-        if (isset($entitiesList['type']) && $entitiesList['type'] === 'success') {
-            return $entitiesList['data'];
+        if(isset($entitiesList['type'])){
+            if (isset($entitiesList['type']) && $entitiesList['type'] === 'success') {
+                return $entitiesList['data'];
+            }
         }
-    
         // Si la réponse en cache est invalide, forcer un nouvel appel à l'API
         $data = [
             'user_uuid' => AuthConnect()['uuid'] ?? ''
