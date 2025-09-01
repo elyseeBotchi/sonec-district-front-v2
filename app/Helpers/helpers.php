@@ -192,6 +192,7 @@ if (!function_exists('Entities_Customer')) {
         }
     
         // Vérification si les données sont valides
+        dd($entitiesList);
         if(isset($entitiesList['type'])){
             if (isset($entitiesList['type']) && $entitiesList['type'] === 'success') {
                 return $entitiesList['data'];
