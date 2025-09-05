@@ -44,7 +44,7 @@ class LoginController extends Controller
         }
 
         if(AuthConnect()['role']['name'] =="MANAGER TIERS"){
-            return redirect()->route('panel.autorisations.statistique.gains.partenaire',['uuid' =>$Entities[0]['uuid']]);
+            return redirect()->route('panel.autorisations.statistique.gains.partenaire',['entity' =>$Entities[0]['uuid']]);
         }
 
        // if(AuthConnect()['role'])
