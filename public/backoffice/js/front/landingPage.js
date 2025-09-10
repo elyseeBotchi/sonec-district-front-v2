@@ -435,8 +435,23 @@ $(document).ready(function() {
                     },
                     success: function (data) {
                         loader('hide');
-                        if (data.type === "success") {
-                            sendSuccess(data.message, data.urlback);
+                        if (data.type === 'success') {
+                            var whosIs;
+                            //console.log(AuthConnect);
+
+                            if (typeof AuthConnect !== 'undefined' && AuthConnect && typeof AuthConnect === 'object') {
+                                whosIs = (typeof AuthConnect.who_is !== 'undefined') ? AuthConnect.who_is : undefined;
+                            }
+
+                            if (whosIs === 'partenaire-agent') {
+                                if (data.urlback){
+                                    window.open(data.urlback, '_blank');
+                                } 
+                                sendSuccess(data.message, 'back');
+                            } else {
+                                sendSuccess(data.message, data.urlback);
+                            }
+
                         } else if (data.type === "standby") {
                             QuicksendStandby(data.message, data.reference);
                         } else if (data.type === "error_validator") {
