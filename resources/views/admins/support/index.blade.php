@@ -225,7 +225,7 @@
                             let actions = '';
 
                             if (permissions.show) {
-                                actions += `<a href="/panel/support/show/uuid-pay/${row.pay_uuid}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
+                                actions += `<a href="/panel/support/show/uuid-pay/${row.transaction_id}/${Entity_uuid}" title="Voir les détails" class="btn btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                             }
 
                             return actions;
