@@ -244,6 +244,7 @@
 
         <center style="position: relative;bottom: -125px;">
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
+            {{ $quick_reference ?? ''}}
             <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" />
             
         </center>
