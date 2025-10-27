@@ -242,10 +242,10 @@
 
         {{-- calculateEndDate(date('01-01-Y', strtotime($paiement['updated_at'] ?? '')), $facturation['periodicity'] ?? '') --}}</p>
 
-        <center style="position: relative;bottom: -125px;"> {{ $quick_reference ?? ''}}
+        <center style="position: relative;bottom: -125px;"> 
             <?php $generator = new Picqer\Barcode\BarcodeGeneratorPNG(); ?>
             
-            {{-- <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" /> --}}
+             <img width="350px" src="data:image/png;base64,{{ base64_encode($generator->getBarcode($quick_reference , $generator::TYPE_CODE_39))}}" /> 
             
         </center>
     </div>
