@@ -319,7 +319,7 @@ class CollaboratorsController extends Controller
             return response()->json($dataResponse);
         }
 
-        $url_path = "/autorisation/admin/update/password";
+        $url_path = "/autorisations/admins/update/password";
         $data = [
             'admin_uuid' => AuthConnect()['uuid'],
             'password'=>$request->password ?? '',
@@ -328,7 +328,6 @@ class CollaboratorsController extends Controller
         ];
 
         $collaborators = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-      return dd($collaborators);
         if(isset($collaborators['type'])){
             if($collaborators['type'] =='success'){
                 $dataResponse =[

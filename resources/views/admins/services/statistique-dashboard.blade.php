@@ -1,177 +1,98 @@
 @extends('layout.adminApp')
 
+@section('page-subtitle', "Voici un aperçu de vos paiements aujourd'hui.")
+
 @section('content')
 @if(CanPermission('statistique_voir_le_module_statistique'))
-    <div class="row">
+
+    <div class="v2-grid v2-grid--stats">
         @isset($type_stat)
         @if($type_stat =="paiement")
             @if(canPermission('statistique_partenaires_voir_le_montant_total_par_jour'))
-                <div class="col-md-6" >
-                    <div data-status="today" data-pay="all"  class="card card-animate" >
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR MOBILE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="montant_total_jour">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total_jour" style="display: block;color:black;">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
+                <div data-status="today" data-pay="all" class="v2-stat-card">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Paiement du jour mobile</p>
+                    <div class="v2-stat-card__value">
+                        <span id="montant_total_jour"><i class="fa fa-spinner fa-spin"></i></span>
+                        <span class="unit">FCFA</span>
+                    </div>
+                    <p class="v2-stat-card__sub"><span id="nb_total_jour"><i class="fa fa-spinner fa-spin"></i></span> paiement(s)</p>
+                </div>
             @endif
 
             @if(canPermission('statistique_partenaires_voir_le_montant_total'))
-                <div class="col-md-6" >
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS MOBILE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div data-status="all" data-pay="all" class="v2-stat-card v2-stat-card--alt">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Total paiements mobile</p>
+                    <div class="v2-stat-card__value">
+                        <span id="total_paiement"><i class="fa fa-spinner fa-spin"></i></span>
+                        <span class="unit">FCFA</span>
+                    </div>
+                    <p class="v2-stat-card__sub"><span id="nb_total"><i class="fa fa-spinner fa-spin"></i></span> paiement(s)</p>
+                </div>
 
                 {{-- ######################################################################## --}}
 
-                <div class="col-md-6">
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">PAIEMENTS DU JOUR CHEQUE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_cheque_j">
-                                            <i class="fa fa-spinner fa-spin"></i> {{-- --}}
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class=""  style="display: block;color:black;">
-                                            TOTAL CHEQUE : <b id="nb_total_cheque_j"><i class="fa fa-spinner fa-spin"></i></b>  {{-- --}}
-                                        </span>
-                                    </p>
-                                    
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" style="display: block;color:black;">
-                                            TOTAL CARTE VALIDE : <b id="nb_total_carte_j"><i class="fa fa-spinner fa-spin"></i></b>   {{-- --}}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div data-status="all" data-pay="all" class="v2-stat-card">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Paiements du jour chèque</p>
+                    <div class="v2-stat-card__value">
+                        <span id="total_paiement_cheque_j"><i class="fa fa-spinner fa-spin"></i></span>
+                        <span class="unit">FCFA</span>
+                    </div>
+                    <div class="v2-stat-card__meta">
+                        <div><span>Total chèque</span><b id="nb_total_cheque_j"><i class="fa fa-spinner fa-spin"></i></b></div>
+                        <div><span>Total carte valide</span><b id="nb_total_carte_j"><i class="fa fa-spinner fa-spin"></i></b></div>
+                    </div>
+                </div>
 
                 {{-- ############################################################### --}}
-                <div class="col-md-6">
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS CHEQUE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_cheque">
-                                            <i class="fa fa-spinner fa-spin"></i> {{-- --}}
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" style="display: block;color:black;">
-                                            TOTAL CHEQUE : <b id="nb_total_cheque">  <i class="fa fa-spinner fa-spin" ></i></b> {{-- --}}
-                                        </span>
-                                    </p>
-                                    
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class=""   style="display: block;color:black;">
-                                            TOTAL CARTE VALIDE : <b id="total_carte_valide_cheque"><i class="fa fa-spinner fa-spin"></i></b>  {{----}}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div data-status="all" data-pay="all" class="v2-stat-card">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Total paiements chèque</p>
+                    <div class="v2-stat-card__value">
+                        <span id="total_paiement_cheque"><i class="fa fa-spinner fa-spin"></i></span>
+                        <span class="unit">FCFA</span>
+                    </div>
+                    <div class="v2-stat-card__meta">
+                        <div><span>Total chèque</span><b id="nb_total_cheque"><i class="fa fa-spinner fa-spin"></i></b></div>
+                        <div><span>Total carte valide</span><b id="total_carte_valide_cheque"><i class="fa fa-spinner fa-spin"></i></b></div>
+                    </div>
+                </div>
             @endif
 
-                          <div class="col-md-6" >
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PENALITE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_penalite">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total_penalite" style="display: block;color:black;">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+            <div data-status="all" data-pay="all" class="v2-stat-card">
+                <div class="v2-stat-card__top">
+                    <span class="v2-stat-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </span>
+                </div>
+                <p class="v2-stat-card__label">Total pénalité</p>
+                <div class="v2-stat-card__value">
+                    <span id="total_penalite"><i class="fa fa-spinner fa-spin"></i></span>
+                    <span class="unit">FCFA</span>
+                </div>
+                <p class="v2-stat-card__sub"><span id="nb_total_penalite"><i class="fa fa-spinner fa-spin"></i></span> pénalité(s)</p>
+            </div>
 
-            
         @endif
-        @endisset 
+        @endisset
 
     </div>
 
@@ -180,19 +101,30 @@
             @if($type_stat =="paiement")
 
                 @if(canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'))
-                    <div class="row col-md-12">
-                        <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
+                    <div class="v2-chart-card" style="margin-top: 16px;">
+                        <div class="v2-card__header">
+                            <div>
+                                <p class="v2-card__title">Paiements mobile — vue mensuelle</p>
+                                <p class="v2-card__subtitle">Évolution des paiements mobile money</p>
+                            </div>
+                        </div>
+                        <canvas id="chartPaiementMois" class="chart-surface"></canvas>
                     </div>
-                @endif 
-                <br>
+                @endif
                 @if(CanPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'))
-                    <div class="row col-md-12">
-                        <div id="chartPaiement" style="width: 100% !important"></div>
+                    <div class="v2-chart-card" style="margin-top: 16px;">
+                        <div class="v2-card__header">
+                            <div>
+                                <p class="v2-card__title">Aperçu des paiements</p>
+                                <p class="v2-card__subtitle">Détail journalier</p>
+                            </div>
+                        </div>
+                        <div id="chartPaiement" class="chart-surface"></div>
                     </div>
-                @endif        
+                @endif
             @endif
         @endisset
-    
+
 
     @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_periode'))
 

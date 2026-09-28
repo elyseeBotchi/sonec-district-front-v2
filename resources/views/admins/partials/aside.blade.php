@@ -1,5 +1,9 @@
 @php $entitesNav = Entities(); @endphp
 <aside class="left-sidebar" data-sidebarbg="skin6">
+    <div class="sidebar-brand">
+        <img src="{{ asset('template/assets/images/logo.png') }}" alt="{{ env('APP_NAME') }}">
+        <span class="sidebar-brand__name">{{ env('APP_NAME') }}</span>
+    </div>
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar" data-sidebarbg="skin6">
         <!-- Sidebar navigation-->
@@ -60,10 +64,10 @@
                                 <i data-feather="calendar" class="feather-icon"></i>
                                 <span class="hide-menu">Pénalités</span>
                             </a>
-                        </li>   
+                        </li>
                     @endif
 
-                    
+
 
                     @if (CanPermission('acteurs_tiers_voir_lhistorique_des_controles_tiers'))
                         <li class="sidebar-item {{ request()->is('panel/services/taxes/cheque/*') ? 'selected' : '' }}">
@@ -75,14 +79,14 @@
                             </a>
                         </li>
                     @endif
-                    
+
                     <li class="list-divider"></li>
 
                     @if (CanPermission('cheques_voir_le_module_cheque'))
                         <li class="sidebar-item {{ request()->is('panel/services/cheque/*') ? 'selected' : '' }}">
                             <a class="sidebar-link has-arrow {{ request()->is('panel/services/cheque/*') ? 'active' : '' }}"
                                 href="javascript:void(0)" aria-expanded="false">
-                                <i data-feather="box" class="feather-icon"></i>
+                                <i data-feather="credit-card" class="feather-icon"></i>
                                 <span class="hide-menu">Chèque </span>
                             </a>
                             <ul aria-expanded="false"
@@ -186,7 +190,7 @@
                     @if (CanPermission('activite_du_jour_voir_le_module_activite_du_jour'))
                         <li class="sidebar-item {{ request()->is('panel/services/activite/*') ? 'selected' : '' }}">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                                <i data-feather="box" class="feather-icon"></i>
+                                <i data-feather="clock" class="feather-icon"></i>
                                 <span class="hide-menu">Activité du jour </span>
                             </a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -300,7 +304,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow" title="STATISTIQUE MOBILE MONEY" href="javascript:void(0)"
                             aria-expanded="false">
-                            <i data-feather="box" class="feather-icon"></i>
+                            <i data-feather="smartphone" class="feather-icon"></i>
                             <span class="hide-menu">STATISTIQUE MOBILE </span>
                         </a>
                         <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -380,7 +384,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow" title="STATISTIQUE CHEQUE" href="javascript:void(0)"
                             aria-expanded="false">
-                            <i data-feather="box" class="feather-icon"></i>
+                            <i data-feather="file-text" class="feather-icon"></i>
                             <span class="hide-menu">STATISTIQUE CHEQUE </span>
                         </a>
                         <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -479,7 +483,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow" title="STATISTIQUE PENALITE" href="javascript:void(0)"
                             aria-expanded="false">
-                            <i data-feather="box" class="feather-icon"></i>
+                            <i data-feather="alert-circle" class="feather-icon"></i>
                             <span class="hide-menu">STATISTIQUE PENALITE </span>
                         </a>
                         <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -487,7 +491,7 @@
 
 
                                 @if (CanPermission('statistiques_de_penalites_voir_les_gains_des_acteurs_tiers'))
-                                
+
                                     <li class="sidebar-item">
                                         <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']) }}"
                                             class="sidebar-link">
@@ -499,14 +503,14 @@
                                 @endif
 
                                 @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_par_rubrique'))
-                                
+
                                     <li class="sidebar-item">
                                         <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false">
                                             <span class="hide-menu">PAR RUBRIQUE</span>
                                         </a>
 
                                         <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                            
+
                                             @if (CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
                                             @endif
                                             <li class="sidebar-item">
@@ -535,7 +539,7 @@
                                 @endif
 
                                 @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_par_periode'))
-                                
+
                                     <li class="sidebar-item">
                                         <a href="{{ route('panel.autorisations.statistique.penalite.detail', ['uuid' => $entitesNav[0]['uuid'], 'type_stat' => 'periode', 'type_sous_stat' => 'all']) }}"
                                             class="sidebar-link">
@@ -649,14 +653,13 @@
 
 
 
-
                 @if (CanPermission('configurations_voir_le_bloc_des_configurations'))
                     <li class="list-divider"></li>
                     <li class="nav-small-cap"><span class="hide-menu">Configurations</span></li>
                     @if (CanPermission('entites_configurer_une_entite'))
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                                <i data-feather="box" class="feather-icon"></i>
+                                <i data-feather="layers" class="feather-icon"></i>
                                 <span class="hide-menu">Entités </span>
                             </a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -691,7 +694,7 @@
                         @if (CanPermission('gabaris_voir_longlet_gabaris'))
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                                    <i class="feather-icon fas fa-book"></i>
+                                    <i data-feather="book" class="feather-icon"></i>
                                     <span class="hide-menu">Gabaris </span>
                                 </a>
                                 <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -711,7 +714,7 @@
                                 </ul>
                             </li>
                         @endif
-                    
+
 
                     @if (CanPermission('collaborateurs_voir_longlet_collaborateur'))
                         <li class="list-divider"></li>
@@ -720,7 +723,7 @@
                         <li class="sidebar-item {{ request()->is('panel/collaborateurs/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/collaborateurs/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.collaborateurs.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-users"></i>
+                                <i data-feather="users" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Collaborateurs
                                 </span>
@@ -732,7 +735,7 @@
                         <li class="sidebar-item {{ request()->is('panel/agents/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/agents/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.agents.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-user-secret"></i>
+                                <i data-feather="user-check" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Agent
                                 </span>
@@ -746,7 +749,7 @@
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/partenaires-agents/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.partenaires-agents.index') }}"
                                 aria-expanded="false">
-                                <i class="feather-icon fas fa-user-secret"></i>
+                                <i data-feather="user-plus" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Agent partenaires
                                 </span>
@@ -758,7 +761,7 @@
                         <li class="sidebar-item {{ request()->is('panel/partenaires/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/partenaires/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.partenaires.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-user-secret"></i>
+                                <i data-feather="briefcase" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Partenaires
                                 </span>
@@ -770,7 +773,7 @@
                         <li class="sidebar-item {{ request()->is('panel/roles/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/roles/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.roles.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-tasks"></i>
+                                <i data-feather="shield" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Roles
                                 </span>
@@ -783,7 +786,7 @@
                         <li class="sidebar-item {{ request()->is('panel/modules/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/autorisations/modules/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.modules.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-cogs"></i>
+                                <i data-feather="grid" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Modules
                                 </span>
@@ -796,7 +799,7 @@
                         <li class="sidebar-item {{ request()->is('panel/systemes/*') ? 'selected' : '' }}">
                             <a class="sidebar-link sidebar-link {{ request()->is('panel/systemes/*') ? 'active' : '' }}"
                                 href="{{ route('panel.autorisations.systemes.index') }}" aria-expanded="false">
-                                <i class="feather-icon fas fa-cogs"></i>
+                                <i data-feather="settings" class="feather-icon"></i>
                                 <span class="hide-menu">
                                     Système
                                 </span>

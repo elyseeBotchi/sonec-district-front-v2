@@ -21,27 +21,14 @@ class ApiRequest
     private static function executeRequest($request, $url, $params, $verb)
     {
         $httpVerbs = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
-    
+
         if (!in_array($verb, $httpVerbs)) {
-            return response()->json(['error' => 'Invalid HTTP verb'], 400);
+            throw new \InvalidArgumentException("Invalid HTTP verb: {$verb}");
         }
-    
-        try {
-            return $request->$verb($url, $params);
-        } catch (\Illuminate\Http\Client\RequestException $e) {
-            // Gestion des erreurs spécifiques à la requête
-            return response()->json([
-                'error' => 'Request failed',
-                'message' => $e->getMessage(),
-                'status' => $e->response ? $e->response->status() : null,
-            ], 500);
-        } catch (\Exception $e) {
-            // Gestion des autres exceptions
-            return response()->json([
-                'error' => 'Unexpected error',
-                'message' => $e->getMessage(),
-            ], 500);
-        }
+
+        // Laisse remonter les exceptions (timeout, connexion refusée, erreur HTTP...)
+        // pour que l'appelant (GlobalSendService) les traite de façon uniforme.
+        return $request->$verb($url, $params);
     }
     
 }

@@ -1,0 +1,1239 @@
+/*
+ * District — Design System V2
+ * ----------------------------------------------------------------------
+ * Ce fichier ne redéfinit QUE des classes déjà présentes dans le template
+ * existant (sidebar, topbar, cards Bootstrap) + de nouvelles classes
+ * préfixées `v2-` pour les composants propres à V2 (stat cards, chart
+ * cards, bottom nav). Tout est scopé sous `.v2-shell` (posé sur
+ * #main-wrapper uniquement par layout.adminAppV2) et ce fichier n'est
+ * chargé que par les pages V2 : aucune fuite possible vers les pages
+ * existantes qui continuent d'utiliser template/dist/css/style.css seul.
+ *
+ * Socle réutilisable pour les prochains écrans V2 : voir la section
+ * "COMPOSANTS" pour les briques disponibles (v2-card, v2-stat-card,
+ * v2-chart-card, v2-btn, v2-badge...).
+ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+.v2-shell {
+  --v2-primary: #ff7a1a;
+  --v2-primary-dark: #e8650a;
+  --v2-primary-50: #fff2e8;
+  --v2-navy: #101b3d;
+  --v2-navy-soft: #1b2a5c;
+  --v2-success: #12b76a;
+  --v2-success-50: #e7f9f0;
+  --v2-danger: #f04438;
+  --v2-danger-50: #fdeceb;
+  --v2-bg: #f5f6fa;
+  --v2-surface: #ffffff;
+  --v2-border: #ececf1;
+  --v2-text: #111827;
+  --v2-text-muted: #6b7280;
+  --v2-text-soft: #9aa1ae;
+
+  --v2-radius-sm: 10px;
+  --v2-radius-md: 16px;
+  --v2-radius-lg: 20px;
+  --v2-radius-pill: 999px;
+
+  --v2-shadow-card: 0 1px 2px rgba(16, 24, 40, .04), 0 4px 16px rgba(16, 24, 40, .06);
+  --v2-shadow-pop: 0 8px 24px rgba(16, 24, 40, .12);
+
+  --v2-sidebar-w: 264px;
+  --v2-topbar-h: 76px;
+  --v2-bottomnav-h: 64px;
+
+  --v2-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Courbe d'accélération unique pour toutes les transitions du socle V2 :
+     rapide, naturelle, sans rebond — cohérente sur sidebar, sous-menus,
+     états actifs/hover, menu avatar, overlay mobile. */
+  --v2-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --v2-duration-fast: .15s;
+  --v2-duration: .2s;
+  --v2-duration-slow: .28s;
+
+  background: var(--v2-bg);
+  font-family: var(--v2-font);
+  color: var(--v2-text);
+}
+
+.v2-shell * {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   2. SHELL LAYOUT (sidebar + topbar + content)
+   ============================================================ */
+.v2-shell.page-wrapper,
+.v2-shell .page-wrapper {
+  background: var(--v2-bg);
+  margin-left: 0;
+  min-height: 100vh;
+  padding-bottom: var(--v2-bottomnav-h);
+}
+
+@media (min-width: 992px) {
+  .v2-shell .page-wrapper {
+    margin-left: var(--v2-sidebar-w);
+    padding-bottom: 0;
+  }
+}
+
+.v2-shell footer.footer {
+  background: transparent;
+  border-top: 1px solid var(--v2-border);
+  color: var(--v2-text-soft);
+  font-size: 13px;
+  padding: 16px 0 90px;
+}
+
+@media (min-width: 992px) {
+  .v2-shell footer.footer {
+    padding: 16px 0;
+  }
+}
+
+/* ============================================================
+   3. SIDEBAR — surcharge des classes réelles générées par
+      admins.partials.aside (.left-sidebar, #sidebarnav, .sidebar-item,
+      .sidebar-link, .hide-menu, .nav-small-cap, .list-divider,
+      .has-arrow, .first-level/.second-level, .sidebar-brand). Le menu
+      (permissions, routes, sous-menus) n'est pas dupliqué ici : on ne
+      change QUE l'apparence de ce que Blade génère déjà.
+   ============================================================ */
+.v2-shell .left-sidebar {
+  background: var(--v2-surface);
+  border-right: 1px solid var(--v2-border);
+  bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  overflow-x: hidden;
+  position: fixed;
+  top: 0;
+  transform: translateX(-100%);
+  transition: transform var(--v2-duration-slow) var(--v2-ease), box-shadow var(--v2-duration-slow) var(--v2-ease);
+  width: var(--v2-sidebar-w);
+  z-index: 1050;
+}
+
+@media (min-width: 992px) {
+  .v2-shell .left-sidebar {
+    transform: none;
+    transition: none;
+  }
+}
+
+.v2-shell.show-sidebar .left-sidebar {
+  transform: translateX(0);
+  box-shadow: var(--v2-shadow-pop);
+}
+
+/* Overlay toujours présent (pas seulement quand .show-sidebar), pour
+   pouvoir animer son apparition en fondu au lieu d'un pop instantané. */
+@media (max-width: 991.98px) {
+  .v2-shell::after {
+    background: rgba(16, 24, 40, .45);
+    content: "";
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    transition: opacity var(--v2-duration-slow) var(--v2-ease);
+    z-index: 1040;
+  }
+
+  .v2-shell.show-sidebar::after {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.v2-shell .left-sidebar .sidebar-brand {
+  align-items: center;
+  border-bottom: 1px solid var(--v2-border);
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+  height: var(--v2-topbar-h);
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.v2-shell .left-sidebar .sidebar-brand img {
+  height: 24px;
+  width: auto;
+}
+
+.v2-shell .left-sidebar .sidebar-brand__name {
+  color: var(--v2-navy);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.v2-shell .left-sidebar .scroll-sidebar {
+  box-sizing: border-box;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px 14px 24px;
+  width: 100%;
+}
+
+.v2-shell #sidebarnav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.v2-shell #sidebarnav .sidebar-item {
+  margin: 2px 0;
+  position: relative;
+}
+
+.v2-shell #sidebarnav .sidebar-link {
+  align-items: center;
+  border-radius: var(--v2-radius-pill);
+  color: var(--v2-text-muted);
+  display: flex;
+  font-size: 14.5px;
+  font-weight: 500;
+  gap: 12px;
+  padding: 10px 14px;
+  text-decoration: none;
+  transition: background var(--v2-duration) var(--v2-ease),
+              color var(--v2-duration) var(--v2-ease);
+  white-space: nowrap;
+}
+
+/* Indicateur latéral : toujours présent (opacité/échelle à 0), pour
+   pouvoir transitionner son apparition plutôt que de le faire "popper"
+   avec le changement de classe .active. */
+.v2-shell #sidebarnav .sidebar-link::before {
+  background: var(--v2-primary);
+  border-radius: 0 4px 4px 0;
+  content: "";
+  height: 60%;
+  left: -14px;
+  opacity: 0;
+  position: absolute;
+  top: 20%;
+  transform: scaleY(.3);
+  transition: opacity var(--v2-duration) var(--v2-ease),
+              transform var(--v2-duration) var(--v2-ease);
+  width: 3px;
+}
+
+.v2-shell #sidebarnav .sidebar-link:hover {
+  background: var(--v2-primary-50);
+  color: var(--v2-primary-dark);
+}
+
+.v2-shell #sidebarnav .sidebar-link.active,
+.v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link {
+  background: var(--v2-primary);
+  color: #fff;
+}
+
+.v2-shell #sidebarnav .sidebar-link.active::before,
+.v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.v2-shell #sidebarnav .sidebar-link.active .feather-icon,
+.v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link .feather-icon {
+  color: #fff;
+}
+
+.v2-shell #sidebarnav .feather-icon {
+  color: var(--v2-text-soft);
+  flex-shrink: 0;
+  height: 18px;
+  transition: color var(--v2-duration) var(--v2-ease);
+  width: 18px;
+}
+
+.v2-shell #sidebarnav .hide-menu {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v2-shell #sidebarnav .sidebar-link.has-arrow::after {
+  border-bottom: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  content: "";
+  height: 6px;
+  margin-right: 2px;
+  transform: rotate(45deg);
+  transition: transform var(--v2-duration) var(--v2-ease);
+  width: 6px;
+  opacity: .6;
+}
+
+.v2-shell #sidebarnav .sidebar-link.has-arrow[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+}
+
+/* Sous-menus : hauteur + opacité animées (display ne peut pas
+   transitionner). Le plafond de 600px est très large par rapport au plus
+   long sous-menu réel (Chèque, 8 items) pour ne jamais tronquer le
+   contenu ; la durée courte fait que ça reste perçu comme rapide/naturel
+   même si la valeur cible dépasse la hauteur réelle. */
+.v2-shell #sidebarnav ul.first-level,
+.v2-shell #sidebarnav ul.second-level {
+  border-left: 1px solid var(--v2-border);
+  list-style: none;
+  margin: 0 0 0 22px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-left: 10px;
+  transition: max-height var(--v2-duration-slow) var(--v2-ease),
+              opacity var(--v2-duration) var(--v2-ease),
+              margin var(--v2-duration-slow) var(--v2-ease);
+}
+
+/* .in est géré par district-v2.js (ouverture au clic + auto-détection de
+   la page courante) — affichage 100% indépendant de style.css. */
+.v2-shell #sidebarnav ul.first-level.in,
+.v2-shell #sidebarnav ul.second-level.in {
+  margin: 4px 0 8px 22px;
+  max-height: 600px;
+  opacity: 1;
+}
+
+.v2-shell #sidebarnav ul.first-level .sidebar-link,
+.v2-shell #sidebarnav ul.second-level .sidebar-link {
+  font-size: 13.5px;
+  font-weight: 400;
+  padding: 8px 10px;
+}
+
+.v2-shell #sidebarnav .nav-small-cap {
+  color: var(--v2-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  margin: 18px 12px 6px;
+  text-transform: uppercase;
+}
+
+.v2-shell #sidebarnav .list-divider {
+  background: none;
+  border-top: 1px solid var(--v2-border);
+  color: var(--v2-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  margin: 14px 12px 6px;
+  padding-top: 12px;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   4. TOPBAR — composant maison (admins.partials.header), sans
+      dépendance à .navbar/.navbar-nav/.dropdown-menu de Bootstrap.
+   ============================================================ */
+.v2-shell .topbar {
+  background: var(--v2-surface);
+  border-bottom: 1px solid var(--v2-border);
+  height: var(--v2-topbar-h);
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1030;
+}
+
+@media (min-width: 992px) {
+  .v2-shell .topbar {
+    left: var(--v2-sidebar-w);
+  }
+}
+
+.v2-topbar-inner {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+@media (min-width: 992px) {
+  .v2-topbar-inner {
+    padding: 0 28px;
+  }
+}
+
+/* Texte de bienvenue affiché à gauche de la topbar. Le sous-titre est
+   surchargeable par page via @section('page-subtitle', '...') dans la
+   vue, avec une valeur par défaut générique sinon — socle réutilisable
+   pour les prochains écrans. */
+.v2-topbar-greeting {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.v2-topbar-greeting__title {
+  color: var(--v2-text);
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v2-topbar-greeting__subtitle {
+  color: var(--v2-text-muted);
+  font-size: 12.5px;
+  margin: 2px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Une page peut surcharger @section('page-subtitle', '') pour ne rien
+   afficher sous le titre/fil d'Ariane (ex: page "Mon compte"). */
+.v2-topbar-greeting__subtitle:empty {
+  display: none;
+}
+
+/* Fil d'Ariane utilisable dans @section('page-title', '...') à la place
+   du texte de bienvenue par défaut. */
+.v2-breadcrumb {
+  align-items: center;
+  color: var(--v2-text-soft);
+  display: inline-flex;
+  font-size: inherit;
+  font-weight: 500;
+  gap: 6px;
+}
+
+.v2-breadcrumb strong {
+  color: var(--v2-text);
+  font-weight: 700;
+}
+
+@media (min-width: 576px) {
+  .v2-topbar-greeting__title {
+    font-size: 17px;
+  }
+
+  .v2-topbar-greeting__subtitle {
+    font-size: 13px;
+  }
+}
+
+.v2-topbar-actions {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.v2-topbar-search {
+  display: none;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .v2-topbar-search {
+    display: block;
+  }
+}
+
+.v2-topbar-search__input {
+  background: var(--v2-bg);
+  border: 1px solid transparent;
+  border-radius: var(--v2-radius-pill);
+  font-size: 14px;
+  height: 42px;
+  padding: 0 16px 0 42px;
+  width: 220px;
+}
+
+@media (min-width: 1200px) {
+  .v2-topbar-search__input {
+    width: 260px;
+  }
+}
+
+.v2-topbar-search__input:focus {
+  border-color: var(--v2-primary);
+  outline: none;
+}
+
+.v2-topbar-search__icon {
+  color: var(--v2-text-soft);
+  height: 16px;
+  left: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+}
+
+.v2-topbar-icon-btn {
+  align-items: center;
+  background: var(--v2-bg);
+  border: none;
+  border-radius: var(--v2-radius-pill);
+  color: var(--v2-text);
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 42px;
+  justify-content: center;
+  position: relative;
+  transition: background var(--v2-duration) var(--v2-ease),
+              color var(--v2-duration) var(--v2-ease);
+  width: 42px;
+}
+
+.v2-topbar-icon-btn:hover {
+  background: var(--v2-primary-50);
+  color: var(--v2-primary-dark);
+}
+
+.v2-topbar-icon-btn svg {
+  height: 18px;
+  width: 18px;
+}
+
+.v2-topbar-icon-btn__dot {
+  background: var(--v2-danger);
+  border: 2px solid var(--v2-surface);
+  border-radius: 50%;
+  height: 10px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 10px;
+}
+
+.v2-topbar-avatar {
+  display: block;
+  flex-shrink: 0;
+}
+
+.v2-topbar-avatar img {
+  border: 2px solid var(--v2-primary-50);
+  border-radius: 50%;
+  display: block;
+  height: 40px;
+  object-fit: cover;
+  transition: border-color var(--v2-duration) var(--v2-ease);
+  width: 40px;
+}
+
+.v2-topbar-avatar:hover img {
+  border-color: var(--v2-primary);
+}
+
+/* Menu avatar : composant maison, indépendant du dropdown Bootstrap
+   (voir admins.partials.header + js/v2/district-v2.js). Positionnement
+   simple et entièrement sous contrôle, sans Popper ni les règles
+   responsive de .navbar-nav qui causaient le débordement. */
+.v2-shell .v2-user-menu-wrap {
+  position: relative;
+}
+
+.v2-user-menu {
+  background: var(--v2-surface);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-md);
+  box-shadow: var(--v2-shadow-pop);
+  max-width: calc(100vw - 24px);
+  min-width: 220px;
+  opacity: 0;
+  padding: 8px 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  transform: translateY(-6px) scale(.98);
+  transform-origin: top right;
+  transition: opacity var(--v2-duration) var(--v2-ease),
+              transform var(--v2-duration) var(--v2-ease);
+  visibility: hidden;
+  z-index: 1060;
+}
+
+.v2-user-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+.v2-user-menu__item {
+  align-items: center;
+  color: var(--v2-text);
+  display: flex;
+  font-size: 14px;
+  gap: 4px;
+  padding: 10px 16px;
+  text-decoration: none;
+  transition: background var(--v2-duration-fast) var(--v2-ease);
+}
+
+.v2-user-menu__item:hover {
+  background: var(--v2-bg);
+}
+
+.v2-user-menu__divider {
+  border-top: 1px solid var(--v2-border);
+  margin: 6px 0;
+}
+
+/* ============================================================
+   5. CONTENT WRAPPER
+   ============================================================ */
+.v2-content {
+  margin: 0 auto;
+  max-width: 1360px;
+  padding: calc(var(--v2-topbar-h) + 20px) 16px 24px;
+}
+
+@media (min-width: 992px) {
+  .v2-content {
+    padding: calc(var(--v2-topbar-h) + 32px) 32px 32px;
+  }
+}
+
+.v2-page-header {
+  margin-bottom: 20px;
+}
+
+.v2-page-header h1 {
+  color: var(--v2-text);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.v2-page-header p {
+  color: var(--v2-text-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Grand titre de page autonome (ex: "Paramètres du compte"), utilisé
+   quand la topbar affiche un fil d'Ariane plutôt que le texte de
+   bienvenue — socle réutilisable pour les prochains écrans. */
+.v2-page-title {
+  color: var(--v2-text);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+@media (min-width: 768px) {
+  .v2-page-title {
+    font-size: 30px;
+  }
+}
+
+/* ============================================================
+   6. COMPOSANTS — socle réutilisable pour les prochains écrans V2
+   ============================================================ */
+
+/* --- Grid ------------------------------------------------- */
+.v2-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 576px) {
+  .v2-grid--stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .v2-grid--stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.v2-grid--2col {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 992px) {
+  .v2-grid--2col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- Card base ---------------------------------------------- */
+.v2-card {
+  background: var(--v2-surface);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: var(--v2-shadow-card);
+  padding: 20px;
+}
+
+.v2-card__header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.v2-card__title {
+  color: var(--v2-text);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.v2-card__subtitle {
+  color: var(--v2-text-muted);
+  font-size: 13px;
+  margin: 2px 0 0;
+}
+
+/* --- Stat card ------------------------------------------------ */
+.v2-stat-card {
+  background: var(--v2-surface);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: var(--v2-shadow-card);
+  padding: 20px;
+}
+
+.v2-stat-card__top {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.v2-stat-card__icon {
+  align-items: center;
+  background: var(--v2-primary-50);
+  border-radius: var(--v2-radius-sm);
+  color: var(--v2-primary-dark);
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.v2-stat-card__icon svg {
+  height: 20px;
+  width: 20px;
+}
+
+.v2-stat-card--alt .v2-stat-card__icon {
+  background: #eaf2ff;
+  color: #2f6fed;
+}
+
+.v2-stat-card__trend {
+  align-items: center;
+  background: var(--v2-success-50);
+  border-radius: var(--v2-radius-pill);
+  color: var(--v2-success);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 3px;
+  padding: 4px 9px;
+}
+
+.v2-stat-card__trend--down {
+  background: var(--v2-danger-50);
+  color: var(--v2-danger);
+}
+
+.v2-stat-card__label {
+  color: var(--v2-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.v2-stat-card__value {
+  color: var(--v2-text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.v2-stat-card__value .unit {
+  color: var(--v2-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.v2-stat-card__meta {
+  border-top: 1px solid var(--v2-border);
+  display: flex;
+  font-size: 12px;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 12px;
+}
+
+.v2-stat-card__meta span {
+  color: var(--v2-text-soft);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.v2-stat-card__meta b {
+  color: var(--v2-text);
+  display: block;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.v2-stat-card__bar {
+  background: var(--v2-bg);
+  border-radius: var(--v2-radius-pill);
+  height: 5px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.v2-stat-card__bar span {
+  background: var(--v2-primary);
+  display: block;
+  height: 100%;
+}
+
+.v2-stat-card__sub {
+  color: var(--v2-text-soft);
+  font-size: 12.5px;
+  margin: 6px 0 0;
+}
+
+/* --- Chart card ------------------------------------------------ */
+.v2-chart-card {
+  background: var(--v2-surface);
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: var(--v2-shadow-card);
+  padding: 20px;
+}
+
+.v2-chart-card .chart-surface {
+  min-height: 260px;
+  width: 100%;
+}
+
+/* --- Buttons / badges (socle réutilisable) ---------------------- */
+.v2-btn {
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: var(--v2-radius-pill);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  padding: 10px 18px;
+  text-decoration: none;
+  transition: opacity var(--v2-duration-fast) var(--v2-ease);
+}
+
+.v2-btn:hover {
+  opacity: .88;
+}
+
+/* Toute icône SVG placée dans un bouton V2 doit avoir une taille fixe :
+   un <svg> sans width/height ni contrainte CSS prend une taille par
+   défaut du navigateur (souvent énorme), d'où l'icône géante constatée
+   sur le bouton "Modifier". */
+.v2-btn svg {
+  flex-shrink: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.v2-btn--primary {
+  background: var(--v2-primary);
+  color: #fff;
+}
+
+.v2-btn--ghost {
+  background: var(--v2-bg);
+  color: var(--v2-text);
+}
+
+.v2-badge {
+  border-radius: var(--v2-radius-pill);
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  text-transform: uppercase;
+}
+
+.v2-badge--info {
+  background: #eaf2ff;
+  color: #2f6fed;
+}
+
+.v2-empty {
+  align-items: center;
+  color: var(--v2-text-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  padding: 30px 10px;
+  text-align: center;
+}
+
+/* ============================================================
+   7. BOTTOM NAV (mobile uniquement — nouveau, ajouté par
+      layout.adminAppV2, aucun rapport avec les routes existantes
+      autres que des liens vers des routes réelles déjà nommées)
+   ============================================================ */
+.v2-bottom-nav {
+  background: var(--v2-surface);
+  border-top: 1px solid var(--v2-border);
+  bottom: 0;
+  box-shadow: 0 -4px 16px rgba(16, 24, 40, .06);
+  display: flex;
+  height: var(--v2-bottomnav-h);
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1035;
+}
+
+@media (min-width: 992px) {
+  .v2-bottom-nav {
+    display: none;
+  }
+}
+
+.v2-bottom-nav__item {
+  align-items: center;
+  color: var(--v2-text-soft);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 4px;
+  justify-content: center;
+  text-decoration: none;
+  transition: color var(--v2-duration) var(--v2-ease);
+}
+
+.v2-bottom-nav__item svg {
+  height: 20px;
+  transition: color var(--v2-duration) var(--v2-ease), transform var(--v2-duration-fast) var(--v2-ease);
+  width: 20px;
+}
+
+.v2-bottom-nav__item:active svg {
+  transform: scale(.9);
+}
+
+.v2-bottom-nav__item.is-active {
+  color: var(--v2-primary);
+}
+
+.v2-bottom-nav__item.is-active svg {
+  color: var(--v2-primary);
+}
+
+/* ============================================================
+   8. RESPONSIVE HELPERS
+   ============================================================ */
+@media (max-width: 991.98px) {
+  .v2-shell .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ============================================================
+   9. FORMULAIRES — socle réutilisable (page Mon compte, et toute
+      future page avec des formulaires) : cartes, champs, boutons,
+      avatar, capture faciale.
+   ============================================================ */
+.v2-form-group {
+  margin-bottom: 18px;
+}
+
+.v2-form-group--row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 576px) {
+  .v2-form-group--row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.v2-form-label {
+  color: var(--v2-text-soft);
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.v2-form-input,
+.v2-form-select {
+  background: var(--v2-bg);
+  border: 1px solid transparent;
+  border-radius: var(--v2-radius-sm);
+  box-sizing: border-box;
+  color: var(--v2-text);
+  font-size: 14px;
+  height: 44px;
+  padding: 0 14px;
+  transition: border-color var(--v2-duration) var(--v2-ease),
+              background var(--v2-duration) var(--v2-ease);
+  width: 100%;
+}
+
+.v2-form-input:focus,
+.v2-form-select:focus {
+  background: var(--v2-surface);
+  border-color: var(--v2-primary);
+  outline: none;
+}
+
+.v2-form-input:read-only,
+.v2-form-input:disabled {
+  color: var(--v2-text-soft);
+  cursor: not-allowed;
+}
+
+.v2-form-input--password {
+  padding-right: 44px;
+}
+
+.v2-form-field {
+  position: relative;
+}
+
+.v2-form-field__toggle {
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--v2-text-soft);
+  cursor: pointer;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  position: absolute;
+  right: 12px;
+  top: 34px;
+  transition: color var(--v2-duration) var(--v2-ease);
+  width: 24px;
+}
+
+.v2-form-field__toggle:hover {
+  color: var(--v2-text);
+}
+
+.v2-form-field__toggle svg {
+  height: 18px;
+  width: 18px;
+}
+
+.v2-form-hint {
+  align-items: flex-start;
+  background: var(--v2-primary-50);
+  border-radius: var(--v2-radius-sm);
+  color: var(--v2-primary-dark);
+  display: flex;
+  font-size: 12.5px;
+  gap: 8px;
+  line-height: 1.5;
+  margin-top: 16px;
+  padding: 12px 14px;
+}
+
+.v2-form-hint svg {
+  flex-shrink: 0;
+  height: 16px;
+  margin-top: 1px;
+  width: 16px;
+}
+
+.v2-card__footer {
+  border-top: 1px solid var(--v2-border);
+  margin-top: 20px;
+  padding-top: 16px;
+}
+
+.v2-btn--block {
+  justify-content: center;
+  width: 100%;
+}
+
+.v2-btn--navy {
+  background: var(--v2-navy);
+  color: #fff;
+}
+
+/* --- Avatar upload ---------------------------------------------- */
+.v2-avatar-upload {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.v2-avatar-upload img {
+  border: 3px solid var(--v2-primary-50);
+  border-radius: 50%;
+  height: 96px;
+  object-fit: cover;
+  width: 96px;
+}
+
+.v2-avatar-upload label {
+  color: var(--v2-primary);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  transition: color var(--v2-duration) var(--v2-ease);
+}
+
+.v2-avatar-upload label:hover {
+  color: var(--v2-primary-dark);
+}
+
+/* --- Capture faciale ---------------------------------------------- */
+.v2-face-card {
+  background: var(--v2-primary-50);
+  border: 1px solid var(--v2-border);
+}
+
+.v2-face-card .v2-card__title {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.v2-face-card__desc {
+  color: var(--v2-text-muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 4px 0 18px;
+}
+
+.v2-face-frame {
+  align-items: center;
+  background: var(--v2-surface);
+  border: 2px dashed var(--v2-border);
+  border-radius: var(--v2-radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  min-height: 220px;
+  padding: 24px;
+  position: relative;
+  transition: border-color var(--v2-duration) var(--v2-ease);
+}
+
+.v2-face-frame.is-active {
+  border-style: solid;
+  border-color: var(--v2-primary);
+}
+
+.v2-face-frame video {
+  border-radius: var(--v2-radius-md);
+  display: none;
+  max-width: 100%;
+}
+
+.v2-face-frame.is-active video {
+  display: block;
+}
+
+.v2-face-frame canvas {
+  border-radius: var(--v2-radius-md);
+  left: 24px;
+  position: absolute;
+  top: 24px;
+}
+
+.v2-face-frame__placeholder {
+  align-items: center;
+  color: var(--v2-primary-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.v2-face-frame.is-active .v2-face-frame__placeholder {
+  display: none;
+}
+
+.v2-face-frame__icon {
+  align-items: center;
+  background: var(--v2-primary-50);
+  border-radius: 50%;
+  color: var(--v2-primary);
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
+}
+
+.v2-face-frame__icon svg {
+  height: 26px;
+  width: 26px;
+}
+
+.v2-face-frame__placeholder span {
+  color: var(--v2-primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.v2-face-controls {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  margin-top: 16px;
+}
+
+@media (min-width: 576px) {
+  .v2-face-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+}

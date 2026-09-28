@@ -56,25 +56,30 @@ class LandingController extends Controller
            // 'uuid' => $target
         ];
 
-        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+        try {
+            $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
 
-       //dd($responses);
-        if(isset($responses['type'])){
-            if($responses['type'] =='success'){
-                return view('index2', [
-                    'operateurs'=>$responses['data'] ?? '',
-                ]);
-            }
-            else{
-                return view('index2', [
-                    'operateurs'=>$responses['data'] ?? '',
-                ]);
-            }
-        }
-        else{
-            return view('index2', [
-                'operateurs'=>$responses['data'] ?? '',
-            ]);
+            //dd($responses);
+                if(isset($responses['type'])){
+                    if($responses['type'] =='success'){
+                        return view('index2', [
+                            'operateurs'=>$responses['data'] ?? '',
+                        ]);
+                    }
+                    else{
+                        return view('index2', [
+                            'operateurs'=>$responses['data'] ?? '',
+                        ]);
+                    }
+                }
+                else{
+                    return view('index2', [
+                        'operateurs'=>$responses['data'] ?? '',
+                    ]);
+                }
+        } catch (\Exception $e) {
+            Log::error("Erreur lors de l'appel à l'API pour index2: " . $e->getMessage());
+            $responses = ['type' => 'error', 'data' => []];
         }
     }
 

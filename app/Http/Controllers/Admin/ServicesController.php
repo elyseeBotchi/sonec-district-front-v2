@@ -448,7 +448,7 @@ class ServicesController extends Controller
                 'type_stat' => $type_stat ?? '',
                 'type_sous_stat' => $type_sous_stat ?? ''
         ]);
-      
+
     }
 
     public function stat_data($entity)

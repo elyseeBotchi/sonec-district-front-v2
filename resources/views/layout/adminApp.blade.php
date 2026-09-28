@@ -18,9 +18,12 @@
 
     <link href="{{ asset('template/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
 
-    <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+    
+    <link href="{{ asset('css/v2/district-v2.css') }}" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
 
@@ -96,7 +99,7 @@
             </div>
         </div>
 
-        <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        <div id="main-wrapper" class="v2-shell" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
             data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
 
@@ -105,7 +108,7 @@
 
             <div class="page-wrapper">
 
-                <div class="container-fluid" style="padding-top: 5px !important;">
+                <div class="v2-content">
                     @yield('content')
                 </div>
 
@@ -113,6 +116,24 @@
                     © {{ env('APP_NAME') }} All Rights Reserved.
                 </footer>
             </div>
+
+            {{-- Bottom nav mobile : raccourcis + accès au menu complet existant
+                 (le vrai menu, avec toutes les permissions, reste dans
+                 admins.partials.aside, ouvert ici en off-canvas). --}}
+            <nav class="v2-bottom-nav">
+                <a href="{{ route('panel.home') }}" class="v2-bottom-nav__item {{ request()->routeIs('panel.home') ? 'is-active' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Accueil
+                </a>
+                <a href="javascript:void(0)" data-v2-toggle-sidebar class="v2-bottom-nav__item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    Menu
+                </a>
+                <a href="{{ route('panel.securite.compte') }}" class="v2-bottom-nav__item {{ request()->routeIs('panel.securite.*') ? 'is-active' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Profil
+                </a>
+            </nav>
         </div>
     </div>
 
@@ -123,7 +144,9 @@
     <script src="{{ asset('template/dist/js/app-style-switcher.js') }}"></script>
     <script src="{{ asset('template/dist/js/feather.min.js') }}"></script>
     <script src="{{ asset('template/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
-    <script src="{{ asset('template/dist/js/sidebarmenu.js') }}"></script>
+    {{-- sidebarmenu.js retiré : remplacé par le gestionnaire de sous-menus
+         maison dans js/v2/district-v2.js (voir plus bas), qui n'a pas le
+         conflit .in (Bootstrap 3) / .show (Bootstrap 4) de l'original. --}}
     <!--Custom JavaScript -->
     <script src="{{ asset('template/dist/js/custom.min.js') }}"></script>
     <!--This page JavaScript -->
@@ -178,6 +201,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    {{-- Comportement propre au socle V2 (backdrop mobile, etc.) --}}
+    <script src="{{ asset('js/v2/district-v2.js') }}"></script>
 
     @stack('footer-script')
 

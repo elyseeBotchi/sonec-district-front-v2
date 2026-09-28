@@ -28,22 +28,24 @@ class LoginController extends Controller
      */
     public function index()
     {
-        //dd(AuthConnect()['role']);
+        // dd(AuthConnect()['role']);
         $Entities = Entities();
-        if(AuthConnect()['role']['name'] =="PAILLEUR"){
+        $roleName = AuthConnect()['role']['name'] ?? null;
+
+
+        if($roleName =="PAILLEUR"){
             return redirect()->route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']); //route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'paiement']);
         }
 
-        
-        if(AuthConnect()['role']['name'] =="Superviseurs"){
+        if($roleName =="SUPERVISEURS"){
             return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'validation_jour']);
         }
-        
-        if(AuthConnect()['role']['name'] =="PARTENAIRE TIERS" || AuthConnect()['role']['name'] =='AGENT TIERS' ||  AuthConnect()['role']['name'] =='DEVELOPPEUR'){
+
+        if($roleName =="PARTENAIRE TIERS" || $roleName =='AGENT TIERS' ||  $roleName =='DEVELOPPEUR'){
             return redirect()->route('panel.autorisations.services.verification-partenaire',['uuid' =>$Entities[0]['uuid']]);
         }
 
-        if(AuthConnect()['role']['name'] =="MANAGER TIERS"){
+        if($roleName =="MANAGER TIERS"){
             return redirect()->route('panel.autorisations.statistique.gains.partenaire',['entity' =>$Entities[0]['uuid']]);
         }
 
