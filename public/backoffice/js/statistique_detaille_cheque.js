@@ -11,6 +11,19 @@ $(document).ready(function() {
     //intervalId
     //setInterval(() => findStatistique(), 20000)
 
+    /**
+     * L'auto-rafraîchissement ci-dessus est désactivé pour l'instant, mais
+     * l'état de l'onglet "Par période" est quand même déclaré ici (hors de
+     * findStatistique) par cohérence avec statistique_detaille.js /
+     * statistique_detaille_penalite.js : si l'intervalle est un jour
+     * réactivé, ça évite de réintroduire le bug du graphique qui se
+     * dédouble et de la pagination qui revient à la page 1 (voir les
+     * commentaires équivalents dans ces deux fichiers).
+     */
+    let periodeChartInstance = null;
+    let periodeListenersBound = false;
+    const periodeState = { granularity: 'jour', page: 1, pageSize: 6, dailyRows: [] };
+
     function findStatus(status,paymode) {
        var libelle_status = ""
        var libelle_paymode =""
@@ -1007,125 +1020,185 @@ $(document).ready(function() {
 
                 if(permissions.statistique_partenaires_voir_les_statistiques_par_periode){
                     if(type_stat === "periode"){
-                        let render_periode = '';
-                        let montantTotalPeriode = 0;
-                        const labels = [];
-                        const dataValues = [];
-
-                        Object.keys(stat.par_jour).forEach(date => {
-                            const { nombre_lignes, montant_total } = stat.par_jour[date]; // Extraction des valeurs
-
-                            const total_amount = parseFloat(montant_total || 0).toLocaleString('fr-FR', {
-                                style: 'currency',
-                                currency: 'XOF',
-                            });
-
-                            render_periode += `
-                                <tr>
-                                    <td>${date || ''}</td>
-                                    <td>${nombre_lignes || '0'}</td>
-                                    <td>${total_amount || '0'}</td>                                   
-                                </tr>`;
-                            
-                            montantTotalPeriode += parseFloat(montant_total || 0);
-
-                            // Préparer les données pour le camembert
-                            labels.push(date);
-                            dataValues.push(parseFloat(montant_total || 0));
+                        // Données réelles, jour par jour, telles que renvoyées par l'API
+                        // (aucune donnée inventée : Mensuel/Annuel/Progression sont des
+                        // agrégats calculés côté client à partir de ces mêmes valeurs).
+                        // Stockées dans periodeState (persistant) pour survivre aux
+                        // rafraîchissements auto si l'intervalle est réactivé.
+                        periodeState.dailyRows = Object.keys(stat.par_jour || {}).sort().map(function (date) {
+                            return {
+                                key: date,
+                                nombre: parseFloat(stat.par_jour[date].nombre_lignes || 0),
+                                montant: parseFloat(stat.par_jour[date].montant_total || 0),
+                            };
                         });
 
-                    
-                        const MontantTotal_P = parseFloat(montantTotalPeriode).toLocaleString('fr-FR', {
-                            style: 'currency',
-                            currency: 'XOF',
-                        });
-                    
-                        document.getElementById('montant_total_periode').innerHTML = MontantTotal_P;
-                    
-                        
-                        const categories = Object.keys(stat.par_jour);
-                       // const values = categories.map(jour => parseFloat(stat.par_jour[jour].nombre_lignes));
-                        const values = categories.map(jour => parseFloat(stat.par_jour[jour].montant_total));
+                        const MOIS_FR = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-                    
-                        var options = {
-                            series: [{
-                                name: "Nombre de paiement",
-                                data: values
-                            }],
-                            annotations: {
-                                points: [{
-                                    x: 'Dates',
-                                    seriesIndex: 0,
-                                    label: {
-                                        borderColor: '#775DD0',
-                                        offsetY: 0,
-                                        style: {
-                                            color: '#fff',
-                                            background: '#775DD0',
-                                        },
-                                        text: 'Evolution des paiements',
-                                    }
-                                }]
-                            },
-                            chart: {
-                                height: 350,
-                                type: 'bar',
-                            },
-                            plotOptions: {
-                                bar: {
-                                    borderRadius: 10,
-                                    columnWidth: '50%',
-                                }
-                            },
-                            dataLabels: {
-                                enabled: false
-                            },
-                            stroke: {
-                                width: 0
-                            },
-                            grid: {
-                                row: {
-                                    colors: ['#fff', '#f2f2f2']
-                                }
-                            },
-                            xaxis: {
-                                labels: {
-                                    rotate: -45
-                                },
-                                categories: categories,
-                                tickPlacement: 'on'
-                            },
-                            yaxis: {
-                                title: {
-                                    text: "Nombre de paiement",
-                                },
-                            },
-                            fill: {
-                                colors: ['#008FFB'], // Remplacez par la couleur désirée
+                        function formatLabel(key, granularity) {
+                            if (granularity === 'mois') {
+                                const parts = key.split('-');
+                                return MOIS_FR[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
                             }
-                        };
-                    
-                        var chart = new ApexCharts(document.querySelector("#periodeChart"), options);
-                        chart.render();
-                    
-                        // Mise à jour du tableau HTML
-                        const tableBody = document.getElementById('render_periode');
-                        if (tableBody) {
-                            tableBody.innerHTML = render_periode;
-                        } else {
-                            console.error("Élément avec l'ID 'render_periode' introuvable dans le DOM.");
+                            if (granularity === 'annee') {
+                                return key;
+                            }
+                            return key; // jour : la date brute (YYYY-MM-DD) suffit
                         }
 
+                        function formatXOF(value) {
+                            return parseFloat(value || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' });
+                        }
 
+                        function aggregate(rows, granularity) {
+                            if (granularity === 'jour') {
+                                return rows.slice();
+                            }
+                            const buckets = {};
+                            const order = [];
+                            rows.forEach(function (row) {
+                                const bucketKey = granularity === 'mois' ? row.key.slice(0, 7) : row.key.slice(0, 4);
+                                if (!buckets[bucketKey]) {
+                                    buckets[bucketKey] = { key: bucketKey, nombre: 0, montant: 0 };
+                                    order.push(bucketKey);
+                                }
+                                buckets[bucketKey].nombre += row.nombre;
+                                buckets[bucketKey].montant += row.montant;
+                            });
+                            order.sort();
+                            return order.map(function (k) { return buckets[k]; });
+                        }
 
-                            // Gestion du clic sur les boutons "Voir Détails"
-                            document.querySelectorAll('.btn-details').forEach(button => {
-                                button.addEventListener('click', function () {
-                                    const selectedDate = this.getAttribute('data-date');
-                                    afficherDetailsLignesDuJour(selectedDate);
+                        function renderChart(rows) {
+                            const chartContainer = document.querySelector("#periodeChart");
+                            if (!chartContainer) {
+                                return;
+                            }
+
+                            const categories = rows.map(function (r) { return formatLabel(r.key, periodeState.granularity); });
+                            const values = rows.map(function (r) { return r.montant; });
+
+                            var options = {
+                                series: [{ name: "Montant total", data: values }],
+                                chart: { height: 350, type: 'bar', toolbar: { show: false } },
+                                plotOptions: { bar: { borderRadius: 6, columnWidth: '50%' } },
+                                dataLabels: { enabled: false },
+                                stroke: { width: 0 },
+                                grid: { borderColor: '#ececf1' },
+                                xaxis: { categories: categories, labels: { rotate: -45 } },
+                                yaxis: { title: { text: "Montant (FCFA)" } },
+                                fill: { colors: ['#ff7a1a'] },
+                                colors: ['#ff7a1a'],
+                            };
+
+                            if (periodeChartInstance) {
+                                periodeChartInstance.destroy();
+                            }
+                            periodeChartInstance = new ApexCharts(chartContainer, options);
+                            periodeChartInstance.render();
+                        }
+
+                        function trendBadge(rows, index) {
+                            const previous = rows[index - 1];
+                            if (!previous || previous.montant <= 0) {
+                                return '<span class="v2-trend v2-trend--flat">—</span>';
+                            }
+                            const pct = ((rows[index].montant - previous.montant) / previous.montant) * 100;
+                            if (Math.abs(pct) < 0.1) {
+                                return '<span class="v2-trend v2-trend--flat">0%</span>';
+                            }
+                            const up = pct > 0;
+                            const arrow = up
+                                ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>'
+                                : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>';
+                            return '<span class="v2-trend ' + (up ? 'v2-trend--up' : 'v2-trend--down') + '">' + arrow + Math.abs(pct).toFixed(1) + '%</span>';
+                        }
+
+                        function renderTable(rows) {
+                            const tableBody = document.getElementById('render_periode');
+                            if (!tableBody) {
+                                return;
+                            }
+
+                            if (!rows.length) {
+                                tableBody.innerHTML = "<tr><td colspan='4' class='is-muted' style='text-align:center;padding:28px 12px;'>Aucune donnée disponible</td></tr>";
+                                return;
+                            }
+
+                            const visibleCount = Math.min(rows.length, periodeState.page * periodeState.pageSize);
+                            let html = '';
+                            for (let i = 0; i < visibleCount; i++) {
+                                const row = rows[i];
+                                html += '<tr>' +
+                                    '<td><strong>' + formatLabel(row.key, periodeState.granularity) + '</strong></td>' +
+                                    '<td class="is-muted">' + (row.nombre || 0) + '</td>' +
+                                    '<td class="is-numeric"><strong>' + formatXOF(row.montant) + '</strong></td>' +
+                                    '<td class="is-numeric">' + trendBadge(rows, i) + '</td>' +
+                                    '</tr>';
+                            }
+                            tableBody.innerHTML = html;
+
+                            const moreBtn = document.getElementById('v2-periode-more');
+                            const paginationLabel = document.getElementById('v2-periode-pagination');
+                            const totalPages = Math.max(1, Math.ceil(rows.length / periodeState.pageSize));
+
+                            if (moreBtn) {
+                                moreBtn.style.display = periodeState.page >= totalPages ? 'none' : '';
+                            }
+                            if (paginationLabel) {
+                                paginationLabel.textContent = 'Page ' + Math.min(periodeState.page, totalPages) + ' sur ' + totalPages;
+                            }
+                        }
+
+                        function renderRange(rows) {
+                            const rangeLabel = document.getElementById('v2-periode-range');
+                            if (!rangeLabel || !rows.length) {
+                                return;
+                            }
+                            const first = formatLabel(rows[0].key, periodeState.granularity);
+                            const last = formatLabel(rows[rows.length - 1].key, periodeState.granularity);
+                            rangeLabel.textContent = (first === last) ? first : (first + ' — ' + last);
+                        }
+
+                        function refreshPeriode() {
+                            const rows = aggregate(periodeState.dailyRows, periodeState.granularity);
+                            renderChart(rows);
+                            renderTable(rows);
+                            renderRange(rows);
+                        }
+
+                        if (!periodeListenersBound) {
+                            periodeListenersBound = true;
+
+                            document.querySelectorAll('#v2-periode-tabs .v2-tabs__item').forEach(function (tab) {
+                                tab.addEventListener('click', function () {
+                                    document.querySelectorAll('#v2-periode-tabs .v2-tabs__item').forEach(function (t) {
+                                        t.classList.remove('is-active');
+                                    });
+                                    tab.classList.add('is-active');
+                                    periodeState.granularity = tab.getAttribute('data-granularity');
+                                    periodeState.page = 1;
+                                    refreshPeriode();
                                 });
                             });
+
+                            const moreBtnEl = document.getElementById('v2-periode-more');
+                            if (moreBtnEl) {
+                                moreBtnEl.addEventListener('click', function () {
+                                    periodeState.page += 1;
+                                    refreshPeriode();
+                                });
+                            }
+
+                            const exportBtn = document.getElementById('v2-periode-export');
+                            if (exportBtn) {
+                                exportBtn.addEventListener('click', function () {
+                                    window.print();
+                                });
+                            }
+                        }
+
+                        refreshPeriode();
                     }
                 }
 

@@ -91,6 +91,11 @@
 
 
 <body>
+    {{-- Barre de progression de navigation : s'affiche immédiatement au clic
+         sur un lien interne, avant même que la page suivante ne commence à
+         se charger (voir js/v2/district-v2.js). --}}
+    <div id="v2-page-progress"></div>
+
     <div class="main-wrapper">
         <div class="preloader">
             <div class="lds-ripple">

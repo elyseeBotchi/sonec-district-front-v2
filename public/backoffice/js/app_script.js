@@ -127,10 +127,10 @@ function loader(state = "show") {
     switch (state) {
         case "show":
             JsLoadingOverlay.show({
-                'overlayBackgroundColor': '#666666',
-                'overlayOpacity': 0.4,
+                'overlayBackgroundColor': '#101b3d',
+                'overlayOpacity': 0.45,
                 'spinnerIcon': 'ball-spin',
-                'spinnerColor': '#1fbd03',
+                'spinnerColor': '#ff7a1a',
                 'spinnerSize': '1x',
                 'overlayIDName': 'overlay',
                 'spinnerIDName': 'spinner',

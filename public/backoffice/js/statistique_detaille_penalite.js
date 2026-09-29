@@ -4,8 +4,21 @@ $(document).ready(function() {
 
     const intervalId = setInterval(findStatistique, 20000);
     intervalId
-    
-    
+
+    /**
+     * findStatistique() est rappelée automatiquement toutes les ~20s
+     * (rafraîchissement des cartes "du jour") : l'état de l'onglet
+     * "Par période" (graphique, page affichée, granularité choisie,
+     * gestionnaires de clic) doit donc être déclaré ICI, une seule fois,
+     * plutôt qu'à l'intérieur de findStatistique() — sinon chaque
+     * rafraîchissement recréait un nouveau graphique par-dessus l'ancien
+     * et réattachait de nouveaux gestionnaires de clic sur les mêmes
+     * boutons (plusieurs clics fantômes cumulés à chaque clic réel).
+     */
+    let periodeChartInstance = null;
+    let periodeListenersBound = false;
+    const periodeState = { granularity: 'jour', page: 1, pageSize: 6, dailyRows: [] };
+
     function findStatistique() {
         fetch(`/panel/statistique/data/count/${Entity_uuid}`, {
             method: 'GET',
@@ -508,125 +521,199 @@ $(document).ready(function() {
 
                 if (permissions.statistique_partenaires_voir_les_statistiques_par_periode) {
                     if (type_stat === "periode") {
-                        let totalLine = 0;
-                        let totalMontant = 0;
-                        let totalKid = 0;     // penalty_kidnapping_amount_total
-                        let totalPound = 0;   // penalty_pound_amount_total
-                        let totalGlobal = 0;
-
-                        const labels = [];
-                        const dataValues = [];
-
-                        const tbody = document.getElementById('render_periode');
-                        if (!tbody) {
-                        console.error("Élément avec l'ID 'render_periode' introuvable dans le DOM.");
-                        return;
-                        }
-                        const table = tbody.closest('table');
-                        if (!table) {
-                        console.error("Impossible de trouver la balise <table> parente.");
-                        return;
-                        }
-
-                        // (Ré)initialise THEAD avec 2 rangs
-                        let thead = table.querySelector('thead');
-                        if (!thead) {
-                        thead = document.createElement('thead');
-                        table.prepend(thead);
-                        }
-                        thead.innerHTML = `
-                        <tr id="periodeHeaderRow1">
-                            <th rowspan="2">Date</th>
-                            <th rowspan="2">Nombre</th>
-                            <th rowspan="2">Montant de la carte</th>
-                            <th colspan="2">Pénalité</th>
-                            <th rowspan="2">Total Général</th>
-                        </tr>
-                        <tr id="periodeHeaderRow2">
-                            <th>Enlèvement</th>
-                            <th>Fourrière</th>
-                        </tr>
-                        `;
-
-                        // Reset body
-                        tbody.innerHTML = '';
-
-                        const fmtXOF = (n) => Number(n || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' });
-
+                        // Données réelles, jour par jour (aucune donnée inventée :
+                        // Mensuel/Annuel/Progression sont des agrégats calculés côté
+                        // client à partir de ces mêmes valeurs). Stockées dans
+                        // periodeState (persistant, déclaré hors de findStatistique)
+                        // pour survivre aux rafraîchissements automatiques.
                         const recap = stat_penalite.recap_par_jour || {};
-                        // Tri des dates (optionnel)
-                        const dates = Object.keys(recap).sort();
-
-                        dates.forEach(date => {
-                        const it = recap[date] || {};
-                        const total_cartes = Number(it.total_cartes || 0);
-                        const montant_cartes_total = Number(it.montant_cartes_total || 0);
-                        const penalty_total = Number(it.penalty_total || 0); // = kid + pound
-                        const kid = Number(it.penalty_kidnapping_amount_total || 0);
-                        const pound = Number(it.penalty_pound_amount_total || 0);
-                        const global_total = penalty_total + montant_cartes_total;
-
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${date || ''}</td>
-                            <td>${total_cartes}</td>
-                            <td>${fmtXOF(montant_cartes_total)}</td>
-                            <td>${fmtXOF(kid)}</td>
-                            <td>${fmtXOF(pound)}</td>
-                            <td>${fmtXOF(global_total)}</td>
-                        `;
-                        tbody.appendChild(tr);
-
-                        totalLine   += total_cartes;
-                        totalMontant+= montant_cartes_total;
-                        totalKid    += kid;
-                        totalPound  += pound;
-                        totalGlobal += global_total;
-
-                        // Données pour le graphique (évolution des pénalités)
-                        labels.push(date);
-                        dataValues.push(penalty_total);
+                        periodeState.dailyRows = Object.keys(recap).sort().map(function (date) {
+                            const it = recap[date] || {};
+                            const cartes = Number(it.total_cartes || 0);
+                            const montantCartes = Number(it.montant_cartes_total || 0);
+                            const kid = Number(it.penalty_kidnapping_amount_total || 0);
+                            const pound = Number(it.penalty_pound_amount_total || 0);
+                            return {
+                                key: date,
+                                cartes: cartes,
+                                montantCartes: montantCartes,
+                                kid: kid,
+                                pound: pound,
+                                total: montantCartes + kid + pound,
+                            };
                         });
 
-                        // Montant total des pénalités sur la période (affichage)
-                        const montantTotalPeriode = dates.reduce((acc, d) => acc + Number((recap[d] || {}).penalty_total || 0), 0);
-                        const eltTotal = document.getElementById('montant_total_periode');
-                        if (eltTotal) eltTotal.textContent = fmtXOF(montantTotalPeriode);
+                        const MOIS_FR = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+                        const fmtXOF = function (n) { return Number(n || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'XOF' }); };
 
-                        // Graphique (ApexCharts)
-                        const options = {
-                        series: [{ name: "Pénalités", data: dataValues }],
-                        chart: { height: 350, type: 'bar' },
-                        plotOptions: { bar: { borderRadius: 10, columnWidth: '50%' } },
-                        dataLabels: { enabled: false },
-                        stroke: { width: 0 },
-                        grid: { row: { colors: ['#fff', '#f2f2f2'] } },
-                        xaxis: { labels: { rotate: -45 }, categories: labels, tickPlacement: 'on' },
-                        yaxis: { title: { text: "Pénalités" } },
-                        fill: { colors: ['#008FFB'] }
-                        };
-                        const chart = new ApexCharts(document.querySelector("#periodeChart"), options);
-                        chart.render();
+                        function formatLabel(key, granularity) {
+                            if (granularity === 'mois') {
+                                const parts = key.split('-');
+                                return MOIS_FR[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
+                            }
+                            return key;
+                        }
 
-                        // (Optionnel) Ligne des totaux au bas du tableau
-                        const totalTr = document.createElement('tr');
-                        totalTr.innerHTML = `
-                        <td><strong>Total</strong></td>
-                        <td><strong>${totalLine}</strong></td>
-                        <td><strong>${fmtXOF(totalMontant)}</strong></td>
-                        <td><strong>${fmtXOF(totalKid)}</strong></td>
-                        <td><strong>${fmtXOF(totalPound)}</strong></td>
-                        <td><strong>${fmtXOF(totalGlobal)}</strong></td>
-                        `;
-                        tbody.appendChild(totalTr);
+                        function aggregate(rows, granularity) {
+                            if (granularity === 'jour') {
+                                return rows.slice();
+                            }
+                            const buckets = {};
+                            const order = [];
+                            rows.forEach(function (row) {
+                                const bucketKey = granularity === 'mois' ? row.key.slice(0, 7) : row.key.slice(0, 4);
+                                if (!buckets[bucketKey]) {
+                                    buckets[bucketKey] = { key: bucketKey, cartes: 0, montantCartes: 0, kid: 0, pound: 0, total: 0 };
+                                    order.push(bucketKey);
+                                }
+                                buckets[bucketKey].cartes += row.cartes;
+                                buckets[bucketKey].montantCartes += row.montantCartes;
+                                buckets[bucketKey].kid += row.kid;
+                                buckets[bucketKey].pound += row.pound;
+                                buckets[bucketKey].total += row.total;
+                            });
+                            order.sort();
+                            return order.map(function (k) { return buckets[k]; });
+                        }
 
-                        // Gestion du clic sur les boutons "Voir Détails" (si présents dans ce tableau)
-                        document.querySelectorAll('.btn-details').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const selectedDate = this.getAttribute('data-date');
-                            afficherDetailsLignesDuJour(selectedDate);
-                        });
-                        });
+                        function renderChart(rows) {
+                            const chartContainer = document.querySelector("#periodeChart");
+                            if (!chartContainer) {
+                                return;
+                            }
+                            const categories = rows.map(function (r) { return formatLabel(r.key, periodeState.granularity); });
+                            const values = rows.map(function (r) { return r.kid + r.pound; });
+
+                            const options = {
+                                series: [{ name: "Pénalités", data: values }],
+                                chart: { height: 350, type: 'bar', toolbar: { show: false } },
+                                plotOptions: { bar: { borderRadius: 6, columnWidth: '50%' } },
+                                dataLabels: { enabled: false },
+                                stroke: { width: 0 },
+                                grid: { borderColor: '#ececf1' },
+                                xaxis: { categories: categories, labels: { rotate: -45 } },
+                                yaxis: { title: { text: "Pénalités (FCFA)" } },
+                                fill: { colors: ['#ff7a1a'] },
+                                colors: ['#ff7a1a'],
+                            };
+
+                            // periodeChartInstance est persistant : chaque
+                            // rafraîchissement détruit bien l'instance précédente
+                            // au lieu d'en empiler une nouvelle par-dessus.
+                            if (periodeChartInstance) {
+                                periodeChartInstance.destroy();
+                            }
+                            periodeChartInstance = new ApexCharts(chartContainer, options);
+                            periodeChartInstance.render();
+                        }
+
+                        function trendBadge(rows, index) {
+                            const previous = rows[index - 1];
+                            if (!previous || previous.total <= 0) {
+                                return '<span class="v2-trend v2-trend--flat">—</span>';
+                            }
+                            const pct = ((rows[index].total - previous.total) / previous.total) * 100;
+                            if (Math.abs(pct) < 0.1) {
+                                return '<span class="v2-trend v2-trend--flat">0%</span>';
+                            }
+                            const up = pct > 0;
+                            const arrow = up
+                                ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>'
+                                : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>';
+                            return '<span class="v2-trend ' + (up ? 'v2-trend--up' : 'v2-trend--down') + '">' + arrow + Math.abs(pct).toFixed(1) + '%</span>';
+                        }
+
+                        function renderTable(rows) {
+                            const tbody = document.getElementById('render_periode');
+                            if (!tbody) {
+                                console.error("Élément avec l'ID 'render_periode' introuvable dans le DOM.");
+                                return;
+                            }
+
+                            if (!rows.length) {
+                                tbody.innerHTML = "<tr><td colspan='7' class='is-muted' style='text-align:center;padding:28px 12px;'>Aucune donnée disponible</td></tr>";
+                                return;
+                            }
+
+                            const visibleCount = Math.min(rows.length, periodeState.page * periodeState.pageSize);
+                            let html = '';
+                            for (let i = 0; i < visibleCount; i++) {
+                                const row = rows[i];
+                                html += '<tr>' +
+                                    '<td><strong>' + formatLabel(row.key, periodeState.granularity) + '</strong></td>' +
+                                    '<td class="is-muted">' + row.cartes + '</td>' +
+                                    '<td class="is-numeric">' + fmtXOF(row.montantCartes) + '</td>' +
+                                    '<td class="is-numeric">' + fmtXOF(row.kid) + '</td>' +
+                                    '<td class="is-numeric">' + fmtXOF(row.pound) + '</td>' +
+                                    '<td class="is-numeric"><strong>' + fmtXOF(row.total) + '</strong></td>' +
+                                    '<td class="is-numeric">' + trendBadge(rows, i) + '</td>' +
+                                    '</tr>';
+                            }
+                            tbody.innerHTML = html;
+
+                            const moreBtn = document.getElementById('v2-periode-more');
+                            const paginationLabel = document.getElementById('v2-periode-pagination');
+                            const totalPages = Math.max(1, Math.ceil(rows.length / periodeState.pageSize));
+
+                            if (moreBtn) {
+                                moreBtn.style.display = periodeState.page >= totalPages ? 'none' : '';
+                            }
+                            if (paginationLabel) {
+                                paginationLabel.textContent = 'Page ' + Math.min(periodeState.page, totalPages) + ' sur ' + totalPages;
+                            }
+                        }
+
+                        function renderRange(rows) {
+                            const rangeLabel = document.getElementById('v2-periode-range');
+                            if (!rangeLabel || !rows.length) {
+                                return;
+                            }
+                            const first = formatLabel(rows[0].key, periodeState.granularity);
+                            const last = formatLabel(rows[rows.length - 1].key, periodeState.granularity);
+                            rangeLabel.textContent = (first === last) ? first : (first + ' — ' + last);
+                        }
+
+                        function refreshPeriode() {
+                            const rows = aggregate(periodeState.dailyRows, periodeState.granularity);
+                            renderChart(rows);
+                            renderTable(rows);
+                            renderRange(rows);
+                        }
+
+                        // N'attacher les gestionnaires de clic qu'une seule fois
+                        // (voir commentaire équivalent dans statistique_detaille.js).
+                        if (!periodeListenersBound) {
+                            periodeListenersBound = true;
+
+                            document.querySelectorAll('#v2-periode-tabs .v2-tabs__item').forEach(function (tab) {
+                                tab.addEventListener('click', function () {
+                                    document.querySelectorAll('#v2-periode-tabs .v2-tabs__item').forEach(function (t) {
+                                        t.classList.remove('is-active');
+                                    });
+                                    tab.classList.add('is-active');
+                                    periodeState.granularity = tab.getAttribute('data-granularity');
+                                    periodeState.page = 1;
+                                    refreshPeriode();
+                                });
+                            });
+
+                            const moreBtnEl = document.getElementById('v2-periode-more');
+                            if (moreBtnEl) {
+                                moreBtnEl.addEventListener('click', function () {
+                                    periodeState.page += 1;
+                                    refreshPeriode();
+                                });
+                            }
+
+                            const exportBtn = document.getElementById('v2-periode-export');
+                            if (exportBtn) {
+                                exportBtn.addEventListener('click', function () {
+                                    window.print();
+                                });
+                            }
+                        }
+
+                        refreshPeriode();
                     }
                 }
 

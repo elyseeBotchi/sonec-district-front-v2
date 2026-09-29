@@ -1237,3 +1237,285 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ============================================================
+   10. LOADERS — barre de progression de navigation + préchargeur
+       initial. Hors .v2-shell volontairement : .v2-page-progress et
+       .preloader sont des frères de #main-wrapper dans layout.adminApp,
+       pas des descendants (donc les couleurs sont en dur, les
+       custom properties --v2-* ne redescendraient pas jusqu'ici).
+   ============================================================ */
+#v2-page-progress {
+  background: linear-gradient(90deg, #ff7a1a, #e8650a);
+  box-shadow: 0 0 8px rgba(255, 122, 26, .6);
+  height: 3px;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  transition: width .4s cubic-bezier(0.4, 0, 0.2, 1), opacity .2s ease;
+  width: 0;
+  z-index: 100000;
+}
+
+#v2-page-progress.is-loading {
+  opacity: 1;
+  width: 75%;
+}
+
+/* Préchargeur plein écran (premier affichage de chaque page) : recoloré
+   en orange pour rester cohérent avec le reste du socle V2. */
+.lds-ripple .lds-pos {
+  border-color: #ff7a1a !important;
+}
+
+/* ============================================================
+   11. SPINNER — composant maison, remplace <i class="fa fa-spinner
+       fa-spin"> utilisé un peu partout dans les vues d'origine : Font
+       Awesome n'est chargé nulle part dans l'app, ces icônes n'ont
+       donc jamais réellement tourné ni même été visibles. Socle
+       réutilisable pour toute carte, liste ou tableau en attente de
+       données (voir .v2-table-loading ci-dessous pour les tableaux).
+   ============================================================ */
+@keyframes v2-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.v2-spinner {
+  animation: v2-spin .6s linear infinite;
+  border: 2px solid var(--v2-primary-50);
+  border-radius: 50%;
+  border-top-color: var(--v2-primary);
+  display: inline-block;
+  height: 14px;
+  vertical-align: -2px;
+  width: 14px;
+}
+
+.v2-spinner--sm {
+  border-width: 2px;
+  height: 11px;
+  width: 11px;
+}
+
+.v2-spinner--lg {
+  border-width: 3px;
+  height: 28px;
+  width: 28px;
+}
+
+/* État de chargement pour une liste/tableau : une ligne centrée avec le
+   spinner + un libellé, à mettre dans le <tbody> tant que les données
+   n'ont pas encore été injectées par le JS de la page. */
+.v2-table-loading td {
+  color: var(--v2-text-soft);
+  font-size: 13px;
+  padding: 28px 12px !important;
+  text-align: center;
+}
+
+.v2-table-loading .v2-spinner {
+  margin-right: 8px;
+}
+
+/* ============================================================
+   12. TOOLBAR / ONGLETS / TABLEAU — socle réutilisable pour toutes les
+       pages "historique par période" (statistiques paiement, chèque,
+       pénalité...).
+   ============================================================ */
+.v2-toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.v2-toolbar__title {
+  color: var(--v2-text);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.v2-toolbar__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* --- Onglets segmentés (Quotidien / Mensuel / Annuel) ------------- */
+.v2-tabs {
+  background: var(--v2-bg);
+  border-radius: var(--v2-radius-pill);
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+}
+
+.v2-tabs__item {
+  background: none;
+  border: none;
+  border-radius: var(--v2-radius-pill);
+  color: var(--v2-text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  transition: background var(--v2-duration) var(--v2-ease),
+              color var(--v2-duration) var(--v2-ease);
+}
+
+.v2-tabs__item:hover {
+  color: var(--v2-text);
+}
+
+.v2-tabs__item.is-active {
+  background: var(--v2-surface);
+  box-shadow: var(--v2-shadow-card);
+  color: var(--v2-text);
+}
+
+/* --- Tableau ------------------------------------------------------ */
+.v2-table-wrap {
+  overflow-x: auto;
+}
+
+.v2-table {
+  border-collapse: collapse;
+  font-size: 14px;
+  width: 100%;
+}
+
+.v2-table thead th {
+  color: var(--v2-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 0 12px 12px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.v2-table thead th.is-numeric,
+.v2-table td.is-numeric {
+  text-align: right;
+}
+
+.v2-table tbody tr {
+  border-top: 1px solid var(--v2-border);
+  transition: background var(--v2-duration-fast) var(--v2-ease);
+}
+
+.v2-table tbody tr:hover {
+  background: var(--v2-bg);
+}
+
+.v2-table td {
+  color: var(--v2-text);
+  padding: 14px 12px;
+  white-space: nowrap;
+}
+
+.v2-table td.is-muted {
+  color: var(--v2-text-muted);
+}
+
+.v2-table td .unit {
+  color: var(--v2-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+.v2-trend {
+  align-items: center;
+  border-radius: var(--v2-radius-pill);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 3px;
+  padding: 3px 8px;
+}
+
+.v2-trend svg {
+  height: 12px;
+  width: 12px;
+}
+
+.v2-trend--up {
+  background: var(--v2-success-50);
+  color: var(--v2-success);
+}
+
+.v2-trend--down {
+  background: var(--v2-danger-50);
+  color: var(--v2-danger);
+}
+
+.v2-trend--flat {
+  background: var(--v2-bg);
+  color: var(--v2-text-soft);
+}
+
+.v2-card__meta {
+  color: var(--v2-text-soft);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.v2-card__footer--split {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.v2-link-btn {
+  background: none;
+  border: none;
+  color: var(--v2-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+  transition: color var(--v2-duration) var(--v2-ease);
+}
+
+.v2-link-btn:hover {
+  color: var(--v2-primary-dark);
+}
+
+.v2-link-btn:disabled {
+  color: var(--v2-text-soft);
+  cursor: default;
+}
+
+/* Impression / export PDF (bouton "Exporter PDF" -> window.print()) :
+   on masque tout ce qui n'est pas le contenu de la page. */
+@media print {
+  .v2-shell .left-sidebar,
+  .v2-shell .topbar,
+  .v2-bottom-nav,
+  .v2-toolbar__actions,
+  #v2-page-progress {
+    display: none !important;
+  }
+
+  .v2-shell .page-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .v2-content {
+    padding-top: 12px !important;
+  }
+}
+

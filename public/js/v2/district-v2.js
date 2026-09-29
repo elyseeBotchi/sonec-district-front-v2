@@ -165,5 +165,61 @@
                 btn.classList.toggle("is-visible", input.type === "text");
             });
         });
+
+        /**
+         * Barre de progression de navigation (#v2-page-progress, voir
+         * layout.adminApp). Cette app recharge une page HTML complète à
+         * chaque clic de menu (pas de SPA) : sans indicateur, l'écran
+         * reste figé pendant tout l'appel serveur. On affiche la barre
+         * dès le clic — avant même que le navigateur ne commence à
+         * charger la page suivante — pour un retour immédiat.
+         */
+        var pageProgress = document.getElementById("v2-page-progress");
+
+        if (pageProgress) {
+            var startProgress = function () {
+                pageProgress.classList.add("is-loading");
+            };
+
+            document.addEventListener("click", function (event) {
+                if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                    return;
+                }
+                var link = event.target.closest("a[href]");
+                if (!link) {
+                    return;
+                }
+                var href = link.getAttribute("href");
+                if (!href || href.indexOf("javascript:") === 0 || href.indexOf("#") === 0) {
+                    return;
+                }
+                if (link.target === "_blank" || link.hasAttribute("download")) {
+                    return;
+                }
+                // Boutons/liens qui ne naviguent pas réellement (toggles UI).
+                if (link.hasAttribute("data-v2-toggle-sidebar") || link.id === "v2-user-menu-toggle") {
+                    return;
+                }
+                startProgress();
+            });
+
+            document.addEventListener("submit", function (event) {
+                var form = event.target;
+                // Les formulaires .sendForm restent sur place (AJAX, voir
+                // app_script.js) : leur propre overlay suffit, pas besoin
+                // de la barre de progression en plus.
+                if (form.classList && form.classList.contains("sendForm")) {
+                    return;
+                }
+                startProgress();
+            });
+
+            // Si la page revient depuis le cache navigateur (retour
+            // arrière), on s'assure que la barre ne reste pas bloquée
+            // affichée depuis la navigation précédente.
+            window.addEventListener("pageshow", function () {
+                pageProgress.classList.remove("is-loading");
+            });
+        }
     });
 })();
