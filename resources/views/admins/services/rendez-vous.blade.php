@@ -116,65 +116,56 @@
 
 
 @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
-    <div class="row col-md-12">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">RECEPTION DES USAGERS</h4>
-                  
-                    </div> 
-                    
-                    <div class="ml-auto">
-                       
+    <div class="v2-search-shell">
+        <div class="v2-search-card">
+            <div class="v2-search-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <p class="v2-search-card__title">Rechercher un véhicule</p>
+            <p class="v2-search-card__desc">Entrez la référence du reçu ou le numéro d'immatriculation pour accéder aux détails du paiement et du véhicule.</p>
 
-                        <div class="hide js-show">
-                            <br>
-                            @if(CanPermission('rendez_vous_recevoir_les_paiements_cash'))
-                                <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary d-none">
-                                    <i class="fas fa-plus"></i> PAYER A LA CAISSE
-                                </a>
-                            @endif 
-                            
-                            <div class="card-custom mb-4">
-                                <div class="card-header-custom">
-                                    <span id="languageSelectLabel" style="font-size:x-small;">
-                                        <br>
-                                    </span>
-                                </div>
+            @if(CanPermission('rendez_vous_recevoir_les_paiements_cash'))
+                <a href="{{ route('panel.autorisations.services.taxes.caisse',['entity_uuid' => $Entity_uuid ]) }}" class="btn btn-rounded btn-outline-primary d-none">
+                    <i class="fas fa-plus"></i> PAYER A LA CAISSE
+                </a>
+            @endif
 
-                                <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.rdv.search') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid"  required />
-                                    <div class="card-body-custom">
-                                        <div class="row col-md-12 billing-section">
-                                            <div class="form-group col-md-11">
-                                                <label class="form-label">
-                                                    RECHERCHER UN VEHICULE
-                                                </label>
-                                                <input type="text" class="form-control" name="search" placeholder="Entrez la référence du reçu ou le numero d'immatriculation" required />
-                                            </div>
-                                        
-                                            <div class="form-group col-md-1">
-                                                <label class="form-label">&nbsp; &nbsp; &nbsp; </label>
-                                                <button type="submit" id="submitBtn" class="btn btn-icon waves-effect waves-light material-shadow-none btn-outline-primary" title="Rechercher" >
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            
-                            </div>
-                        </div>
+            <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.rdv.search') }}" method="POST">
+                @csrf
+                <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid" required />
 
+                <div class="v2-search-card__group">
+                    <label class="v2-search-card__label" for="rdv-search-input">Référence du reçu ou numéro d'immatriculation</label>
+                    <div class="v2-search-card__input-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
+                        <input type="text" id="rdv-search-input" name="search" placeholder="Ex: 5075GC01 ou DIS|TSA-26..." required />
                     </div>
-                    
+                </div>
+
+                <button type="submit" id="submitBtn" class="v2-btn v2-btn--navy v2-btn--block">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Rechercher le véhicule
+                </button>
+            </form>
+
+            <div id="rdv-last-search-block" style="display: none;">
+                <div class="v2-search-card__divider"></div>
+                <p class="v2-search-card__quick-label">Accès rapide</p>
+                <div class="v2-search-card__quick-grid">
+                    <a href="#" id="rdv-last-search-item" class="v2-search-card__quick-item">
+                        <span class="v2-search-card__quick-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        <span>
+                            <span class="v2-search-card__quick-title" style="display:block;">Dernière recherche</span>
+                            <span class="v2-search-card__quick-sub" id="rdv-last-search-value"></span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-@endisset 
+@endisset
 
 @push('footer-script')
 @isset($Entity_uuid)

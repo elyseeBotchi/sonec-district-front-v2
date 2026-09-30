@@ -84,7 +84,7 @@
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
             <h4 class="mb-sm-0">
-               <span class="entity_name"> <i class="fa fa-spinner fa-spin"></i></span>
+               <span class="entity_name"> <span class="v2-spinner v2-spinner--sm"></span></span>
             </h4>
 
             <div class="page-title-right">
@@ -99,60 +99,55 @@
 
     <div  id="container">
         <div class="row">
-            <div class="card col-md-12">
-                <h3>Informations sur l'entité</h3>
-                <table class="table no-wrap v-middle mb-0">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <strong>Nom</strong>
-                            </td>
-                            <td class="entity_name"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Place holder for the entity name -->
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Version actuelle</strong>
-                            </td>
-                            <td id="current_version"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Placeholder for the current version -->
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Table des attributs</strong>
-                            </td>
-                            <td id="attribute_table_name"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Placeholder for the attribute table name -->
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>État</strong>
-                            </td>
-                            <td id="entity_state"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Placeholder for the state -->
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Créé le</strong>
-                            </td>
-                            <td id="created_at"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Placeholder for the creation date -->
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Mis à jour le</strong>
-                            </td>
-                            <td id="updated_at"> <i class="fa fa-spinner fa-spin"></i> </td> <!-- Placeholder for the update date -->
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="v2-card col-md-12">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Informations sur l'entité</p>
+                </div>
+                <div class="v2-table-wrap">
+                    <table class="v2-table">
+                        <tbody>
+                            <tr>
+                                <td><strong>Nom</strong></td>
+                                <td class="entity_name"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Version actuelle</strong></td>
+                                <td id="current_version"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Table des attributs</strong></td>
+                                <td id="attribute_table_name"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>État</strong></td>
+                                <td id="entity_state"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Créé le</strong></td>
+                                <td id="created_at"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mis à jour le</strong></td>
+                                <td id="updated_at"><span class="v2-spinner v2-spinner--sm"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <h4 style="display:none;">Config Schéma</h4>
                 <pre  class='bg-dark' id="config_schema" style="display:none;">
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <span class="v2-spinner v2-spinner--sm"></span>
                 </pre>
             </div>
 
-            <div class="card col-md-12">
-                <h3>Rubriques budgetaires</h3>
+            <div class="v2-card col-md-12">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Rubriques budgetaires</p>
+                </div>
                 <div class="text-end mb-4">
-                    <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#add-modal">
-                        <i class="fas fa-plus"></i> Ajouter une rubrique
+                    <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#add-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Ajouter une rubrique
                     </a>
                 </div>
                 <div class="modal fade" id="add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -231,21 +226,17 @@
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
+                <div class="v2-table-wrap">
+                    <table class="v2-table">
                         <thead>
-                            <tr class="border-0">
-                                <th class="border-0 font-14 font-weight-medium" style="width: 50% !important">
-                                    Libelle
-                                </th>
-                                <th class="border-0 font-14 font-weight-medium">
-                                    Rubrique options
-                                </th>
+                            <tr>
+                                <th style="width: 50%">Libelle</th>
+                                <th>Rubrique options</th>
                             </tr>
                         </thead>
                         <tbody id="rubrique_container">
-                            <tr>
-                                <td colspan="2"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ...</td>
+                            <tr class="v2-table-loading">
+                                <td colspan="2"><span class="v2-spinner"></span> Chargement des données...</td>
                             </tr>
                         </tbody>
                     </table>

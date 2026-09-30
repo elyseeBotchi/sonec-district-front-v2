@@ -17,13 +17,14 @@ $(document).ready(function() {
                 var row = '';
 
                 results.forEach(element =>{
-                    const className = element.status === 'enable' ? "" : "bg-danger";
-                    const textColor = element.status === 'enable' ? "" : "text-white";
+                    const statusBadge = element.status === 'enable'
+                        ? '<span class="v2-status v2-status--success">Actif</span>'
+                        : '<span class="v2-status v2-status--danger">Suspendu</span>';
                     const iconColor = element.status === 'enable' ? "btn-outline-danger" : "btn-outline-light";
                     const icon = element.status === 'enable' ? '<i class="fa fa-trash"></i>' : '<i class="fas fa-check"></i>';
                     const manager = element.is_manager ? 'OUI' : 'NON';
-                    row += `<tr class="${className}">
-                                <td class="${textColor}">${element.role_name}</td>
+                    row += `<tr>
+                                <td>${element.role_name} ${statusBadge}</td>
                                 <td>
                                     <a href="/panel/collaborateurs/${element.uuid}/officeChangeStatus" class="sendDeleteLink btn btn-icon waves-effect waves-light material-shadow-none ${iconColor}">${icon}</a>
                                 </td>

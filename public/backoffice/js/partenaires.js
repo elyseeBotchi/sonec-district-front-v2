@@ -25,7 +25,17 @@ $(document).ready(function() {
                     },
                     data: results,
                     columns: [
-                        { data: 'name' },
+                        {
+                            data: 'name',
+                            render: function(data, type, row) {
+                                var words = (data || '').trim().split(/\s+/);
+                                var initials = words.length > 1
+                                    ? (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
+                                    : (data || '').substring(0, 2).toUpperCase();
+                                var colorIdx = (data || ' ').charCodeAt(0) % 4;
+                                return `<span class="v2-cell-name"><span class="v2-avatar-initials v2-avatar-initials--${colorIdx}">${initials}</span>${data}</span>`;
+                            }
+                        },
                         { data: 'percent',
                             render: function(data, type, row) {
                                 return data + '%';
@@ -34,13 +44,13 @@ $(document).ready(function() {
                         {data: 'state',
                             render: function(data, type, row) {
                                 if(data === 'init'){
-                                    return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                                    return `<span class="v2-status v2-status--pending">En attente</span>`;
                                 }else if(data === 'enable'){
-                                    return `<span class="badge badge-pill badge-success">Actif</span>`;
+                                    return `<span class="v2-status v2-status--success">Actif</span>`;
                                 }else if(data === 'disable'){
-                                    return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    return `<span class="v2-status v2-status--pending">Suspendu</span>`;
                                 }else{
-                                    return `<span class="badge rounded-pill badge-danger">Supprimé</span>`;
+                                    return `<span class="v2-status v2-status--danger">Supprimé</span>`;
                                 }
                             }
                         },
@@ -92,13 +102,13 @@ $(document).ready(function() {
             var row = '';
             const result = data.data;
 
-            row += `<div class="form-group">
-                        <label for="name" class="form-label">Partenaire</label>
-                        <input type="text" name="name" class="form-control" value="${result.name}">
+            row += `<div style="margin-bottom:16px;">
+                        <label for="name" class="v2-modal-label">Partenaire</label>
+                        <input type="text" name="name" class="v2-modal-input" value="${result.name}">
                     </div>`;
-            row += `<div class="form-group">
-                        <label for="percent" class="form-label">Pourcentage</label>
-                        <input type="number" name="percent" class="form-control" value="${result.percent}" min="0" max="100" required>
+            row += `<div>
+                        <label for="percent" class="v2-modal-label">Pourcentage</label>
+                        <input type="number" name="percent" class="v2-modal-input" value="${result.percent}" min="0" max="100" required>
                     </div>`;
 
             $('.updateModalBody').html(row);

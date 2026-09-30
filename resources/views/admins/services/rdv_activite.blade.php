@@ -10,11 +10,12 @@
                 <div class="card-body">
 
                     <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title text-center">DETAIL DE L'ACTIVITE DU JOUR </h4>
+                        <div class="v2-card">
+                            <div class="v2-card__header">
+                                <p class="v2-card__title">Détail de l'activité du jour</p>
                             </div>
-                            <table class="table">
+                            <div class="v2-table-wrap">
+                            <table class="v2-table">
                                 <tbody class="render-html">
                                     <tr>
                                         <td> 
@@ -70,10 +71,11 @@
                                            <span id="sans_rdv_total"></span>
                                         </td>
                                     </tr>      
-                              
+
                                 </tbody>
                             </table>
-                        </div> 
+                            </div>
+                        </div>
                 </div>
 
                 </div>

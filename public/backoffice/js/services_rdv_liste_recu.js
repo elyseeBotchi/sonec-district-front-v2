@@ -69,12 +69,12 @@ $(document).ready(function() {
                     render: function(data, type, row) {
                         switch(data) {
                             case 'fail':
-                                return `<span class="badge rounded-pill badge-danger">Non valide</span>`;
+                                return `<span class="v2-status v2-status--danger">Non valide</span>`;
                             case 'validate':
-                                return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                return `<span class="v2-status v2-status--success">Validé</span>`;
                             default:
-                                return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
-                           
+                                return `<span class="v2-status v2-status--pending">En attente de validation</span>`;
+
                         }
                     }
                 },

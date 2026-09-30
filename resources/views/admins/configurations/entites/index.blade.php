@@ -1,26 +1,19 @@
 @extends('layout.adminApp')
 
+@section('page-title', 'Entités')
+@section('page-subtitle')
+    <span class="v2-breadcrumb">Configurations <span>&rsaquo;</span> <strong>Entités</strong></span>
+@endsection
+
 @section('content')
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-            <h4 class="mb-sm-0">Entités</h4>
-
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">Configurations</li>
-                    <li class="breadcrumb-item active">Entités</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
     @if(CanPermission('entites_configurer_une_entite'))
         <div class="row" id="container">
             <div class="col-md-12">
                 @if(CanPermission('entites_ajouter_une_entite'))
                     <div class="text-end mb-4">
-                        <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#customer-edit_add-modal">
-                            <i class="fas fa-plus"></i> Ajouter une entité
+                        <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#customer-edit_add-modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Ajouter une entité
                         </a>
                     </div>
 
@@ -187,22 +180,24 @@
                     </div>
                 @endif 
 
-                <div class="pt-5">
-                    <table class="table" id="datatable-custom">
-                        <thead>
-                        <tr class="bg-primary text-uppercase">
-                            <td class="text-white">Dénomination</td>
-                            <td class="text-white">Version</td>
-                            <td class="text-white">Statut</td>
-                            <td class="text-white"></td>
-                        </tr>
-                        </thead>
-                        <tbody class="render-html">
+                <div class="v2-card">
+                    <div class="v2-table-wrap">
+                        <table class="v2-table" id="datatable-custom">
+                            <thead>
                             <tr>
-                                <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                <th>Dénomination</th>
+                                <th>Version</th>
+                                <th>Statut</th>
+                                <th>Action</th>
                             </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="render-html">
+                                <tr class="v2-table-loading">
+                                    <td colspan="4"><span class="v2-spinner"></span> Chargement des données...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

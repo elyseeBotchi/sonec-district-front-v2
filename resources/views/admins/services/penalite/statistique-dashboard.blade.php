@@ -4,46 +4,49 @@
 
 
     @if (CanPermission('statistiques_de_penalites_voir_les_gains_des_acteurs_tiers'))
-        <div class="row">
-            @isset($type_stat)
-                @if ($type_stat == 'paiement')
-                    <table class="table table-reponsive table-striped table-bordered">
-                        <thead>
-                            <tr class="table-success">
-                                <th>Partenaires techniques</th>
-                                <th>Nombre total de carte</th>
-                                <th>Montant cartes</th>
-                                <th>Pénalité</th>
-                                <th>% partenaire</th>
-                                <th>Part partenaire</th>
-                                <th>Part District</th>
-                            </tr>
-                        </thead>
-
-                        <tbody></tbody>
-                    </table>
-                @endif
-            @endisset
-
-        </div>
-
-
         @isset($type_stat)
             @if ($type_stat == 'paiement')
+                <div class="v2-card" style="margin-bottom: 20px;">
+                    <div class="v2-card__header">
+                        <p class="v2-card__title">Répartition par partenaire technique</p>
+                    </div>
+                    <div class="v2-table-wrap">
+                        <table class="v2-table">
+                            <thead>
+                                <tr>
+                                    <th>Partenaires techniques</th>
+                                    <th>Nombre total de carte</th>
+                                    <th class="is-numeric">Montant cartes</th>
+                                    <th class="is-numeric">Pénalité</th>
+                                    <th class="is-numeric">% partenaire</th>
+                                    <th class="is-numeric">Part partenaire</th>
+                                    <th class="is-numeric">Part District</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 @if (canPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_mensuel'))
-                    <div class="row col-md-12">
-                        <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
+                    <div class="v2-chart-card" style="margin-bottom: 20px;">
+                        <div class="v2-card__header">
+                            <p class="v2-card__title">Parts partenaire et District par mois</p>
+                        </div>
+                        <canvas id="chartPaiementMois" class="chart-surface"></canvas>
                     </div>
                 @endif
-                <br>
+
                 @if (CanPermission('statistique_partenaires_voir_les_statistiques_graphique_par_paiement_journalier'))
-                    <div class="row col-md-12" style="display: none">
-                        <div id="chartPaiement" style="width: 100% !important"></div>
+                    <div class="v2-chart-card" style="display: none; margin-bottom: 20px;">
+                        <div class="v2-card__header">
+                            <p class="v2-card__title">Paiements par jour</p>
+                        </div>
+                        <div id="chartPaiement" class="chart-surface"></div>
                     </div>
                 @endif
             @endif
         @endisset
-
         @if (CanPermission('statistiques_de_penalites_voir_les_statistiques_par_periode'))
             @isset($type_stat)
                 @if ($type_stat == 'periode')

@@ -34,7 +34,10 @@ $(document).ready(function() {
                         {
                             data: 'firstname',
                             render: function(data, type, row) {
-                                return data+' '+row.lastname;
+                                var fullname = data + ' ' + (row.lastname || '');
+                                var initials = ((data.charAt(0) || '') + (row.lastname || '').charAt(0)).toUpperCase();
+                                var colorIdx = (data.charCodeAt(0) + (row.lastname || ' ').charCodeAt(0)) % 4;
+                                return `<span class="v2-cell-name"><span class="v2-avatar-initials v2-avatar-initials--${colorIdx}">${initials}</span>${fullname}</span>`;
                             }
                         },
                         { data: 'email' },
@@ -44,13 +47,13 @@ $(document).ready(function() {
                             data: 'status',
                             render: function(data, type, row) {
                                 if(data === 'init'){
-                                    return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                                    return `<span class="v2-status v2-status--pending">En attente</span>`;
                                 }else if(data === 'enable'){
-                                    return `<span class="badge badge-pill badge-success">Actif</span>`;
+                                    return `<span class="v2-status v2-status--success">Actif</span>`;
                                 }else if(data === 'disable'){
-                                    return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    return `<span class="v2-status v2-status--pending">Suspendu</span>`;
                                 }else{
-                                    return `<span class="badge rounded-pill badge-danger">Supprimé</span>`;
+                                    return `<span class="v2-status v2-status--danger">Supprimé</span>`;
                                 }
                             }
                         },

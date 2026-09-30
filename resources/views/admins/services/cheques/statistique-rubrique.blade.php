@@ -6,200 +6,109 @@
         @isset($type_stat)
         @if($type_stat =="paiement")
             @if(canPermission('statistique_voir_le_montant_total_par_jour'))
-                <div class="col-md-5" >
-                    <div data-status="today" data-pay="all"  class="card card-animate highlight" >
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="montant_total_jour">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total_jour" style="display: block;color:black;">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col-->
+                <div class="col-md-5">
+                    <div data-status="today" data-pay="all" class="v2-stat-card">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </span>
+                        </div>
+                        <p class="v2-stat-card__label">Paiement du jour</p>
+                        <div class="v2-stat-card__value">
+                            <span id="montant_total_jour"><span class="v2-spinner v2-spinner--sm"></span></span>
+                        </div>
+                        <p class="v2-stat-card__sub"><span id="nb_total_jour"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                    </div>
+                </div>
             @endif
 
             @if(canPermission('statistique_voir_le_total_des_paiements'))
-                <div class="col-md-5" >
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div class="col-md-5">
+                    <div data-status="all" data-pay="all" class="v2-stat-card v2-stat-card--alt">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </span>
+                        </div>
+                        <p class="v2-stat-card__label">Total paiements</p>
+                        <div class="v2-stat-card__value">
+                            <span id="total_paiement"><span class="v2-spinner v2-spinner--sm"></span></span>
+                        </div>
+                        <p class="v2-stat-card__sub"><span id="nb_total"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                    </div>
+                </div>
 
                 {{-- ######################################################################## --}}
 
-                <div class="col-md-5" >
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">PAIEMENTS DU JOUR CHEQUE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_cheque">
-                                           {{--  <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </p>
-                                    
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div class="col-md-5">
+                    <div data-status="all" data-pay="all" class="v2-stat-card">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </span>
+                        </div>
+                        <p class="v2-stat-card__label">Paiements du jour chèque</p>
+                        <div class="v2-stat-card__value">
+                            <span id="total_paiement_cheque"></span>
+                        </div>
+                        <div class="v2-stat-card__meta">
+                            <div><span>Total chèque</span><b id="nb_total">TOTAL CHEQUE</b></div>
+                            <div><span>Total carte valide</span><b id="nb_total">TOTAL CARTE VALIDE</b></div>
+                        </div>
+                    </div>
+                </div>
                 {{-- ############################################################### --}}
-                <div class="col-md-5" >
-                    <div data-status="all" data-pay="all"  class="card card-animate">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS CHEQUE</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_cheque">
-                                            {{-- <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            TOTAL CHEQUE{{-- <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </p>
-                                    
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="" id="nb_total" style="display: block;color:black;">
-                                            TOTAL CARTE VALIDE {{-- <i class="fa fa-spinner fa-spin"></i> --}}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div class="col-md-5">
+                    <div data-status="all" data-pay="all" class="v2-stat-card">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </span>
+                        </div>
+                        <p class="v2-stat-card__label">Total paiements chèque</p>
+                        <div class="v2-stat-card__value">
+                            <span id="total_paiement_cheque"></span>
+                        </div>
+                        <div class="v2-stat-card__meta">
+                            <div><span>Total chèque</span><b id="nb_total">TOTAL CHEQUE</b></div>
+                            <div><span>Total carte valide</span><b id="nb_total">TOTAL CARTE VALIDE</b></div>
+                        </div>
+                    </div>
+                </div>
             @endif
 
-            
-        @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
-            <div class="col-md-5"  style="cursor: pointer">
-                <div data-status="today" data-pay="all"  class="card card-animate highlight Load_paiement bg-success text-white" >
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between text-white">
-                            <div>
-                                <p class="fw-medium text-white mb-0">PAIEMENT DU JOUR GLOBAL</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour_global" style="display: none">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate text-white">
-                                    <span class="text-white" id="nb_total_jour_global" style="display: none">
-                                        <i class="fa fa-spinner fa-spin text-white" ></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </span>
-                                </div>
-                            </div>
+            @if(canPermission('statistique_voir_le_montant_total_par_jour_global'))
+                <div class="col-md-5">
+                    <div data-status="today" data-pay="all" class="v2-stat-card v2-stat-card--highlight Load_paiement">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </span>
                         </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
-        @endif
+                        <p class="v2-stat-card__label">Paiement du jour global</p>
+                        <div class="v2-stat-card__value">
+                            <span id="montant_total_jour_global" style="display: none"><span class="v2-spinner v2-spinner--sm"></span></span>
+                        </div>
+                        <p class="v2-stat-card__sub"><span id="nb_total_jour_global" style="display: none"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                    </div>
+                </div>
+            @endif
 
             @if(canPermission('statistique_voir_le_total_des_paiements_global'))
-                <div class="col-md-5" style="cursor: pointer">
-                    <div data-status="all" data-pay="all"  class="card card-animate Load_paiement bg-success text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-medium mb-0 text-white">TOTAL PAIEMENTS GLOBAL</p>
-                                    <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                        <span id="total_paiement_global" style="display: none">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </span>
-                                    </h2>
-                                    <p class="mb-0 text-muted text-truncate">
-                                        <span class="text-white" id="nb_total_global" style="display: none">
-                                            <i class="fa fa-spinner fa-spin text-white"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock text-info"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col--> 
+                <div class="col-md-5">
+                    <div data-status="all" data-pay="all" class="v2-stat-card v2-stat-card--highlight Load_paiement">
+                        <div class="v2-stat-card__top">
+                            <span class="v2-stat-card__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </span>
+                        </div>
+                        <p class="v2-stat-card__label">Total paiements global</p>
+                        <div class="v2-stat-card__value">
+                            <span id="total_paiement_global" style="display: none"><span class="v2-spinner v2-spinner--sm"></span></span>
+                        </div>
+                        <p class="v2-stat-card__sub"><span id="nb_total_global" style="display: none"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                    </div>
+                </div>
             @endif
         @endif
         @endisset 
@@ -212,37 +121,33 @@
             @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_jour_par_rubrique'))
                 @isset($type_stat,$type_sous_stat)
                     @if($type_stat =="rubrique" && $type_sous_stat =="jour")
-                        <div class="row">
-                            <div class="row align-items-start">
-                                <div class="card col-md-12">
-                                    <div class="card-header" id="rubrique-facturation-titre">
-                                        CHEQUE ENCAISSE | REPARTITION PAR JOUR
-                                    </div>
-                                            <!-- Tableau -->
-                                    <div class="table-responsive">
-                                        <table class="table" id="datatable-rubrique-facturation">
-                                            <thead>
-                                                <tr>
-                                                    <th>Rubrique</th>
-                                                    <th>Nombre</th>
-                                                    <th>Montant Total</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody class="render-html" id="par_facturation">
-                                                <tr>
-                                                    <td colspan="2"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            
-                                <!-- Graphique -->
-                                <div class="col-md-12">
-                                    <canvas id="facturationChart" width="800" height="800"></canvas>
-                                </div>
+                        <div class="v2-card" style="margin-bottom: 20px;">
+                            <div class="v2-card__header">
+                                <p class="v2-card__title" id="rubrique-facturation-titre">Chèque encaissé — répartition par jour</p>
                             </div>
+                            <div class="v2-table-wrap">
+                                <table class="v2-table" id="datatable-rubrique-facturation">
+                                    <thead>
+                                        <tr>
+                                            <th>Rubrique</th>
+                                            <th>Nombre</th>
+                                            <th class="is-numeric">Montant total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="render-html" id="par_facturation">
+                                        <tr class="v2-table-loading">
+                                            <td colspan="3"><span class="v2-spinner"></span> Chargement des données...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="v2-chart-card" style="margin-bottom: 20px;">
+                            <div class="v2-card__header">
+                                <p class="v2-card__title">Répartition graphique</p>
+                            </div>
+                            <canvas id="facturationChart" class="chart-surface"></canvas>
                         </div>
                     @endif
                 @endisset
@@ -252,30 +157,26 @@
             @isset($type_stat,$type_sous_stat)
                 @if(CanPermission('statistique_partenaires_voir_les_statistiques_global_par_rubrique'))
                     @if($type_stat =="rubrique" && $type_sous_stat =="tous")
-                        <div class="card">
-                            <div class="card-header" id="rubrique-facturation-titre-global">
-                               CHEQUE ENCAISSE | REPARTITION PAR RUBRIQUE
+                        <div class="v2-card">
+                            <div class="v2-card__header">
+                                <p class="v2-card__title" id="rubrique-facturation-titre-global">Chèque encaissé — répartition par rubrique</p>
                             </div>
-                                    <!-- Tableau -->
-                                <table class="table table-bordered" id="datatable-rubrique-facturation-global" style="width: 100%">
+                            <div class="v2-table-wrap">
+                                <table class="v2-table" id="datatable-rubrique-facturation-global">
                                     <thead>
                                         <tr>
                                             <th>Rubrique</th>
                                             <th>Nombre</th>
-                                            <th>Montant Total</th>
+                                            <th class="is-numeric">Montant total</th>
                                         </tr>
                                     </thead>
                                     <tbody class="render-html" id="par_facturation-global">
-                                        <tr>
-                                            <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                        <tr class="v2-table-loading">
+                                            <td colspan="3"><span class="v2-spinner"></span> Chargement des données...</td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-                                <!-- Graphique -->
-                                <div class="col-md-12">
-                                {{--  <canvas id="facturationChartGlobal" width="800" height="800"></canvas> --}}
-                                </div>
+                            </div>
                         </div>
                     @endif
                 @endif
@@ -284,13 +185,12 @@
                 @if(CanPermission('statistique_partenaires_voir_les_statistiques_par_mois_par_rubrique'))
 
                     @if($type_stat =="rubrique" && $type_sous_stat =="mois")
-                        <div class="row card">
-                            <div class="card-header" id="titre_liste">
-                                CHEQUE ENCAISSE | REPARTITION PAR MOIS
+                        <div class="v2-card">
+                            <div class="v2-card__header">
+                                <p class="v2-card__title" id="titre_liste">Chèque encaissé — répartition par mois</p>
                             </div>
-            
-                            <div class="pt-5 table-responsive">
-                                <table id="tableauStats" border="1" class="table" cellspacing="0" cellpadding="5">
+                            <div class="v2-table-wrap">
+                                <table id="tableauStats" class="v2-table">
                                     <thead>
                                         <tr id="headerRow1">
                                             <!-- Première ligne des en-têtes (Rubrique + Mois fusionnés) -->
@@ -301,9 +201,11 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                        <!-- Les données seront insérées ici dynamiquement -->
+                                        <tr class="v2-table-loading">
+                                            <td><span class="v2-spinner"></span> Chargement des données...</td>
+                                        </tr>
                                     </tbody>
-                                </table>                                
+                                </table>
                             </div>
                         </div>
                     @endif

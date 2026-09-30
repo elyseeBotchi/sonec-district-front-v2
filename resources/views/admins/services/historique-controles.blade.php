@@ -5,33 +5,42 @@
     @if (CanPermission('acteurs_tiers_voir_lhistorique_des_controles_tiers'))
         <div class="row">
             <div class="row col-md-12 align-items-start">
-                <div class="card col-md-12">
-                    <div class="card-header" id="rubrique-facturation-titre">
-                        REPARTITION PAR JOUR
+                <div class="v2-card col-md-12">
+                    <div class="v2-card__header">
+                        <p class="v2-card__title" id="rubrique-facturation-titre">Répartition par jour</p>
                     </div>
-                    <!-- Tableau -->
-                    <div class="card-body col-md-12">
+                    <div class="col-md-12">
                         <!-- Choix de période -->
-                        <div class="row">
-                            <select id="periodSelect" class="form-control col-md-3">
-                                <option value="today" selected>Aujourd'hui</option>
-                                <option value="week">Cette semaine</option>
-                                <option value="month">Ce mois</option>
-                                <option value="range">Plage de date</option>
-                            </select> &nbsp;  &nbsp; 
+                        <div style="align-items: flex-end; display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                            <div style="min-width: 200px;">
+                                <label class="v2-modal-label">Période</label>
+                                <select id="periodSelect" class="v2-modal-input">
+                                    <option value="today" selected>Aujourd'hui</option>
+                                    <option value="week">Cette semaine</option>
+                                    <option value="month">Ce mois</option>
+                                    <option value="range">Plage de date</option>
+                                </select>
+                            </div>
 
-                            <div id="rangePicker" style="display:none; gap:.5rem; margin:.5rem 0;" class="row col-md-8">
-                                <input type="date" id="fromDate" class="form-control col-md-3" />
-                                <input type="date" id="toDate" class="form-control col-md-3" /> 
-                                <button id="applyRange" class="btn btn-primary btn-sm">Appliquer</button>
+                            <div id="rangePicker" class="v2-range-picker" style="display: none;">
+                                <div>
+                                    <label class="v2-modal-label">Du</label>
+                                    <input type="date" id="fromDate" class="v2-modal-input" />
+                                </div>
+                                <div>
+                                    <label class="v2-modal-label">Au</label>
+                                    <input type="date" id="toDate" class="v2-modal-input" />
+                                </div>
+                                <button id="applyRange" class="v2-btn v2-btn--navy">Appliquer</button>
                             </div>
                         </div>
 
+                        <div id="statsLoading" class="v2-table-loading" style="display:none">
+                            <span class="v2-spinner"></span> Chargement des données...
+                        </div>
 
-                        <div id="statsLoading" style="display:none">Chargement…</div>
-
-                        {{-- <div class="table-responsive"> </div> --}}
-                            <table id="statsTable" class="table table-striped">
+                        <div class="v2-table-wrap">
+                            <table id="statsTable" class="v2-table">
                                 <thead>
                                     <tr>
                                         <th>Jour</th>
@@ -44,8 +53,7 @@
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                       
-
+                        </div>
                     </div>
                 </div>
 

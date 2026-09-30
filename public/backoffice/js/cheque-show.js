@@ -20,29 +20,29 @@ $(document).ready(function() {
                 let statusBadge = '';
                 switch (cheque.status) {
                     case 'init':
-                        statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
+                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">Brouillon</span>`;
                         break;
                     case 'enable':
-                        statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
+                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">En attente de cotation</span>`;
                         break;
                     case 'validate':
-                            statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                            statusBadge = `<span class="v2-status-pill v2-status-pill--success">Validé</span>`;
                         break;
                     case 'pending':
-                            statusBadge = `<span class="badge badge-pill badge-info">En cours d'encaissement</span>`;
+                            statusBadge = `<span class="v2-status-pill v2-status-pill--pending">En cours d'encaissement</span>`;
                         break;
                     case 'cotation':
-                        statusBadge = `<span class="badge badge-pill badge-info">Cotation validé</span>`;
+                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">Cotation validé</span>`;
                         break;
                     case 'disable':
-                        statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">Suspendu</span>`;
                         break;
-                        
+
                     case 'fail':
-                        statusBadge = `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                        statusBadge = `<span class="v2-status-pill v2-status-pill--danger">Rejeté</span>`;
                         break;
                     default:
-                        statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
+                        statusBadge = `<span class="v2-status-pill">Inconnu</span>`;
                 }
 
                 // Mise à jour des informations du chèque
@@ -118,8 +118,8 @@ $(document).ready(function() {
                     
                     if(cheque.nombre_vehicule >= results.length){
                         diffVehicule = cheque.nombre_vehicule - results.length;
-                        document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins '+ diffVehicule +' véhicule(s) avant soumission de votre demande de cotation </h3>';    
-                    } 
+                        document.getElementById('alert-message').innerHTML = '<div class="v2-alert v2-alert--warning" role="alert"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span>Vous devez ajouter au moins '+ diffVehicule +' véhicule(s) avant soumission de votre demande de cotation</span></div>';
+                    }
                 }
                 else{
 
@@ -229,19 +229,19 @@ $(document).ready(function() {
                                 let statusBadge = '';
                                 switch (data) {
                                     case 'init':
-                                        statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
+                                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">Brouillon</span>`;
                                         break;
                                     case 'enable':
-                                        statusBadge = `<span class="badge badge-pill badge-warning">En attente </span>`;
+                                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">En attente</span>`;
                                         break;
                                     case 'validate':
-                                        statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                                        statusBadge = `<span class="v2-status-pill v2-status-pill--success">Validé</span>`;
                                         break;
                                     case 'disable':
-                                        statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                        statusBadge = `<span class="v2-status-pill v2-status-pill--pending">Suspendu</span>`;
                                         break;
                                     default:
-                                        statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
+                                        statusBadge = `<span class="v2-status-pill">Inconnu</span>`;
                                 }
                                 return statusBadge;
                             }

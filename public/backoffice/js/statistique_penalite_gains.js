@@ -58,12 +58,12 @@ $(document).ready(function() {
                     <tr>
                         <td>${partner.partner_name}</td>
                         <td>${cartes}</td>
-                        <td>${montant_cartes.toLocaleString('fr-FR')} F</td>
-                        <td>${pen.toLocaleString('fr-FR')} F</td>
-                        <td>${percent} %</td>
-                        <td>${gainPartenaire.toLocaleString('fr-FR')} F</td>
-                        <td>${gainDistrict.toLocaleString('fr-FR')} F</td>
-                        
+                        <td class="is-numeric">${montant_cartes.toLocaleString('fr-FR')} F</td>
+                        <td class="is-numeric">${pen.toLocaleString('fr-FR')} F</td>
+                        <td class="is-numeric">${percent} %</td>
+                        <td class="is-numeric">${gainPartenaire.toLocaleString('fr-FR')} F</td>
+                        <td class="is-numeric">${gainDistrict.toLocaleString('fr-FR')} F</td>
+
                     </tr>
                 `); //<td>${paiement.toLocaleString('fr-FR')} F</td>
 
@@ -91,15 +91,15 @@ $(document).ready(function() {
 
             // Ligne cumul
             tbody.insertAdjacentHTML('beforeend', `
-                <tr class="table-active">
+                <tr class="is-total">
                     <td><strong>Cumul</strong></td>
                     <td><strong>${cumul_cartes}</strong></td>
-                    <td><strong>${cumul_montant_cartes.toLocaleString('fr-FR')} F</strong></td>
-                    <td><strong>${cumul_penalite.toLocaleString('fr-FR')} F</strong></td>
-                    <td>-</td>
-                    <td><strong>${cumul_gain_partenaire.toLocaleString('fr-FR')} F</strong></td>
-                    <td><strong>${cumul_gain_district.toLocaleString('fr-FR')} F</strong></td>
-                    
+                    <td class="is-numeric"><strong>${cumul_montant_cartes.toLocaleString('fr-FR')} F</strong></td>
+                    <td class="is-numeric"><strong>${cumul_penalite.toLocaleString('fr-FR')} F</strong></td>
+                    <td class="is-numeric">-</td>
+                    <td class="is-numeric"><strong>${cumul_gain_partenaire.toLocaleString('fr-FR')} F</strong></td>
+                    <td class="is-numeric"><strong>${cumul_gain_district.toLocaleString('fr-FR')} F</strong></td>
+
                 </tr>
             `); //<td><strong>${cumul_paiement.toLocaleString('fr-FR')} F</strong></td>
 

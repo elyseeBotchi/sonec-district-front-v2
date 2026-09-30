@@ -17,8 +17,9 @@
             @if(CanPermission('module_voir_longlet_module'))
                 <div class="col-md-12">
                     <div class="text-end mb-3">
-                        <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#createModal">
-                            <i class="fa fa-plus"></i> Ajouter une règle
+                        <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#createModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Ajouter une règle
                         </a>
                     </div>
 
@@ -93,25 +94,27 @@
                         </div>
                     </div>
 
-                    <div class="pt-5">
-                        <table class="table table-striped" id="datatable-custom">
-                            <thead>
-                            <tr class="bg-primary text-uppercase">
-                                <td class="text-white">Date de début</td>
-                                <td class="text-white">Date de fin</td>
-                                <td class="text-white">ratio</td>
-                                <td class="text-white">Nombre cumul</td>
-                                <td class="text-white">Type de véhicule</td>
-                                <td class="text-white">Statut</td>
-                                <td  class="text-white" style="width: 25% !important"></td>
-                            </tr>
-                            </thead>
-                            <tbody class="render-html">
+                    <div class="v2-card">
+                        <div class="v2-table-wrap">
+                            <table class="v2-table" id="datatable-custom">
+                                <thead>
                                 <tr>
-                                    <td colspan="5"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
+                                    <th>Ratio</th>
+                                    <th>Nombre cumul</th>
+                                    <th>Type de véhicule</th>
+                                    <th>Statut</th>
+                                    <th style="width: 25%"></th>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="render-html">
+                                    <tr class="v2-table-loading">
+                                        <td colspan="7"><span class="v2-spinner"></span> Chargement des données...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             @endif

@@ -1,26 +1,19 @@
 @extends('layout.adminApp')
 
+@section('page-title')
+    Permission {{ $module->name ?? '' }}
+@endsection
+@section('page-subtitle')
+    <span class="v2-breadcrumb">Configuration <span>&rsaquo;</span> <a href="{{ route("panel.autorisations.modules.index") }}">Module {{ $module->name ?? '' }}</a> <span>&rsaquo;</span> <strong>Permissions</strong></span>
+@endsection
+
 @section('content')
         <div class="row" id="container">
-            <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-                    <h4 class="mb-sm-0">Permission {{ $module->name ?? '' }}</h4>
-
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item">Configuration</li>
-                            <li class="breadcrumb-item"><a href="{{ route("panel.autorisations.modules.index") }}">Module {{ $module->name ?? '' }}</a> </li>
-                            <li class="breadcrumb-item active">Permissions</li>
-                        </ol>
-                    </div>
-
-                </div>
-            </div>
-
             <div class="col-md-12">
                     <div class="text-end mb-3">
-                        <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#createModal">
-                            <i class="fa fa-plus"></i> Ajouter une permission
+                        <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#createModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Ajouter une permission
                         </a>
                     </div>
                     <div id="createModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -80,20 +73,22 @@
                         </div>
                     </div>
 
-                    <div class="pt-5">
-                        <table class="table" id="datatable-custom" style="width: 100%;">
-                            <thead>
-                            <tr class="bg-primary text-uppercase">
-                                <td class="text-white">Permissions</td>
-                                <td style="width: 100px"></td>
-                            </tr>
-                            </thead>
-                            <tbody class="render-html">
-                            <tr>
-                                <td colspan="2"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="v2-card">
+                        <div class="v2-table-wrap">
+                            <table class="v2-table" id="datatable-custom" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>Permissions</th>
+                                    <th style="width: 100px">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="render-html">
+                                <tr class="v2-table-loading">
+                                    <td colspan="2"><span class="v2-spinner"></span> Chargement des données...</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
         </div>

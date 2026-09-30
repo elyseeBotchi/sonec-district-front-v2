@@ -46,9 +46,9 @@ $(document).ready(function() {
                             data: 'status',
                             render: function(data, type, row) {
                                 if(data ===1){
-                                    return `<span class="badge badge-pill badge-success">Actif</span>`;  
+                                    return `<span class="v2-status v2-status--success">Actif</span>`;
                                 }else{
-                                    return `<span class="badge badge-pill badge-danger">Inactif</span>`;;
+                                    return `<span class="v2-status v2-status--danger">Inactif</span>`;
                                 }
                                
                             }

@@ -11,6 +11,41 @@ $(document).ready(function() {
     intervalId
    setInterval(() => findStatistique(), 20000)
 
+    let validationJChartInstance = null;
+    let validateurChartInstance = null;
+    let camembertChartInstance = null;
+    let validationJLatestData = [];
+    let validateurLatestData = [];
+
+    function downloadChartPng(chartInstance, filename) {
+        if (!chartInstance) return;
+        chartInstance.dataURI().then(({ imgURI }) => {
+            const link = document.createElement('a');
+            link.href = imgURI;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    function downloadTableCsv(rows, headers, filename) {
+        const escapeCsv = value => `"${String(value).replace(/"/g, '""')}"`;
+        const lines = [headers.map(escapeCsv).join(';')];
+        rows.forEach(row => {
+            lines.push(row.map(escapeCsv).join(';'));
+        });
+        const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
     function findStatus(status,paymode) {
        var libelle_status = ""
        var libelle_paymode =""
@@ -1433,23 +1468,50 @@ $(document).ready(function() {
                 const chartContainer = document.querySelector("#chartvalidationJ");
                 if (chartContainer) {
                     chartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
-                    const chart = new ApexCharts(chartContainer, options);
-                    chart.render();
+                    validationJChartInstance = new ApexCharts(chartContainer, options);
+                    validationJChartInstance.render();
                 } else {
                     console.error("Le conteneur #chartvalidationJ est introuvable.");
                 }
-    
+
                 // Mettre à jour le titre
                 const titreValidation = document.getElementById('titre_validation_jour');
                 if (titreValidation) {
-                    titreValidation.innerHTML = "HISTORIQUE DES VALIDATIONS PAR JOUR";
+                    titreValidation.innerHTML = "Historique des validations par jour";
                 }
-    
+
+                const exportBtnJ = document.getElementById('v2-validationJ-export');
+                if (exportBtnJ && !exportBtnJ.dataset.bound) {
+                    exportBtnJ.dataset.bound = '1';
+                    exportBtnJ.addEventListener('click', function () {
+                        window.print();
+                    });
+                }
+
+                const exportBtnJPng = document.getElementById('v2-validationJ-export-png');
+                if (exportBtnJPng && !exportBtnJPng.dataset.bound) {
+                    exportBtnJPng.dataset.bound = '1';
+                    exportBtnJPng.addEventListener('click', function () {
+                        downloadChartPng(validationJChartInstance, 'validations-par-jour.png');
+                    });
+                }
+
+                validationJLatestData = data.data;
+
+                const exportBtnJCsv = document.getElementById('v2-validationJ-export-csv');
+                if (exportBtnJCsv && !exportBtnJCsv.dataset.bound) {
+                    exportBtnJCsv.dataset.bound = '1';
+                    exportBtnJCsv.addEventListener('click', function () {
+                        const rows = validationJLatestData.map(item => [item.date_validation || '', item.nombre || 0]);
+                        downloadTableCsv(rows, ['Date', 'Nombre'], 'validations-par-jour.csv');
+                    });
+                }
+
                 // Vérifier et réinitialiser le tableau si nécessaire
                 if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-validationJ')) {
                     $('#datatable-validationJ').DataTable().destroy();
                 }
-    
+
                 // Initialiser le tableau DataTables
                 $('#datatable-validationJ').DataTable({
                     language: {
@@ -1551,8 +1613,8 @@ $(document).ready(function() {
                 const chartContainer = document.querySelector("#chartvalidateur");
                 if (chartContainer) {
                     chartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
-                    const chart = new ApexCharts(chartContainer, options);
-                    chart.render();
+                    validateurChartInstance = new ApexCharts(chartContainer, options);
+                    validateurChartInstance.render();
                 } else {
                     console.error("Le conteneur #chartvalidateur est introuvable.");
                 }
@@ -1588,8 +1650,8 @@ $(document).ready(function() {
                     const pieChartContainer = document.querySelector("#chartCamembert");
                     if (pieChartContainer) {
                         pieChartContainer.innerHTML = ''; // Nettoyer le conteneur avant de recréer le graphique
-                        const pieChart = new ApexCharts(pieChartContainer, pieOptions);
-                        pieChart.render();
+                        camembertChartInstance = new ApexCharts(pieChartContainer, pieOptions);
+                        camembertChartInstance.render();
                     } else {
                         console.error("Le conteneur #chartCamembert est introuvable.");
                     }
@@ -1598,9 +1660,36 @@ $(document).ready(function() {
                 // Mettre à jour le titre
                 const titreValidation = document.getElementById('titre_validateur');
                 if (titreValidation) {
-                    titreValidation.innerHTML = "HISTIORIQUE DES VALIDATIONS PAR AGENT";
+                    titreValidation.innerHTML = "Historique des validations par agent";
                 }
-    
+
+                const exportBtnValidateur = document.getElementById('v2-validateur-export');
+                if (exportBtnValidateur && !exportBtnValidateur.dataset.bound) {
+                    exportBtnValidateur.dataset.bound = '1';
+                    exportBtnValidateur.addEventListener('click', function () {
+                        window.print();
+                    });
+                }
+
+                const exportBtnValidateurPng = document.getElementById('v2-validateur-export-png');
+                if (exportBtnValidateurPng && !exportBtnValidateurPng.dataset.bound) {
+                    exportBtnValidateurPng.dataset.bound = '1';
+                    exportBtnValidateurPng.addEventListener('click', function () {
+                        downloadChartPng(validateurChartInstance, 'validations-par-agent.png');
+                    });
+                }
+
+                validateurLatestData = data.data;
+
+                const exportBtnValidateurCsv = document.getElementById('v2-validateur-export-csv');
+                if (exportBtnValidateurCsv && !exportBtnValidateurCsv.dataset.bound) {
+                    exportBtnValidateurCsv.dataset.bound = '1';
+                    exportBtnValidateurCsv.addEventListener('click', function () {
+                        const rows = validateurLatestData.map(item => [`${item.firstname || ''} ${item.lastname || ''}`.trim(), Math.ceil(item.nombre || 0)]);
+                        downloadTableCsv(rows, ['Auteur de la validation', 'Nombre de validations'], 'validations-par-agent.csv');
+                    });
+                }
+
                 // Vérifier et réinitialiser le tableau si nécessaire
                 if ($.fn.DataTable && $.fn.DataTable.isDataTable('#datatable-validateur')) {
                     $('#datatable-validateur').DataTable().destroy();

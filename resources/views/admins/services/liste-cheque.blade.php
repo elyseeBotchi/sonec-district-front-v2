@@ -1,49 +1,32 @@
 @extends('layout.adminApp')
 
 @section('content')
-<div class="card-group">
-    
-</div>
-
-
-
-@if(CanPermission('rendez_vous_rechercher_un_vehicule'))@endif 
-    <div class="row col-md-12" id="container">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">LISTE DES COTATIONS</h4>
-                  
-                    </div> 
-                    
-                    <div class="ml-auto">
-                       
-                        <div class="pt-5 ">
-                            <table class="table table-striped table-bordered" id="dataTable">
-                                <thead>
-                                <tr>
-                                    <th>Entreprise</th>
-                                    <th>Désignation de la cotation</th>
-                                    <th>Réference de la cotation</th>
-                                    <th>Contribuable</th>
-                                    <th>Nombre de véhicule à déclaré</th>
-                                    <th>Nombre de véhicule enregistré</th>
-                                    <th>Statut</th>
-                                    <th style="width:150px !important;">Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="render-html">
-                                    <tr>
-                                        <td colspan="8"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                    
-                </div>
+@if(CanPermission('rendez_vous_rechercher_un_vehicule'))@endif
+    <div id="container">
+        <div class="v2-card">
+            <div class="v2-card__header">
+                <p class="v2-card__title">Liste des cotations</p>
+            </div>
+            <div class="v2-table-wrap">
+                <table class="v2-table" id="dataTable">
+                    <thead>
+                    <tr>
+                        <th>Entreprise</th>
+                        <th>Désignation de la cotation</th>
+                        <th>Réference de la cotation</th>
+                        <th>Contribuable</th>
+                        <th>Nombre de véhicule à déclaré</th>
+                        <th>Nombre de véhicule enregistré</th>
+                        <th>Statut</th>
+                        <th style="width:150px">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="render-html">
+                        <tr class="v2-table-loading">
+                            <td colspan="8"><span class="v2-spinner"></span> Chargement des données...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

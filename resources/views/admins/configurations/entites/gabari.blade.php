@@ -1,39 +1,27 @@
 @extends('layout.adminApp')
 
+@section('page-title')
+    <span class="entity_name"><i class="fa fa-spinner fa-spin"></i></span>
+@endsection
+@section('page-subtitle')
+    <span class="v2-breadcrumb">Configurations <span>&rsaquo;</span> Entités <span>&rsaquo;</span> <strong class="entity_name"><i class="fa fa-spinner fa-spin"></i></strong></span>
+@endsection
+
 @section('content')
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-            <h4 class="mb-sm-0"> 
-                <span class="entity_name">
-                    <i class="fa fa-spinner fa-spin"></i>
-                </span>
-            </h4>
-
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">Configurations</li>
-                    <li class="breadcrumb-item">Entités</li>
-                    <li class="breadcrumb-item active entity_name">
-                        <i class="fa fa-spinner fa-spin"></i>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
     @if(CanPermission('gabaris_voir_longlet_gabaris'))
     <div class="row" id="container">
         <div class="col-md-12">
             <div class="text-end mb-4">
  
                 @if(CanPermission('gabaris_charger_un_gabari'))
-                <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#customer-edit_add-modal">
-                    <i class="fas fa-plus"></i> Uploader le gabari
+                <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#customer-edit_add-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Uploader le gabari
                 </a>
                 @endif
 
                 @if(CanPermission('gabaris_telecharger_le_model_de_gabari'))
-                 <a href="{{ route('panel.autorisations.entite.gabari.model',['uuid' => $Entity_uuid ?? '' ]) }}" class="btn btn-rounded btn-outline-primary float-right mr-2">Télécharer le model </a>
+                 <a href="{{ route('panel.autorisations.entite.gabari.model',['uuid' => $Entity_uuid ?? '' ]) }}" class="v2-btn v2-btn--ghost">Télécharer le model </a>
                 @endif
             </div>
 
@@ -43,58 +31,59 @@
                     <form class="modal-content sendCreateForm" action="{{ route('panel.autorisations.entite.gabari.store') }}" method="POST">
                         @csrf
                         <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid" required />
-                        <div class="modal-header">
-                            <h5 class="mb-0 text-uppercase">Charger un gabari </h5>
-                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                        <div class="v2-modal-header v2-modal-header--primary">
+                            <span class="v2-modal-header__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            </span>
+                            <p class="v2-modal-header__title">Charger un gabari</p>
+                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal" style="margin-left:auto;">
                                 <i class="ti ti-x f-20"></i>
                             </a>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                          
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Fichier <code>*</code></label>
-                                        <input type="file" class="form-control" name="gabari" required />
-                                    </div>
+                        <div class="v2-modal-body">
+                            <div style="margin-bottom: 16px;">
+                                <label class="v2-modal-label">Fichier <code>*</code></label>
+                                <div class="v2-file-input">
+                                    <span class="v2-file-input__name" id="gabari-file-name">Aucun fichier choisi</span>
+                                    <label for="gabari-file-input" class="v2-file-input__btn">Choisir un fichier</label>
                                 </div>
-                          
-                                <div class="col-md-12">
-                                    <br>
-                                    <div class="form-group">
-                                        <label class="form-label">Description </label>
-                                        <textarea name="description" class="form-control" id="" cols="30" rows="5"></textarea>
-                                    </div>
-                                </div>
+                                <input type="file" id="gabari-file-input" name="gabari" required style="display:none;" />
+                            </div>
+
+                            <div>
+                                <label class="v2-modal-label">Description</label>
+                                <textarea name="description" class="v2-modal-input" rows="5" placeholder="Ajoutez une description ici..."></textarea>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-shadow closeModal" data-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                        <div class="v2-modal-footer">
+                            <button type="button" class="v2-modal-footer__close closeModal" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="v2-btn v2-btn--primary">Sauvegarder</button>
                         </div>
                     </form>
                 </div>
             </div>
-            @endif 
-            <div class="pt-5">
-                <table class="table" id="datatable-custom">
-                    <thead>
-                    <tr class="bg-primary text-uppercase">
-                        <td class="text-white">Fichier</td>
-                        <td class="text-white">Date de soumission</td>
-                        <td class="text-white">Soumis par</td>
-                        <td class="text-white">Date de validation</td>
-                        <td class="text-white">Valider par</td>
-                        <td class="text-white">Statut</td>
-                        <td class="text-white" width="150px";>Action</td>
-                    </tr>
-                    </thead>
-                    <tbody class="render-html">
+            @endif
+            <div class="v2-card">
+                <div class="v2-table-wrap">
+                    <table class="v2-table" id="datatable-custom">
+                        <thead>
                         <tr>
-                            <td colspan="7"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                            <th>Fichier</th>
+                            <th>Date de soumission</th>
+                            <th>Soumis par</th>
+                            <th>Date de validation</th>
+                            <th>Valider par</th>
+                            <th>Statut</th>
+                            <th width="150px">Action</th>
                         </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="render-html">
+                            <tr class="v2-table-loading">
+                                <td colspan="7"><span class="v2-spinner"></span> Chargement des données...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -109,6 +98,17 @@
         </script>
     @endisset
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-        <script src="{{ asset('/backoffice/js/gabari.js') }}"></script> 
+        <script src="{{ asset('/backoffice/js/gabari.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var fileInput = document.getElementById('gabari-file-input');
+                var fileName = document.getElementById('gabari-file-name');
+                if (fileInput && fileName) {
+                    fileInput.addEventListener('change', function () {
+                        fileName.textContent = fileInput.files[0] ? fileInput.files[0].name : 'Aucun fichier choisi';
+                    });
+                }
+            });
+        </script>
         @endpush
 @endif

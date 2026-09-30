@@ -673,13 +673,18 @@ class LandingController extends Controller
 
         $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
 
+        $qrcodeDir = public_path('Qrcode');
+        if (!is_dir($qrcodeDir)) {
+            mkdir($qrcodeDir, 0755, true);
+        }
+
         $renderer = new ImageRenderer(
             new RendererStyle(400),
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
         $qrSvg = $writer->writeString($qrcode_text);
-        file_put_contents('Qrcode/'.$filename.'.svg', $qrSvg);
+        file_put_contents($qrcodeDir.'/'.$filename.'.svg', $qrSvg);
 
         $qrSvg_ = 'Qrcode/'.$filename.'.svg';
 
@@ -725,6 +730,10 @@ class LandingController extends Controller
         
         $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
 
+        $qrcodeDir = public_path('Qrcode');
+        if (!is_dir($qrcodeDir)) {
+            mkdir($qrcodeDir, 0755, true);
+        }
 
         $renderer = new ImageRenderer(
             new RendererStyle(400),
@@ -732,7 +741,7 @@ class LandingController extends Controller
         );
         $writer = new Writer($renderer);
         $qrSvg = $writer->writeString($qrcode_text);
-        file_put_contents('Qrcode/'.$filename.'.svg', $qrSvg);
+        file_put_contents($qrcodeDir.'/'.$filename.'.svg', $qrSvg);
 
         $qrSvg_ = 'Qrcode/'.$filename.'.svg';
 
@@ -793,13 +802,18 @@ class LandingController extends Controller
         $qrcode_text = $pay_element['numero_dimmatriculation'].'|'.$quick_reference;
         $qrcode_text2 = $quick_reference.'|'.$pay_element['numero_dimmatriculation'];
 
+        $qrcodeDir = public_path('Qrcode');
+        if (!is_dir($qrcodeDir)) {
+            mkdir($qrcodeDir, 0755, true);
+        }
+
         $renderer = new ImageRenderer(
             new RendererStyle(400),
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
         $qrSvg = $writer->writeString($qrcode_text);
-        file_put_contents('Qrcode/'.$filename.'.svg', $qrSvg);
+        file_put_contents($qrcodeDir.'/'.$filename.'.svg', $qrSvg);
 
         $qrSvg_ = 'Qrcode/'.$filename.'.svg';
 
@@ -815,7 +829,7 @@ class LandingController extends Controller
         );
         $writer2 = new Writer($renderer2);
         $qrSvg2 = $writer2->writeString($qrcode_text2);
-        file_put_contents('Qrcode/'.$filename2.'.svg', $qrSvg2);
+        file_put_contents($qrcodeDir.'/'.$filename2.'.svg', $qrSvg2);
 
         $qrSvg_2 = 'Qrcode/'.$filename2.'.svg';
 

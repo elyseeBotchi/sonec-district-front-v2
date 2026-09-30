@@ -221,5 +221,30 @@
                 pageProgress.classList.remove("is-loading");
             });
         }
+
+        // Filet de sécurité pour la fermeture des modales (bouton
+        // "Fermer", croix ×) : bootstrap.min.js gère normalement
+        // [data-dismiss="modal"] via son propre plugin jQuery, mais
+        // comme aucun CSS Bootstrap n'est chargé dans l'app (voir
+        // district-v2.css section 18 "MODALES"), on ferme aussi la
+        // modale manuellement ici pour garantir que le clic fonctionne
+        // toujours, même si le plugin ne se déclenche pas comme prévu.
+        document.addEventListener("click", function (event) {
+            var dismissTrigger = event.target.closest('[data-dismiss="modal"]');
+            if (!dismissTrigger) {
+                return;
+            }
+            var modal = dismissTrigger.closest(".modal");
+            if (!modal) {
+                return;
+            }
+            modal.classList.remove("show");
+            modal.style.display = "none";
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+            document.querySelectorAll(".modal-backdrop").forEach(function (backdrop) {
+                backdrop.remove();
+            });
+        });
     });
 })();

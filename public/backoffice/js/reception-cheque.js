@@ -272,12 +272,37 @@ $(document).ready(function() {
         }
     }
 
-     
+
+    // Raccourci "Dernière recherche" (accès rapide) : purement une
+    // commodité par navigateur, jamais transmise ni lue par le serveur.
+    function showLastChequeSearch(value) {
+        var block = document.getElementById('cheque-last-search-block');
+        var valueEl = document.getElementById('cheque-last-search-value');
+        var itemEl = document.getElementById('cheque-last-search-item');
+        if (!block || !valueEl || !itemEl || !value) return;
+
+        valueEl.textContent = value;
+        block.style.display = '';
+        itemEl.onclick = function (e) {
+            e.preventDefault();
+            var input = document.getElementById('cheque-search-input');
+            if (input) {
+                input.value = value;
+                input.focus();
+            }
+        };
+    }
+
+    try {
+        showLastChequeSearch(localStorage.getItem('cheque_last_search'));
+    } catch (e) {}
+
     $('.searchForm').submit(function (e) {
         e.preventDefault();
 
         var action = $(this).attr('action');
         var formData = new FormData(this);
+        var searchedValue = formData.get('search');
         $.ajax({
             url: action,
             type: 'POST',
@@ -294,6 +319,10 @@ $(document).ready(function() {
             success: function (data) {
                 loader('hide');
                 if (data.type === "success") {
+                    try {
+                        localStorage.setItem('cheque_last_search', searchedValue);
+                        showLastChequeSearch(searchedValue);
+                    } catch (e) {}
                     sendSuccess(data.message, data.urlback);
                     //console.log(data.data)
                    // searchData(data);

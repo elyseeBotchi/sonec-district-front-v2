@@ -1,26 +1,20 @@
 @extends('layout.adminApp')
 
-@section('content')
-<div class="col-12">
-    <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-        <h4 class="mb-sm-0">Collaborateurs</h4>
+@section('page-title', 'Collaborateurs')
+@section('page-subtitle')
+    <span class="v2-breadcrumb">Configurations <span>&rsaquo;</span> <strong>Collaborateurs</strong></span>
+@endsection
 
-        <div class="page-title-right">
-            <ol class="breadcrumb m-0">
-                <li class="breadcrumb-item">Configurations</li>
-                <li class="breadcrumb-item active">Collaborateurs</li>
-            </ol>
-        </div>
-    </div>
-</div>
+@section('content')
 @if(CanPermission('collaborateurs_voir_longlet_collaborateur'))
 <div class="row" id="container">
     <div class="col-md-12">
         @if(CanPermission('collaborateurs_voir_longlet_collaborateur'))
         <div class="text-end mb-4">
-            <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal"
+            <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal"
                 data-target="#customer-edit_add-modal">
-                <i class="fas fa-plus"></i> Ajouter un collaborateur
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Ajouter un collaborateur
             </a>
         </div>
 
@@ -29,91 +23,77 @@
                 <form class="modal-content sendCreateForm"
                     action="{{ route('panel.autorisations.collaborateurs.store') }}" method="POST">
                     @csrf
-                    <div class="modal-header">
-                        <h5 class="mb-0 text-uppercase">Ajouter un collaborateur</h5>
-                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal">
+                    <div class="v2-modal-header v2-modal-header--primary">
+                        <span class="v2-modal-header__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </span>
+                        <p class="v2-modal-header__title">Ajouter un collaborateur</p>
+                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default" data-dismiss="modal" style="margin-left:auto;">
                             <i class="ti ti-x f-20"></i>
                         </a>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="civility-man">
-                                                <input type="radio" name="civility" id="civility-man" value="m" checked>
-                                                Monsieur
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="civility-woman">
-                                                <input type="radio" name="civility" id="civility-woman" value="mme">
-                                                Madame
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="v2-modal-body">
+                        <div style="display:flex; gap:24px; margin-bottom:16px;">
+                            <label style="align-items:center; display:flex; gap:6px; font-size:13.5px;">
+                                <input type="radio" name="civility" id="civility-man" value="m" checked>
+                                Monsieur
+                            </label>
+                            <label style="align-items:center; display:flex; gap:6px; font-size:13.5px;">
+                                <input type="radio" name="civility" id="civility-woman" value="mme">
+                                Madame
+                            </label>
+                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Nom <code>*</code></label>
-                                            <input type="text" class="form-control" name="firstname">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Prénom(s) <code>*</code></label>
-                                            <input type="text" class="form-control" name="lastname">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">E-mail <code>*</code></label>
-                                            <input type="text" class="form-control" name="email">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" >
-                                        <div class="form-group">
-                                            <label class="form-label">Téléphone </label>
-                                            <input type="text" class="form-control" name="phone">
-                                        </div>
-                                    </div>
-                                </div>
+                        <div style="display:flex; gap:16px; margin-bottom:16px;">
+                            <div style="flex:1;">
+                                <label class="v2-modal-label">Nom <code>*</code></label>
+                                <input type="text" class="v2-modal-input" name="firstname">
+                            </div>
+                            <div style="flex:1;">
+                                <label class="v2-modal-label">Prénom(s) <code>*</code></label>
+                                <input type="text" class="v2-modal-input" name="lastname">
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:16px;">
+                            <div style="flex:1;">
+                                <label class="v2-modal-label">E-mail <code>*</code></label>
+                                <input type="text" class="v2-modal-input" name="email">
+                            </div>
+                            <div style="flex:1;">
+                                <label class="v2-modal-label">Téléphone</label>
+                                <input type="text" class="v2-modal-input" name="phone">
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-shadow" data-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary btn-shadow">Sauvegarder</button>
+                    <div class="v2-modal-footer">
+                        <button type="button" class="v2-modal-footer__close closeModal" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="v2-btn v2-btn--primary">Sauvegarder</button>
                     </div>
                 </form>
             </div>
         </div>
         @endif
 
-        <div class="pt-5">
-            <table class="table" id="datatable-custom">
-                <thead>
-                    <tr class="bg-primary text-uppercase">
-                        <td class="text-white">Nom & Prénom(s)</td>
-                        <td class="text-white">E-mail</td>
-                        {{-- <td class="text-white">Téléphone</td> --}}
-                        <td class="text-white">Statut</td>
-                        <td class="text-white"></td>
-                    </tr>
-                </thead>
-                <tbody class="render-html">
-                    <tr>
-                        <td colspan="4"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="v2-card">
+            <div class="v2-table-wrap">
+                <table class="v2-table" id="datatable-custom">
+                    <thead>
+                        <tr>
+                            <th>Nom & Prénom(s)</th>
+                            <th>E-mail</th>
+                            {{-- <th>Téléphone</th> --}}
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="render-html">
+                        <tr class="v2-table-loading">
+                            <td colspan="4"><span class="v2-spinner"></span> Chargement des données...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

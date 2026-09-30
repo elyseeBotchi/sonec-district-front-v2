@@ -563,13 +563,18 @@ class ServicesController extends Controller
 
         $qrcode_text = $datas['contribuable'].'|'.$quick_reference;
 
+        $qrcodeDir = public_path('Qrcode/cotations');
+        if (!is_dir($qrcodeDir)) {
+            mkdir($qrcodeDir, 0755, true);
+        }
+
         $renderer = new ImageRenderer(
             new RendererStyle(400),
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
         $qrSvg = $writer->writeString($qrcode_text);
-        file_put_contents('Qrcode/cotations/'.$filename.'.svg', $qrSvg);
+        file_put_contents($qrcodeDir.'/'.$filename.'.svg', $qrSvg);
 
         $qrSvg_ = 'Qrcode/cotations/'.$filename.'.svg';
 
@@ -616,13 +621,18 @@ class ServicesController extends Controller
 
         $qrcode_text = $datas['contribuable'].'|'.$quick_reference;
 
+        $qrcodeDir = public_path('Qrcode/cotations');
+        if (!is_dir($qrcodeDir)) {
+            mkdir($qrcodeDir, 0755, true);
+        }
+
         $renderer = new ImageRenderer(
             new RendererStyle(400),
             new SvgImageBackEnd()
         );
         $writer = new Writer($renderer);
         $qrSvg = $writer->writeString($qrcode_text);
-        file_put_contents('Qrcode/cotations/'.$filename.'.svg', $qrSvg);
+        file_put_contents($qrcodeDir.'/'.$filename.'.svg', $qrSvg);
 
         $qrSvg_ = 'Qrcode/cotations/'.$filename.'.svg';
 

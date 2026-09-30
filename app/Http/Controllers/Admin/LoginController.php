@@ -37,7 +37,7 @@ class LoginController extends Controller
             return redirect()->route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'all']); //route('panel.autorisations.statistique.detail',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'paiement', 'type_sous_stat' => 'paiement']);
         }
 
-        if($roleName =="SUPERVISEURS"){
+        if($roleName =="Superviseurs"){
             return redirect()->route('panel.autorisations.statistique.show.data',['uuid' =>$Entities[0]['uuid'], 'type_stat' => 'validation_jour']);
         }
 
@@ -52,6 +52,8 @@ class LoginController extends Controller
        // if(AuthConnect()['role'])
         return view('admins.index');
     }
+
+    
 
     public function login()
     {

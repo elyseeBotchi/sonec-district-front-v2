@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
     
-    <link href="{{ asset('css/v2/district-v2.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/v2/district-v2.css') }}?v={{ filemtime(public_path('css/v2/district-v2.css')) }}" rel="stylesheet">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
 
@@ -208,7 +208,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     {{-- Comportement propre au socle V2 (backdrop mobile, etc.) --}}
-    <script src="{{ asset('js/v2/district-v2.js') }}"></script>
+    <script src="{{ asset('js/v2/district-v2.js') }}?v={{ filemtime(public_path('js/v2/district-v2.js')) }}"></script>
 
     @stack('footer-script')
 

@@ -1,24 +1,18 @@
 @extends('layout.adminApp')
 
-@section('content')
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
-            <h4 class="mb-sm-0">Modules</h4>
+@section('page-title', 'Modules')
+@section('page-subtitle')
+    <span class="v2-breadcrumb">Autorisations <span>&rsaquo;</span> <strong>Modules</strong></span>
+@endsection
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">Autorisations</li>
-                    <li class="breadcrumb-item active">Modules</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+@section('content')
         <div class="row" id="container">
             @if(CanPermission('module_voir_longlet_module'))
                 <div class="col-md-12">
                     <div class="text-end mb-3">
-                        <a href="#" class="btn btn-rounded btn-outline-primary float-right" data-toggle="modal" data-target="#createModal">
-                            <i class="fa fa-plus"></i> Ajouter un module
+                        <a href="#" class="v2-btn v2-btn--primary" data-toggle="modal" data-target="#createModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Ajouter un module
                         </a>
                     </div>
 
@@ -67,20 +61,22 @@
                         </div>
                     </div>
 
-                    <div class="pt-5">
-                        <table class="table table-striped" id="datatable-custom">
-                            <thead>
-                            <tr class="bg-primary text-uppercase">
-                                <td class="text-white">Module</td>
-                                <td  class="text-white" style="width: 25% !important"></td>
-                            </tr>
-                            </thead>
-                            <tbody class="render-html">
+                    <div class="v2-card">
+                        <div class="v2-table-wrap">
+                            <table class="v2-table" id="datatable-custom">
+                                <thead>
                                 <tr>
-                                    <td colspan="2"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                    <th>Module</th>
+                                    <th style="width: 25%">Action</th>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="render-html">
+                                    <tr class="v2-table-loading">
+                                        <td colspan="2"><span class="v2-spinner"></span> Chargement des données...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             @endif

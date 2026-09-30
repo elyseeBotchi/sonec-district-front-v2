@@ -10,7 +10,9 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
+            <div class="v2-card">
+            <div class="v2-table-wrap">
+            <table class="v2-table">
                 <tbody>
                     <tr>
                         <td> 
@@ -104,18 +106,15 @@
 
 
             </table>
+            </div>
+            </div>
 
-            <div  class="info-cheque" style="display: none">
-<br>
-<br>
-                <table class="table" >
-                    <thead>
-                        <tr>
-                            <th colspan="2">
-                                <h1>INFORMATIONS DU CHEQUE</h1>
-                            </th>
-                        </tr>
-                    </thead>
+            <div class="v2-card info-cheque" style="display: none">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Informations du chèque</p>
+                </div>
+                <div class="v2-table-wrap">
+                <table class="v2-table">
                     <tbody>
                         <tr>
                             <td>
@@ -198,6 +197,7 @@
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -227,21 +227,22 @@
             </span>
         
             
-            <table class="table table-striped table-bordered" id="datatable-custom">
+            <div class="v2-table-wrap">
+            <table class="v2-table" id="datatable-custom">
                 <thead>
                 <tr>
                     <th>Nom du propriétaire</th>
                     <th>Numéro de la carte grise</th>
                     <th>Numéro d'immatriculation</th>
                     <th>Type de véhicule</th>
-                    <th>Montant</th>
+                    <th class="is-numeric">Montant</th>
                     <th>État</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody id="render-html">
-                    <tr>
-                        <td colspan="9"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                    <tr class="v2-table-loading">
+                        <td colspan="9"><span class="v2-spinner"></span> Chargement des données...</td>
                     </tr>
                 </tbody>
 
@@ -253,8 +254,8 @@
                     </tr>
                 </tfoot>
             </table>
-            <br>
-       
+            </div>
+
         </div>
 
         

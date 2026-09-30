@@ -16,8 +16,8 @@ $(document).ready(function() {
         libelle_status = "PREVISIONNELS";
     }
 
-    document.getElementById('titre_liste').innerHTML = 
-        "<i class='fa fa-spinner fa-spin'></i> LISTE DES CHEQUES " + libelle_status + " EN COURS DE CHARGEMENT ...";
+    document.getElementById('titre_liste').innerHTML =
+        "<span class='v2-spinner v2-spinner--sm'></span> Liste des chèques " + libelle_status.toLowerCase() + " en cours de chargement...";
     
     fetch(`/panel/services/cheque/liste/findAll/${statut}/${Entity_uuid}`)
         .then(response => {
@@ -38,28 +38,28 @@ $(document).ready(function() {
                 let statusBadge = '';
                 switch (result.status) {
                     case 'init':
-                        statusBadge = `<span class="badge rounded-pill badge-secondary">Brouillon</span>`;
+                        statusBadge = `<span class="v2-status v2-status--pending">Brouillon</span>`;
                         break;
                     case 'enable':
-                        statusBadge = `<span class="badge badge-pill badge-warning">En attente de cotation</span>`;
+                        statusBadge = `<span class="v2-status v2-status--pending">En attente de cotation</span>`;
                         break;
                     case 'pending':
-                        statusBadge = `<span class="badge badge-pill badge-warning">En cours d'encaissement</span>`;
+                        statusBadge = `<span class="v2-status v2-status--pending">En cours d'encaissement</span>`;
                         break;
                     case 'cotation':
-                        statusBadge = `<span class="badge badge-pill badge-warning">En attente de paiement</span>`;
+                        statusBadge = `<span class="v2-status v2-status--pending">En attente de paiement</span>`;
                         break;
                     case 'validate':
-                        statusBadge = `<span class="badge badge-pill badge-success">Validé</span>`;
+                        statusBadge = `<span class="v2-status v2-status--success">Validé</span>`;
                         break;
                     case 'disable':
-                        statusBadge = `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                        statusBadge = `<span class="v2-status v2-status--pending">Suspendu</span>`;
                         break;
                     case 'fail':
-                        statusBadge = `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                        statusBadge = `<span class="v2-status v2-status--danger">Rejeté</span>`;
                         break;
                     default:
-                        statusBadge = `<span class="badge badge-pill badge-light">Inconnu</span>`;
+                        statusBadge = `<span class="v2-status">Inconnu</span>`;
                 }
                    // console.log(AuthConnect)
                     let actions = `<a href="/panel/services/cheque/show/${result.uuid}/${Entity_uuid}" class="btn btn-sm btn-primary"><i class='fa fa-eye'></i></a>`;
@@ -96,7 +96,7 @@ $(document).ready(function() {
                 $("#dataTable").DataTable().destroy();
             }
 
-            document.getElementById('titre_liste').innerHTML = "LISTE DES CHEQUES " + libelle_status;
+            document.getElementById('titre_liste').innerHTML = "Liste des chèques " + libelle_status.toLowerCase();
         
             // Injecte les nouvelles données dans la table
             $('#dataTable').DataTable({

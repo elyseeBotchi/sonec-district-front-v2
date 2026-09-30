@@ -6,40 +6,27 @@
 @if(CanPermission('rendez_vous_rechercher_un_vehicule'))
     <div class="row col-md-12">
         <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title text-center">RESULTAT DES TRAITEMENTS DU JOUR PAR NOMBRE ET PAR TYPE</h4>
+            <div class="v2-card">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Résultat des traitements du jour par nombre et par type</p>
                 </div>
-                <div class="card-body">
-                    <div class="ml-auto">
-                        <table class="table" id="datatable-custom">
-                            <thead>
-                            <tr>
-                                <td>
-                                    Immatriculation 
-                                </td>
-                                <td>
-                                    Numero carte grise   
-                                </td>
-                                <td>
-                                    Type de taxe 
-                                </td>
-                                <td>
-                                    Statut
-                                </td>
-                                <td>
-                                    Heure de traitement
-                                </td>
+                <div class="v2-table-wrap">
+                    <table class="v2-table" id="datatable-custom">
+                        <thead>
+                        <tr>
+                            <th>Immatriculation</th>
+                            <th>Numero carte grise</th>
+                            <th>Type de taxe</th>
+                            <th>Statut</th>
+                            <th>Heure de traitement</th>
+                        </tr>
+                        </thead>
+                        <tbody class="render-html">
+                            <tr class="v2-table-loading">
+                                <td colspan="5"><span class="v2-spinner"></span> Chargement des données...</td>
                             </tr>
-                            </thead>
-                            <tbody class="render-html">
-                                <tr>
-                                    <td colspan="5"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -136,18 +136,20 @@
                                         <h5>Roles</h5>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table table-striped" id="roles-table">
-                                            <thead>
-                                                <tr class="bg-primary text-uppercase">
-                                                    <td class="text-white">Rôle</td>
-                                                    {{--<td class="text-white">Fonction</td>--}}
-                                                    <td></td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                        <div class="v2-table-wrap">
+                                            <table class="v2-table" id="roles-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Rôle</th>
+                                                        {{--<th>Fonction</th>--}}
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
 

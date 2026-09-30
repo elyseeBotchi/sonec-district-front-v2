@@ -553,61 +553,105 @@
 @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
 @isset($type_stat)
     @if($type_stat =="validation_jour")
-        <div class="row col-md-12">
-            <div id="chartvalidationJ" style="width: 100% !important"></div>
+        <div class="v2-toolbar">
+            <h1 class="v2-toolbar__title" id="titre_validation_jour">Historique des validations par jour</h1>
+            <div class="v2-toolbar__actions">
+                <button type="button" id="v2-validationJ-export-png" class="v2-btn v2-btn--ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    Exporter PNG
+                </button>
+                <button type="button" id="v2-validationJ-export-csv" class="v2-btn v2-btn--ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    Exporter CSV
+                </button>
+                <button type="button" id="v2-validationJ-export" class="v2-btn v2-btn--navy">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Exporter PDF
+                </button>
+            </div>
         </div>
 
-        <div class="row card">
-            <div class="card-header" id="titre_validation_jour">
+        <div class="v2-chart-card" style="margin-bottom: 20px;">
+            <div id="chartvalidationJ">
+                <div class="v2-chart-loading"><span class="v2-spinner v2-spinner--lg"></span> Chargement du graphique...</div>
             </div>
-            <div class="pt-5 table-responsive">
-                <table class="table" id="datatable-validationJ">
+        </div>
+
+        <div class="v2-card">
+            <div class="v2-table-wrap">
+                <table class="v2-table" id="datatable-validationJ">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Nombre</th>
+                            <th class="is-numeric">Nombre</th>
                         </tr>
                         </thead>
-                        <tbody ></tbody>
+                        <tbody>
+                            <tr class="v2-table-loading">
+                                <td colspan="2"><span class="v2-spinner"></span> Chargement des données...</td>
+                            </tr>
+                        </tbody>
                 </table>
             </div>
         </div>
     @endif
 @endisset
-@endif 
+@endif
 
 
 @if(CanPermission('statistique_voir_les_statistiques_par_agent_validateur'))
 @isset($type_stat)
     @if($type_stat =="agent_validateur")
-        <div class="row col-md-12">
-            <div id="chartvalidateur" style="width: 100% !important"></div>
-        </div>
-
-
-        <div class="row col-md-12">
-            <div id="chartCamembert" style="width: 100% !important"></div>
-        </div>
-
-        <div class="row card">
-            <div class="card-header" id="titre_validateur">
-                HISTIORIQUE DES VALIDATIONS PAR AGENTS
+        <div class="v2-toolbar">
+            <h1 class="v2-toolbar__title" id="titre_validateur">Historique des validations par agent</h1>
+            <div class="v2-toolbar__actions">
+                <button type="button" id="v2-validateur-export-png" class="v2-btn v2-btn--ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    Exporter PNG
+                </button>
+                <button type="button" id="v2-validateur-export-csv" class="v2-btn v2-btn--ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    Exporter CSV
+                </button>
+                <button type="button" id="v2-validateur-export" class="v2-btn v2-btn--navy">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Exporter PDF
+                </button>
             </div>
-            <div class="pt-5 table-responsive">
-                <table class="table" id="datatable-validateur">
+        </div>
+
+        <div class="v2-chart-card" style="margin-bottom: 20px;">
+            <div id="chartvalidateur">
+                <div class="v2-chart-loading"><span class="v2-spinner v2-spinner--lg"></span> Chargement du graphique...</div>
+            </div>
+        </div>
+
+        <div class="v2-chart-card" style="margin-bottom: 20px;">
+            <div id="chartCamembert">
+                <div class="v2-chart-loading"><span class="v2-spinner v2-spinner--lg"></span> Chargement du graphique...</div>
+            </div>
+        </div>
+
+        <div class="v2-card">
+            <div class="v2-table-wrap">
+                <table class="v2-table" id="datatable-validateur">
                     <thead>
                         <tr>
                             <th>Agent</th>
-                            <th>Nombre</th>
+                            <th class="is-numeric">Nombre</th>
                         </tr>
                         </thead>
-                        <tbody ></tbody>
+                        <tbody>
+                            <tr class="v2-table-loading">
+                                <td colspan="2"><span class="v2-spinner"></span> Chargement des données...</td>
+                            </tr>
+                        </tbody>
                 </table>
             </div>
         </div>
     @endif
 @endisset
-@endif 
+@endif
 
 @push('footer-script')
     @isset($Entity_uuid)

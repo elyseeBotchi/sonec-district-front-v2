@@ -64,12 +64,12 @@ $(document).ready(function() {
                       render: function(data, type, row) {
                           switch(data) {
                               case 'expire':
-                                  return `<span class="badge rounded-pill badge-warning">${row.message}</span>`;
+                                  return `<span class="v2-status v2-status--pending">${row.message}</span>`;
                               case 'success':
-                                  return `<span class="badge badge-pill badge-success">${row.message}</span>`;
+                                  return `<span class="v2-status v2-status--success">${row.message}</span>`;
                               case 'error':
-                                  return `<span class="badge rounded-pill badge-danger">${row.message}</span>`;
-                             
+                                  return `<span class="v2-status v2-status--danger">${row.message}</span>`;
+
                           }
                       }
                   },
@@ -78,12 +78,12 @@ $(document).ready(function() {
                       render: function(data, type, row) {
                           switch(data) {
                               case 'fail':
-                                  return `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                                  return `<span class="v2-status v2-status--danger">Rejeté</span>`;
                               case 'validate':
-                                  return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                  return `<span class="v2-status v2-status--success">Validé</span>`;
                               default:
-                                  return `<span class="badge rounded-pill badge-warning">En attente de validation</span>`;
-                             
+                                  return `<span class="v2-status v2-status--pending">En attente de validation</span>`;
+
                           }
                       }
                   },

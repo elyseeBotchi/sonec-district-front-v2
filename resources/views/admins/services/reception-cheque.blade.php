@@ -1,72 +1,52 @@
 @extends('layout.adminApp')
 
 @section('content')
-<div class="card-group">
-    
-</div>
 
+@if(CanPermission('rendez_vous_rechercher_un_vehicule'))
+    <div class="v2-search-shell">
+        <div class="v2-search-card">
+            <div class="v2-search-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <p class="v2-search-card__title">Rechercher une cotation</p>
+            <p class="v2-search-card__desc">Entrez la référence du chèque pour accéder aux détails de la cotation et du véhicule.</p>
 
+            <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.cheque.search') }}" method="POST">
+                @csrf
+                <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid" required />
 
-@if(CanPermission('rendez_vous_rechercher_un_vehicule'))@endif 
-    <div class="row col-md-12">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">RECHERCHER UNE COTATION</h4>
-                  
-                    </div> 
-                    
-                    <div class="ml-auto">
-                       
-
-                        <div class="hide js-show">
-                            <br>
-                             {{-- <a href="#" class="btn btn-rounded btn-outline-primary"  data-toggle="modal" data-target="#add-modal">
-                                <i class="fas fa-plus"></i> ENREGISTRER UN CHEQUE
-                            </a> --}}
-
-                            
-
-                            <div class="card-custom mb-4">
-                                <div class="card-header-custom">
-                                    <span id="languageSelectLabel" style="font-size:x-small;">
-                                        <br>
-                                    </span>
-                                </div>
-
-                                <form class="searchForm" action="{{ route('panel.autorisations.services.taxes.cheque.search') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid"  required />
-                                    <div class="card-body-custom">
-                                        <div class="row col-md-12 billing-section">
-                                            <div class="form-group col-md-11">
-                                                <label class="form-label">
-                                                    &nbsp; &nbsp; &nbsp; 
-                                                </label>
-                                                <input type="text" class="form-control" name="search" placeholder="Entrez la référence du cheque" required />
-                                            </div>
-                                        
-                                            <div class="form-group col-md-1">
-                                                <label class="form-label">&nbsp; &nbsp; &nbsp; </label>
-                                                <button type="submit" id="submitBtn" class="btn btn-icon waves-effect waves-light material-shadow-none btn-outline-primary" title="Rechercher" >
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            
-                            </div>
-                        </div>
-
+                <div class="v2-search-card__group">
+                    <label class="v2-search-card__label" for="cheque-search-input">Référence du chèque</label>
+                    <div class="v2-search-card__input-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
+                        <input type="text" id="cheque-search-input" name="search" placeholder="Entrez la référence du chèque" required />
                     </div>
-                    
+                </div>
+
+                <button type="submit" id="submitBtn" class="v2-btn v2-btn--navy v2-btn--block">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Rechercher la cotation
+                </button>
+            </form>
+
+            <div id="cheque-last-search-block" style="display: none;">
+                <div class="v2-search-card__divider"></div>
+                <p class="v2-search-card__quick-label">Accès rapide</p>
+                <div class="v2-search-card__quick-grid">
+                    <a href="#" id="cheque-last-search-item" class="v2-search-card__quick-item">
+                        <span class="v2-search-card__quick-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        <span>
+                            <span class="v2-search-card__quick-title" style="display:block;">Dernière recherche</span>
+                            <span class="v2-search-card__quick-sub" id="cheque-last-search-value"></span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
+@endif
 
 @push('footer-script')
 @isset($Entity_uuid)
@@ -80,6 +60,6 @@
 @endisset
 
     {{-- <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> --}}
-    <script src="{{ asset('/backoffice/js/reception-cheque.js') }}"></script>  
+    <script src="{{ asset('/backoffice/js/reception-cheque.js') }}"></script>
 @endpush
 @endsection

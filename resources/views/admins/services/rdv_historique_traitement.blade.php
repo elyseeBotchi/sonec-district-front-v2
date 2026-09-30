@@ -11,47 +11,34 @@
             <div class="card-body">
 
                 <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title text-center">RESULTAT DES TRAITEMENTS DU JOUR PAR NOMBRE ET PAR TYPE</h4>
+                    <div class="v2-card">
+                        <div class="v2-card__header">
+                            <p class="v2-card__title">Résultat des traitements du jour par nombre et par type</p>
                         </div>
-                        <table class="table" id="datatable-traitement">
+                        <div class="v2-table-wrap">
+                        <table class="v2-table" id="datatable-traitement">
                             <thead>
                                 <tr>
-                                    <td>
-                                        Type de Taxe
-                                    </td>
-                                    <td>
-                                        Montant de la taxe 
-                                    </td>
-                                    <td>
-                                        Nombre Traité ce jour
-                                    </td>
-                                    
+                                    <th>Type de Taxe</th>
+                                    <th>Montant de la taxe</th>
+                                    <th>Nombre Traité ce jour</th>
                                 </tr>
                             </thead>
                             <tbody class="render-html">
-                                <tr>
-                                    <td colspan="3"> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                <tr class="v2-table-loading">
+                                    <td colspan="3"><span class="v2-spinner"></span> Chargement des données...</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td>
-                                        <h3>
-                                            TOTAL
-                                        </h3>
-                                        
-                                    </td>
+                                    <td><strong>TOTAL</strong></td>
                                     <td></td>
-                                    <td>
-                                        <h3 id="traitement_total"></h3>
-                                    </td>
-                                
+                                    <td><strong id="traitement_total"></strong></td>
                                 </tr>
                             </tfoot>
                         </table>
-                    </div> 
+                        </div>
+                    </div>
             </div>
 
 

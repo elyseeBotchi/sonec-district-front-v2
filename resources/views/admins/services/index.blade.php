@@ -1,90 +1,59 @@
 @extends('layout.adminApp')
 
 @section('content')
-<div class="card-group">
+<div class="v2-grid v2-grid--stats">
     @if(CanPermission('entites_voir_les_cartes_valides'))
-    <div class="card border-right">
-        <div class="card-body">
-            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                <div>
-                    <div class="d-inline-flex align-items-center">
-                        <h2 class="text-dark mb-1 font-weight-medium">
-                            <span id="carte_valide"> <i class="fa fa-spinner fa-spin"></i> </span>
-                        </h2>
-                    </div>
-                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                        Cartes valides
-                    </h6>
-                </div>
-                <div class="ml-auto mt-md-3 mt-lg-0">
-                    <span class="opacity-7 text-muted fa fa-address-book fa-2x"></span>
-                </div>
-            </div>
+    <div class="v2-stat-card">
+        <div class="v2-stat-card__top">
+            <span class="v2-stat-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            </span>
+        </div>
+        <p class="v2-stat-card__label">Cartes valides</p>
+        <div class="v2-stat-card__value">
+            <span id="carte_valide"><span class="v2-spinner v2-spinner--sm"></span></span>
         </div>
     </div>
     @endif
-    
+
     @if(CanPermission('entites_voir_les_cartes_expirees'))
-        <div class="card border-right">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
-                        <div class="d-inline-flex align-items-center">
-                            <h2 class="text-dark mb-1 font-weight-medium" >
-                                <span id="carte_expirer"> <i class="fa fa-spinner fa-spin"></i> </span>
-                            </h2>
-                        </div>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                            Cartes expirées
-                        </h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted fa fa-user-times fa-2x"></span>
-                    </div>
-                </div>
+        <div class="v2-stat-card v2-stat-card--alt">
+            <div class="v2-stat-card__top">
+                <span class="v2-stat-card__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                </span>
+            </div>
+            <p class="v2-stat-card__label">Cartes expirées</p>
+            <div class="v2-stat-card__value">
+                <span id="carte_expirer"><span class="v2-spinner v2-spinner--sm"></span></span>
             </div>
         </div>
     @endif
 
     @if(CanPermission('entites_voir_les_nouveaux_contrevenants'))
-        <div class="card border-right"  style="display: none">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
-                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">
-                            <span id="nouveau_contrevenant"><i class="fa fa-spinner fa-spin"></i> </span>
-                        </h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                            Nouveaux contrevenants
-                        </h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted fa fa-id-badge fa-2x"></span>
-                    </div>
-                </div>
+        <div class="v2-stat-card" style="display: none">
+            <div class="v2-stat-card__top">
+                <span class="v2-stat-card__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+            </div>
+            <p class="v2-stat-card__label">Nouveaux contrevenants</p>
+            <div class="v2-stat-card__value">
+                <span id="nouveau_contrevenant"><span class="v2-spinner v2-spinner--sm"></span></span>
             </div>
         </div>
     @endif
 
-    @if(CanPermission('entites_voir_tous_les_contrevenants'))  
-    <div class="card" style="display: none">
-        <div class="card-body">
-            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                <div>
-                    <div class="d-inline-flex align-items-center">
-                        <h2 class="text-dark mb-1 font-weight-medium" id="total_contrevenant"> 
-                            <i class="fa fa-spinner fa-spin"></i> 
-                        </h2>                        
-                    </div>
-
-                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate text-uppercase">
-                        Total des contrevenants
-                    </h6>
-                </div>
-                <div class="ml-auto mt-md-3 mt-lg-0">
-                    <span class="opacity-7 text-muted fa fa-users fa-2x"></span>
-                </div>
-            </div>
+    @if(CanPermission('entites_voir_tous_les_contrevenants'))
+    <div class="v2-stat-card" style="display: none">
+        <div class="v2-stat-card__top">
+            <span class="v2-stat-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </span>
+        </div>
+        <p class="v2-stat-card__label">Total des contrevenants</p>
+        <div class="v2-stat-card__value" id="total_contrevenant">
+            <span class="v2-spinner v2-spinner--sm"></span>
         </div>
     </div>
 @endif
@@ -95,11 +64,10 @@
 @if(CanPermission('entites_voir_la_liste_de_donnee_de_lentite'))
 <div class="row col-md-12">
     <div class="col-md-12 col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-start">
-                    <h4 class="card-title mb-0">LISTE DES VEHICULES</h4>
-                </div> 
+        <div class="v2-card">
+            <div class="v2-card__header">
+                <p class="v2-card__title">Liste des véhicules</p>
+            </div>
 
                 <div class="ml-auto">
                     <div class="hide js-show" style="display: none;">
@@ -152,25 +120,23 @@
                         
                         </div>
                     </div>
-                    <div class="pt-5 table-responsive">
-                        <table class="table" id="datatable-custom">
+                    <div class="v2-table-wrap">
+                        <table class="v2-table" id="datatable-custom">
                             <thead>
                             <tr></tr>
                             </thead>
                             <tbody class="render-html">
-                                <tr>
-                                    <td> <i class="fa fa-spinner fa-spin"></i> Chargement en cours ... </td>
+                                <tr class="v2-table-loading">
+                                    <td><span class="v2-spinner"></span> Chargement des données...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
-</div>
-@endisset 
+@endisset
 
 
 

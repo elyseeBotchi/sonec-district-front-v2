@@ -2,92 +2,54 @@
 
 @section('content')
 
-    <div class="row col-md-12" id="container">
-        @if (canPermission('acteurs_tiers_voir_le_montant_total_par_jour'))
-            <div class="col-md-6">
-                <div data-status="today" data-pay="all" class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p class="fw-medium text-muted mb-0">PAIEMENT DU JOUR</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="montant_total_jour">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total_jour" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-activity text-info">
-                                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
-            </div> 
-        @endif
+    <div id="container">
+        <div class="v2-grid v2-grid--stats">
+            @if (canPermission('acteurs_tiers_voir_le_montant_total_par_jour'))
+                <div data-status="today" data-pay="all" class="v2-stat-card">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Paiement du jour</p>
+                    <div class="v2-stat-card__value">
+                        <span id="montant_total_jour"><span class="v2-spinner v2-spinner--sm"></span></span>
+                    </div>
+                    <p class="v2-stat-card__sub"><span id="nb_total_jour"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                </div>
+            @endif
 
-        @if(canPermission('acteurs_tiers_voir_le_montant_total'))
-            <div class="col-md-6">
-                <div data-status="all" data-pay="all" class="card card-animate">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p class="fw-medium text-muted mb-0">TOTAL PAIEMENTS</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="total_paiement">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="nb_total" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-clock text-info">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
-            </div> 
-        @endif
-     
+            @if(canPermission('acteurs_tiers_voir_le_montant_total'))
+                <div data-status="all" data-pay="all" class="v2-stat-card v2-stat-card--alt">
+                    <div class="v2-stat-card__top">
+                        <span class="v2-stat-card__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                    </div>
+                    <p class="v2-stat-card__label">Total paiements</p>
+                    <div class="v2-stat-card__value">
+                        <span id="total_paiement"><span class="v2-spinner v2-spinner--sm"></span></span>
+                    </div>
+                    <p class="v2-stat-card__sub"><span id="nb_total"><span class="v2-spinner v2-spinner--sm"></span></span></p>
+                </div>
+            @endif
+        </div>
+
         @if(canPermission('acteurs_tiers_voir_les_statistiques_graphique_par_paiement_mensuel'))
-            <div class="row col-md-12">
-                <canvas id="chartPaiementMois" style="width:100% !important;"></canvas>
+            <div class="v2-chart-card" style="margin-top: 20px;">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Paiements par mois</p>
+                </div>
+                <canvas id="chartPaiementMois" class="chart-surface"></canvas>
             </div>
         @endif
-        
-        <br>
-        <br>
+
         @if(CanPermission('acteurs_tiers_voir_les_statistiques_graphique_par_paiement_journalier'))
-            <div class="row col-md-12">
-                
-                <canvas id="chartPaiement" style="width: 100% !important"></canvas>
+            <div class="v2-chart-card" style="margin-top: 20px;">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Paiements par jour</p>
+                </div>
+                <canvas id="chartPaiement" class="chart-surface"></canvas>
             </div>
         @endif
     </div>

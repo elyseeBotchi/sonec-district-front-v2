@@ -25,7 +25,17 @@ $(document).ready(function() {
                     },
                     data: results,
                     columns: [
-                        { data: 'name' },
+                        {
+                            data: 'name',
+                            render: function(data, type, row) {
+                                var words = (data || '').trim().split(/\s+/);
+                                var initials = words.length > 1
+                                    ? (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
+                                    : (data || '').substring(0, 2).toUpperCase();
+                                var colorIdx = (data || ' ').charCodeAt(0) % 4;
+                                return `<span class="v2-cell-name"><span class="v2-avatar-initials v2-avatar-initials--${colorIdx}">${initials}</span>${data}</span>`;
+                            }
+                        },
                         {
                             data: 'uuid',
                             render: function(data, type, row) {

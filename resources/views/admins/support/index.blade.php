@@ -2,64 +2,58 @@
 
 @section('content')
 
-@if(CanPermission('entites_voir_la_liste_de_donnee_de_lentite'))@endisset 
-    <div class="row col-md-12">
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0"></h4>
-                    </div> 
+@if(CanPermission('entites_voir_la_liste_de_donnee_de_lentite'))@endisset
+    <div class="v2-search-shell" style="max-width: 720px;">
+        <div class="v2-search-card">
+            <div class="v2-search-card__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <p class="v2-search-card__title">Rechercher un enregistrement</p>
+            <p class="v2-search-card__desc">Sélectionnez un critère puis saisissez votre recherche pour retrouver un paiement ou un véhicule.</p>
 
-                    <div class="ml-auto">
-                        <div class="hide js-show">
-                            <div class="card-custom mb-4">
-                                <form class="searchData" action="{{ route('panel.autorisations.entities.support.search') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid" required />
-                                    <div class="card-body-custom">
-                                        <div class="row col-md-12 billing-section">
-                                            <div class="form-group col-md-3">
-                                                <label class="form-label">Rechercher par : </label>
-                                                <select class="form-control" name="status" id="searchCriteria">
-                                                    <option value="transaction_id">ID de transaction</option>
-                                                    <option value="immatriculation">Numero d'immatriculation</option>
-                                                    <option value="numero_de_la_carte_grise">Numero de carte grise</option>
-                                                    <option value="nom_du_proprietaire">Nom du propriétaire</option>
-                                                    <option value="telephone">Numéro de paiement</option>
-                                                    <option value="reference">Réference</option>
-                                                </select>
-                                            </div>
+            <form class="searchData" action="{{ route('panel.autorisations.entities.support.search') }}" method="POST">
+                @csrf
+                <input type="hidden" value="{{ $Entity_uuid ?? '' }}" name="entity_uuid" required />
 
-                                            <div class="form-group col-md-8">
-                                                <label class="form-label"> &nbsp; &nbsp; &nbsp; </label>
-                                                <input type="text" class="form-control" id="target" name="target" required />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <div class="pt-5 table-responsive">
-                            <div id="loader" style="display: none">
-                                <i class="fa fa-spinner fa-spin"></i> Chargement en cours ...
-                            </div>
-                             
-                            <table class="table" id="datatable-custom">
-                                <thead>
-                                <tr></tr>
-                                </thead>
-                                <tbody class="render-html">
-                                    <tr>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="v2-search-card__group">
+                    <label class="v2-search-card__label" for="searchCriteria">Rechercher par</label>
+                    <select class="v2-modal-input" name="status" id="searchCriteria">
+                        <option value="transaction_id">ID de transaction</option>
+                        <option value="immatriculation">Numero d'immatriculation</option>
+                        <option value="numero_de_la_carte_grise">Numero de carte grise</option>
+                        <option value="nom_du_proprietaire">Nom du propriétaire</option>
+                        <option value="telephone">Numéro de paiement</option>
+                        <option value="reference">Réference</option>
+                    </select>
+                </div>
+
+                <div class="v2-search-card__group">
+                    <label class="v2-search-card__label" for="target">Valeur recherchée</label>
+                    <div class="v2-search-card__input-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="target" name="target" placeholder="Entrez votre recherche" required />
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loader" class="v2-table-loading" style="display: none">
+        <span class="v2-spinner"></span> Chargement des données...
+    </div>
+
+    <div class="v2-card" style="margin-top: 20px;">
+        <div class="v2-table-wrap">
+            <table class="v2-table" id="datatable-custom">
+                <thead>
+                <tr></tr>
+                </thead>
+                <tbody class="render-html">
+                    <tr>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -201,13 +195,13 @@
                         render: function(data, type, row) {
                             switch(data) {
                                 case 'fail':
-                                    return `<span class="badge rounded-pill badge-danger">Rejeté</span>`;
+                                    return `<span class="v2-status v2-status--danger">Rejeté</span>`;
                                 case 'validate':
-                                    return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                    return `<span class="v2-status v2-status--success">Validé</span>`;
                                 case 'paid':
-                                    return `<span class="badge badge-pill badge-success">Payé</span>`;
+                                    return `<span class="v2-status v2-status--success">Payé</span>`;
                                 case 'error':
-                                    return `<span class="badge badge-pill badge-danger">Annulé</span>`;
+                                    return `<span class="v2-status v2-status--danger">Annulé</span>`;
                                 default:
                                     return ``;
                             }

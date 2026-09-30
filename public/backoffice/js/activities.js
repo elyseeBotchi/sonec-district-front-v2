@@ -69,18 +69,18 @@ $(document).ready(function() {
                             data: 'status',
                             render: function(data, type, row) {
                                 if(data === 'init'){
-                                    return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                                    return `<span class="v2-status v2-status--pending">En attente</span>`;
                                 }else if(data === 'enable'){
-                                    return `<span class="badge badge-pill badge-success">Actif</span>`;
+                                    return `<span class="v2-status v2-status--success">Actif</span>`;
                                 }else if(data === 'disable'){
-                                    return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    return `<span class="v2-status v2-status--pending">Suspendu</span>`;
                                 }else if(data === 'error'){
-                                    return `<span class="badge rounded-pill badge-danger">Incorrect</span>`;
+                                    return `<span class="v2-status v2-status--danger">Incorrect</span>`;
                                 }else if(data === 'success'){
-                                    return `<span class="badge rounded-pill badge-success">Valide</span>`;
+                                    return `<span class="v2-status v2-status--success">Valide</span>`;
                                 }
                                 else if(data === 'expire'){
-                                    return `<span class="badge rounded-pill badge-warning">Expiré</span>`;
+                                    return `<span class="v2-status v2-status--pending">Expiré</span>`;
                                 }
                                 else{
                                     return ``;
@@ -142,18 +142,18 @@ $(document).ready(function() {
                     data: 'status',
                     render: function(data, type, row) {
                         if(data === 'init'){
-                            return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                            return `<span class="v2-status v2-status--pending">En attente</span>`;
                         }else if(data === 'enable'){
-                            return `<span class="badge badge-pill badge-success">Actif</span>`;
+                            return `<span class="v2-status v2-status--success">Actif</span>`;
                         }else if(data === 'disable'){
-                            return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                            return `<span class="v2-status v2-status--pending">Suspendu</span>`;
                         }else if(data === 'error'){
-                            return `<span class="badge rounded-pill badge-danger">Incorrect</span>`;
+                            return `<span class="v2-status v2-status--danger">Incorrect</span>`;
                         }else if(data === 'success'){
-                            return `<span class="badge rounded-pill badge-success">Valide</span>`;
+                            return `<span class="v2-status v2-status--success">Valide</span>`;
                         }
                         else if(data === 'expire'){
-                            return `<span class="badge rounded-pill badge-warning">Expiré</span>`;
+                            return `<span class="v2-status v2-status--pending">Expiré</span>`;
                         }
                         else{
                             return ``;

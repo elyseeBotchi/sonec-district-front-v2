@@ -2,152 +2,73 @@
 
 @section('content')
 
-    <div class="row col-md-12" id="container">
-        <div class="row col-md-12">
-        
+    <div id="container">
+        <div class="v2-grid v2-grid--stats">
 
-            <div class="col-md-4" >
-                <div data-status="fail" class="card card-animate Load_cheque" >
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p>CHEQUES ANNULES</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="cheque_annule">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="cheque_annule_nbre" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
+            <div data-status="fail" class="v2-stat-card v2-stat-card--clickable Load_cheque">
+                <div class="v2-stat-card__top">
+                    <span class="v2-stat-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                    </span>
+                </div>
+                <p class="v2-stat-card__label">Chèques annulés</p>
+                <div class="v2-stat-card__value">
+                    <span id="cheque_annule"><span class="v2-spinner v2-spinner--sm"></span></span>
+                </div>
+                <p class="v2-stat-card__sub"><span id="cheque_annule_nbre"><span class="v2-spinner v2-spinner--sm"></span></span></p>
             </div>
 
-
-            <div class="col-md-4" >
-                <div data-status="cotation" class="card card-animate Load_cheque" >
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p>
-                                    FACTURE PROFORMA EN COURS
-                                </p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="cheque_previsionnel">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="cheque_previsionnel_nbre" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
+            <div data-status="cotation" class="v2-stat-card v2-stat-card--clickable v2-stat-card--alt Load_cheque">
+                <div class="v2-stat-card__top">
+                    <span class="v2-stat-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    </span>
+                </div>
+                <p class="v2-stat-card__label">Facture proforma en cours</p>
+                <div class="v2-stat-card__value">
+                    <span id="cheque_previsionnel"><span class="v2-spinner v2-spinner--sm"></span></span>
+                </div>
+                <p class="v2-stat-card__sub"><span id="cheque_previsionnel_nbre"><span class="v2-spinner v2-spinner--sm"></span></span></p>
             </div>
 
-                
-            <div class="col-md-4" >
-                <div data-status="pending" class="card card-animate highlight Load_cheque" >
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p>CHEQUES DEPOSES & NON ENCAISSES</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="cheque_depose">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="cheque_depose_nbre" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
+            <div data-status="pending" class="v2-stat-card v2-stat-card--clickable highlight Load_cheque">
+                <div class="v2-stat-card__top">
+                    <span class="v2-stat-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </span>
+                </div>
+                <p class="v2-stat-card__label">Chèques déposés & non encaissés</p>
+                <div class="v2-stat-card__value">
+                    <span id="cheque_depose"><span class="v2-spinner v2-spinner--sm"></span></span>
+                </div>
+                <p class="v2-stat-card__sub"><span id="cheque_depose_nbre"><span class="v2-spinner v2-spinner--sm"></span></span></p>
             </div>
 
-            <div class="col-md-4" >
-                <div data-status="validate"class="card card-animate Load_cheque" >
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p>CHEQUES ENCAISSES</p>
-                                <h2 class="mt-4 ff-secondary cfs-22 fw-semibold">
-                                    <span id="cheque_encaisse">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </h2>
-                                <p class="mb-0 text-muted text-truncate">
-                                    <span class="" id="cheque_encaisse_nbre" style="display: block;color:black;">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </span>
-                                </p>
-                            </div>
-                            <div>
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity text-info"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div> <!-- end card-->
+            <div data-status="validate" class="v2-stat-card v2-stat-card--clickable Load_cheque">
+                <div class="v2-stat-card__top">
+                    <span class="v2-stat-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </span>
+                </div>
+                <p class="v2-stat-card__label">Chèques encaissés</p>
+                <div class="v2-stat-card__value">
+                    <span id="cheque_encaisse"><span class="v2-spinner v2-spinner--sm"></span></span>
+                </div>
+                <p class="v2-stat-card__sub"><span id="cheque_encaisse_nbre"><span class="v2-spinner v2-spinner--sm"></span></span></p>
             </div>
 
         </div>
-        <div class="col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0" id="titre_liste"></h4>
-                
-                    </div> 
-                    
-                    <div class="ml-auto">
-                    
-                        <div class="pt-5 table-responsive">
-                            <table class="table table-striped table-bordered" id="dataTable"></table>
-                        </div>
+        <div class="v2-card" style="margin-top: 20px;">
+            <div class="v2-card__header">
+                <p class="v2-card__title" id="titre_liste"></p>
+            </div>
 
-                    </div>
-                    
-                </div>
+            <div class="v2-table-wrap">
+                <table class="v2-table" id="dataTable"></table>
             </div>
         </div>
     </div>
-           
+
 @push('footer-script')
     @isset($Entity_uuid)
         <script>
@@ -158,6 +79,6 @@
     @if(CanPermission('statistique_voir_le_module_statistique'))
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script src="{{ asset('/backoffice/js/recap_cheque.js') }}"></script> {{-- --}}
-    @endif     
+    @endif
 @endpush
 @endsection

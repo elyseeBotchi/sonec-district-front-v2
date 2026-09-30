@@ -34,7 +34,7 @@ $(document).ready(function() {
                         {
                             data: 'name',
                             render: function (data, type, row) {
-                                return data || 'N/A';
+                                return `<span class="v2-cell-icon"><span class="v2-cell-icon__glyph v2-cell-icon__glyph--success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span>${data || 'N/A'}</span>`;
                             }
                         },
                         { data: 'created_at' },
@@ -55,17 +55,17 @@ $(document).ready(function() {
                             data: 'state',
                             render: function (data, type, row) {
                                 if (data === 'init' || data ==="pending") {
-                                    return `<span class="badge rounded-pill badge-secondary">En attente</span>`;
+                                    return `<span class="v2-status v2-status--pending">En attente</span>`;
                                 } else if (data === 'success') {
-                                    return `<span class="badge badge-pill badge-success">Validé</span>`;
+                                    return `<span class="v2-status v2-status--success">Validé</span>`;
                                 } else if (data === 'enable') {
-                                    return `<span class="badge badge-pill badge-success">Actif</span>`;
+                                    return `<span class="v2-status v2-status--success">Actif</span>`;
                                 } else if (data === 'disable') {
-                                    return `<span class="badge rounded-pill badge-warning">Suspendu</span>`;
+                                    return `<span class="v2-status v2-status--pending">Suspendu</span>`;
                                 }  else if (data === 'fails') {
-                                    return `<span class="badge rounded-pill badge-danger">rejeté</span>`;
+                                    return `<span class="v2-status v2-status--danger">rejeté</span>`;
                                 } else {
-                                    return `<span class="badge rounded-pill badge-danger">Supprimé</span>`;
+                                    return `<span class="v2-status v2-status--danger">Supprimé</span>`;
                                 }
                             }
                         },

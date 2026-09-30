@@ -27,6 +27,8 @@ $(document).ready(function() {
                 else {
                     SendError(data.message);
                     document.getElementById('html_render').innerHTML = "";
+                    const printToolbarErr = document.getElementById('html_render-toolbar');
+                    if (printToolbarErr) printToolbarErr.style.display = "none";
                     document.getElementById('formulaire').style.display = "block";
                     //console.log(data.penalty);
 
@@ -55,6 +57,8 @@ $(document).ready(function() {
                 // var errors = xhr.responseJSON.errors;
                 // handleErrors(errors);
                 document.getElementById('html_render').innerHTML = "";
+                const printToolbarErr2 = document.getElementById('html_render-toolbar');
+                if (printToolbarErr2) printToolbarErr2.style.display = "none";
                 SendError('Veuillez corriger les erreurs ci-dessous.');
                 document.getElementById('formulaire').style.display = "block";
                 
@@ -80,7 +84,7 @@ $(document).ready(function() {
 }
 
  function renderHtml(data){
-    
+
     const results = data.data;
     const entete = results.entete || [];
     const pay_element = results.pay_element || {};
@@ -100,144 +104,196 @@ $(document).ready(function() {
         elements[i].innerHTML = entity.front_name;
     }
 
-    let html_render = "";
+    const printToolbar = document.getElementById('html_render-toolbar');
+    const printBtn = document.getElementById('html_render-print');
 
-    
-    html_render += `
-    <tr> 
-        <td><h3>Taxe payé </h3></td> 
-        <td><h3> ${pay_element['rubrique_name'] || ''} ${pay_element['rubrique_option_name'] || ''} </h3></td> 
-    </tr>`;
-
-    html_render += `
-    <tr> 
-        <td> <h3> Montant payé </h3></td> 
-        <td><h3> ${pay_element['amount'] || ''} Francs CFA </h3></td> 
-    </tr>`;
-
-    if (Array.isArray(entete) && entete.length > 0) {
-        entete.forEach(element => {
-            const slugifiedName = slugify(element.name);
-            const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
-            if(slugifiedName !="email" && slugifiedName !="telephone"){
-                html_render += `
-                <tr> 
-                    <td> <h3> ${element.name} </h3></td> 
-                    <td><h3> ${payElementValue} </h3></td> 
-                </tr>`;  
-            }
-        });
-
-
-        html_render += `
-        <tr> 
-            <td> <h3> Référence paiement </h3> </td> 
-            <td> <h3> ${pay_element['reference'] || ''} </h3> </td> 
-        </tr>`;
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Les mois commencent à 0
-            const year = date.getFullYear();
-            return `${day} - ${month} - ${year}`;
-        }
-
-        var date_actuelle = new Date().toISOString().split('T')[0]; // Date actuelle au format YYYY-MM-DD
-
-        const dateDebutFormatted = formatDate(pay_element['date_debut']);
-        const dateFinFormatted = formatDate(pay_element['date_fin']);
-
-        if (pay_element['date_fin'] > date_actuelle) {
-            html_render += `
-            <tr> 
-                <td> <h3> Période </h3> </td> 
-                <td> 
-                   <h3>  <span class="badge badge-pill badge-success">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-success">${dateFinFormatted}</span> </h3> 
-                </td> 
-            </tr>`;
-        } else if (pay_element['date_fin'] < date_actuelle) {
-            html_render += `
-            <tr> 
-                <td><h3> Période </h3> </td> 
-                <td> 
-                  <h3>   <span class="badge badge-pill badge-danger">${dateDebutFormatted}</span> au <span class="badge badge-pill badge-danger">${dateFinFormatted}</span>    </h3>                        
-                </td> 
-            </tr>`;
-        }
-        else {
-            html_render += `
-            <tr> 
-                <td><h3> Période </h3> </td> 
-                <td> 
-                   <h3>  <span class="badge badge-pill badge-danger">Aucun paiement valide</span></h3> 
-                </td> 
-            </tr>`;
-        }
-
-        if(pay_element['state'] ==="enable"){
-            html_render += `
-            <tr> 
-                <td> <h3> Statut </h3> </td> 
-                <td>
-                  <h3>  <span class="adge bg-warning font-12 text-white font-weight-medium badge-pill "> En attente </span> </h3> 
-                </td> 
-            </tr>`;
-
-            
-
-        } else if(pay_element['state'] ==="validate"){
-            html_render += `
-            <tr> 
-                <td><h3> Statut </h3> </td> 
-                <td> <h3> <span class="adge bg-success font-12 text-white font-weight-medium badge-pill"> Validé </span> </h3> </td> 
-            </tr>`;
-
-            html_render += `
-            <tr> 
-                <td> <h3> Validé par </h3> </td> 
-                <td> <h3>  ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()} </h3> </td> 
-            </tr>`;
- 
-           
-        }else{
-            html_render += `
-            <tr> 
-                <td><h3> Statut </h3> </td> 
-                <td>
-                  <h3> <span class="adge bg-danger font-12 text-white font-weight-medium badge-pill "> Rejeté </span> </h3> 
-                </td> 
-            </tr>`;
-
-            html_render += `
-            <tr> 
-                <td> <h3> Validé par </h3> </td> 
-                <td> <h3> ${pay_element['validate_firstname']  || ''} ${pay_element['validate_lastname']  || ''} le ${new Date(pay_element['validate_at']).toLocaleString()} </h3> </td> 
-            </tr>`;
-
-          //  document.getElementById('validation-info').style.display = "none";  
-        }
-        
-        if(pay_element['penalty_pound_amount_total']){
-                html_render += `
-            <tr> 
-                <td> <h3> Montant de la pénalité </h3> </td> 
-                <td> <h3> ${pay_element['penalty_pound_amount_total']  || ''} Francs CFA </h3> </td> 
-            </tr>`;
-
-
-            html_render += `
-            <tr> 
-                <td> <h3> Pénalité appliqué par </h3> </td> 
-                <td> <h3>  [${penalty['partner_name'] || ''}] ${penalty['admin_firstname']  || ''} ${penalty['admin_lastname']  || ''} le ${new Date(penalty['created_at']).toLocaleString()} </h3> </td> 
-            </tr>`;
-        }
-
-    } else {
-        html_render = "<tr><td colspan='2'>Aucune donnée disponible pour l'entête</td></tr>";
+    if (!Array.isArray(entete) || entete.length === 0) {
+        document.getElementById('html_render').innerHTML = '<div class="v2-card"><div class="v2-card__header"><p class="v2-card__title">Aucune donnée disponible pour l\'entête</p></div></div>';
+        if (printToolbar) printToolbar.style.display = 'none';
+        return;
     }
 
+    function formatDateTime(value) {
+        if (!value) return '';
+        const d = new Date(value);
+        if (isNaN(d)) return '';
+        return d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        if (isNaN(date)) return '';
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    // Champs dynamiques de l'entité (numéro d'immatriculation, propriétaire, carte grise, ...)
+    let vehicleRows = '';
+    entete.forEach(element => {
+        const slugifiedName = slugify(element.name);
+        if (slugifiedName === 'email' || slugifiedName === 'telephone') return;
+        const value = pay_element[slugifiedName] || '';
+        vehicleRows += `
+            <div class="v2-detail-row">
+                <span class="v2-detail-row__label">${element.name}</span>
+                <span class="v2-detail-row__value">${value}</span>
+            </div>`;
+    });
+    if (pay_element['rubrique_option_name']) {
+        vehicleRows += `
+            <div class="v2-detail-row">
+                <span class="v2-detail-row__label">Catégorie</span>
+                <span class="v2-detail-row__value">${pay_element['rubrique_option_name']}</span>
+            </div>`;
+    }
+
+    // Statut du paiement
+    let statusClass = 'v2-status-hero--pending';
+    let statusIcon = '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>';
+    let statusTitle = 'En attente de validation';
+    let statusBadge = '<span class="v2-status v2-status--pending">En attente</span>';
+    let validatedByRow = '';
+
+    if (pay_element['state'] === 'validate') {
+        statusClass = 'v2-status-hero--success';
+        statusIcon = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>';
+        statusTitle = 'Paiement Validé';
+        statusBadge = '<span class="v2-status v2-status--success">Actif</span>';
+    } else if (pay_element['state'] === 'enable') {
+        statusClass = 'v2-status-hero--pending';
+        statusIcon = '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>';
+        statusTitle = 'En attente de validation';
+        statusBadge = '<span class="v2-status v2-status--pending">En attente</span>';
+    } else {
+        statusClass = 'v2-status-hero--danger';
+        statusIcon = '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>';
+        statusTitle = 'Paiement rejeté';
+        statusBadge = '<span class="v2-status v2-status--danger">Rejeté</span>';
+    }
+
+    if (pay_element['validate_firstname'] || pay_element['validate_lastname']) {
+        validatedByRow = `
+            <div class="v2-agent-card">
+                <div class="v2-agent-card__left">
+                    <span class="v2-agent-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </span>
+                    <div>
+                        <p class="v2-agent-card__label">Validé par l'agent</p>
+                        <p class="v2-agent-card__name">${pay_element['validate_firstname'] || ''} ${pay_element['validate_lastname'] || ''}</p>
+                        <p class="v2-agent-card__sub">le ${formatDateTime(pay_element['validate_at'])}</p>
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    // Période de validité
+    var date_actuelle = new Date().toISOString().split('T')[0];
+    const dateDebutFormatted = formatDate(pay_element['date_debut']);
+    const dateFinFormatted = formatDate(pay_element['date_fin']);
+    let periodeValue = '';
+    if (pay_element['date_fin'] && pay_element['date_fin'] > date_actuelle) {
+        periodeValue = `<span class="v2-status v2-status--success">${dateDebutFormatted} → ${dateFinFormatted}</span>`;
+    } else if (pay_element['date_fin'] && pay_element['date_fin'] < date_actuelle) {
+        periodeValue = `<span class="v2-status v2-status--danger">${dateDebutFormatted} → ${dateFinFormatted}</span>`;
+    } else {
+        periodeValue = `<span class="v2-status v2-status--danger">Aucun paiement valide</span>`;
+    }
+
+    let paymentRows = `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Taxe appliquée</span>
+            <span class="v2-detail-row__value">${pay_element['rubrique_name'] || ''}</span>
+        </div>`;
+
+    if (pay_element['reference']) {
+        paymentRows += `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Référence paiement</span>
+            <span class="v2-detail-row__value"><span class="v2-code">${pay_element['reference']}</span></span>
+        </div>`;
+    }
+
+    if (pay_element['mode_paiement']) {
+        paymentRows += `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Mode de paiement</span>
+            <span class="v2-detail-row__value">${pay_element['mode_paiement']}</span>
+        </div>`;
+    }
+
+    paymentRows += `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Période de validité</span>
+            <span class="v2-detail-row__value">${periodeValue}</span>
+        </div>`;
+
+    if (pay_element['validate_at']) {
+        paymentRows += `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Date d'opération</span>
+            <span class="v2-detail-row__value">${formatDateTime(pay_element['validate_at'])}</span>
+        </div>`;
+    }
+
+    if (pay_element['penalty_pound_amount_total']) {
+        paymentRows += `
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Montant de la pénalité</span>
+            <span class="v2-detail-row__value">${pay_element['penalty_pound_amount_total']} F CFA</span>
+        </div>
+        <div class="v2-detail-row">
+            <span class="v2-detail-row__label">Pénalité appliquée par</span>
+            <span class="v2-detail-row__value">[${penalty['partner_name'] || ''}] ${penalty['admin_firstname'] || ''} ${penalty['admin_lastname'] || ''} le ${formatDateTime(penalty['created_at'])}</span>
+        </div>`;
+    }
+
+    const html_render = `
+        <div class="v2-status-hero ${statusClass}" style="margin-bottom: 20px;">
+            <div class="v2-status-hero__left">
+                <span class="v2-status-hero__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${statusIcon}</svg>
+                </span>
+                <div>
+                    <p class="v2-status-hero__label">Statut du paiement</p>
+                    <p class="v2-status-hero__title">${statusTitle} ${statusBadge}</p>
+                </div>
+            </div>
+            <div class="v2-status-hero__right">
+                <p class="v2-status-hero__label">Montant payé</p>
+                <p class="v2-status-hero__amount">${pay_element['amount'] || 0} <span class="unit">FCFA</span></p>
+            </div>
+        </div>
+
+        <div class="v2-grid v2-grid--2col" style="margin-bottom: 20px;">
+            <div class="v2-card">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Informations véhicule</p>
+                </div>
+                ${vehicleRows || '<p class="v2-card__subtitle">Aucune information disponible</p>'}
+            </div>
+            <div class="v2-card">
+                <div class="v2-card__header">
+                    <p class="v2-card__title">Détails du paiement</p>
+                </div>
+                ${paymentRows}
+            </div>
+        </div>
+
+        ${validatedByRow}
+    `;
+
     document.getElementById('html_render').innerHTML = html_render;
+
+    if (printToolbar) printToolbar.style.display = '';
+    if (printBtn && !printBtn.dataset.bound) {
+        printBtn.dataset.bound = '1';
+        printBtn.addEventListener('click', function () {
+            window.print();
+        });
+    }
 
  }
 
