@@ -105,9 +105,9 @@ $(document).ready(function() {
                                     edit: true,
                                     change: true
                                 };
-    
+                                let div = `<div class="d-flex justify-content-center">`;
                                 let actions = '';
-    
+                                
                                 if (permissions.show) {
                                     actions += `<a href="/customer/services/taxe/show/${data}/${Entity_uuid}" title="Voir les détails" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none"><i class="fa fa-eye"></i></a> &nbsp; `;
                                 }
@@ -129,18 +129,20 @@ $(document).ready(function() {
                                         /* actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `; */
                                     }
                                     else if(row.state === 'enable' && (row.date_fin < date_actuelle)){
-                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary waves-effect waves-light material-shadow-none payElement"> <Payer></a> `;
                                     }
                                     else if(row.state !== 'enable'){
                                        // actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
                                     }
                                     else{
-                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary btn-icon waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
+                                        actions += ` &nbsp; <a href="#" data-uuid="${data}" data-pay_libelle=""  data-name="${entity.name}" title="Payer ${entity.name}" class="btn btn-sm btn-outline-primary  waves-effect waves-light material-shadow-none payElement"> Payer</a> `;
                                         //  actions +='';
                                     }
                                 }
+
+                                div += actions + '</div>';
     
-                                return actions;
+                                return div;
                             }
                         }
                     ],

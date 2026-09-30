@@ -204,8 +204,10 @@ if (uplfileElement) {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (!data.success) {
+                    if (data.type !== 'success') {
                         document.getElementById('avatarPreview').src = previousImage; // Restaurer l'ancienne image
+                        SendError(data.message);
+                    } else {
                         sendSuccess(data.message, '');
                     }
                 })
@@ -250,8 +252,10 @@ if (uploadfileElement) {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (!data.success) {
+                    if (data.type !== 'success') {
                         document.getElementById('avatarPreview').src = previousImage; // Restaurer l'ancienne image
+                        SendError(data.message);
+                    } else {
                         sendSuccess(data.message, '');
                     }
                 })

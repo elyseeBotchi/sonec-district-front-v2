@@ -46,6 +46,17 @@
   --v2-topbar-h: 76px;
   --v2-bottomnav-h: 64px;
 
+  /* Sidebar : fond bleu, texte blanc au repos, pastille blanche + texte
+     bleu à l'état actif/focus (voir section 3, SIDEBAR). */
+  --v2-sidebar-bg: #16235c;
+  --v2-sidebar-bg-soft: #1c2c6e;
+  --v2-sidebar-text: rgba(255, 255, 255, .7);
+  --v2-sidebar-text-strong: #ffffff;
+  --v2-sidebar-hover-bg: rgba(255, 255, 255, .09);
+  --v2-sidebar-active-bg: #ffffff;
+  --v2-sidebar-active-text: #16235c;
+  --v2-sidebar-border: rgba(255, 255, 255, .12);
+
   --v2-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* Courbe d'accélération unique pour toutes les transitions du socle V2 :
@@ -106,8 +117,8 @@
       change QUE l'apparence de ce que Blade génère déjà.
    ============================================================ */
 .v2-shell .left-sidebar {
-  background: var(--v2-surface);
-  border-right: 1px solid var(--v2-border);
+  background: var(--v2-sidebar-bg);
+  border-right: 1px solid var(--v2-sidebar-border);
   bottom: 0;
   box-sizing: border-box;
   display: flex;
@@ -156,7 +167,7 @@
 
 .v2-shell .left-sidebar .sidebar-brand {
   align-items: center;
-  border-bottom: 1px solid var(--v2-border);
+  border-bottom: 1px solid var(--v2-sidebar-border);
   box-sizing: border-box;
   display: flex;
   flex-shrink: 0;
@@ -172,7 +183,7 @@
 }
 
 .v2-shell .left-sidebar .sidebar-brand__name {
-  color: var(--v2-navy);
+  color: var(--v2-sidebar-text-strong);
   font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
@@ -201,7 +212,7 @@
 .v2-shell #sidebarnav .sidebar-link {
   align-items: center;
   border-radius: var(--v2-radius-pill);
-  color: var(--v2-text-muted);
+  color: var(--v2-sidebar-text);
   display: flex;
   font-size: 14.5px;
   font-weight: 500;
@@ -209,52 +220,30 @@
   padding: 10px 14px;
   text-decoration: none;
   transition: background var(--v2-duration) var(--v2-ease),
-              color var(--v2-duration) var(--v2-ease);
+              color var(--v2-duration) var(--v2-ease),
+              box-shadow var(--v2-duration) var(--v2-ease);
   white-space: nowrap;
 }
 
-/* Indicateur latéral : toujours présent (opacité/échelle à 0), pour
-   pouvoir transitionner son apparition plutôt que de le faire "popper"
-   avec le changement de classe .active. */
-.v2-shell #sidebarnav .sidebar-link::before {
-  background: var(--v2-primary);
-  border-radius: 0 4px 4px 0;
-  content: "";
-  height: 60%;
-  left: -14px;
-  opacity: 0;
-  position: absolute;
-  top: 20%;
-  transform: scaleY(.3);
-  transition: opacity var(--v2-duration) var(--v2-ease),
-              transform var(--v2-duration) var(--v2-ease);
-  width: 3px;
-}
-
 .v2-shell #sidebarnav .sidebar-link:hover {
-  background: var(--v2-primary-50);
-  color: var(--v2-primary-dark);
+  background: var(--v2-sidebar-hover-bg);
+  color: var(--v2-sidebar-text-strong);
 }
 
 .v2-shell #sidebarnav .sidebar-link.active,
 .v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link {
-  background: var(--v2-primary);
-  color: #fff;
-}
-
-.v2-shell #sidebarnav .sidebar-link.active::before,
-.v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link::before {
-  opacity: 1;
-  transform: scaleY(1);
+  background: var(--v2-sidebar-active-bg);
+  color: var(--v2-sidebar-active-text);
+  box-shadow: var(--v2-shadow-card);
 }
 
 .v2-shell #sidebarnav .sidebar-link.active .feather-icon,
 .v2-shell #sidebarnav .sidebar-item.selected > .sidebar-link .feather-icon {
-  color: #fff;
+  color: var(--v2-sidebar-active-text);
 }
 
 .v2-shell #sidebarnav .feather-icon {
-  color: var(--v2-text-soft);
+  color: var(--v2-sidebar-text);
   flex-shrink: 0;
   height: 18px;
   transition: color var(--v2-duration) var(--v2-ease);
@@ -291,7 +280,7 @@
    même si la valeur cible dépasse la hauteur réelle. */
 .v2-shell #sidebarnav ul.first-level,
 .v2-shell #sidebarnav ul.second-level {
-  border-left: 1px solid var(--v2-border);
+  border-left: 1px solid var(--v2-sidebar-border);
   list-style: none;
   margin: 0 0 0 22px;
   max-height: 0;
@@ -320,7 +309,7 @@
 }
 
 .v2-shell #sidebarnav .nav-small-cap {
-  color: var(--v2-text-soft);
+  color: rgba(255, 255, 255, .45);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .06em;
@@ -330,8 +319,8 @@
 
 .v2-shell #sidebarnav .list-divider {
   background: none;
-  border-top: 1px solid var(--v2-border);
-  color: var(--v2-text-soft);
+  border-top: 1px solid var(--v2-sidebar-border);
+  color: rgba(255, 255, 255, .45);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .06em;

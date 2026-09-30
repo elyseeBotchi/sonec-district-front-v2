@@ -288,11 +288,23 @@ $(document).ready(function() {
     document.getElementById('html_render').innerHTML = html_render;
 
     if (printToolbar) printToolbar.style.display = '';
-    if (printBtn && !printBtn.dataset.bound) {
-        printBtn.dataset.bound = '1';
-        printBtn.addEventListener('click', function () {
-            window.print();
-        });
+    if (printBtn) {
+        if (pay_element['paiement_uuid']) {
+            printBtn.dataset.paiementUuid = pay_element['paiement_uuid'];
+        } else {
+            delete printBtn.dataset.paiementUuid;
+        }
+
+        if (!printBtn.dataset.bound) {
+            printBtn.dataset.bound = '1';
+            printBtn.addEventListener('click', function () {
+                if (printBtn.dataset.paiementUuid) {
+                    window.location.href = '/landing/services/facturation/taxe/data/generate/carte/' + printBtn.dataset.paiementUuid;
+                } else {
+                    window.print();
+                }
+            });
+        }
     }
 
  }

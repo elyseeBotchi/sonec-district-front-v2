@@ -238,43 +238,39 @@ $(document).ready(function() {
         $.get(url, function(data){
             loader('hide');
 
-            var row = '<div class="row">';
             const result = data.data;
-            //console.log(url)
-            row += `<div class="form-group col-md-6">
-                        <label for="name" class="form-label">Date de début</label>
-                        <input type="date" name="start" value="${result.start}" class="form-control" autofocus>
-                    </div>`;
+            var row = `<div style="display:flex; gap:16px; margin-bottom:16px;">
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Date de début <code>*</code></label>
+                        <input type="date" name="start" value="${result.start}" class="v2-modal-input" autofocus>
+                    </div>
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Date de fin</label>
+                        <input type="date" name="end" value="${result.end}" class="v2-modal-input" />
+                    </div>
+                </div>
+                <div style="display:flex; gap:16px; margin-bottom:16px;">
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Ratio (%) <code>*</code></label>
+                        <input type="number" name="rate" value="${result.rate}" class="v2-modal-input" max="100" required />
+                    </div>
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Nombre <code>*</code></label>
+                        <input type="number" name="total_cumul" value="${result.total_cumul}" class="v2-modal-input" required />
+                    </div>
+                </div>
+                <div style="display:flex; gap:16px;">
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Type de véhicule</label>
+                        <select name="facturation_uuid" class="v2-modal-input" id="rubriqueUpdate"></select>
+                    </div>
+                    <div style="flex:1;">
+                        <label for="name" class="v2-modal-label">Montant</label>
+                        <input type="text" name="montant_pay" id="montant_payUpdate" class="v2-modal-input" readonly />
+                    </div>
+                </div>`;
 
-            row += `<div class="form-group col-md-6">
-                        <label for="name" class="form-label">Date de fin</label>
-                        <input type="date" name="end" value="${result.end}"  class="form-control" />
-                    </div>`;
 
-            row += `<div class="form-group col-md-6">
-                        <label for="name" class="form-label">Ratio (%)</label>
-                        <input type="number" name="rate" value="${result.rate}" class="form-control" max="100" required />
-                    </div>`;
-
-            row += `<div class="form-group col-md-6">
-                        <label for="name" class="form-label">Nombre</label>
-                        <input type="number" name="total_cumul" value="${result.total_cumul}" class="form-control" required />
-                    </div> `;
-
-            row += ` 
-                <div class="form-group col-md-6">
-                    <label for="name" class="form-label">Type de véhicule</label>
-                    <select name="facturation_uuid" class="form-control" id="rubriqueUpdate"></select>
-                </div> `;
-        
-            row += ` 
-                    <div class="form-group col-md-6">
-                        <label for="name" class="form-label">Montant</label>
-                        <input type="text" name="montant_pay" id="montant_payUpdate" class="form-control" readonly />
-                    </div> `;
-            row += `</div>`;
-                
-            
             findRubriquesUpdate(result.facturation_line_uuid)
             $('.updateModalBody').html(row);
             $(".sendModuleUpdateForm").attr("action", '/panel/settings/' + result.uuid + '/update');

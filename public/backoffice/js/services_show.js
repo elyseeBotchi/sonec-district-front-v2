@@ -3,12 +3,13 @@ $(document).ready(function() {
     findAll();
 
     const printBtn = document.getElementById('vehicle-detail-print');
-    if (printBtn) {
+    if (printBtn && !printBtn.dataset.bound) {
+        printBtn.dataset.bound = '1';
         printBtn.addEventListener('click', function () {
-            window.print();
+            window.location.href = `/panel/customer/service/taxe/historique/generate/${Element_uuid}/${Entity_uuid}`;
         });
     }
- 
+
     function findAll() { 
         //const Paiement_uuid = /* Assurez-vous que Paiement_uuid est défini correctement ici */;
         
@@ -47,7 +48,11 @@ $(document).ready(function() {
                 }
     
                 document.getElementById('TaxeEntity').innerHTML = entity.name;
-    
+
+                if (printBtn) {
+                    printBtn.style.display = permissions.historique_paiement ? '' : 'none';
+                }
+
                 let elements = document.getElementsByClassName('services');
                 for (let i = 0; i < elements.length; i++) {
                     elements[i].innerHTML = entity.front_name;

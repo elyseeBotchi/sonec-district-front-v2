@@ -175,10 +175,21 @@ class UsersController extends Controller
             $image = $request->file('avatar');
             $destinationPath = storage_path('app/public/users/avatar/'.$userUUID.'/');
             $imageName = 'avatar_' . time() . '.' . $file->getClientOriginalExtension();
+            Log::info('[uploadAvatar] tentative de déplacement du fichier', [
+                'userUUID' => $userUUID,
+                'destinationPath' => $destinationPath,
+                'imageName' => $imageName,
+                'originalName' => $file->getClientOriginalName(),
+                'size' => $file->getSize(),
+            ]);
            $save = $image->move($destinationPath, $imageName);
+            Log::info('[uploadAvatar] résultat du déplacement', [
+                'save' => (bool) $save,
+                'fileExists' => file_exists($destinationPath.$imageName),
+            ]);
 
             if ($save) {
-                $url_path = "/autorisations/customer/update/avatar";
+                $url_path = "/autorisations/customers/update/avatar";
 
                 $data = [
                     //'admin_uuid' => UserConnect()['uuid'],
@@ -186,8 +197,9 @@ class UsersController extends Controller
                     'avatar' => $imageName,
                 ];
 
+                Log::info('[uploadAvatar] appel API', ['url_path' => $url_path, 'data' => $data]);
                 $avatar = (new GlobalSendService())->CallApi($url_path,$data,'POST');
-               // Log::info($avatar);
+                Log::info('[uploadAvatar] réponse API', ['avatar' => $avatar]);
                // Session::put('admin', $adminData);
                 if(isset($avatar)){
                     if($avatar['type'] =='success'){
@@ -200,6 +212,10 @@ class UsersController extends Controller
                 return response()->json($avatar);
             }
             else {
+                Log::warning('[uploadAvatar] échec du déplacement du fichier', [
+                    'destinationPath' => $destinationPath,
+                    'imageName' => $imageName,
+                ]);
                 $dataResponse =[
                     'type'=>'error',
                     'urlback'=>'',
@@ -210,6 +226,7 @@ class UsersController extends Controller
             }
         }
         else{
+            Log::warning('[uploadAvatar] aucun fichier reçu dans la requête', ['all' => $request->all()]);
             $dataResponse =[
                 'type'=>'error',
                 'urlback'=>'',

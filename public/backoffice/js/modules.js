@@ -89,10 +89,8 @@ $(document).ready(function() {
             var row = '';
             const result = data.data;
 
-            row += `<div class="form-group">
-                        <label for="name" class="form-label">Module</label>
-                        <input type="text" name="name" class="form-control" value="${result.name}">
-                    </div>`;
+            row += `<label for="name" class="v2-modal-label">Module <code>*</code></label>
+                    <input type="text" name="name" class="v2-modal-input" value="${result.name}">`;
 
             $('.updateModalBody').html(row);
             $(".sendModuleUpdateForm").attr("action", '/panel/modules/' + result.uuid + '/update');

@@ -171,20 +171,19 @@
 
             
                                 <div class="form-group col-12">
-                                    <label for="prenoms" class="col-form-label">Opérateurs autorisés </label>
-                                    <br>
-                                    <div class="row">
+                                    <label class="col-form-label">Opérateurs autorisés</label>
+                                    <div class="row operator-picker">
                                         @isset($operateurs)
                                             @forelse($operateurs as $operateur)
                                                 <label class="col-md-2">
-                                                    <input type="radio" name="paymode" value="{{ $operateur['nom_operateur'] ?? '' }}"  />
                                                     <img class="img-responsive img-thumbnail" width="64" height="64" src="{{ asset('/operateurs/'.$operateur['logo'] ?? '') }}">
-                                                    {{ $operateur['nom'] ?? '' }}
+                                                    <span class="operator-name">{{ $operateur['nom'] ?? '' }}</span>
+                                                    <input type="radio" name="paymode" value="{{ $operateur['nom_operateur'] ?? '' }}"  />
                                                 </label>
                                             @empty
                                                 <p>Aucun opérateur disponible.</p>
                                             @endforelse
-                                        @endisset 
+                                        @endisset
                                     </div>
                                 </div>
                             </div>

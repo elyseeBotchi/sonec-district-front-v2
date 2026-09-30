@@ -1,5 +1,9 @@
 @php $entiteNav = Entity_Customer(); @endphp
 <aside class="left-sidebar" data-sidebarbg="skin6">
+    <div class="sidebar-brand">
+        <img src="{{ asset('template/assets/images/logo.png') }}" alt="{{ env('APP_NAME') }}">
+        <span class="sidebar-brand__name">{{ env('APP_NAME') }}</span>
+    </div>
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar" data-sidebarbg="skin6">
         <!-- Sidebar navigation-->

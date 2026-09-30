@@ -400,7 +400,42 @@ class ServicesController extends Controller
         return response()->json($responses);
     }
 
-    
+    public function generateHistorique($uuid,$entity_uuid){
+        $url_path = "/autorisations/admin/services/show/taxe";
+
+        $data = [
+            'uuid' => $uuid,
+            'entity_uuid' => $entity_uuid,
+        ];
+
+        $responses = (new GlobalSendService())->CallApi($url_path,$data,'POST');
+
+        if(!isset($responses['data']['entity']['uuid'])){
+            toastr()->error("Impossible de générer l'historique de paiement !");
+            return redirect()->back();
+        }
+
+        $entete = isset($responses['data']['entete']) ? $responses['data']['entete'] : [];
+        $pay_element = isset($responses['data']['pay_element']) ? $responses['data']['pay_element'] : [];
+        $entity = isset($responses['data']['entity']) ? $responses['data']['entity'] : [];
+        $factures = isset($responses['data']['factures']) ? $responses['data']['factures'] : [];
+
+        $filename = Str::slug('HISTORIQUE PAIEMENT '.($pay_element['numero_dimmatriculation'] ?? $uuid).' '.date('d-m-Y H:i:s'));
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadView('pdf.historique-paiement', [
+            'entity' => $entity ?? '',
+            'entete' => $entete ?? '',
+            'pay_element' => $pay_element ?? '',
+            'factures' => $factures ?? [],
+            'open' => true,
+            'pdf' => true,
+        ]);
+        return $pdf->download($filename.'.pdf');
+    }
+
+
     public function validation($uuid,$entity_uuid,$status,$motif=''){
 
         $url_path = "/autorisations/admin/services/show/validate/taxe/info";

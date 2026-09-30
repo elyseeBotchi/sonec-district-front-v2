@@ -339,6 +339,7 @@ Route::prefix('panel')->middleware(['IsConnect'])->group(function () {
     Route::prefix('customer')->group(function () {
         Route::get('/service/taxe/find_one/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service'])->name('panel.customer.entities.taxe.find_service');
         Route::get('/service/taxe/find_one/with_same_type/{uuid}/{entity_uuid}', [AdminServicesController::class, 'find_service_with_types_vehicules'])->name('panel.customer.entities.taxe.find_service.with_same_type');
+        Route::get('/service/taxe/historique/generate/{uuid}/{entity_uuid}', [AdminServicesController::class, 'generateHistorique'])->name('panel.customer.entities.taxe.historique.generate');
     });
 
 

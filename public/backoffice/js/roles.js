@@ -25,7 +25,17 @@ $(document).ready(function() {
                     },
                     data: results,
                     columns: [
-                        { data: 'name' },
+                        {
+                            data: 'name',
+                            render: function(data, type, row) {
+                                var words = (data || '').trim().split(/\s+/);
+                                var initials = words.length > 1
+                                    ? (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
+                                    : (data || '').substring(0, 2).toUpperCase();
+                                var colorIdx = (data || ' ').charCodeAt(0) % 4;
+                                return `<span class="v2-cell-name"><span class="v2-avatar-initials v2-avatar-initials--${colorIdx}">${initials}</span>${data}</span>`;
+                            }
+                        },
                         {
                             data: 'uuid',
                             render: function(data, type, row) {
@@ -75,10 +85,8 @@ $(document).ready(function() {
             var row = '';
             const result = data.data;
 
-            row += `<div class="form-group">
-                        <label for="name" class="form-label">Rôle</label>
-                        <input type="text" name="name" class="form-control" value="${result.name}">
-                    </div>`;
+            row += `<label for="name" class="v2-modal-label">Rôle <code>*</code></label>
+                    <input type="text" name="name" class="v2-modal-input" value="${result.name}">`;
 
             $('.updateModalBody').html(row);
             $(".sendModuleUpdateForm").attr("action", '/panel/roles/' + result.uuid + '/update');
