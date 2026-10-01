@@ -43,10 +43,10 @@
 
  <!-- Quote Start -->
  <div class="container-fluid">
-    <div class="container" style="transform: translateY(-70px);">
+    <div class="container" style="transform: translateY(-114px);">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-6">
-                <div class="bg-primary rounded d-flex p-3">
+                <div class="bg-primary rounded-3 d-flex p-3">
                     <form class="mt-4 sendForm" action="{{ route('customer.connexion') }}" method="POST">
                         @csrf
                         <h3 class="text-light">FORMULAIRE DE CONNEXION</h3>

@@ -1,0 +1,366 @@
+/*
+ * Login V2 — Pages de connexion (admin + espace client)
+ * ----------------------------------------------------------------------
+ * Chargé UNIQUEMENT par resources/views/admins/auth/login.blade.php et
+ * resources/views/customers/auth/login.blade.php (via @push('head'), voir
+ * le @stack('head') ajouté dans layout/LandingPage.blade.php). Ce fichier
+ * ne redéfinit QUE des classes déjà présentes dans ces deux vues (navbar
+ * Bootstrap, .bg-header, .bg-success/.bg-primary, .form-control, .btn...).
+ *
+ * Portée volontairement limitée à ces 2 pages : comme layout.LandingPage
+ * et template/start/css/style.css sont partagés par une quinzaine d'autres
+ * pages (about, index2, register...), ce fichier n'étant jamais chargé
+ * ailleurs, aucune des règles ci-dessous ne peut fuiter vers elles — même
+ * en réutilisant des classes Bootstrap très génériques (.btn-primary,
+ * .col-lg-6, etc.).
+ *
+ * Bascule ancien/nouveau design : voir le commentaire
+ * "BASCULE LOGIN V2" dans chacune des deux vues — il suffit de
+ * commenter/décommenter le @push('head') qui charge ce fichier.
+ * template/start/css/style.css reste chargé dans les deux cas (partagé
+ * par d'autres pages) ; ce fichier le surcharge par ordre de chargement
+ * (chargé après) + sélecteurs de spécificité égale ou supérieure.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --lv2-green: #1F844E;
+    --lv2-green-dark: #176B3E;
+    --lv2-blue: #00AEEF;
+    --lv2-blue-dark: #0090C9;
+    --lv2-navy-overlay: rgba(15, 30, 50, .6);
+    --lv2-bg: #F7F8FA;
+    --lv2-text: #1E293B;
+    --lv2-text-soft: #64748B;
+    --lv2-border: #E5E7EB;
+    --lv2-placeholder: #9CA3AF;
+    --lv2-radius-xs: 2px;
+    --lv2-radius-sm: 3px;
+    --lv2-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+
+/* ============================================================
+   1. BASE
+   ============================================================ */
+body {
+    font-family: var(--lv2-font);
+    background: var(--lv2-bg);
+    color: var(--lv2-text);
+}
+
+/* ============================================================
+   2. EN-TÊTE / NAVBAR
+      Correspondance maquette → classes existantes :
+      - en-tête superposé au hero  → nav.navbar (déjà en position
+        naturelle en haut du .container-fluid.position-relative)
+      - logo                       → .navbar-brand img
+      - liens Accueil/Nous contacter → .navbar-nav .nav-link
+      - bouton "Mon compte"        → .navbar .btn-primary (scopé à la
+        navbar pour ne pas toucher .btn-primary ailleurs sur la page)
+   ============================================================ */
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: transparent !important;
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+    min-height: 110px;
+}
+
+.navbar-brand img {
+    height: 44px;
+    width: auto;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0 16px;
+    opacity: 1;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #fff !important;
+    opacity: .85;
+}
+
+.navbar .btn-primary {
+    background: var(--lv2-blue);
+    border-color: var(--lv2-blue);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14.5px;
+    border-radius: var(--lv2-radius-sm);
+    padding: 12px 24px;
+}
+
+.navbar .btn-primary:hover,
+.navbar .btn-primary:focus {
+    background: var(--lv2-blue-dark);
+    border-color: var(--lv2-blue-dark);
+    color: #fff;
+}
+
+/* Panneau mobile du menu (toggler Bootstrap déjà fonctionnel) */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: var(--lv2-navy-overlay);
+        border-radius: var(--lv2-radius-sm);
+        margin-top: 12px;
+        padding: 16px;
+    }
+
+    .navbar-nav .nav-link {
+        margin: 4px 0;
+    }
+
+    .navbar-toggler {
+        border-color: rgba(255, 255, 255, .4);
+    }
+
+    .navbar-toggler .fa-bars {
+        color: #fff;
+    }
+}
+
+/* ============================================================
+   3. HERO
+      - bandeau              → .container-fluid.bg-header
+      - titre                → h1.display-6
+      - sous-titre            → a.h5 (lien existant, pas de nouveau tag)
+   ============================================================ */
+.bg-header {
+    background: linear-gradient(var(--lv2-navy-overlay), var(--lv2-navy-overlay)), url('/template/start/img/carousel-0.png') center center no-repeat;
+    background-size: cover;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+.bg-header h1.display-6 {
+    color: #fff;
+    font-weight: 800;
+    font-size: 52px;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+}
+
+.bg-header a.h5 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: .5px;
+    text-decoration: none;
+    opacity: .92;
+}
+
+/* ============================================================
+   4. CARTE DU FORMULAIRE
+      - carte            → .bg-success / .bg-primary (compound
+        .rounded.d-flex.p-3, seul endroit où cette combinaison existe
+        sur ces 2 pages — :has(form.sendForm) en garde-fou explicite)
+      - chevauchement du hero → .container[style*="translateY"]
+        (valeur inline déjà présente, surchargée en !important)
+      - titre de la carte → h3.text-light
+      - libellés          → label.text-light
+      - lien "Oublié ?"   → a.text-light (dans le bloc d-flex
+        justify-content-between à côté du libellé mot de passe)
+      - champs            → input.form-control
+      - bouton            → button.btn.btn-outline-light
+   ============================================================ */
+.container[style*="translateY"] {
+    transform: translateY(-22px) !important;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm),
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) {
+    background: var(--lv2-green) !important;
+    border-radius: var(--lv2-radius-xs);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+    display: block;
+    padding: 48px !important;
+    width: 650px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) form.sendForm,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) form.sendForm {
+    width: 100%;
+    margin-top: 0 !important;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) h3,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) h3 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) label,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) label {
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .d-flex.justify-content-between a,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .d-flex.justify-content-between a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .form-group,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .form-group {
+    margin-bottom: 32px;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .form-control,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .form-control {
+    background: #fff;
+    border: none;
+    height: 48px;
+    border-radius: var(--lv2-radius-xs);
+    padding: 0 16px;
+    font-size: 14.5px;
+    color: var(--lv2-text);
+    box-shadow: none;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .form-control::placeholder,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .form-control::placeholder {
+    color: var(--lv2-placeholder);
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .form-control:focus,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .45);
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .btn-outline-light,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .btn-outline-light {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    border-radius: var(--lv2-radius-xs);
+    width: 180px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s ease, color .15s ease;
+}
+
+.bg-success.rounded.d-flex.p-3:has(form.sendForm) .btn-outline-light:hover,
+.bg-primary.rounded.d-flex.p-3:has(form.sendForm) .btn-outline-light:hover {
+    background: #fff;
+    color: var(--lv2-green);
+}
+
+/* ============================================================
+   5. PIED DE PAGE
+      Aucun footer actif n'existe dans layout.LandingPage (bloc présent
+      mais commenté) ni dans ces 2 vues : .login-footer* est donc ajouté
+      au strict minimum à la fin du contenu de chaque vue (voir le
+      commentaire "AJOUT JUSTIFIÉ" dans les fichiers blade). Classes
+      nouvelles, utilisées nulle part ailleurs : zéro risque de collision.
+   ============================================================ */
+.login-footer {
+    background: #fff;
+    border-top: 1px solid var(--lv2-border);
+    margin-top: 100px;
+}
+
+.login-footer__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.login-footer__copy {
+    color: var(--lv2-text-soft);
+    font-size: 14px;
+    margin: 0;
+}
+
+.login-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.login-footer__social a {
+    color: #94A3B8;
+    font-size: 18px;
+    transition: color .15s ease;
+}
+
+.login-footer__social a:hover {
+    color: var(--lv2-green);
+}
+
+/* ============================================================
+   6. RESPONSIVE
+   ============================================================ */
+@media (max-width: 991.98px) {
+    .bg-success.rounded.d-flex.p-3:has(form.sendForm),
+    .bg-primary.rounded.d-flex.p-3:has(form.sendForm) {
+        width: 90%;
+    }
+}
+
+@media (max-width: 639.98px) {
+    .bg-header {
+        min-height: 280px;
+    }
+
+    .bg-header h1.display-6 {
+        font-size: 32px;
+    }
+
+    .bg-header a.h5 {
+        font-size: 15px;
+    }
+
+    .container[style*="translateY"] {
+        transform: translateY(-16px) !important;
+    }
+
+    .bg-success.rounded.d-flex.p-3:has(form.sendForm),
+    .bg-primary.rounded.d-flex.p-3:has(form.sendForm) {
+        width: 100%;
+        max-width: none;
+        margin: 0 16px;
+        padding: 28px !important;
+    }
+
+    .login-footer__inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+    }
+}
