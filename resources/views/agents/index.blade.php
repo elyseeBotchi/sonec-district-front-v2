@@ -2,412 +2,154 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Scanner QR Code Professionnel</title>
-    
+
     <!-- Inclusion de la bibliothèque Html5Qrcode -->
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <!-- Styles CSS pour un design professionnel -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fa;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #34495e;
-            margin-bottom: 20px;
-        }
-
-        #scanner-container {
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            padding: 15px; /* Réduire le padding */
-            max-width: 310px; /* Réduire la largeur maximale */
-            width: 100%;
-            text-align: center;
-        }
-
-        #reader {
-            width: 100%;
-            height: auto;
-            min-height: 200px; /* Réduire la hauteur minimale */
-            border: 2px dashed #3498db;
-            border-radius: 10px;
-            margin-bottom: 15px; /* Réduire la marge */
-        }
-
-        table.table td {
-            padding: 8px; /* Réduire le padding des cellules */
-            border-bottom: 1px solid #ddd;
-            vertical-align: middle;
-            text-align: justify;
-        }
-
-        table.table td:first-child {
-            font-weight: bold;
-            text-align: left;
-        }
-
-        table.table td:last-child {
-            text-align: left;
-        }
-
-
-
-        #result {
-            background-color: #ecf0f1;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            color: #2c3e50;
-            border: 1px solid #bdc3c7;
-        }
-
-        .btn {
-            background-color: #3498db;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        .btn-stop {
-            background-color: #e74c3c;
-        }
-
-        .btn-stop:hover {
-            background-color: #c0392b;
-        }
-
-        .avatar {
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        .logout-link {
-            color: #e74c3c;
-            font-size: 16px;
-            text-decoration: none;
-            display: block;
-            margin: 20px 0;
-        }
-
-        .logout-link:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #95a5a6;
-        }
-
-        #data-bien, #data-paiement {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .pricing-header h4 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        table.table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-    
-        /* Spinners styles */
-        .fa-spinner {
-            margin-right: 5px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            #data-bien, #data-paiement {
-                padding: 15px;
-            }
-
-            .pricing-header h4 {
-                font-size: 1.25rem;
-            }
-
-            table.table td {
-                padding: 8px;
-            }
-        }
-
-
-        /* Style général pour la modal */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Contenu de la modal */
-        .modal-content {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        /* Animation d'apparition */
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-
-        /* Header de la modal */
-        .modal-header {
-            display: flex;
-            justify-content: flex-end;
-            padding-bottom: 10px;
-        }
-
-        /* Bouton de fermeture */
-        .modal-header .close {
-            cursor: pointer;
-            font-size: 24px;
-            color: #333;
-            transition: color 0.3s;
-        }
-
-        .modal-header .close:hover {
-            color: #f44336;
-        }
-
-        /* Corps de la modal */
-        .modal-body {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-
-        .modal-body label {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .modal-body .form-control {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: border-color 0.3s;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .modal-body .form-control:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        /* Footer de la modal */
-        .modal-footer {
-            display: flex;
-            justify-content: center;
-        }
-
-        .modal-footer .btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .modal-footer .btn:hover {
-            background-color: #0056b3;
-        }
-
-        .form-control {
-        display: block;
-        width: 100%;
-        height: calc(1.5em + .75rem + 2px);
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #4F5467;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #e9ecef;
-        border-radius: 2px;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        }
-
-        /* Responsivité */
-        @media (max-width: 768px) {
-            .modal-content {
-                max-width: 80%;
-            }
-
-            .modal-body label {
-                font-size: 14px;
-            }
-
-            .modal-body .form-control {
-                font-size: 12px;
-            }
-
-            .modal-footer .btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/v2/espace-agent-v2.css') }}?v={{ filemtime(public_path('css/v2/espace-agent-v2.css')) }}">
 </head>
 <body>
-        <!-- Avatar et lien de déconnexion -->
-        <div style="display: flex; align-items: center;">
-            <h1 style="margin-right: 15px;">{{ env('APP_NAME') }}</h1>
-            
-            <div style="position: relative;">
-                <img
-                    @isset(AuthConnect()['avatar'])
-                        src="{{ \Illuminate\Support\Facades\Storage::url('users/avatar/'.AuthConnect()['uuid'].'/'.AuthConnect()['avatar']) }}"
-                    @else
-                        @isset(AuthConnect()['civility'])
-                            src="{{ asset(AuthConnect()['civility'] == 'm' ? 'backoffice/man.png' : 'backoffice/woman.png') }}"
-                        @else
-                            src="{{ asset('backoffice/man.png') }}"
-                        @endisset
-                    @endisset
-                    alt="user" class="avatar" style="width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">
-                
-                <div class="dropdown-menu" style="display: none; position: absolute; right: 0;">
-                    <a class="logout-link" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
-                        <span>Déconnexion</span>
-                    </a>
-                    <form id="logout-form2" action="{{ route('controle.logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+    <!-- En-tête -->
+    <header class="topbar">
+        <div class="brand">
+            <img src="{{ asset('template/assets/images/logo.png') }}" alt="Logo District Autonome d'Abidjan" class="brand__logo">
+            <div class="brand__text">
+                <span class="brand__title">{{ env('APP_NAME') ?: 'DISTRICT ABIDJAN' }}</span>
+                <span class="brand__subtitle">Espace Contrôleur</span>
+            </div>
+        </div>
+
+        <div class="profile-wrap">
+            <button type="button" class="avatar profile-btn" aria-label="Profil">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+
+            <div class="dropdown-menu" style="display: none;">
+                <a class="logout-link" href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
+                    <span>Déconnexion</span>
+                </a>
+                <form id="logout-form2" action="{{ route('controle.logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        const avatar = document.querySelector('.avatar');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        avatar.addEventListener('click', () => {
+            dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+
+    <main class="page">
+        <div id="scanner-container">
+            <!-- Carte caméra -->
+            <div class="camera-card">
+                <div id="reader"></div>
+                <div class="scan-overlay">
+                    <div class="scan-frame">
+                        <span class="scan-frame__corner scan-frame__corner--tl"></span>
+                        <span class="scan-frame__corner scan-frame__corner--tr"></span>
+                        <span class="scan-frame__corner scan-frame__corner--bl"></span>
+                        <span class="scan-frame__corner scan-frame__corner--br"></span>
+                    </div>
+                    <div class="scan-hint">Placez le QR Code au centre</div>
+                </div>
+            </div>
+
+            <div id="camera-container"></div>
+
+            <!-- Carte d'état -->
+            <div class="status-card">
+                <div class="status-card__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H5a2 2 0 0 0-2 2v2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg>
+                </div>
+                <p id="result">Prêt pour le scan</p>
+                <p class="status-card__desc">Scannez la vignette ou la carte grise pour vérifier la conformité fiscale.</p>
+
+                <div id="data-bien" style="display: none">
+                    <div class="pricing-header">
+                        <h4>Informations du Bien</h4>
+                    </div>
+                    <table class="table">
+                        <tbody id="html_render">
+                            <tr>
+                                <td colspan="2">
+                                    <span class="fa fa-spinner fa-spin"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="data-paiement" style="display: none">
+                    <div class="pricing-header">
+                        <h4>Informations du paiement</h4>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Taxe</td>
+                                <td id="TaxeEntity"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Référence du paiement</td>
+                                <td id="reference"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Montant payé</td>
+                                <td id="montant_paye"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Mode de paiement</td>
+                                <td id="mode_paiement"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Date de paiement</td>
+                                <td id="created_at"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Statut du paiement</td>
+                                <td id="status_paiement"><i class="fa fa-spinner fa-spin"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        
-        <script>
-            const avatar = document.querySelector('.avatar');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-        
-            avatar.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
-            });
-        </script>
-        
-    <center>
-        <img src="{{ asset('template/assets/images/logo.png') }}" width="60px" alt="homepage" class="dark-logo" />
-    </center>
 
-    <div id="scanner-container">
-        <div id="reader"></div>
-        <p id="result">Scan un QR Code pour voir le résultat ici</p>
-        <div id="data-bien"  style="display: none">
-            <div class="pricing-header">
-                <h4>Informations du Bien</h4>
-            </div>
-            <table class="table">
-                <tbody id="html_render">
-                    <tr>
-                        <td colspan="2">
-                            <span class="fa fa-spinner fa-spin"></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <footer class="page-footer">
+            &copy; {{ date('Y') }} {{ env('APP_NAME') }}. Tous droits réservés.
+        </footer>
+    </main>
+
+    <!-- Barre d'actions -->
+    <div class="action-bar">
+        <div class="action-bar__inner">
+            <button class="btn-scan" id="start-btn" onclick="startScanner()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                Scanner
+            </button>
+            <button class="btn-scan btn-scan--stop" id="stop-btn" onclick="stopScanner('Scanner arrêté.')" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg>
+                Arrêter le Scan
+            </button>
+            <button class="btn-search" id="searchManual" onclick="openModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Recherche
+            </button>
         </div>
-        
-        <div id="data-paiement" style="display: none">
-            <div class="pricing-header">
-                <h4>Informations du paiement</h4>
-            </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>Taxe</td>
-                        <td id="TaxeEntity"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>Référence du paiement</td>
-                        <td id="reference"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>Montant payé</td>
-                        <td id="montant_paye"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>Mode de paiement</td>
-                        <td id="mode_paiement"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>Date de paiement</td>
-                        <td id="created_at"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                    <tr>
-                        <td>Statut du paiement</td>
-                        <td id="status_paiement"> <i class="fa fa-spinner fa-spin"></i> </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <!-- Boutons pour démarrer et arrêter le scanner -->
-        <div class="row">
-            <div id="camera-container"></div>
-             <button class="btn" id="start-btn" onclick="startScanner()">Démarrer le Scan</button>
-             <button class="btn btn-stop" id="stop-btn" onclick="stopScanner('Scanner arrêté.')" style="display: none;">Arrêter le Scan</button>
-            <button class="btn" id="searchManual" onclick="openModal()">Recherche</button>
-        </div>
-       
     </div>
-
 
     <!-- Modal de recherche -->
     <div id="searchModal" class="modal">
@@ -420,26 +162,21 @@
                 </div>
                 <div class="modal-body">
                     <label for="numeroCarteGrise">Numéro de carte grise ou d'immatriculation :</label>
-                    <input type="text" id="numeroCarteGrise" class="form-control" 
-                        placeholder="Entrez le numéro de carte grise ou d'immatriculation" 
-                        pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$|^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$" 
+                    <input type="text" id="numeroCarteGrise" class="form-control"
+                        placeholder="Entrez le numéro de carte grise ou d'immatriculation"
+                        pattern="^([0-9]{1,4}[A-Z]{2}[0-9]{2})|([A-Z]{2}[0-9]{1,4}[A-Z]{2})$|^[A-Z]{2}[0-9]{6}$|^[0-9]{6}[A-Z]{2}$|^[A-Z]{2}-[0-9]{4}-[A-Z]{2}$"
                         title="Le numéro doit être sous le format 1234AB01, AB1234CD, AB123456, 123456AB, ou AB-1234-CD"
-                       
+
                         required />
                 </div>
                 <div class="modal-footer">
-                    <button class="btn" type="submit" >Rechercher</button>
+                    <button class="btn" type="submit">Rechercher</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 
-
-
-    <footer>
-        &copy; 2024 {{ env('APP_NAME') }}. Tous droits réservés.
-    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -466,7 +203,7 @@
                     // Créer un sélecteur de caméra
                     const cameraSelector = document.createElement('select');
                     cameraSelector.id = 'camera-selector';
-                    cameraSelector.classList.add('form-control'); 
+                    cameraSelector.classList.add('form-control');
 
                     let selectedIndex = -1; // Initialise l'index pour suivre la caméra contenant "back"
 
@@ -476,7 +213,7 @@
                         option.textContent = camera.label || `Caméra ${camera.id}`;
 
                         cameraSelector.appendChild(option);
-                                    
+
                         // Vérifie si le label contient "back" (insensible à la casse)
                         if (camera.label && camera.label.toLowerCase().includes('back')) {
                             selectedIndex = camera.id;
@@ -491,7 +228,7 @@
                         cameraContainer.appendChild(cameraSelector);
                     }
 
-                    
+
                     if (selectedIndex !== -1) {
                             cameraSelector.selectedIndex = selectedIndex; // Met à jour l'option sélectionnée dans <select>
                             cameraSelector.dispatchEvent(new Event('change')); // Déclenche l'événement 'change' pour assurer la prise en compte
@@ -519,7 +256,7 @@
                     document.getElementById('stop-btn').style.display = 'inline-block';
                     document.getElementById('searchManual').style.display = 'none';
 
-                    
+
                 }
             }).catch(err => {
                 console.error(`Erreur de récupération des caméras: ${err}`);
@@ -556,7 +293,7 @@
         }
 
 
-        
+
         function stopScanner(message) {
             if (html5QrCode) {
                 html5QrCode.stop().then(() => {
@@ -566,7 +303,7 @@
                     document.getElementById('stop-btn').style.display = 'none';
                     document.getElementById('camera-selector').style.display = 'none';
                     document.getElementById('searchManual').style.display = "inline-block";
-                    
+
                 }).catch(err => {
                     // Affiche un message d'erreur si l'arrêt échoue
                     console.error("Erreur lors de l'arrêt du scanner: ", err);
@@ -587,10 +324,10 @@
 
         function onScanSuccess(decodedText, decodedResult) {
             let message = `QR Code détecté: ${decodedText} <br> <code>Vérification en cours ...</code>`;
-              stopScanner(message) 
+              stopScanner(message)
            //   document.getElementById('result').innerText = "Scanner arrêté.";
 
-         
+
             // Envoyer le résultat au serveur pour vérification
             fetch(`/controle/verify/${decodedText}`, {
                 method: 'GET',
@@ -602,7 +339,7 @@
             .then(data => {
                 //console.log('Réponse du serveur:', data);
                  //   alert(data.message)
-                    
+
                     document.getElementById('reader').style.display = "none";
                 if(data.type === "error"){
                     document.getElementById('result').innerHTML = `
@@ -635,45 +372,45 @@
                         `;
                    }
                     // Afficher le résultat de la vérification
-                    
+
                 const results = data.data;
                 //console.log(results)
                 const entete = results.entete || [];
                 const pay_element = results.pay_element || {};
                 const paiement = results.paiement || {};
                 const entity = results.entity || {};
-    
+
                 // Vérification des données avant de les insérer dans le DOM
                 if (!entity.name || !entity.front_name) {
                     throw new Error("Informations de l'entité manquantes");
                 }
-    
+
               //  document.getElementById('TaxeEntity').innerHTML = entity.name;
-    
+
                 let elements = document.getElementsByClassName('services');
                 for (let i = 0; i < elements.length; i++) {
                     elements[i].innerHTML = entity.front_name;
                 }
-    
+
                 let html_render = "";
                 if (Array.isArray(entete) && entete.length > 0) {
                     entete.forEach(element => {
 
                         const slugifiedName = slugify(element.name);
                         const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
-                    
+
                         html_render += `
-                        <tr> 
-                            <td>${element.name}</td> 
-                            <td>${payElementValue}</td> 
+                        <tr>
+                            <td>${element.name}</td>
+                            <td>${payElementValue}</td>
                         </tr>`;
                     });
                 } else {
                     html_render = "<tr><td colspan='2'>Aucune donnée disponible pour l'entête</td></tr>";
                 }
-    
+
                 document.getElementById('html_render').innerHTML = html_render;
-    
+
                 // Vérification des données du paiement avant de les afficher
                 if (paiement.reference && paiement.amount && paiement.operateur_uuid && paiement.updated_at && paiement.status) {
                     document.getElementById('reference').innerHTML = paiement.reference;
@@ -708,8 +445,8 @@
             .replace(/[^\w\-]+/g, '')       // Supprime tous les caractères non alphanumériques
             .replace(/\-\-+/g, '-')         // Remplace les doubles tirets par un seul tiret
             .replace(/^-+/, '')             // Supprime les tirets au début
-            .replace(/-+$/, '');   
-            
+            .replace(/-+$/, '');
+
             return convertSlugToName(data) ;
         }
 
@@ -719,7 +456,7 @@
         }
 
 
-        
+
     // Fonction pour ouvrir le modal
     function openModal() {
         document.getElementById('searchModal').style.display = 'flex';
@@ -746,7 +483,7 @@
 
 
 
-    function recherche(){    
+    function recherche(){
         const decodedText = document.getElementById('numeroCarteGrise').value;
 
         let message = `Code détecté: ${decodedText} <br> <code>Vérification en cours ...</code>`;
@@ -766,7 +503,7 @@
         .then(data => {
             //console.log('Réponse du serveur:', data);
                 //alert(data.message)
-                
+
                 document.getElementById('reader').style.display = "none";
             if(data.type === "error"){
                 document.getElementById('result').innerHTML = `
@@ -799,7 +536,7 @@
                     `;
             }
                 // Afficher le résultat de la vérification
-                
+
             const results = data.data;
             //console.log(results)
             const entete = results.entete || [];
@@ -825,11 +562,11 @@
 
                     const slugifiedName = slugify(element.name);
                     const payElementValue = pay_element[slugifiedName] || ''; // Récupère la valeur correspondante dans pay_element
-                
+
                     html_render += `
-                    <tr> 
-                        <td>${element.name}</td> 
-                        <td>${payElementValue}</td> 
+                    <tr>
+                        <td>${element.name}</td>
+                        <td>${payElementValue}</td>
                     </tr>`;
                 });
             } else {

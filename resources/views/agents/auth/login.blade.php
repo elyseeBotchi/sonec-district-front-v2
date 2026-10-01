@@ -1,7 +1,7 @@
 @extends('layout.authentificationApp') 
 @section('content')
 
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background: url({{ url('template/start/img/dis.jpg') }}) no-repeat center center; background-size: cover; width: 100vw; height: 100vh;">
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background: url({{ url('template/start/img/img-9.jpg') }}) no-repeat center center; background-size: cover; width: 100vw; height: 100vh;">
 
     <div class="col-md-3 bg-white" style="width: 700px !important; font-family: 'Cambria Math', sans-serif; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <div class="p-3">
