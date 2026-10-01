@@ -45,7 +45,7 @@
 
       <!-- Quote Start -->
       <div class="container-fluid py-5 wow " >
-        <div class="container" style="transform: translateY(-70px);">
+        <div class="container" style="transform: translateY(-190px);">
             <div class="row g-5 d-flex justify-content-center" >
                {{--  <div class="col-lg-6">
                      <div class="col-lg-4 col-md-12 pt-5 mb-5">
@@ -61,7 +61,7 @@
 
                 <div class="col-lg-6">
                   
-                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow" >
+                    <div class="bg-primary rounded-3 h-100 d-flex align-items-center p-5 wow" >
                         
                         <form  class="sendEmailForm" action="{{ route('about.send') }}">
                             <h3>FORMULAIRE DE PRISE DE CONTACT</h3>
