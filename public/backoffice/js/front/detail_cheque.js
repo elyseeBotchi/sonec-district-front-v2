@@ -83,7 +83,7 @@ $(document).ready(function() {
                     
                     if(cheque.status ==='init'){
                         let button = `<a href="/customer/services/cheque/submit/cotation/${cheque.uuid}" 
-                                        caption = "<h3>VOUS ÊTES SUR LE POINT DE SOUMETTRE VOTRE DEMANDE DE COTATION . <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                                        caption = "<h3>VOUS ÊTES SUR LE POINT DE SOUMETTRE VOTRE DEMANDE DE COTATION . <br> VOULEZ VOUS CONTINUER ? </h3>"
                                         title="Soumettre ma demande de cotation" 
                                         class="btn btn-sm btn-info sendDeleteLink"> 
                                         Soumettre pour cotation </a> `;
@@ -94,6 +94,10 @@ $(document).ready(function() {
                     if (cheque.nombre_vehicule > results.length) {
                         diffVehicule = cheque.nombre_vehicule - results.length;
                         document.getElementById('alert-message').innerHTML = '<h3 class="alert alert-warning col-md-12" role="alert">Vous devez ajouter au moins ' + diffVehicule + ' véhicule(s) avant soumission de votre demande de cotation</h3>';
+                    } else {
+                        // Seuil atteint (findAll() est rappelé après chaque ajout/retrait,
+                        // sans rechargement) : retire l'alerte affichée précédemment.
+                        document.getElementById('alert-message').innerHTML = '';
                     }
                 }
                 else{
@@ -170,7 +174,7 @@ $(document).ready(function() {
 
                                 if (row.state === 'enable' && cheque.status ==='init') {
                                     actions += `&nbsp;<a href="/customer/services/cheque/remove/cotation/${cheque.uuid}/${row.cheques_entity_uuid}" data-uuid="${data}" 
-                                            caption = "<h3>VOUS ÊTES SUR LE POINT DE RETIRER CE VEHICULE DE VOTRE LISTE DE COTATION. <br> VOULEZ VOUS CONTUNIER ? </h3>"
+                                            caption = "<h3>VOUS ÊTES SUR LE POINT DE RETIRER CE VEHICULE DE VOTRE LISTE DE COTATION. <br> VOULEZ VOUS CONTINUER ? </h3>"
                                             title="Retirer le véhicule" 
                                             class="btn btn-sm btn-outline-danger sendDeleteLink"> 
                                             <i class="fa fa-trash"></i></a> &nbsp;`;

@@ -33,6 +33,10 @@
              Chargé après style.css : surcharge progressivement les mêmes
              classes, section par section, jusqu'à bascule exclusive finale. --}}
         <link href="{{ asset('css/v2/espace-client-v2.css') }}?v={{ filemtime(public_path('css/v2/espace-client-v2.css')) }}" rel="stylesheet">
+
+        {{-- CSS V2 propre à une page (ex: detail-cotation-v2.css), chargé après
+             espace-client-v2.css. Les pages qui ne poussent rien ne changent pas. --}}
+        @stack('head')
     </head>
 
     <body>

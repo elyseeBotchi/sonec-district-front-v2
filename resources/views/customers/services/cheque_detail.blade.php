@@ -1,7 +1,20 @@
 @extends('layout.customerApp')
 
+{{-- BASCULE DESIGN : true = nouveau design (css/v2/detail-cotation-v2.css),
+     false = ancien design (balisage d'origine, conservé tel quel plus bas). --}}
+@php $cotationV2 = true; @endphp
+
+@if ($cotationV2)
+    @push('head')
+        <link href="{{ asset('css/v2/detail-cotation-v2.css') }}?v={{ filemtime(public_path('css/v2/detail-cotation-v2.css')) }}" rel="stylesheet">
+    @endpush
+@endif
+
 @section('content')
-<div id="container">
+<div id="container" @if ($cotationV2) class="cdv2" @endif>
+@if ($cotationV2)
+    @include('customers.services.partials.cotation-detail-v2')
+@else
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent">
             <h4 class="mb-sm-0">DETAIL DE LA DEMANDE DE COTATION <span id="libelle-cheque"></span> </h4>    
@@ -78,6 +91,7 @@
             <center id="submit-cotation"></center>
         </div>
     </div>
+@endif
 
     
     <div class="modal fade" id="customer-edit_add-modal" data-keyboard="false" tabindex="-1" aria-hidden="true">
